@@ -1,0 +1,20 @@
+doctype html
+html(lang="en").no-js
+	head
+		
+		title Angular-RequireJs-ExpressJs-CoffeeScript-seed
+		//link(rel="stylesheet" href="/vendors/bootstrap/dist/css/bootstrap.css")
+		link(rel='stylesheet', href='/css/main.css')
+		link(rel='stylesheet',href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
+		
+		script(src='/js/misc/modernizr-dev.js')
+		script(src='/js/misc/modernizr-test.js')
+		
+	body
+		
+		header
+			|  Angular-RequireJs-ExpressJs-CoffeeScript-seed
+
+		div(ng-view)
+		
+		script(data-main="/js/main.js" src="/vendors/requirejs/require.js")
