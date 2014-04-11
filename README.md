@@ -1,2 +1,2 @@
-Angular-RequireJs-Express-CoffeeScript-Karma-seed
+Flippy Survey 
 ========================================================
