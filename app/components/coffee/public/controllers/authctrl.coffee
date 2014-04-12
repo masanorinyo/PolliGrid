@@ -1,6 +1,6 @@
 define [], ()->
 	($scope)->
-		$scope.hello = "hello"
+		$scope.auth = "auth"
 		$scope.$apply()
 
 

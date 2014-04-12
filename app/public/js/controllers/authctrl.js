@@ -1,7 +1,7 @@
 (function() {
   define([], function() {
     return function($scope) {
-      $scope.yo = "yo";
+      $scope.auth = "auth";
       return $scope.$apply();
     };
   });

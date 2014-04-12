@@ -13,17 +13,17 @@ describe('myapp',function(){
 
 	describe('index',function(){
 		
-		it('should display Angular-RequireJs-ExpressJs-CoffeeScript-seed',function(){
+		it('should display Flippy Survey',function(){
 			
-			expect(page.getTitle()).toBe('Angular-RequireJs-ExpressJs-CoffeeScript-seed');
+			expect(page.getTitle()).toBe('Flippy Survey');
 
 		});
 
-		it('should display hello when the page loads up',function(){
+		// it('should display hello when the page loads up',function(){
 			
-			expect(page.sayHello()).toBe('hello');
+		// 	expect(page.sayHello()).toBe('hello');
 
-		});
+		// });
 
 
 	});

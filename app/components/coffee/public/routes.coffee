@@ -8,16 +8,41 @@ define(
 
 	(angular,app)->
 		
-		app.config(($routeProvider)->
+		app.config(($stateProvider,$urlRouterProvider)->
 
-			$routeProvider
+			$stateProvider
 				
-				.when('/'
+				.state 'routes',
 
-					templateUrl	: "partials/main.html"
-					controller 	: "MainCtrl"
+					url:"/"
 
-				)
+					views:{
+
+						'header':
+
+							templateUrl:'/partials/header.html'
+							controller:'AuthCtrl'
+						
+						
+						'utility':
+							
+							templateUrl:'/partials/utility.html'
+							controller:'UtilityCtrl'
+						
+						'content':
+
+							templateUrl:'/partials/content.html'
+							controller:'ContentCtrl'
+
+					}
+
+
+			$urlRouterProvider.otherwise('/')
+
+					
+
+
+				
 
 		)
 )

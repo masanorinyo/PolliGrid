@@ -18,7 +18,7 @@ module.exports = function(config) {
     files: [
       {pattern: 'app/components/coffee/public/*.coffee', included: false},
       {pattern: 'app/components/coffee/public/**/*.coffee', included: false},
-      {pattern: 'test/unit/*.coffee', included: false},
+      {pattern: 'test/unit/**/**/*.coffee', included: false},
       {pattern: 'test/unit/**/*.coffee', included: false},
       {pattern: 'app/public/js/**/*.js', included: false},
       {pattern: 'app/public/js/*.js', included: false},

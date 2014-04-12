@@ -4,29 +4,29 @@ define(
 		'angular'
 		'angularMocks'
 		'app'
-		'controllers/mainctrl'
+		'controllers/authctrl'
 	]
 
 	(angular,mocks,app,ctrl)->
-		describe 'MainCtrl', ->
+		describe 'AuthCtrl', ->
 			
 			$scope = null
-			mainCtrl = null
+			authCtrl = null
 			
 			
 			beforeEach ->
 				angular.module("myapp.controllers")
-					.controller('MainCtrl', ctrl)
+					.controller('AuthCtrl', ctrl)
 				
 				mocks.module('myapp.controllers')
 				mocks.inject(
 					($rootScope,$controller)->
 						$scope = $rootScope.$new()
-						mainCtrl = $controller('MainCtrl',{$scope:$scope})
+						authCtrl = $controller('AuthCtrl',{$scope:$scope})
 				)
 
-			it 'should say hello', ->
-				expect($scope.hello).toEqual 'hello'
+			it 'should say auth', ->
+				expect($scope.auth).toEqual 'auth'
 			  
 
 )

@@ -23,7 +23,7 @@ require.config({
     "angularCookies"      : "/base/app/public/vendors/angular-cookies/angular-cookies.min",
     "angularSanitize"     : "/base/app/public/vendors/angular-sanitize/angular-sanitize.min",   
     "angularLocalStorage" : "/base/app/public/vendors/angular-local-storage/angular-local-storage.min",
-    "angularUiRouter"     : "/base/app/public/vendors/angular-ui-route/release/angular-ui-router.min",
+    "angularUiRouter"     : "/base/app/public/vendors/angular-ui-router/release/angular-ui-router.min",
     "jquery"              : "/base/app/public/vendors/jquery/dist/jquery.min",
     "sass-bootstrap"      : "/base/app/public/vendors/sass-bootstrap/dist/js/bootstrap.min",
     "domReady"            : "/base/app/public/vendors/requirejs-domready/domready",

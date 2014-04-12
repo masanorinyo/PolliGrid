@@ -220,18 +220,18 @@ module.exports = function(grunt){
 
 			},
 
-			e2eTest:{
+			// e2eTest:{
 				
-				files: [
+			// 	files: [
 					
-					'app/public/js/{,*/}*.js',
-					'app/components/coffee/public/{,*/}*.coffee'
+			// 		'app/public/js/{,*/}*.js',
+			// 		'app/components/coffee/public/{,*/}*.coffee'
 				
-				],
+			// 	],
 
-				tasks: ['protractor:run']    // The tasks to run when watched files changed
+			// 	tasks: ['protractor:run']    // The tasks to run when watched files changed
 				
-			},
+			// },
 
 			sass:{
 				

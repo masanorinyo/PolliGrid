@@ -8,7 +8,7 @@
       "angularCookies": "../vendors/angular-cookies/angular-cookies.min",
       "angularSanitize": "../vendors/angular-sanitize/angular-sanitize.min",
       "angularLocalStorage": "../vendors/angular-local-storage/angular-local-storage.min",
-      "angularUiRouter": "../vendors/angular-ui-route/release/angular-ui-router.min",
+      "angularUiRouter": "../vendors/angular-ui-router/release/angular-ui-router.min",
       "jquery": "../vendors/jquery/dist/jquery.min",
       "sass-bootstrap": "../vendors/sass-bootstrap/dist/js/bootstrap.min",
       "domReady": "../vendors/requirejs-domready/domready",
@@ -52,7 +52,7 @@
     }
   });
 
-  require(['angular', 'app', 'routes', 'domReady', 'angularRoute'], function(angular, app, routes, domReady) {
+  require(['angular', 'app', 'routes', 'domReady', 'angularUiRouter'], function(angular, app, routes, domReady) {
     return domReady(function() {
       return angular.bootstrap(document, ['myapp']);
     });

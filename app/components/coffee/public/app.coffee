@@ -1,10 +1,19 @@
 define [
+
 	'angular'
 	'controllers'
-], (angular, controllers)->
+
+], (
+		
+		angular
+		controllers
+		
+	)->
 		angular.module('myapp',[
-			'ngRoute'
+		
+			'ui.router'
 			'myapp.controllers'
+			
 		])
 
   

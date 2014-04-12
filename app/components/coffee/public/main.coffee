@@ -9,7 +9,7 @@ require.config
 		"angularCookies" 		: "../vendors/angular-cookies/angular-cookies.min"
 		"angularSanitize" 	 	: "../vendors/angular-sanitize/angular-sanitize.min"		
 		"angularLocalStorage"	: "../vendors/angular-local-storage/angular-local-storage.min"
-		"angularUiRouter" 		: "../vendors/angular-ui-route/release/angular-ui-router.min"
+		"angularUiRouter" 		: "../vendors/angular-ui-router/release/angular-ui-router.min"
 		"jquery"				: "../vendors/jquery/dist/jquery.min"
 		"sass-bootstrap"		: "../vendors/sass-bootstrap/dist/js/bootstrap.min"
 		"domReady" 	 			: "../vendors/requirejs-domready/domready"
@@ -60,7 +60,7 @@ require(
 		'app'
 		'routes'
 		'domReady'
-		'angularRoute'
+		'angularUiRouter'
 	]
 
 	(angular,app,routes,domReady)->
