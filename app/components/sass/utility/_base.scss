@@ -1,4 +1,52 @@
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-  display: block;
+body,html{
+	height:100%;
+	width:100%;
+	font-size:1.2em;
+	line-height:160%;
+	background-color:rgb(233,233,233)!important;
 }
 
+// header default setting //
+#{headings()}{
+	
+	font-weight:normal;
+
+}//all headings
+
+h2{
+
+	font-size:1.3em;
+
+}//h2
+
+h3{
+
+	font-size:1.2em;
+
+}//h3
+
+
+// link tag default setting //
+a{
+	
+	text-decoration:none;
+	&:hover{
+		color:$cyan;
+
+	}//hover
+}//a
+
+// list default setting //
+li{
+	
+	text-align:left;
+
+}//li
+
+// small default setting //
+small,.small{
+	
+	font-size:0.8em;
+	color:$theme_gray;
+
+}//small

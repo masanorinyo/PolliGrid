@@ -1,0 +1,52 @@
+header{
+	@include box-shadow(rgb(180, 180, 180) 0px 1px 1px 0px);
+	width:100%;
+	height:4em;
+	position:fixed;
+	top:0;
+	z-index:100;
+	background-color:$blue;
+	
+
+	ul{
+		@include absolute-center($left:initial,$right:0);
+		width:130px;
+		height:50%;
+
+	}//ul
+}//header
+
+.container{
+	margin-top:90px;
+	
+	.utility-section{
+		
+		overflow: auto;
+
+		#create{
+			width:20%;
+			float:left;
+			text-align:center;
+			color:darken($lightgray,10);
+
+			&:hover{
+				color:$darkblue;
+			}//hover
+		}//create
+
+		#search{
+			width:77%;
+			float:right;
+
+			.input-group-addon{
+				background-color:white;
+			}
+		}//search
+	}//utility-section
+
+	.content-section{
+		
+		margin-top:30px;
+		
+	}//.content-section
+}//.container

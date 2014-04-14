@@ -12,7 +12,7 @@ define(
 
 			$stateProvider
 				
-				.state 'routes',
+				.state 'home',
 
 					url:"/"
 
@@ -36,13 +36,34 @@ define(
 
 					}
 
+				.state 'home.login',
+					
+					url:'/login'
+
+					views:{
+
+					}
+
+				.state 'home.signin',
+
+					url:'/signin'
+
+					views:{
+
+					}
+
+
+
+				.state 'profile',
+
+					url:'/profile'
+
+					views:{
+
+					}
+
 
 			$urlRouterProvider.otherwise('/')
-
-					
-
-
-				
 
 		)
 )

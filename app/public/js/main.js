@@ -52,7 +52,7 @@
     }
   });
 
-  require(['angular', 'app', 'routes', 'domReady', 'angularUiRouter'], function(angular, app, routes, domReady) {
+  require(['angular', 'app', 'routes', 'domReady', 'angularUiRouter', 'sass-bootstrap'], function(angular, app, routes, domReady) {
     return domReady(function() {
       return angular.bootstrap(document, ['myapp']);
     });

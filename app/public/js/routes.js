@@ -1,7 +1,7 @@
 (function() {
   define(['angular', 'app'], function(angular, app) {
     return app.config(function($stateProvider, $urlRouterProvider) {
-      $stateProvider.state('routes', {
+      $stateProvider.state('home', {
         url: "/",
         views: {
           'header': {
@@ -17,6 +17,15 @@
             controller: 'ContentCtrl'
           }
         }
+      }).state('home.login', {
+        url: '/login',
+        views: {}
+      }).state('home.signin', {
+        url: '/signin',
+        views: {}
+      }).state('profile', {
+        url: '/profile',
+        views: {}
       });
       return $urlRouterProvider.otherwise('/');
     });

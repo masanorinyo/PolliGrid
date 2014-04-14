@@ -1,0 +1,85 @@
+.card{
+
+	@include border-radius(3px);
+	@include box-shadow(rgb(210, 210, 210) 2px 2px 5px 0px);
+	position:relative;
+	background-color:white;
+	border:1px solid rgb(220,220,220);
+	width:350px;
+	margin:10px;
+	display:inline-block;
+	
+	.question{
+		margin:2em;
+		font-size:1.2em;
+	}
+
+	.answers{
+		
+		margin:2em;
+
+		label{
+			color:rgb(100,100,100);
+		}
+	}
+	
+	#surveySubmit{
+		float:right;
+		margin:0 2em 2em 0;
+	}
+
+	.card-bottom{
+		clear:both;
+		position:relative;
+		height:4em;
+		width:100%;
+		bottom:0;
+		border-top:1px solid darken($slightlyWhite,5);
+		
+		li{
+		
+			display:inline-block;
+
+			&.userPhoto img{
+		
+				width:4em;
+				height:4em;
+				padding:2px;
+				background-color:$lightgray;
+		
+			}//li.userPhoto > img
+
+
+			&.username{
+				
+				position: absolute;
+				top: 0.5em;
+				left: 5em;
+
+				a{
+					font-family:$normal;
+					color:$darkgray;
+
+					&:hover{
+						color:$blue;
+					}
+				}
+			
+			}//li.username
+
+			.tags{
+				
+				position:absolute;
+				top:2.2em;
+				left:5em;
+				cursor: pointer;
+				
+				.label:hover{
+				
+					background-color:$bootstrap-lightblue;
+				
+				}//label:hover
+			}//li.tags
+		}//li
+	}//.card-bottom
+}//card

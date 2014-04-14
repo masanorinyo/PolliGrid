@@ -3,15 +3,18 @@
 @import "susy";
 
 //utility
-@import "modules/base";
-@import "modules/mixin";
-@import "modules/variables";
+@import "utility/color";
+@import "utility/base";
+@import "utility/mixin";
+@import "utility/variables";
+
 
 //partials
-@import "partials/button";
+@import "partials/buttons";
 @import "partials/typography";
 @import "partials/modal";
 @import "partials/box";
+@import "partials/util";
 
 
 //specific to this project

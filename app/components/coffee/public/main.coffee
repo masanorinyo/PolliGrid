@@ -61,6 +61,7 @@ require(
 		'routes'
 		'domReady'
 		'angularUiRouter'
+		'sass-bootstrap'
 	]
 
 	(angular,app,routes,domReady)->

@@ -235,8 +235,8 @@ module.exports = function(grunt){
 
 			sass:{
 				
-				files:['app/components/sass/*.scss'],
-				tasks:['newer:compass:dev'],
+				files:['app/components/sass/{,*/}*.scss'],
+				tasks:['compass:dev'],
 				
 			},
 

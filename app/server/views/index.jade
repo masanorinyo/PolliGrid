@@ -9,7 +9,7 @@ html(lang="en").no-js
 		//- script(src='/js/misc/modernizr-dev.js')
 		//- script(src='/js/misc/modernizr-test.js')
 		
-	body
+	body(ng-controller="FlippySurveyCtrl")
 		
 		div( ui-view="header")
 
@@ -18,4 +18,6 @@ html(lang="en").no-js
 			div(ui-view="utility")
 			div(ui-view="content")
 		
+		
+
 		script(data-main="/js/main.js" src="/vendors/requirejs/require.js")

@@ -5,3 +5,5 @@ javascripts_dir="app/public/js"
 images_dir="app/public/img"
 output_style=:compressed
 relative_assets=true
+
+ 

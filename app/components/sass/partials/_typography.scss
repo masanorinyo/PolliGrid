@@ -1,0 +1,21 @@
+// font variables //
+
+$normal: "Helvetca";
+
+
+// font classes //
+
+.header-title{
+	@include absolute-center($left:1em);
+	@include single-text-shadow;
+	font-size:0.8em;
+	left:10px;
+	height:50%;
+	color:$slightlyWhite;
+
+	&:hover{
+		text-decoration:none;
+		color:$lightblue;
+	}
+}
+
