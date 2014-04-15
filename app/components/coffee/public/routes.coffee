@@ -41,6 +41,7 @@ define(
 						
 							templateUrl : '/partials/authmodal.html'
 							controller 	: "AuthCtrl"
+							#windowClass : "modal fade in"
 						
 						).result.then ()->
   						

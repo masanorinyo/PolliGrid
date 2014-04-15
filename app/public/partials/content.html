@@ -3,9 +3,9 @@
 	<ul class="cards">
 		<li class="card">
 			<!-- should make a directive for this -->
-			<div class="favorite-button">
-				<i class="glyphicon glyphicon-star-empty"></i>
-				<i class="glyphicon glyphicon-star"></i>
+			<div class="favorite-button" ng-click="fillStar()">
+				<i ng-hide="isStarFilled" class="glyphicon glyphicon-star-empty"></i>
+				<i ng-show="isStarFilled" class="glyphicon glyphicon-star"></i>
 			</div>
 			<div class="share-button">
 				<i class="glyphicon glyphicon-share"></i>

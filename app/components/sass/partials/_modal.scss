@@ -1,73 +1,68 @@
+.modal-dialog{
+	
+	//to change the angular bootstrap default setting
+	//!impotant is used.
+	position:absolute!important;
+	margin:auto!important;
+	top:0;right:0;bottom:0;left:0;
+	width:20em!important;
+	height:30em;
+	
+	.modal-content{
+		height:100%;
+	}
+	
 
-	.modal-dialog{
+	.close{
+		position: absolute;
+		right: 20px;
+		top: 10px;
+		z-index:10;
+	}
+
+	.account-form{
+		padding:1em;
 		
-		//to change the angular bootstrap default setting
-		//!impotant is used.
-		position:absolute!important;
-		margin:auto!important;
-		top:0;right:0;bottom:0;left:0;
-		width:20em!important;
-		height:30em;
-		
-		.modal-content{
-			height:100%;
+		.title-wrapper{
+			position:relative;
+			width:100%;
+			height:2em;
+
+			.title{
+				@include absolute-center;
+				text-align: center;
+				width: 50%;
+				font-size: 1.2em;
+			}
 		}
-		
 
-		.close{
-			position: absolute;
-			right: 20px;
-			top: 10px;
-			z-index:10;
-		}
+		.social-box{
+			height:13em;
 
-		.account-form{
-			padding:1em;
-			
-			.title-wrapper{
-				position:relative;
-				width:100%;
-				height:2em;
+			.social-accounts{
+				margin:1em;
 
-				.title{
-					@include absolute-center;
-					text-align: center;
-					width: 50%;
-					font-size: 1.2em;
+				a{
+					width: 100%;
+					margin-bottom: 0.5em;
 				}
 			}
+		}
 
-			#social-box{
-				height:13em;
+		.local-box{
+			width: 85%;
+			margin: auto;
 
-				.social-accounts{
-					margin:1em;
-
-					a{
-						width: 100%;
-						margin-bottom: 0.5em;
-					}
-				}
+			.title{
+				
+				font-size: 1em;
 			}
 
-			#local-box{
-				width: 85%;
-				margin: auto;
-
-				.title{
-					
-					font-size: 1em;
-				}
-
-				label{
-					font-size: 0.8em;
-					color: rgb(150,150,150)
-				}
+			label{
+				font-size: 0.8em;
+				color: rgb(150,150,150)
 			}
 		}
 	}
-
-
-.modal {
-	display: block;
 }
+

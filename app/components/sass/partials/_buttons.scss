@@ -12,22 +12,21 @@
 		font-size:2em;
 		cursor: pointer;
 
-		&:hover{
-			color:$lightgray;
-		}
-
 	}//.glyphicon
 
 	.glyphicon-star{
 	
 		color:gold;
-		display: none;
 	
 	}//.glyphicon-star
 
 	.glyphicon-star-empty{
 
 		color:lighten($lightgray,20);
+
+		&:hover{
+			color:$lightgray;
+		}
 
 	}//.glyphicon-star-empty
 
