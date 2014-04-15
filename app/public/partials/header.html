@@ -1,8 +1,19 @@
-<header>
-	<h1><a class='header-title' href="#" ng-href="/">Flippy Survey</a></h1>
+<header class='main-header'>
+	<h1><a class='header-title' href="#" ng-href="/">Which one?</a></h1>
 
 	<ul>
-		<li class="btn btn-sm btn-default">login</li>
-		<li class="btn btn-sm btn-success">signup</li>
+		<a href="#"  ui-sref=".login">
+			<li class="btn btn-sm btn-default">
+				login
+			</li>
+		</a>
+		<a href="#"  ui-sref=".signup">
+			<li class="btn btn-sm btn-success">
+				signup
+			</li>
+		</a>
 	</ul>
 </header>
+
+<!-- login / signup directive -->
+<div ui-view></div>

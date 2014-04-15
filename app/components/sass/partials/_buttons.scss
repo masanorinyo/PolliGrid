@@ -1,0 +1,55 @@
+.favorite-button{
+
+	position: absolute;
+	right: 1em;
+	top: 1em;
+	width: 2em;
+	height: 2em;
+
+	.glyphicon{
+
+		@include absolute-center;
+		font-size:2em;
+		cursor: pointer;
+
+		&:hover{
+			color:$lightgray;
+		}
+
+	}//.glyphicon
+
+	.glyphicon-star{
+	
+		color:gold;
+		display: none;
+	
+	}//.glyphicon-star
+
+	.glyphicon-star-empty{
+
+		color:lighten($lightgray,20);
+
+	}//.glyphicon-star-empty
+
+}//.favorite-button
+
+.share-button{
+	
+	position: absolute;
+	right: 3.5em;
+	top: 1em;
+	width: 2em;
+	height: 2em;
+	
+	.glyphicon-share{
+	
+		font-size:1.8em;
+		color:lighten($lightgray,20);
+		cursor: pointer;
+
+		&:hover{
+			color:$lightgray;
+		}
+	
+	}//glyphicon
+}//.share-button

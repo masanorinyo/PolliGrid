@@ -1,8 +1,21 @@
 <section class='content-section'>
+	<h1 hidden>question</h1>
 	<ul class="cards">
 		<li class="card">
+			<!-- should make a directive for this -->
+			<div class="favorite-button">
+				<i class="glyphicon glyphicon-star-empty"></i>
+				<i class="glyphicon glyphicon-star"></i>
+			</div>
+			<div class="share-button">
+				<i class="glyphicon glyphicon-share"></i>
+			</div>
+
 			<p class='question'>
-				Which one would you like?
+				Which one would you like Which one would you like Which one would you like?
+			</p>
+			<p class="alert alert-danger">
+				Please select something
 			</p>
 			<form id="surveyForm" action="">
 				<ul class="answers">
@@ -22,7 +35,6 @@
 				</ul>
 				<button id="surveySubmit" class="btn btn-primary btn-sm">See result</button>
 			</form>
-
 			<div class="card-bottom">
 				<ul>
 					<li class='userPhoto'>
@@ -30,15 +42,12 @@
 							<img src="/img/profile-pic.jpg" alt="masanorinyo">
 						</a>
 					</li>
-					<li class='username'>
-						<a href="#">masanorinyo</a>
-					</li>
 					<li>
 						<ul class="tags">
-							<li class='label label-default'>business</li>
-							<li class='label label-default'>crazu</li>
-							<li class='label label-default'>test</li>
-							<li class='label label-default'>wow</li>
+							<li class='tag label label-default'>business</li>
+							<li class='tag label label-default'>crazu</li>
+							<li class='tag label label-default'>test</li>
+							<li class='tag label label-default'>wow</li>
 						</ul>
 					</li>
 				</ul>
@@ -46,6 +55,7 @@
 		</li>
 
 	</ul>
+	<!-- should make a directive for this -->
 	<div id="loader">
 		<div class="loaderWrapper">
 			<img src="/img/utility/loader.gif" alt="loading">

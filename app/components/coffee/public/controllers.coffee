@@ -1,16 +1,22 @@
 define ['angular'], (angular) ->
 	angular.module('myapp.controllers', [])
 		
-		.controller 'FlippySurveyCtrl', ($scope)->
+		.controller 'WhichOneCtrl', ($scope)->
 			$scope.flippysurvey = 'flippysurvey'
 
 
-		.controller 'AuthCtrl', ($scope, $injector)->
+		.controller 'AuthCtrl', ($scope, $injector,$modalInstance,$location,$timeout)->
 			require(['controllers/authctrl'], (authctrl)->
 				$injector.invoke(
-					authctrl, this,{"$scope": $scope}
+					authctrl, this,{
+						"$scope" 				: $scope
+						"$modalInstance" 		: $modalInstance
+						"$location" 	 		: $location
+						"$timeout" 				: $timeout
+					}
 				)
 			)
+
 			
 		.controller 'UtilityCtrl', ($scope, $injector)->
 			require(['controllers/utilityctrl'], (utilityctrl)->

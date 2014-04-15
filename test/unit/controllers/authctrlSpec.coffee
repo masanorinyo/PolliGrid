@@ -4,7 +4,7 @@ define(
 		'angular'
 		'angularMocks'
 		'app'
-		'controllers/authctrl'
+		'controllers/loginctrl'
 	]
 
 	(angular,mocks,app,ctrl)->
@@ -20,13 +20,21 @@ define(
 				
 				mocks.module('myapp.controllers')
 				mocks.inject(
-					($rootScope,$controller)->
+					($rootScope,$controller,$location,$modalInstance,$timeout)->
 						$scope = $rootScope.$new()
-						authCtrl = $controller('AuthCtrl',{$scope:$scope})
+						authCtrl = $controller 'AuthCtrl',{
+								$scope 			: $scope
+								$location 		: $location
+								$modalInstance 	: $modalInstance
+								$timeout 		: $timeout
+							}
+						
 				)
 
-			it 'should say auth', ->
-				expect($scope.auth).toEqual 'auth'
+			it 'should say login', ->
+				expect($scope.title).toEqual 'Login'
+
+			
 			  
 
 )

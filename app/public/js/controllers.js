@@ -1,11 +1,14 @@
 (function() {
   define(['angular'], function(angular) {
-    return angular.module('myapp.controllers', []).controller('FlippySurveyCtrl', function($scope) {
+    return angular.module('myapp.controllers', []).controller('WhichOneCtrl', function($scope) {
       return $scope.flippysurvey = 'flippysurvey';
-    }).controller('AuthCtrl', function($scope, $injector) {
+    }).controller('AuthCtrl', function($scope, $injector, $modalInstance, $location, $timeout) {
       return require(['controllers/authctrl'], function(authctrl) {
         return $injector.invoke(authctrl, this, {
-          "$scope": $scope
+          "$scope": $scope,
+          "$modalInstance": $modalInstance,
+          "$location": $location,
+          "$timeout": $timeout
         });
       });
     }).controller('UtilityCtrl', function($scope, $injector) {

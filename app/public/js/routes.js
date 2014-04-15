@@ -5,8 +5,7 @@
         url: "/",
         views: {
           'header': {
-            templateUrl: '/partials/header.html',
-            controller: 'AuthCtrl'
+            templateUrl: '/partials/header.html'
           },
           'utility': {
             templateUrl: '/partials/utility.html',
@@ -18,14 +17,29 @@
           }
         }
       }).state('home.login', {
-        url: '/login',
-        views: {}
-      }).state('home.signin', {
-        url: '/signin',
-        views: {}
-      }).state('profile', {
-        url: '/profile',
-        views: {}
+        url: 'login',
+        onEnter: function($state, $modal, $location) {
+          return $modal.open({
+            templateUrl: '/partials/authmodal.html',
+            controller: "AuthCtrl"
+          }).result.then(function() {
+            return console.log('modal is open');
+          }, function() {
+            return $location.path('/');
+          });
+        }
+      }).state('home.signup', {
+        url: 'signup',
+        onEnter: function($state, $modal, $location) {
+          return $modal.open({
+            templateUrl: '/partials/authmodal.html',
+            controller: "AuthCtrl"
+          }).result.then(function() {
+            return console.log('modal is open');
+          }, function() {
+            return $location.path('/');
+          });
+        }
       });
       return $urlRouterProvider.otherwise('/');
     });

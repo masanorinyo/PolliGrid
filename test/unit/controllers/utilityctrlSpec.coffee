@@ -27,8 +27,8 @@ define(
 				)
 				
 
-			it 'should say utility', ->
-				expect($scope.utility).toEqual 'utility'
+			# it 'should say utility', ->
+			# 	expect($scope.utility).toEqual 'utility'
 			  
 
 )

@@ -11,7 +11,7 @@ require.config
 		"angularLocalStorage"	: "../vendors/angular-local-storage/angular-local-storage.min"
 		"angularUiRouter" 		: "../vendors/angular-ui-router/release/angular-ui-router.min"
 		"jquery"				: "../vendors/jquery/dist/jquery.min"
-		"sass-bootstrap"		: "../vendors/sass-bootstrap/dist/js/bootstrap.min"
+		"angular-bootstrap"		: "../vendors/angular-bootstrap/ui-bootstrap-tpls.min"
 		"domReady" 	 			: "../vendors/requirejs-domready/domready"
 		"underscore" 	 		: "../vendors/underscore/underscore"
 		
@@ -44,11 +44,12 @@ require.config
 		"angularUiRouter" 		: 
 			deps 		 		: ['angular']
 
+		"angular-bootstrap" 	: 
+			deps 		 		: ['angular']
+
+
 		"jquery" 				: 
 			exports 		 	: '$'
-
-		"sass-bootstrap" 		: 
-			deps 		 		: ['jquery']
 
 		"underscore" 			:
 			exports 			: '_'
@@ -61,7 +62,7 @@ require(
 		'routes'
 		'domReady'
 		'angularUiRouter'
-		'sass-bootstrap'
+		'angular-bootstrap'
 	]
 
 	(angular,app,routes,domReady)->

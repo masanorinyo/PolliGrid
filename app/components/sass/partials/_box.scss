@@ -10,8 +10,14 @@
 	display:inline-block;
 	
 	.question{
-		margin:2em;
+		margin:4em 2em 2em 2em;
 		font-size:1.2em;
+	}
+
+	.alert{
+		display:none;
+		margin:auto;
+		width:90%;
 	}
 
 	.answers{
@@ -50,35 +56,24 @@
 			}//li.userPhoto > img
 
 
-			&.username{
-				
-				position: absolute;
-				top: 0.5em;
-				left: 5em;
-
-				a{
-					font-family:$normal;
-					color:$darkgray;
-
-					&:hover{
-						color:$blue;
-					}
-				}
-			
-			}//li.username
-
 			.tags{
 				
-				position:absolute;
-				top:2.2em;
-				left:5em;
-				cursor: pointer;
+				@include absolute-center($left:5em);
+				height:30%;
 				
-				.label:hover{
+				.tag{
+					
+					font-size:0.8em;
+					cursor: pointer;
+
+					&:hover{
 				
-					background-color:$bootstrap-lightblue;
-				
-				}//label:hover
+						background-color:$bootstrap-lightblue;
+					
+					}//tag:hover
+
+
+				}//.tag
 			}//li.tags
 		}//li
 	}//.card-bottom

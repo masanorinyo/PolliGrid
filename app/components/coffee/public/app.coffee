@@ -10,8 +10,9 @@ define [
 		
 	)->
 		angular.module('myapp',[
-		
+
 			'ui.router'
+			'ui.bootstrap'
 			'myapp.controllers'
 			
 		])

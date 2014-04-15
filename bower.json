@@ -1,5 +1,5 @@
 {
-  "name": "FlippySurvey",
+  "name": "WhichOne",
   "version": "0.0.1",
   "authors": [
     "Masanori Sen / Zhengdian Zhan <masanorinyo@gmail.com>"
@@ -23,10 +23,10 @@
     "angular-local-storage" : "~0.0.1",
     "angular-ui-router"     : "~0.2.10",
     "jquery"                : "~2.1.0",
-    "sass-bootstrap"        : "~3.0.2",
     "requirejs"             : "~2.1.11",
     "requirejs-domready"    : "*",
-    "underscore"            : "~1.6.0"
+    "underscore"            : "~1.6.0",
+    "angular-bootstrap"     : "0.10.0"
 
   }
 }

@@ -10,7 +10,7 @@
       "angularLocalStorage": "../vendors/angular-local-storage/angular-local-storage.min",
       "angularUiRouter": "../vendors/angular-ui-router/release/angular-ui-router.min",
       "jquery": "../vendors/jquery/dist/jquery.min",
-      "sass-bootstrap": "../vendors/sass-bootstrap/dist/js/bootstrap.min",
+      "angular-bootstrap": "../vendors/angular-bootstrap/ui-bootstrap-tpls.min",
       "domReady": "../vendors/requirejs-domready/domready",
       "underscore": "../vendors/underscore/underscore"
     },
@@ -40,11 +40,11 @@
       "angularUiRouter": {
         deps: ['angular']
       },
+      "angular-bootstrap": {
+        deps: ['angular']
+      },
       "jquery": {
         exports: '$'
-      },
-      "sass-bootstrap": {
-        deps: ['jquery']
       },
       "underscore": {
         exports: '_'
@@ -52,7 +52,7 @@
     }
   });
 
-  require(['angular', 'app', 'routes', 'domReady', 'angularUiRouter', 'sass-bootstrap'], function(angular, app, routes, domReady) {
+  require(['angular', 'app', 'routes', 'domReady', 'angularUiRouter', 'angular-bootstrap'], function(angular, app, routes, domReady) {
     return domReady(function() {
       return angular.bootstrap(document, ['myapp']);
     });

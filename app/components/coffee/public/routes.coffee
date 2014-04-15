@@ -21,9 +21,7 @@ define(
 						'header':
 
 							templateUrl:'/partials/header.html'
-							controller:'AuthCtrl'
-						
-						
+							
 						'utility':
 							
 							templateUrl:'/partials/utility.html'
@@ -37,31 +35,40 @@ define(
 					}
 
 				.state 'home.login',
+					url:'login'
+					onEnter:($state,$modal,$location)->
+						$modal.open(
+						
+							templateUrl : '/partials/authmodal.html'
+							controller 	: "AuthCtrl"
+						
+						).result.then ()->
+  						
+  							console.log('modal is open')
+						
+						, ()->
+							$location.path('/')
+  							
+						
 					
-					url:'/login'
 
-					views:{
+					
+				.state 'home.signup',
+					url:'signup'
+					onEnter:($state,$modal,$location)->
+						$modal.open(
+							
+							templateUrl :'/partials/authmodal.html'
+							controller 	:"AuthCtrl"
+						
+						).result.then ()->
+  						
+  							console.log('modal is open')
+						
+						, ()->
+							$location.path('/')
 
-					}
-
-				.state 'home.signin',
-
-					url:'/signin'
-
-					views:{
-
-					}
-
-
-
-				.state 'profile',
-
-					url:'/profile'
-
-					views:{
-
-					}
-
+			
 
 			$urlRouterProvider.otherwise('/')
 

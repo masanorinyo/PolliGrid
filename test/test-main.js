@@ -25,7 +25,7 @@ require.config({
     "angularLocalStorage" : "/base/app/public/vendors/angular-local-storage/angular-local-storage.min",
     "angularUiRouter"     : "/base/app/public/vendors/angular-ui-router/release/angular-ui-router.min",
     "jquery"              : "/base/app/public/vendors/jquery/dist/jquery.min",
-    "sass-bootstrap"      : "/base/app/public/vendors/sass-bootstrap/dist/js/bootstrap.min",
+    "angular-bootstrap"   : "/base/app/public/vendors/angular-bootstrap/ui-bootstrap-tpls.min"
     "domReady"            : "/base/app/public/vendors/requirejs-domready/domready",
     "underscore"          : "/base/app/public/vendors/underscore/underscore"
   },
@@ -59,11 +59,12 @@ require.config({
     "angularUiRouter"     : 
       {deps               : ['angular']},
 
+    "angular-bootstrap"     : 
+      {deps               : ['angular']},
+
     "jquery"              : 
       {exports            : '$'},
 
-    "sass-bootstrap"      : 
-      {deps               : ['jquery']},
 
     "underscore"          :
       {exports            : '_'}
