@@ -3,7 +3,7 @@
     return function($scope, $modalInstance, $location, $timeout) {
       switch ($location.$$path) {
         case '/login':
-          $scope.title = "login";
+          $scope.title = "Login";
           break;
         case '/signup':
           $scope.title = "Signup";

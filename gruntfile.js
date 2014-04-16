@@ -245,7 +245,7 @@ module.exports = function(grunt){
 				files:[
 					"app/views/*.jade",
 					"app/views/**/*.jade",
-					"app/public/partials/{,*/}*.html"
+					"app/public/views/{,*/}*.html"
 				]
 				
 			}

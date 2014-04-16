@@ -20,16 +20,16 @@ define(
 
 						'header':
 
-							templateUrl:'/partials/header.html'
+							templateUrl:'views/partials/header.html'
 							
 						'utility':
 							
-							templateUrl:'/partials/utility.html'
+							templateUrl:'views/partials/utility.html'
 							controller:'UtilityCtrl'
 						
 						'content':
 
-							templateUrl:'/partials/content.html'
+							templateUrl:'views/partials/content.html'
 							controller:'ContentCtrl'
 
 					}
@@ -39,9 +39,9 @@ define(
 					onEnter:($state,$modal,$location)->
 						$modal.open(
 						
-							templateUrl : '/partials/authmodal.html'
+							templateUrl : 'views/modals/authmodal.html'
 							controller 	: "AuthCtrl"
-							#windowClass : "modal fade in"
+							windowClass : "authModal "
 						
 						).result.then ()->
   						
@@ -50,20 +50,33 @@ define(
 						, ()->
 							$location.path('/')
   							
-						
-					
-
-					
 				.state 'home.signup',
 					url:'signup'
 					onEnter:($state,$modal,$location)->
 						$modal.open(
 							
-							templateUrl :'/partials/authmodal.html'
-							controller 	:"AuthCtrl"
+							templateUrl : 'views/modals/authmodal.html'
+							controller 	: "AuthCtrl"
+							windowClass : 'authModal'
 						
 						).result.then ()->
   						
+  							console.log('modal is open')
+						
+						, ()->
+							$location.path('/')
+
+				.state 'home.create',
+					url:'create'
+					onEnter:($state,$modal,$location)->
+						$modal.open(
+						
+							templateUrl : 'views/modals/createModal.html'
+							controller 	: "CreateCtrl"
+							windowClass : "createModal "
+							
+						
+						).result.then ()->
   							console.log('modal is open')
 						
 						, ()->

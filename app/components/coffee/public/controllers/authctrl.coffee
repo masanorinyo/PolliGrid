@@ -3,7 +3,7 @@ define [], ()->
 		
 		switch $location.$$path 
 			when '/login' 
-			then $scope.title = "login"
+			then $scope.title = "Login"
 
 			when '/signup' 
 			then $scope.title = "Signup"

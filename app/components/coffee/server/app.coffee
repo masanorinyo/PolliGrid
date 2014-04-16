@@ -1,41 +1,86 @@
-express = require('express')
-routes = require('./routes')
-http = require('http')
-path = require('path')
-app = express()
+# ------------------------ modules  ------------------------ #
 
-# all environments
-app.set 'port', process.env.PORT or 3000
-app.set 'views', path.join(__dirname, 'views')
-app.set 'view engine', 'jade'
-app.use express.favicon()
-app.use express.logger('dev')
-app.use express.json()
-app.use express.urlencoded()
-app.use express.methodOverride()
-app.use app.router
-app.use express.static(path.join(__dirname, '../public'))
+express           = require('express')
+path              = require('path')
+routes            = require('./routes')
+bodyParser        = require('body-parser')
+favicon           = require('static-favicon')
+methodOverride    = require('method-override')
+morgan            = require('morgan')
+session           = require('express-sessions')
+cookieParser      = require('cookie-parser') 
 
-# development only
-if 'development' is app.get('env')
-  app.use express.errorHandler()
-  
-  #grunt configuration
-  cp = require('child_process')
-  grunt = cp.spawn('grunt', [
-    '--force'
-    'default'
-    'watch'
-  ])
-  grunt.stdout.on 'data', (data) ->
+
+# ------------------------ express setting ------------------------ #
+
+app               = express()
+port              = process.env.POR || 3000
+router            = express.Router()
+
+# ------------------------ environment setting ------------------------ #
+
+# template engine #
+
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'jade')
+
+
+# static directories #
+
+app.use(express.static(path.join(__dirname, '../public'))) 
+
+
+# hale to favicon #
+      
+app.use(favicon())
+
+
+# pull info from html #
+
+app.use(bodyParser())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded())
+
+
+# simulate DELETE and PUT #
+app.use(methodOverride())
+
+
+# cookie & session management #
+app.use(cookieParser())
+# app.use(express.session())
+
+
+# -------------- development only - flirts with grunt --------------#
+env = process.env.NODE_ENV || 'development'
+if 'development' is env
+
+      # log every request #
+
+      app.use(morgan('dev'))
+      
+
+      #grunt configuration
+      
+      cp = require('child_process')
+      grunt = cp.spawn('grunt', [
+            '--force'
+            'default'
+            'watch'
+      ])
+      
+      grunt.stdout.on 'data', (data) ->
+            #relay output to console
+            console.log '%s', data
     
-    #relay output to console
-    console.log '%s', data
-    
+
+# ------------------------ express router ------------------------ #
 
 app.get '/', routes.index
 
 
+# ------------------------ server setup ------------------------ #
 
-http.createServer(app).listen app.get('port'), ->
-  console.log 'Express server listening on port ' + app.get('port')
+app.listen(port,()->
+      console.log 'Express server listening on port ' + port      
+)

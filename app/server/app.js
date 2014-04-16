@@ -1,38 +1,52 @@
 (function() {
-  var app, cp, express, grunt, http, path, routes;
+  var app, bodyParser, cookieParser, cp, env, express, favicon, grunt, methodOverride, morgan, path, port, router, routes, session;
 
   express = require('express');
 
+  path = require('path');
+
   routes = require('./routes');
 
-  http = require('http');
+  bodyParser = require('body-parser');
 
-  path = require('path');
+  favicon = require('static-favicon');
+
+  methodOverride = require('method-override');
+
+  morgan = require('morgan');
+
+  session = require('express-sessions');
+
+  cookieParser = require('cookie-parser');
 
   app = express();
 
-  app.set('port', process.env.PORT || 3000);
+  port = process.env.POR || 3000;
+
+  router = express.Router();
 
   app.set('views', path.join(__dirname, 'views'));
 
   app.set('view engine', 'jade');
 
-  app.use(express.favicon());
-
-  app.use(express.logger('dev'));
-
-  app.use(express.json());
-
-  app.use(express.urlencoded());
-
-  app.use(express.methodOverride());
-
-  app.use(app.router);
-
   app.use(express["static"](path.join(__dirname, '../public')));
 
-  if ('development' === app.get('env')) {
-    app.use(express.errorHandler());
+  app.use(favicon());
+
+  app.use(bodyParser());
+
+  app.use(bodyParser.json());
+
+  app.use(bodyParser.urlencoded());
+
+  app.use(methodOverride());
+
+  app.use(cookieParser());
+
+  env = process.env.NODE_ENV || 'development';
+
+  if ('development' === env) {
+    app.use(morgan('dev'));
     cp = require('child_process');
     grunt = cp.spawn('grunt', ['--force', 'default', 'watch']);
     grunt.stdout.on('data', function(data) {
@@ -42,8 +56,8 @@
 
   app.get('/', routes.index);
 
-  http.createServer(app).listen(app.get('port'), function() {
-    return console.log('Express server listening on port ' + app.get('port'));
+  app.listen(port, function() {
+    return console.log('Express server listening on port ' + port);
   });
 
 }).call(this);

@@ -1,68 +1,191 @@
-.modal-dialog{
+//-------------------- modal utility (used by extending) --------------------//
+
+//remove bootstrap default animation effect
+.removeAnimation{
 	
-	//to change the angular bootstrap default setting
-	//!impotant is used.
-	position:absolute!important;
-	margin:auto!important;
-	top:0;right:0;bottom:0;left:0;
+	-webkit-transform: translate(0, 0%)!important;
+	-ms-transform: translate(0, 0%)!important;
+	-moz--transform: translate(0, 0%)!important;
+	-o--transform: translate(0, 0%)!important;
+	transform: translate(0, 0%)!important;
+
+}//.removeAnimation
+
+//modal sizes
+.small-modal{
+
+	//overwrite the bootstrap style
+	@include force-center;	
 	width:20em!important;
 	height:30em;
+
+}//.small-modal
+
+.large-modal{
+	
+	//overwrite the bootstrap style
+	@include force-center;
+	width:90%!important;
+	max-width:500px;
+	height:40em;
 	
 	.modal-content{
-		height:100%;
-	}
 	
+		height:100%;
+	
+	}//.modal-content
+}//.large-modal
 
-	.close{
-		position: absolute;
-		right: 20px;
-		top: 10px;
-		z-index:10;
-	}
+//-------------------- applied for all modals --------------------//
 
+
+.modal-dialog .close{
+
+	position: absolute;
+	right: 20px;
+	top: 10px;
+	z-index:10;
+
+}//.modal-dialog .close
+
+
+
+//-------------------- modals --------------------//
+//**** auth-modal ***//
+
+.authModal{
+
+	.modal-dialog{
+		
+		@extend .small-modal;
+	
+	}//.modal-dialog
+	
 	.account-form{
-		padding:1em;
+		
+		padding:2em 1em;
 		
 		.title-wrapper{
+			
 			position:relative;
 			width:100%;
 			height:2em;
 
 			.title{
+				
 				@include absolute-center;
 				text-align: center;
 				width: 50%;
 				font-size: 1.2em;
-			}
-		}
+			
+			}//.title
+		}//.title-wrapper
 
 		.social-box{
-			height:13em;
+			
+			height:10em;
 
 			.social-accounts{
+				
 				margin:1em;
 
 				a{
+				
 					width: 100%;
 					margin-bottom: 0.5em;
-				}
-			}
-		}
+				
+				}//a
+			}//.social-accounts
+		}//.social-box
 
 		.local-box{
+			
 			width: 85%;
 			margin: auto;
 
 			.title{
 				
 				font-size: 1em;
-			}
+			
+			}//.title
 
 			label{
+				
 				font-size: 0.8em;
 				color: rgb(150,150,150)
+			
+			}//label
+		}//.local-box
+	}//.account-form
+}//.authModal
+
+//**** create-modal ***//
+.createModal{
+
+	.modal-dialog{
+		
+		@extend .removeAnimation;		
+		@extend .large-modal;
+		
+	}
+
+	.modal-header > h3{
+		margin:auto;
+		font-size:1.2em;
+		color:$blue;
+	}
+
+	.modal-body{
+		height:77%;
+		overflow:auto;
+
+		label{
+			color:lighten($lightgray,10);
+			font-size:0.9em;
+			margin-left:5px;
+		}
+
+		.icon-wrapper{
+			position: relative;
+			height:50px;
+
+			> i {
+				
+				@include absolute-center;
+				width: 20px;
+				height: 20px;
+				color:lighten($lightgray,10);
 			}
 		}
+
+		.well{
+			
+			.semi-title{
+			
+				color:$gray;
+			
+			}
+			color:$blue;
+		}
+
+		.list-group{
+			
+			color: rgb(170,170,170);
+			font-size: 0.9em;
+			
+			.option{
+				color:$blue;
+				font-size:1em;
+			}
+			
+		}
 	}
+
+	.modal-footer{
+		margin-top:2px;
+	}
+	
+
+
 }
 

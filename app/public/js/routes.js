@@ -5,14 +5,14 @@
         url: "/",
         views: {
           'header': {
-            templateUrl: '/partials/header.html'
+            templateUrl: 'views/partials/header.html'
           },
           'utility': {
-            templateUrl: '/partials/utility.html',
+            templateUrl: 'views/partials/utility.html',
             controller: 'UtilityCtrl'
           },
           'content': {
-            templateUrl: '/partials/content.html',
+            templateUrl: 'views/partials/content.html',
             controller: 'ContentCtrl'
           }
         }
@@ -20,8 +20,9 @@
         url: 'login',
         onEnter: function($state, $modal, $location) {
           return $modal.open({
-            templateUrl: '/partials/authmodal.html',
-            controller: "AuthCtrl"
+            templateUrl: 'views/modals/authmodal.html',
+            controller: "AuthCtrl",
+            windowClass: "authModal "
           }).result.then(function() {
             return console.log('modal is open');
           }, function() {
@@ -32,8 +33,22 @@
         url: 'signup',
         onEnter: function($state, $modal, $location) {
           return $modal.open({
-            templateUrl: '/partials/authmodal.html',
-            controller: "AuthCtrl"
+            templateUrl: 'views/modals/authmodal.html',
+            controller: "AuthCtrl",
+            windowClass: 'authModal'
+          }).result.then(function() {
+            return console.log('modal is open');
+          }, function() {
+            return $location.path('/');
+          });
+        }
+      }).state('home.create', {
+        url: 'create',
+        onEnter: function($state, $modal, $location) {
+          return $modal.open({
+            templateUrl: 'views/modals/createModal.html',
+            controller: "CreateCtrl",
+            windowClass: "createModal "
           }).result.then(function() {
             return console.log('modal is open');
           }, function() {

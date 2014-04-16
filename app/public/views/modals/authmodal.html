@@ -1,15 +1,16 @@
 <section class="modal-content">	
 	<h1 hidden>accounts</h1>
 	<button type="button" ng-click="closeModal()" class="close"> ×</button>
-	
 	<div class="account-form">
-		
+		<div class="title-wrapper">
+			<p class="title">
+				<i class="glyphicon glyphicon-log-in"></i>
+				&nbsp;
+				<span>{{title}}</span>
+			</p>
+		</div>
 		<div class="social-box">
-			<div class="title-wrapper">
-				<span class="title">
-					<i  class="fa fa-comments-o"></i>&nbsp;
-				<span>{{title}}</span></span>
-			</div>
+			
 			<ul class="social-accounts">
 				<li>
 					<a href="/auth/facebook" class="btn btn-primary">	<i class="fa fa-facebook"></i> 

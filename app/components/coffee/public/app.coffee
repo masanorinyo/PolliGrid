@@ -3,10 +3,12 @@ define [
 	'angular'
 	'controllers'
 
+
 ], (
 		
 		angular
 		controllers
+
 		
 	)->
 		angular.module('myapp',[
@@ -14,6 +16,7 @@ define [
 			'ui.router'
 			'ui.bootstrap'
 			'myapp.controllers'
+			
 			
 		])
 
