@@ -78,7 +78,6 @@ define ['underscore'], ( _ )->
 
 				question.alert_emptyQuestion = false
 				question.move_toTarget = true
-				question.confirm = "Done"
 
 
 		$scope.back = ()->

@@ -55,8 +55,7 @@
           return question.alert_emptyQuestion = true;
         } else {
           question.alert_emptyQuestion = false;
-          question.move_toTarget = true;
-          return question.confirm = "Done";
+          return question.move_toTarget = true;
         }
       };
       $scope.back = function() {

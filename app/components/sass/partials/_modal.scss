@@ -168,27 +168,43 @@
 			color:$blue;
 		}
 
-		.list-group{
+		.create-question{
+			.list-group{
 			
-			color: rgb(170,170,170);
-			font-size: 0.9em;
-			
-			.option{
-				color:$blue;
-				font-size:1em;
-			}
-
-			.glyphicon{
-
-				@include absolute-center($right:20px,$left:auto);
-				font-size:1.1em;
-				height: 10px;
-				width: 10px;
+				color: rgb(170,170,170);
+				font-size: 0.9em;
 				
-				&:hover{
-					color:$red;
+				.option{
+					color:$blue;
+					font-size:1em;
+				}
+
+				.glyphicon{
+
+					@include absolute-center($right:20px,$left:auto);
+					font-size:1.1em;
+					height: 10px;
+					width: 10px;
+					
+					&:hover{
+						color:$red;
+					}
 				}
 			}
+		}
+
+
+	
+		.target-audience{
+			.form-control{
+				width:75%;
+			}
+
+			.utility-wrapper{
+				overflow:auto;
+			}
+
+
 		}
 	}
 
@@ -196,9 +212,5 @@
 		margin-top:2px;
 	}
 	
-	.fadeOutLeft{
-		display:none;
-	}
-
 }
 

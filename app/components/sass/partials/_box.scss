@@ -4,77 +4,160 @@
 	@include box-shadow(rgb(210, 210, 210) 2px 2px 5px 0px);
 	position:relative;
 	background-color:white;
-	border:1px solid rgb(220,220,220);
-	width:350px;
-	margin:10px;
-	display:inline-block;
+	padding:10px;
+}
+
+.audience-cards{
 	
-	.question{
-		margin:4em 2em 2em 2em;
-		font-size:1.2em;
-	}
-
-	.alert{
-		display:none;
-		margin:auto;
-		width:90%;
-	}
-
-	.answers{
+	@include border-radius;
+	margin-top:10px;
+	padding:10px;
+	background-color:$slightlyGray;
+	
+	.card-small{
+		overflow:auto;
+		margin-bottom:10px;
 		
-		margin:2em;
+		.title-wrapper{
+			
+			height:55px;
+			position:relative;
 
-		label{
-			color:rgb(100,100,100);
+
+			.icon-wrapper{
+				@include border-radius;
+				width:50px;
+				height:50px;
+				text-align:center;
+				border:1px dotted $Gray;
+				cursor:pointer;
+				font-size:1.2em;
+				z-index:10;
+				&:hover{
+					background-color:$blue;
+
+					i{
+						color:white
+					}
+				}
+			}
+
+			
+			.semi-title-wrapper{
+				z-index:0;
+				height: 51%;
+				margin: auto;
+				position: absolute;
+				width: 100%;
+				top: 0;
+				bottom: 0;
+
+				.semi-title{
+				
+					text-align: center;	
+				
+				}
+			}
 		}
-	}
+
+		hr{
+			margin-top:5px;
+		}
 	
-	#surveySubmit{
-		float:right;
-		margin:0 2em 2em 0;
-	}
+		.icon-wrapper{
+			height:5px;
+			cursor: pointer;
+			
+			&:hover i{
+				color:$blue;
+			}
+		}
 
-	.card-bottom{
-		clear:both;
-		position:relative;
-		height:4em;
-		width:100%;
-		bottom:0;
-		border-top:1px solid darken($slightlyGray,5);
-		
-		li{
-		
-			display:inline-block;
-
-			&.userPhoto img{
-		
-				width:4em;
-				height:4em;
-				padding:2px;
-				background-color:$lightgray;
-		
-			}//li.userPhoto > img
+		.details{
+			display:none;
+			margin-top:10px;
+			
+		}
+	}	
+}
 
 
-			.tags{
-				
-				@include absolute-center($left:5em);
-				height:30%;
-				
-				.tag{
+.content-cards{
+
+	.card-large{
+		
+		border:1px solid rgb(220,220,220);
+		width:350px;
+		margin:10px;
+		display:inline-block;
+		
+		.question{
+			margin:4em 2em 2em 2em;
+			font-size:1.2em;
+		}
+
+		.alert{
+			display:none;
+			margin:auto;
+			width:90%;
+		}
+
+		.answers{
+			
+			margin:2em;
+
+			label{
+				color:rgb(100,100,100);
+			}
+		}
+		
+		#surveySubmit{
+			float:right;
+			margin:0 2em 2em 0;
+		}
+
+		.card-bottom{
+			clear:both;
+			position:relative;
+			height:4em;
+			width:100%;
+			bottom:0;
+			border-top:1px solid darken($slightlyGray,5);
+			
+			li{
+			
+				display:inline-block;
+
+				&.userPhoto img{
+			
+					width:4em;
+					height:4em;
+					padding:2px;
+					background-color:$lightgray;
+			
+				}//li.userPhoto > img
+
+
+				.tags{
 					
-					font-size:0.8em;
-					cursor: pointer;
-
-					&:hover{
-				
-						background-color:$lightblue;
+					@include absolute-center($left:5em);
+					height:30%;
 					
-					}//tag:hover
+					.tag{
+						
+						font-size:0.8em;
+						cursor: pointer;
+
+						&:hover{
+					
+							background-color:$lightblue;
+						
+						}//tag:hover
 
 
-				}//.tag
-			}//li.tags
-		}//li
-	}//.card-bottom
-}//card
+					}//.tag
+				}//li.tags
+			}//li
+		}//.card-bottom
+	}//card
+}//content-card
