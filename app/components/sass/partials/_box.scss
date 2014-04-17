@@ -40,7 +40,7 @@
 		height:4em;
 		width:100%;
 		bottom:0;
-		border-top:1px solid darken($slightlyWhite,5);
+		border-top:1px solid darken($slightlyGray,5);
 		
 		li{
 		
@@ -68,7 +68,7 @@
 
 					&:hover{
 				
-						background-color:$bootstrap-lightblue;
+						background-color:$lightblue;
 					
 					}//tag:hover
 
