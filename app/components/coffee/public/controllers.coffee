@@ -37,7 +37,14 @@ define ['angular'], (angular) ->
 				)
 			)
 
-		
+		.controller 'NewFilterCtrl', ($scope,$injector)->
+			require(['controllers/newfilterctrl'], (newfilterctrl)->
+				$injector.invoke(
+					newfilterctrl, this,{
+						"$scope" 				: $scope
+					}
+				)
+			)
 
 
 		.controller 'ContentCtrl', ($scope, $injector)->

@@ -74,9 +74,12 @@
 		}
 
 		.details{
-			display:none;
+
 			margin-top:10px;
 			
+			.question >span{
+				color:rgb(125,125,125);
+			}
 		}
 	}	
 }

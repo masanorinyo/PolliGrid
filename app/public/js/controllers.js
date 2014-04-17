@@ -26,6 +26,12 @@
           "$timeout": $timeout
         });
       });
+    }).controller('NewFilterCtrl', function($scope, $injector) {
+      return require(['controllers/newfilterctrl'], function(newfilterctrl) {
+        return $injector.invoke(newfilterctrl, this, {
+          "$scope": $scope
+        });
+      });
     }).controller('ContentCtrl', function($scope, $injector) {
       return require(['controllers/contentctrl'], function(contentctrl) {
         return $injector.invoke(contentctrl, this, {

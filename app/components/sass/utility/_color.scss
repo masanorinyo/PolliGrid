@@ -3,6 +3,7 @@
 .bg-navy {    background-color: $Navy; }
 .bg-blue {    background-color: $Blue; }
 .bg-aqua {    background-color: $Aqua; }
+.bg-emerald{  background-color: #1D6C77 }
 .bg-teal {    background-color: $Teal; }
 .bg-olive {   background-color: $Olive; }
 .bg-green {   background-color: $Green; }
@@ -34,7 +35,7 @@
 .fuchsia {    color: $Fuchsia; }
 .purple {     color: $Purple; }
 .maroon {     color: $Maroon; }
-.white {      color: $White; }
+.white {      color: $White!important;}
 .silver {     color: $Silver; }
 .gray {       color: $Gray; }
 .black {      color: $Black; }

@@ -1,18 +1,18 @@
 <h2 hidden>create a question</h1>
 <div class="modal-header">	
-	<h3 ng-hide="question.move_toTarget" ng-class="{fadeOutLeft:question.move_toTarget,fadeInLeft:!question.move_toTarget}" class="animated">
+	<h3 ng-hide="utility.isQuestionCreated" ng-class="{fadeOutLeft:utility.isQuestionCreated,fadeInLeft:!utility.isQuestionCreated}" class="animated">
 		Create a question
 	</h3>
-	<h3 ng-show="question.move_toTarget" ng-class="{fadeInRight:question.move_toTarget, fadeOutRight:!question.move_toTarget}" class="animated">
+	<h3 ng-show="utility.isQuestionCreated" ng-class="{fadeInRight:utility.isQuestionCreated, fadeOutRight:!utility.isQuestionCreated}" class="animated">
 		Target audience
 	</h3>
 	<button type="button" ng-click="closeModal()" class="close"> ×</button>
 
 </div>
 <div class="modal-body" >
-	<div ng-hide="question.move_toTarget" ng-class="{fadeOutLeft:question.move_toTarget,fadeInLeft:!question.move_toTarget}" class="animated create-question">
+	<div ng-hide="utility.isQuestionCreated" ng-class="{fadeOutLeft:utility.isQuestionCreated,fadeInLeft:!utility.isQuestionCreated}" class="animated create-question">
 		
-		<p  ng-show="question.alert_emptyQuestion" class="alert alert-danger">
+		<p  ng-show="utility.isQuestionEmpty" class="animated fadeIn alert alert-danger">
 			You need to finish making a question. <br>
 			Please make at least two options
 		</p>
@@ -20,20 +20,20 @@
 			Question:  
 		</label>
 		
-		<input ng-model="question.problem" type="text" name="problem" id="problem" placeholder="Which one do you think ....." class="form-control">
+		<input ng-model="question.question" type="text" name="question" id="question" placeholder="Which one do you think ....." class="form-control">
 		
 		<p class='actualQuestion well'>
-			<span class="semi-title">Which one </span> {{question.problem}}
+			<span class="semi-title">Which one </span> {{question.question}}
 		</p>
 		<hr>
-		<form ng-submit="createOption(question.newAnswer)" class="create-answers">
+		<form ng-submit="createOption(question.newOption)" class="create-answers">
 			
-			<label for="newAnswer" class="explanation">
+			<label for="newOption" class="explanation">
 				What are the options?
 			</label>
 			
 			<div class="input-group">
-				<input ng-model="question.newAnswer" id="newAnswer" type="text" name="newAnswer" placeholder="option ..."  class="form-control">
+				<input ng-model="question.newOption" id="newOption" type="text" name="newOption" placeholder="option ..."  class="form-control">
 				<span class="input-group-btn">
 					<input type="submit" value="Save" class="btn btn-default">
 				</span>
@@ -41,10 +41,10 @@
 			
 		</form>
 		
-		<div ng-class="{fadeOutDown:question.optionAdded}" class="icon-wrapper animated">
+		<div ng-class="{fadeOutDown:utility.isOptionAdded}" class="icon-wrapper animated">
 			<i class="glyphicon glyphicon-chevron-down"></i>
 		</div>
-		<div ng-show="question.alert_sameOption" class="alert alert-warning">
+		<div ng-show="utility.isSameOptionFound" class="animated fadeIn alert alert-warning">
 			The same option already created
 		</div>
 		
@@ -57,151 +57,54 @@
 		</ul>
 	</div>
 
-	<div ng-show="question.move_toTarget" ng-class="{fadeInRight:question.move_toTarget,fadeOutRight :!question.move_toTarget}" class="animated target-audience">
+	<div ng-show="utility.isQuestionCreated" ng-class="{fadeInRight:utility.isQuestionCreated,fadeOutRight :!utility.isQuestionCreated}" class="animated target-audience">
 		<label for="">
 			search filters or create your own:
 		</label>
 		<div class="utility-wrapper">
-			<input type="text" placeholder="Filter responses by ..." name="search" class="pull-left search form-control" >
+			<input ng-model="search.$" type="text" placeholder="Filter responses by ..." name="search" class="pull-left search form-control" >
 			<button class="pull-right btn btn-default">
 				Create
 			</button>
 		</div>
+		
 		<hr>
+
 		<ul class='clear audience-cards'>
-			<li class="card card-small">
+			<li ng-repeat="target in targets | filter:search" class="card card-small">
 				<div class="title-wrapper">
-					<div class="pull-left icon-wrapper">
-						<i class="glyphicon glyphicon-plus"></i>
+					<div ng-click="addFilter(target)" ng-class="{'bg-blue':target.isFilterAdded}" class="pull-left icon-wrapper">
+						<i ng-class="{'glyphicon-plus':!target.isFilterAdded,'glyphicon-ok white':target.isFilterAdded}"class="glyphicon"></i>
 					</div>
 					<div class="semi-title-wrapper">
 						<p class="semi-title">
-							By <span>Age</span>
+							<span>{{target.title}}</span>
 						</p>
 					</div>
 				</div>
 				<hr>
-				<div class="icon-wrapper">
-					<i class="glyphicon glyphicon-chevron-down"></i>
+				<div ng-click="target.showDetails = !target.showDetails" class="icon-wrapper">
+					<i ng-class="{'glyphicon-chevron-down':!target.showDetails,'glyphicon-chevron-up':target.showDetails}" class="glyphicon"></i>
 				</div>
-				<div class="details animated fadeInDown">
-					<label class="explanation">
-						Filter responses by certain age groups
+				<div ng-show="target.showDetails" class="details animated fadeInDown">
+					<label class="question">
+						Question: <span>{{target.question}}</span>
 					</label>
 					<ul class="list-group">
-						<li class="list-group-item">
-							 ~ 10
-						</li>
-						<li class="list-group-item">
-							11 ~ 20
-						</li>
-						<li class="list-group-item">
-							21 ~ 30
-						</li>
-						<li class="list-group-item">
-							31 ~ 40
-						</li>
-						<li class="list-group-item">
-							41 ~ 50
-						</li>
-						<li class="list-group-item">
-							51 ~
+						<li ng-repeat="list in target.lists" class="list-group-item">
+							 {{list}}
 						</li>
 					</ul>
-
 				</div>
 			</li>
-			<li class="card card-small">
-				<div class="title-wrapper">
-					<div class="pull-left icon-wrapper">
-						<i class="glyphicon glyphicon-plus"></i>
-					</div>
-					<div class="semi-title-wrapper">
-						<p class="semi-title">
-							By <span>Age</span>
-						</p>
-					</div>
-				</div>
-				<hr>
-				<div class="icon-wrapper">
-					<i class="glyphicon glyphicon-chevron-down"></i>
-				</div>
-				<div class="details animated fadeInDown">
-					<label class="explanation">
-						Filter responses by certain age groups
-					</label>
-					<ul class="list-group">
-						<li class="list-group-item">
-							 ~ 10
-						</li>
-						<li class="list-group-item">
-							11 ~ 20
-						</li>
-						<li class="list-group-item">
-							21 ~ 30
-						</li>
-						<li class="list-group-item">
-							31 ~ 40
-						</li>
-						<li class="list-group-item">
-							41 ~ 50
-						</li>
-						<li class="list-group-item">
-							51 ~
-						</li>
-					</ul>
-
-				</div>
-			</li>
-			<li class="card card-small">
-				<div class="title-wrapper">
-					<div class="pull-left icon-wrapper">
-						<i class="glyphicon glyphicon-plus"></i>
-					</div>
-					<div class="semi-title-wrapper">
-						<p class="semi-title">
-							By <span>Age</span>
-						</p>
-					</div>
-				</div>
-				<hr>
-				<div class="icon-wrapper">
-					<i class="glyphicon glyphicon-chevron-down"></i>
-				</div>
-				<div class="details animated fadeInDown">
-					<label class="explanation">
-						Filter responses by certain age groups
-					</label>
-					<ul class="list-group">
-						<li class="list-group-item">
-							 ~ 10
-						</li>
-						<li class="list-group-item">
-							11 ~ 20
-						</li>
-						<li class="list-group-item">
-							21 ~ 30
-						</li>
-						<li class="list-group-item">
-							31 ~ 40
-						</li>
-						<li class="list-group-item">
-							41 ~ 50
-						</li>
-						<li class="list-group-item">
-							51 ~
-						</li>
-					</ul>
-
-				</div>
-			</li>
+			
 			
 		</ul>
 	</div>
 
 </div>
 <div class="modal-footer">
-	<button ng-show="question.move_toTarget" class="pull-left btn btn-default" ng-click="back()">Back</button>
+	<button ng-show="utility.isQuestionCreated" class="pull-left btn btn-default" ng-click="back()">Back</button>
 	<button class="btn btn-default" ng-click="closeModal()">Cancel</button>
-	<button class="btn btn-primary" ng-click="submitQuestion()">{{question.confirm}}</button>
+	<button class="btn btn-primary" ng-click="submitQuestion()">{{utility.confirm}}</button>
 </div>

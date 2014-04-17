@@ -2,25 +2,60 @@ define ['underscore'], ( _ )->
 	($scope,$modalInstance,$location,$timeout)->
 		
 		# --------------------- Functions for utility --------------------- #
+		
 		findSameOption = (item)->
 			
-			if item == question.newAnswer then true else false
+			if item == question.newOption then true else false
 				
 		
 		# ----------------- Scope functions and variables ----------------- #
 		# --- variables  --- #
 		
+		utility = $scope.utility =
+			confirm 			:'next'
+			isOptionAdded 		: false
+			isSameOptionFound  	: false
+			isQuestionEmpty 	: false
+			isQuestionCreated	: true
+			readyToMakeNewFilter: true
+
 		question = $scope.question = 
 			
-			newAnswer 			: ""
-			problem 			: ""
-			confirm 			: "next"
+			newOption 			: ""
+			question 			: ""
 			options 			: []
-			optionAdded 		: false
-			alert_sameOption  	: false
-			alert_emptyQuestion : false
-			move_toTarget 		: true
+			targets 			: []
 			
+
+		target = $scope.targets = [
+			{
+				title 			: "Age"
+				question 		: "How old are you?"
+				showDetails 	: false
+				isFilterAdded 	: false
+				lists:[
+
+					"~ 10"
+					"11 ~ 20"
+					"21 ~ 30"
+					"31 ~ 40"
+					"41 ~ 50"
+					"51 ~ 60"
+					"61 ~ "
+				]
+			}
+			{
+				title: "Ethnicity"
+				question: "What is your ethnicity?"
+				lists:[
+
+					"Asian"
+					"Hispanic"
+					"Caucasian"
+					"African-American"
+				]
+			}
+		]
 
 		# --- functions --- #
 		
@@ -30,7 +65,6 @@ define ['underscore'], ( _ )->
 
 			$timeout ->
 				$location.path('/')
-
 
 		$scope.createOption	= (option)->
 
@@ -43,24 +77,23 @@ define ['underscore'], ( _ )->
 
 			else if sameOptionFound 
 				
-				question.alert_sameOption = true 
+				utility.isSameOptionFound = true 
 			
 			else 
 
 				question.options.push(option)
-				question.optionAdded = true
-				question.alert_sameOption = false 
+				utility.isOptionAdded = true
+				utility.isSameOptionFound = false 
 				$timeout ->
-					question.optionAdded = false
+					utility.isOptionAdded = false
 				,500,true
 
-			question.newAnswer = ''
+			question.newOption = ''
 
 		$scope.removeOption = (index)->
 
 			question.options.splice(index,1)
 			
-
 		$scope.submitQuestion = ()->
 			
 			enoughOptions = false
@@ -70,19 +103,32 @@ define ['underscore'], ( _ )->
 				enoughOptions = true
 
 
-			if question.problem is "" or !question.problem or !enoughOptions
+			if question.question is "" or !question.question or !enoughOptions
 				
-				question.alert_emptyQuestion = true	
+				utility.isQuestionEmpty = true	
 			
 			else
 
-				question.alert_emptyQuestion = false
-				question.move_toTarget = true
+				utility.isQuestionEmpty = false
+				utility.isQuestionCreated = true
+
+		$scope.addFilter = (target)->
+			
+			target.isFilterAdded = !target.isFilterAdded
+
+			if target.isFilterAdded 
+				question.targets.push(target)
+			else
+				# remove the index #
+				index = question.targets.indexOf(target)
+				question.targets.splice(index,1)
+			
+			console.log question
 
 
 		$scope.back = ()->
-			question.move_toTarget = false
-			question.confirm = "Next"
+			utility.isQuestionCreated = false
+			utility.confirm = "Next"
 
 
 		# --- invoke the scope --- #

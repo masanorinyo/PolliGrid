@@ -196,12 +196,24 @@
 
 	
 		.target-audience{
-			.form-control{
-				width:75%;
+			
+			.utility-wrapper{
+			
+				overflow:auto;
+				
+				.form-control{
+					width:75%;
+				}
 			}
 
-			.utility-wrapper{
-				overflow:auto;
+			.newFilterCreator{
+				@include border-radius(10px);
+				padding:10px;
+				overflow: auto;
+
+				label{
+					color:white;
+				}
 			}
 
 

@@ -2,12 +2,14 @@ define [
 
 	'angular'
 	'controllers'
+	'directives'
 
 
 ], (
 		
 		angular
 		controllers
+		directives
 
 		
 	)->
@@ -16,6 +18,7 @@ define [
 			'ui.router'
 			'ui.bootstrap'
 			'myapp.controllers'
+			'myapp.directives'
 			
 			
 		])

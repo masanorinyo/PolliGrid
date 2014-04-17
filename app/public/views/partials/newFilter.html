@@ -1,0 +1,20 @@
+<div class="newFilterCreator">
+	<form ng-submit="addNewFilter(newFilter)" ng-show="utility.readyToMakeNewFilter" class="bg-emerald">
+		<label for="filterTopic">New filter topic: </label>
+		<input type="text" placeholder="job, country, etc" name="topic" id="filterTopic" class='form-control'>
+		<br>
+		<label for="">Options: </label>
+		
+		<div class="input-group">
+			<input ng-model="" type="text" placeholder="IT professionals,East Asia, etc" class='form-control'>
+			<span class="input-group-btn">
+				<input type="submit" value="Save" class="btn btn-default">
+			</span>
+		</div>
+		<br>
+		<ul class="list-group">
+			<li class="list-group-item">{{test}}</li>
+		</ul>
+	</form>
+	<button ng-click="submitNewFilter()" class="btn btn-primary pull-right">Submit</button>
+</div>
