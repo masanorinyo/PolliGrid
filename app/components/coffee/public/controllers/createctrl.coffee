@@ -9,15 +9,18 @@ define ['underscore'], ( _ )->
 		
 		# ----------------- Scope functions and variables ----------------- #
 		# --- variables  --- #
-
-		options = $scope.options = []
-
-		question = $scope.question = ()->
+		
+		question = $scope.question = 
 			
-			newAnswer 		: ""
-			problem 		: ""
-			alertBox  		: false
-			added 			: false
+			newAnswer 			: ""
+			problem 			: ""
+			confirm 			: "next"
+			options 			: []
+			optionAdded 		: false
+			alert_sameOption  	: false
+			alert_emptyQuestion : false
+			move_toTarget 		: true
+			
 
 		# --- functions --- #
 		
@@ -28,23 +31,59 @@ define ['underscore'], ( _ )->
 			$timeout ->
 				$location.path('/')
 
-			console.log(question.newAnswer)
-
 
 		$scope.createOption	= (option)->
 
-			sameOptionFound = _.find(options,findSameOption)
-			question.newAnswer = ''
+			sameOptionFound = _.find(question.options,findSameOption)
 			
-			if sameOptionFound
+
+			if option is "" or !option
+
+				return false
+
+			else if sameOptionFound 
 				
-				question.alertBox = true 
+				question.alert_sameOption = true 
 			
 			else 
-				question.added = true
-				question.alertBox = false 
-				options.push(option)
 
+				question.options.push(option)
+				question.optionAdded = true
+				question.alert_sameOption = false 
+				$timeout ->
+					question.optionAdded = false
+				,500,true
+
+			question.newAnswer = ''
+
+		$scope.removeOption = (index)->
+
+			question.options.splice(index,1)
+			
+
+		$scope.submitQuestion = ()->
+			
+			enoughOptions = false
+			
+			if _.size(question.options) >= 2
+				
+				enoughOptions = true
+
+
+			if question.problem is "" or !question.problem or !enoughOptions
+				
+				question.alert_emptyQuestion = true	
+			
+			else
+
+				question.alert_emptyQuestion = false
+				question.move_toTarget = true
+				question.confirm = "Done"
+
+
+		$scope.back = ()->
+			question.move_toTarget = false
+			question.confirm = "Next"
 
 
 		# --- invoke the scope --- #
