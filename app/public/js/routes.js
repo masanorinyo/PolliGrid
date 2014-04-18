@@ -48,7 +48,7 @@
           return $modal.open({
             templateUrl: 'views/modals/createModal.html',
             controller: "CreateCtrl",
-            windowClass: "createModal "
+            windowClass: "createModal"
           }).result.then(function() {
             return console.log('modal is open');
           }, function() {

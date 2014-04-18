@@ -1,12 +1,11 @@
-define ['angular'], (angular) ->
-	angular.module('myapp.directives', [])
-		
-		.directives 'newFilter', ()->
-			restrict:'A'
-			templateUrl:'views/partials/newFilter.html'
-			controller: NewFilterCtrl
-			link:(scope,elem,attr)->
-				console.log 'test'
+define ['angular','controllers'], (angular,controllers) ->
+	angular.module('myapp.directives', ['myapp.controllers'])
+		.directive 'newFilter',()->
+			restrict 	: 'EA'
+			templateUrl : 'views/partials/newfilter.html'
+			controller 	: 'NewFilterCtrl'
 			
 
 		
+
+			

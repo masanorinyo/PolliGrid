@@ -63,14 +63,21 @@
 		</label>
 		<div class="utility-wrapper">
 			<input ng-model="search.$" type="text" placeholder="Filter responses by ..." name="search" class="pull-left search form-control" >
-			<button class="pull-right btn btn-default">
+			<button ng-click="openCreateFilterBox()" class="pull-right btn btn-default">
 				Create
 			</button>
 		</div>
 		
 		<hr>
 
+		<div ng-show="utility.readyToMakeNewFilter">
+			<div new-filter></div>
+
+		</div>
 		<ul class='clear audience-cards'>
+			<p class="hiddenMessage">
+				No filters were found
+			</p>
 			<li ng-repeat="target in targets | filter:search" class="card card-small">
 				<div class="title-wrapper">
 					<div ng-click="addFilter(target)" ng-class="{'bg-blue':target.isFilterAdded}" class="pull-left icon-wrapper">
@@ -83,22 +90,20 @@
 					</div>
 				</div>
 				<hr>
-				<div ng-click="target.showDetails = !target.showDetails" class="icon-wrapper">
-					<i ng-class="{'glyphicon-chevron-down':!target.showDetails,'glyphicon-chevron-up':target.showDetails}" class="glyphicon"></i>
+				<div ng-click="showDetails = !showDetails" class="icon-wrapper">
+					<i ng-class="{'glyphicon-chevron-down':!showDetails,'glyphicon-chevron-up':showDetails}" class="glyphicon"></i>
 				</div>
-				<div ng-show="target.showDetails" class="details animated fadeInDown">
+				<div ng-show="showDetails" class="details animated fadeInDown">
 					<label class="question">
 						Question: <span>{{target.question}}</span>
 					</label>
 					<ul class="list-group">
-						<li ng-repeat="list in target.lists" class="list-group-item">
+						<li ng-repeat="list in target.lists" class="animated fadeIn list-group-item">
 							 {{list}}
 						</li>
 					</ul>
 				</div>
 			</li>
-			
-			
 		</ul>
 	</div>
 

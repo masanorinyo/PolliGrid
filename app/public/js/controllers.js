@@ -1,6 +1,6 @@
 (function() {
-  define(['angular'], function(angular) {
-    return angular.module('myapp.controllers', []).controller('WhichOneCtrl', function($scope) {
+  define(['angular', 'services'], function(angular) {
+    return angular.module('myapp.controllers', ['myapp.services']).controller('WhichOneCtrl', function($scope) {
       return $scope.whichone = 'whichone';
     }).controller('UtilityCtrl', function($scope, $injector) {
       return require(['controllers/utilityctrl'], function(utilityctrl) {
@@ -17,19 +17,22 @@
           "$timeout": $timeout
         });
       });
-    }).controller('CreateCtrl', function($scope, $injector, $modalInstance, $location, $timeout) {
+    }).controller('CreateCtrl', function($scope, $injector, $modalInstance, $location, $timeout, filters) {
       return require(['controllers/createctrl'], function(createctrl) {
         return $injector.invoke(createctrl, this, {
           "$scope": $scope,
           "$modalInstance": $modalInstance,
           "$location": $location,
-          "$timeout": $timeout
+          "$timeout": $timeout,
+          "filters": filters
         });
       });
-    }).controller('NewFilterCtrl', function($scope, $injector) {
+    }).controller('NewFilterCtrl', function($scope, $injector, $timeout, filters) {
       return require(['controllers/newfilterctrl'], function(newfilterctrl) {
         return $injector.invoke(newfilterctrl, this, {
-          "$scope": $scope
+          "$scope": $scope,
+          "$timeout": $timeout,
+          "filters": filters
         });
       });
     }).controller('ContentCtrl', function($scope, $injector) {

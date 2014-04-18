@@ -1,13 +1,10 @@
 (function() {
-  define(['angular'], function(angular) {
-    return angular.module('myapp.directives', []).directives('newFilter', function() {
+  define(['angular', 'controllers'], function(angular, controllers) {
+    return angular.module('myapp.directives', ['myapp.controllers']).directive('newFilter', function() {
       return {
-        restrict: 'A',
-        templateUrl: 'views/partials/newFilter.html',
-        controller: NewFilterCtrl,
-        link: function(scope, elem, attr) {
-          return console.log('test');
-        }
+        restrict: 'EA',
+        templateUrl: 'views/partials/newfilter.html',
+        controller: 'NewFilterCtrl'
       };
     });
   });

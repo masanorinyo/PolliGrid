@@ -1,20 +1,70 @@
-<div class="newFilterCreator">
-	<form ng-submit="addNewFilter(newFilter)" ng-show="utility.readyToMakeNewFilter" class="bg-emerald">
-		<label for="filterTopic">New filter topic: </label>
-		<input type="text" placeholder="job, country, etc" name="topic" id="filterTopic" class='form-control'>
-		<br>
-		<label for="">Options: </label>
+<div ng-class="{fadeOut:!utility.readyToMakeNewFilter}" class="newFilterCreator bg-emerald animated fadeIn">
+	
+	<label for="filterTitle">
+
+		New filter title: 
+
+	</label>
+	
+	<input ng-model="newFilter.title" type="text" placeholder="ex) job, etc" name="title" id="filterTitle" class='form-control'>
+	
+	<br>
+
+	<label for="filterQuestion">
+
+		Question: 
+
+	</label>
+
+	<input ng-model="newFilter.question" type="text" placeholder="ex) What kind of job do you have? " name="question" id="filterQuestion" class='form-control'>
+	
+	<br>
+
+
+	<form ng-submit="addNewList(filterUtil.newList)" ng-show="utility.readyToMakeNewFilter">
+		
+		<label for="">
+			Options: 
+		</label>
 		
 		<div class="input-group">
-			<input ng-model="" type="text" placeholder="IT professionals,East Asia, etc" class='form-control'>
+			
+			<input ng-model="filterUtil.newList" type="text" placeholder="ex) IT professionals, Accountants, etc" class='form-control'>
+			
 			<span class="input-group-btn">
+				
 				<input type="submit" value="Save" class="btn btn-default">
+			
 			</span>
+		
 		</div>
+		
 		<br>
+		
 		<ul class="list-group">
-			<li class="list-group-item">{{test}}</li>
+			<li ng-repeat="list in newFilter.lists" class="animated fadeInLeft list-group-item">
+				{{list}}
+			</li>
 		</ul>
+	
 	</form>
-	<button ng-click="submitNewFilter()" class="btn btn-primary pull-right">Submit</button>
+
+	<div ng-show="filterUtil.sameListFound" class="alert alert-warning">
+		The same option already created
+	</div>
+
+	<div ng-show="filterUtil.isNotFilledOut" class="alert alert-warning">
+		<ul>
+			<li>You need to fill out everything</li>
+			<li>You have to make at least two options</li>
+		</ul>
+	</div>
+
+	<button ng-click="cancelToMakeFIlter()" class="btn btn-default pull-left">
+		Cancel
+	</button>
+
+	<button id="newFilterSubmission" ng-click="submitNewFilter(newFilter)" class="btn btn-primary pull-right">
+		Submit
+	</button>
 </div>

@@ -3,6 +3,8 @@ define [
 	'angular'
 	'controllers'
 	'directives'
+	'services'
+	'filters'
 
 
 ], (
@@ -10,6 +12,8 @@ define [
 		angular
 		controllers
 		directives
+		services
+		filters
 
 		
 	)->
@@ -19,6 +23,8 @@ define [
 			'ui.bootstrap'
 			'myapp.controllers'
 			'myapp.directives'
+			'myapp.services'
+			'myapp.filters'
 			
 			
 		])

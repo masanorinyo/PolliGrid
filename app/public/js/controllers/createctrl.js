@@ -1,41 +1,30 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modalInstance, $location, $timeout) {
-      var findSameOption, question, target, utility;
+    return function($scope, $modalInstance, $location, $timeout, filters, question) {
+      var findSameOption, newQuestion, targets, utility;
       findSameOption = function(item) {
-        if (item === question.newOption) {
+        if (item === newQuestion.newOption) {
           return true;
         } else {
           return false;
         }
       };
-      utility = $scope.utility = {
-        confirm: 'next',
-        isOptionAdded: false,
-        isSameOptionFound: false,
-        isQuestionEmpty: false,
-        isQuestionCreated: true,
-        readyToMakeNewFilter: true
-      };
-      question = $scope.question = {
+      newQuestion = $scope.question = {
         newOption: "",
         question: "",
         options: [],
         targets: []
       };
-      target = $scope.targets = [
-        {
-          title: "Age",
-          question: "How old are you?",
-          showDetails: false,
-          isFilterAdded: false,
-          lists: ["~ 10", "11 ~ 20", "21 ~ 30", "31 ~ 40", "41 ~ 50", "51 ~ 60", "61 ~ "]
-        }, {
-          title: "Ethnicity",
-          question: "What is your ethnicity?",
-          lists: ["Asian", "Hispanic", "Caucasian", "African-American"]
-        }
-      ];
+      targets = $scope.targets = filters;
+      $scope.showDetails = false;
+      utility = $scope.utility = {
+        confirm: 'Next',
+        isOptionAdded: false,
+        isSameOptionFound: false,
+        isQuestionEmpty: false,
+        readyToMakeNewFilter: false,
+        isQuestionCreated: false
+      };
       $scope.closeModal = function() {
         $scope.$dismiss();
         return $timeout(function() {
@@ -44,51 +33,56 @@
       };
       $scope.createOption = function(option) {
         var sameOptionFound;
-        sameOptionFound = _.find(question.options, findSameOption);
+        sameOptionFound = _.find(newQuestion.options, findSameOption);
         if (option === "" || !option) {
           return false;
         } else if (sameOptionFound) {
           utility.isSameOptionFound = true;
         } else {
-          question.options.push(option);
+          newQuestion.options.push(option);
           utility.isOptionAdded = true;
           utility.isSameOptionFound = false;
           $timeout(function() {
             return utility.isOptionAdded = false;
           }, 500, true);
         }
-        return question.newOption = '';
+        return newQuestion.newOption = '';
       };
       $scope.removeOption = function(index) {
-        return question.options.splice(index, 1);
+        return newQuestion.options.splice(index, 1);
       };
       $scope.submitQuestion = function() {
         var enoughOptions;
         enoughOptions = false;
-        if (_.size(question.options) >= 2) {
+        if (_.size(newQuestion.options) >= 2) {
           enoughOptions = true;
         }
-        if (question.question === "" || !question.question || !enoughOptions) {
+        if (newQuestion.question === "" || !newQuestion.question || !enoughOptions) {
           return utility.isQuestionEmpty = true;
         } else {
           utility.isQuestionEmpty = false;
-          return utility.isQuestionCreated = true;
+          utility.isQuestionCreated = true;
+          return utility.confirm = 'Done';
         }
       };
       $scope.addFilter = function(target) {
         var index;
         target.isFilterAdded = !target.isFilterAdded;
         if (target.isFilterAdded) {
-          question.targets.push(target);
+          newQuestion.targets.push(target);
         } else {
-          index = question.targets.indexOf(target);
-          question.targets.splice(index, 1);
+          index = newQuestion.targets.indexOf(target);
+          newQuestion.targets.splice(index, 1);
         }
-        return console.log(question);
+        console.log(question);
+        return console.log(filters);
       };
       $scope.back = function() {
         utility.isQuestionCreated = false;
         return utility.confirm = "Next";
+      };
+      $scope.openCreateFilterBox = function() {
+        return utility.readyToMakeNewFilter = !utility.readyToMakeNewFilter;
       };
       return $scope.$apply();
     };

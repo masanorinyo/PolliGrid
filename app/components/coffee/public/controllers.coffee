@@ -1,5 +1,5 @@
-define ['angular'], (angular) ->
-	angular.module('myapp.controllers', [])
+define ['angular','services'], (angular) ->
+	angular.module('myapp.controllers', ['myapp.services'])
 		
 		.controller 'WhichOneCtrl', ($scope)->
 			$scope.whichone = 'whichone'
@@ -25,7 +25,7 @@ define ['angular'], (angular) ->
 				)
 			)
 
-		.controller 'CreateCtrl', ($scope, $injector,$modalInstance,$location,$timeout)->
+		.controller 'CreateCtrl', ($scope, $injector,$modalInstance,$location,$timeout,filters)->
 			require(['controllers/createctrl'], (createctrl)->
 				$injector.invoke(
 					createctrl, this,{
@@ -33,19 +33,21 @@ define ['angular'], (angular) ->
 						"$modalInstance" 		: $modalInstance
 						"$location" 	 		: $location
 						"$timeout" 				: $timeout
+						"filters" 				: filters
 					}
 				)
 			)
 
-		.controller 'NewFilterCtrl', ($scope,$injector)->
+		.controller 'NewFilterCtrl', ($scope,$injector,$timeout,filters)->
 			require(['controllers/newfilterctrl'], (newfilterctrl)->
 				$injector.invoke(
 					newfilterctrl, this,{
 						"$scope" 				: $scope
+						"$timeout" 				: $timeout
+						"filters" 				: filters
 					}
 				)
 			)
-
 
 		.controller 'ContentCtrl', ($scope, $injector)->
 			require(['controllers/contentctrl'], (contentctrl)->

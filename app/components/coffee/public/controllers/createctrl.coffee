@@ -1,61 +1,38 @@
 define ['underscore'], ( _ )->
-	($scope,$modalInstance,$location,$timeout)->
+	($scope,$modalInstance,$location,$timeout,filters,question)->
 		
 		# --------------------- Functions for utility --------------------- #
 		
 		findSameOption = (item)->
 			
-			if item == question.newOption then true else false
+			if item == newQuestion.newOption then true else false
 				
 		
 		# ----------------- Scope functions and variables ----------------- #
-		# --- variables  --- #
-		
-		utility = $scope.utility =
-			confirm 			:'next'
-			isOptionAdded 		: false
-			isSameOptionFound  	: false
-			isQuestionEmpty 	: false
-			isQuestionCreated	: true
-			readyToMakeNewFilter: true
+		# ---  data --- #
 
-		question = $scope.question = 
-			
+		newQuestion = $scope.question = 
 			newOption 			: ""
 			question 			: ""
 			options 			: []
 			targets 			: []
+				
+		targets = $scope.targets = filters
 			
+		
+		# --- variables  --- #
+		
+		$scope.showDetails 		= false
 
-		target = $scope.targets = [
-			{
-				title 			: "Age"
-				question 		: "How old are you?"
-				showDetails 	: false
-				isFilterAdded 	: false
-				lists:[
+		utility = $scope.utility =
+			confirm 			: 'Next'
+			isOptionAdded 		: false
+			isSameOptionFound  	: false
+			isQuestionEmpty 	: false
+			readyToMakeNewFilter: false
+			isQuestionCreated	: false
 
-					"~ 10"
-					"11 ~ 20"
-					"21 ~ 30"
-					"31 ~ 40"
-					"41 ~ 50"
-					"51 ~ 60"
-					"61 ~ "
-				]
-			}
-			{
-				title: "Ethnicity"
-				question: "What is your ethnicity?"
-				lists:[
-
-					"Asian"
-					"Hispanic"
-					"Caucasian"
-					"African-American"
-				]
-			}
-		]
+		
 
 		# --- functions --- #
 		
@@ -68,7 +45,7 @@ define ['underscore'], ( _ )->
 
 		$scope.createOption	= (option)->
 
-			sameOptionFound = _.find(question.options,findSameOption)
+			sameOptionFound = _.find(newQuestion.options,findSameOption)
 			
 
 			if option is "" or !option
@@ -81,55 +58,63 @@ define ['underscore'], ( _ )->
 			
 			else 
 
-				question.options.push(option)
+				newQuestion.options.push(option)
 				utility.isOptionAdded = true
 				utility.isSameOptionFound = false 
 				$timeout ->
 					utility.isOptionAdded = false
 				,500,true
 
-			question.newOption = ''
+			newQuestion.newOption = ''
 
 		$scope.removeOption = (index)->
 
-			question.options.splice(index,1)
+			newQuestion.options.splice(index,1)
 			
 		$scope.submitQuestion = ()->
 			
 			enoughOptions = false
 			
-			if _.size(question.options) >= 2
+			if _.size(newQuestion.options) >= 2
 				
 				enoughOptions = true
 
 
-			if question.question is "" or !question.question or !enoughOptions
+			if newQuestion.question is "" or !newQuestion.question or !enoughOptions
 				
 				utility.isQuestionEmpty = true	
 			
 			else
 
-				utility.isQuestionEmpty = false
-				utility.isQuestionCreated = true
+				utility.isQuestionEmpty 	= false
+				utility.isQuestionCreated 	= true
+				utility.confirm 		  	= 'Done'
+
 
 		$scope.addFilter = (target)->
 			
 			target.isFilterAdded = !target.isFilterAdded
 
 			if target.isFilterAdded 
-				question.targets.push(target)
+				newQuestion.targets.push(target)
 			else
 				# remove the index #
-				index = question.targets.indexOf(target)
-				question.targets.splice(index,1)
+				index = newQuestion.targets.indexOf(target)
+				newQuestion.targets.splice(index,1)
 			
 			console.log question
+			console.log filters
 
 
 		$scope.back = ()->
 			utility.isQuestionCreated = false
 			utility.confirm = "Next"
 
+		$scope.openCreateFilterBox = ()->
+
+			utility.readyToMakeNewFilter = !utility.readyToMakeNewFilter
+
+			
 
 		# --- invoke the scope --- #
 		

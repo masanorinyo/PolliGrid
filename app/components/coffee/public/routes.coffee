@@ -73,7 +73,7 @@ define(
 						
 							templateUrl : 'views/modals/createModal.html'
 							controller 	: "CreateCtrl"
-							windowClass : "createModal "
+							windowClass : "createModal"
 							
 						
 						).result.then ()->
