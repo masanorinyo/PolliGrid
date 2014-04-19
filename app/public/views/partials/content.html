@@ -6,7 +6,7 @@
      
 	<div class="input-group search">
 		
-		<input ng-model="searchQuestion.$" type="text" placeholder="Search..."class="form-control">
+		<input ng-model="searchQuestion" type="text" placeholder="Search..."class="form-control">
 			
 		<span class="input-group-addon">
 			<i class="glyphicon glyphicon-search"></i>
@@ -51,13 +51,11 @@
 							<img src="/img/profile-pic.jpg" alt="masanorinyo">
 						</a>
 					</li>
-					<li>
-						<ul class="tags">
-							<li class='tag label label-default'>business</li>
-							<li class='tag label label-default'>crazu</li>
-							<li class='tag label label-default'>test</li>
-							<li class='tag label label-default'>wow</li>
-						</ul>
+					<li class='category silver'>
+						category: 
+						<span ng-click="searchByCategory(question.category)" class='name gray'>
+							{{question.category}}
+						</span>
 					</li>
 				</ul>
 			</div>

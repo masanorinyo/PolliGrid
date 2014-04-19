@@ -4,7 +4,6 @@
 	@include box-shadow(rgb(210, 210, 210) 2px 2px 5px 0px);
 	position:relative;
 	background-color:white;
-	padding:10px;
 }
 
 .audience-cards{
@@ -16,9 +15,11 @@
 	background-color:$slightlyGray;
 	
 	.card-small{
+		
 		overflow:auto;
 		margin-bottom:10px;
-		
+		padding:10px;
+
 		.title-wrapper{
 			
 			height:55px;
@@ -150,19 +151,21 @@
 				}//li.userPhoto > img
 
 
-				.tags{
+				&.category{
 					
 					@include absolute-center($left:5em);
 					height:30%;
 					
-					.tag{
-						
-						font-size:0.8em;
+					.name{
+					
+						margin-left:10px;
+						padding:5px 10px;
+						font-size:1.1em;
 						cursor: pointer;
 
 						&:hover{
-					
-							background-color:$lightblue;
+
+							color:$lightblue;
 						
 						}//tag:hover
 

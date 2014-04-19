@@ -30,7 +30,13 @@ define ['angular'], (angular) ->
 			]
 
 		.factory 'question', ()->
-			question = []
+			question = [
+				newOption 			: ""
+				question 			: "of the following best describes you"
+				category 			: "lifestyle"
+				options 			: ['positive','negative']
+				targets 			: []
+			]
 				
 				
 			

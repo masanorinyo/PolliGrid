@@ -15,7 +15,15 @@
       ];
     }).factory('question', function() {
       var question;
-      return question = [];
+      return question = [
+        {
+          newOption: "",
+          question: "of the following best describes you",
+          category: "lifestyle",
+          options: ['positive', 'negative'],
+          targets: []
+        }
+      ];
     });
   });
 
