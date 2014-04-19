@@ -21,7 +21,7 @@
 	<br>
 
 
-	<form ng-submit="addNewList(filterUtil.newList)" ng-show="utility.readyToMakeNewFilter">
+	<form ng-submit="addNewList(filterUtil.newList)">
 		
 		<label for="">
 			Options: 
@@ -43,7 +43,8 @@
 		
 		<ul class="list-group">
 			<li ng-repeat="list in newFilter.lists" class="animated fadeInLeft list-group-item">
-				{{list}}
+				<span class="option">{{list}}</span>
+				<i ng-click="removeList($index)" class="glyphicon glyphicon-remove pointer"></i>
 			</li>
 		</ul>
 	

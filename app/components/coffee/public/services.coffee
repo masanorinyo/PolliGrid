@@ -5,7 +5,6 @@ define ['angular'], (angular) ->
 				{
 					title 			: "Age"
 					question 		: "How old are you?"
-					isFilterAdded 		: false
 					lists:[
 
 						"~ 10"
@@ -20,7 +19,6 @@ define ['angular'], (angular) ->
 				{
 					title: "Ethnicity"
 					question: "What is your ethnicity?"
-					isFilterAdded 		: false
 					lists:[
 
 						"Asian"
@@ -32,6 +30,7 @@ define ['angular'], (angular) ->
 			]
 
 		.factory 'question', ()->
-			question =[]
+			question = []
+				
 				
 			

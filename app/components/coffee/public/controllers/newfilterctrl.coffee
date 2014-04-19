@@ -1,25 +1,29 @@
 define ['underscore'], ( _ )->
 	($scope,$timeout,filters,question)->
 		
+		# --------------------- utility functions --------------- #
+		
 		findSameOption = (item)->
 			
 			if item == filterUtil.newList then true else false
 
+
+		# --------------------- scope variables --------------- #
 
 		filterUtil = $scope.filterUtil = 
 			newList 	 			: ""
 			sameListFound 			: false
 			isNotFilledOut 			: false
 
-		newFilter = $scope.newFilter =
+		newFilter = $scope.newFilter = 
 			
 			title 			: ""
 			question 		: ""
-			isFilterAdded 	: true
 			lists 			: []
 			
 
-
+		# --------------------- scope functions --------------- #
+		
 		$scope.addNewList = (list)->
 			
 			sameOptionFound = _.find(newFilter.lists,findSameOption)
@@ -39,7 +43,7 @@ define ['underscore'], ( _ )->
 				filterUtil.sameListFound = false
 
 		$scope.submitNewFilter = (newFilter)->
-		
+			
 			enoughOptions = false
 
 			if _.size(newFilter.lists) >= 2
@@ -62,24 +66,26 @@ define ['underscore'], ( _ )->
 			else if enoughOptions
 
 
+				filterUtil.isNotFilledOut 	= false	
+				
+				
+				clone_newFilter = angular.copy(newFilter)
 
-				filterUtil.isNotFilledOut = false	
+				$scope.targets.unshift(clone_newFilter)
+				$scope.question.targets.unshift(clone_newFilter)
 				
-				filters.unshift(newFilter)
-				$scope.question.targets.unshift(newFilter)
-				question.unshift($scope.question)
 				
+				#clean up after submitting the data					
+				newFilter.title 			= ""
+				newFilter.question  		= ""
+				newFilter.lists 			= []
 
 				#this will hide the filter creation box
 				$scope.utility.readyToMakeNewFilter = false
-
-				$scope.$new(true)
 				
 
-				console.log newFilter
-				console.log filters
-
-		
+		$scope.removeList = (index)->
+			newFilter.lists.splice(index,1)
 
 		$scope.cancelToMakeFIlter = ()->
 			$scope.utility.readyToMakeNewFilter = false	

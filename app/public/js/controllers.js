@@ -17,22 +17,20 @@
           "$timeout": $timeout
         });
       });
-    }).controller('CreateCtrl', function($scope, $injector, $modalInstance, $location, $timeout, filters) {
+    }).controller('CreateCtrl', function($scope, $injector, $modalInstance, $location, $timeout) {
       return require(['controllers/createctrl'], function(createctrl) {
         return $injector.invoke(createctrl, this, {
           "$scope": $scope,
           "$modalInstance": $modalInstance,
           "$location": $location,
-          "$timeout": $timeout,
-          "filters": filters
+          "$timeout": $timeout
         });
       });
-    }).controller('NewFilterCtrl', function($scope, $injector, $timeout, filters) {
+    }).controller('NewFilterCtrl', function($scope, $injector, $timeout) {
       return require(['controllers/newfilterctrl'], function(newfilterctrl) {
         return $injector.invoke(newfilterctrl, this, {
           "$scope": $scope,
-          "$timeout": $timeout,
-          "filters": filters
+          "$timeout": $timeout
         });
       });
     }).controller('ContentCtrl', function($scope, $injector) {

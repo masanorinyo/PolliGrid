@@ -17,7 +17,6 @@
       newFilter = $scope.newFilter = {
         title: "",
         question: "",
-        isFilterAdded: true,
         lists: []
       };
       $scope.addNewList = function(list) {
@@ -34,7 +33,7 @@
         }
       };
       $scope.submitNewFilter = function(newFilter) {
-        var enoughOptions;
+        var clone_newFilter, enoughOptions;
         enoughOptions = false;
         if (_.size(newFilter.lists) >= 2) {
           enoughOptions = true;
@@ -47,14 +46,17 @@
           return filterUtil.isNotFilledOut = true;
         } else if (enoughOptions) {
           filterUtil.isNotFilledOut = false;
-          filters.unshift(newFilter);
-          $scope.question.targets.unshift(newFilter);
-          question.unshift($scope.question);
-          $scope.utility.readyToMakeNewFilter = false;
-          $scope.$new(true);
-          console.log(newFilter);
-          return console.log(filters);
+          clone_newFilter = angular.copy(newFilter);
+          $scope.targets.unshift(clone_newFilter);
+          $scope.question.targets.unshift(clone_newFilter);
+          newFilter.title = "";
+          newFilter.question = "";
+          newFilter.lists = [];
+          return $scope.utility.readyToMakeNewFilter = false;
         }
+      };
+      $scope.removeList = function(index) {
+        return newFilter.lists.splice(index, 1);
       };
       $scope.cancelToMakeFIlter = function() {
         return $scope.utility.readyToMakeNewFilter = false;

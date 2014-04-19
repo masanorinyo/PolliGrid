@@ -1,7 +1,7 @@
 (function() {
-  define(['underscore'], function(_) {
+  define(['underscore', 'jquery'], function(_, $) {
     return function($scope, $modalInstance, $location, $timeout, filters, question) {
-      var findSameOption, newQuestion, targets, utility;
+      var findSameOption, newQuestion, questions, style, targets, utility;
       findSameOption = function(item) {
         if (item === newQuestion.newOption) {
           return true;
@@ -9,6 +9,7 @@
           return false;
         }
       };
+      questions = $scope.questions = question;
       newQuestion = $scope.question = {
         newOption: "",
         question: "",
@@ -16,14 +17,16 @@
         targets: []
       };
       targets = $scope.targets = filters;
+      style = $scope.style = false;
       $scope.showDetails = false;
       utility = $scope.utility = {
-        confirm: 'Next',
         isOptionAdded: false,
         isSameOptionFound: false,
         isQuestionEmpty: false,
         readyToMakeNewFilter: false,
-        isQuestionCreated: false
+        isCreatingQuestion: false,
+        isQuestionCreated: true,
+        isQuestionCompleted: false
       };
       $scope.closeModal = function() {
         $scope.$dismiss();
@@ -51,6 +54,22 @@
       $scope.removeOption = function(index) {
         return newQuestion.options.splice(index, 1);
       };
+      $scope.addFilter = function(target) {
+        var foundSameTarget, index;
+        foundSameTarget = false;
+        foundSameTarget = _.find(newQuestion.targets, function(item) {
+          return _.isEqual(item, target);
+        });
+        if (_.isUndefined(foundSameTarget) || !foundSameTarget) {
+          return newQuestion.targets.push(target);
+        } else {
+          index = newQuestion.targets.indexOf(target);
+          return newQuestion.targets.splice(index, 1);
+        }
+      };
+      $scope.openCreateFilterBox = function() {
+        return utility.readyToMakeNewFilter = !utility.readyToMakeNewFilter;
+      };
       $scope.submitQuestion = function() {
         var enoughOptions;
         enoughOptions = false;
@@ -61,28 +80,22 @@
           return utility.isQuestionEmpty = true;
         } else {
           utility.isQuestionEmpty = false;
-          utility.isQuestionCreated = true;
-          return utility.confirm = 'Done';
+          utility.isCreatingQuestion = false;
+          return utility.isQuestionCreated = true;
         }
       };
-      $scope.addFilter = function(target) {
-        var index;
-        target.isFilterAdded = !target.isFilterAdded;
-        if (target.isFilterAdded) {
-          newQuestion.targets.push(target);
-        } else {
-          index = newQuestion.targets.indexOf(target);
-          newQuestion.targets.splice(index, 1);
-        }
-        console.log(question);
-        return console.log(filters);
-      };
-      $scope.back = function() {
+      $scope.completeQuestion = function() {
+        questions.unshift(newQuestion);
         utility.isQuestionCreated = false;
-        return utility.confirm = "Next";
+        return utility.isQuestionCompleted = true;
       };
-      $scope.openCreateFilterBox = function() {
-        return utility.readyToMakeNewFilter = !utility.readyToMakeNewFilter;
+      $scope.backToCreateQuestion = function() {
+        utility.isCreatingQuestion = true;
+        return utility.isQuestionCreated = false;
+      };
+      $scope.backToTargetAudience = function() {
+        utility.isQuestionCompleted = false;
+        return utility.isQuestionCreated = true;
       };
       return $scope.$apply();
     };
