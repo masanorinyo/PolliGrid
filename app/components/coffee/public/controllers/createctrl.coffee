@@ -9,35 +9,51 @@ define ['underscore','jquery'], ( _,$ )->
 
 						
 		# ----------------- Scope functions and variables ----------------- #
-		# ***************  data *************** #
-
-
+		
+		# ***************  models *************** #
 
 		questions = $scope.questions = question
+		targets = $scope.targets = filters
 
 		newQuestion = $scope.question = 
 			
 			newOption 			: ""
 			question 			: ""
+			category 			: "0"
 			options 			: []
 			targets 			: []
-				
-		targets = $scope.targets = filters
-			
+	
 		
-		# *************** variables  *************** #
-		style = $scope.style = false
 
+		# *************** variables  *************** #
+		
+		# If true, this will show the details of a filter
 		$scope.showDetails 		= false
+
+		# warning messages
+		message = $scope.message = 
+
+			questionNotFound		: ""
+			optionsNotEnough 		: ""
+			categoryNotChosen 		: ""
+
 
 		utility = $scope.utility =
 
+			# This will handle warning message
+			
 			isOptionAdded 		: false
 			isSameOptionFound  	: false
-			isQuestionEmpty 	: false
+			isQuestionFound 	: false
+			isCategoryChosen 	: false
+			areOptionsEnough	: false
+			
+			# If true, box for making a new filter shows up
 			readyToMakeNewFilter: false
-			isCreatingQuestion  : false
-			isQuestionCreated	: true
+			
+			# This will switch around modal sections
+			isCreatingQuestion  : true
+			isQuestionCreated	: false
 			isQuestionCompleted	: false
 
 		
@@ -55,7 +71,8 @@ define ['underscore','jquery'], ( _,$ )->
 
 		
 		# -- for create question section --#
-			
+		
+		#this will create options
 		$scope.createOption	= (option)->
 
 			sameOptionFound = _.find(newQuestion.options,findSameOption)
@@ -80,7 +97,7 @@ define ['underscore','jquery'], ( _,$ )->
 
 			newQuestion.newOption = ''
 
-
+		# this will remove options 
 		$scope.removeOption = (index)->
 
 			newQuestion.options.splice(index,1)
@@ -88,6 +105,7 @@ define ['underscore','jquery'], ( _,$ )->
 
 		# -- for target audience section --#
 
+		#this will add a filter to the question
 		$scope.addFilter = (target)->
 			
 			foundSameTarget = false
@@ -111,7 +129,7 @@ define ['underscore','jquery'], ( _,$ )->
 
 			
 			
-
+		# this will open the box for creating a new filter
 		$scope.openCreateFilterBox = ()->
 
 			utility.readyToMakeNewFilter = !utility.readyToMakeNewFilter
@@ -119,24 +137,53 @@ define ['underscore','jquery'], ( _,$ )->
 
 		# -- actions taken by confirmation buttons --#
 
+		# this checks if the conditions for making a new question is made or not
 		$scope.submitQuestion = ()->
 			
-			enoughOptions = false
-			
-			if _.size(newQuestion.options) >= 2
+			# whether question is made or not
+			if newQuestion.question != ""
 				
-				enoughOptions = true
-
-
-			if newQuestion.question is "" or !newQuestion.question or !enoughOptions
+				utility.isQuestionFound  = true
+				message.questionNotFound = ""
 				
-				utility.isQuestionEmpty = true	
-			
 			else
+				newQuestion.question
+				utility.isQuestionFound  = false
+				message.questionNotFound = "Please finish making a question"
+			
 
-				utility.isQuestionEmpty 	= false
-				utility.isCreatingQuestion 	= false
+			# whether more than 2 options are chosen or not
+			if _.size(newQuestion.options) >= 2
+								
+				utility.areOptionsEnough = true	
+				message.optionsNotEnough = ""
+			
+			else 
+				utility.areOptionsEnough = false
+				message.optionsNotEnough = "Please make at least two options"
+			
+
+			# whether category is chosen or not
+			if newQuestion.category != "0"
+
+				chosen = utility.isCategoryChosen = true
+				message.categoryNotChosen = ""
+
+			else 
+				utility.isCategoryChosen  = false
+				message.categoryNotChosen = "Please choose a category"
+
+			# enough the above conditions are all true, then section changes
+			if 	utility.isQuestionFound and utility.areOptionsEnough and utility.isCategoryChosen
+				
+				# section changes
 				utility.isQuestionCreated 	= true
+				utility.isCreatingQuestion 	= false
+
+			else 
+
+				false
+				
 
 
 		$scope.completeQuestion = ()->

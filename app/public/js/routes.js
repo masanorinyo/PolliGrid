@@ -7,10 +7,6 @@
           'header': {
             templateUrl: 'views/partials/header.html'
           },
-          'utility': {
-            templateUrl: 'views/partials/utility.html',
-            controller: 'UtilityCtrl'
-          },
           'content': {
             templateUrl: 'views/partials/content.html',
             controller: 'ContentCtrl'

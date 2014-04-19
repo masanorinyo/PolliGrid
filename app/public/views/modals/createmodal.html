@@ -7,7 +7,7 @@
 		Target audience
 	</h3>
 	<h3 ng-show="utility.isQuestionCompleted" ng-class="{fadeInRight:utility.isQuestionCompleted, fadeOutRight:!utility.isQuestionCompleted}" class="animated">
-		Share question!
+		Your question is saved!
 	</h3>
 	<button type="button" ng-click="closeModal()" class="close"> ×</button>
 
@@ -15,10 +15,21 @@
 <div class="modal-body" >
 	<section ng-show="utility.isCreatingQuestion" ng-class="{fadeOutLeft:!utility.isCreatingQuestion,fadeInLeft:utility.isCreatingQuestion}" class="animated create-question">
 		
-		<p  ng-show="utility.isQuestionEmpty" class="animated fadeIn alert alert-danger">
-			You need to finish making a question. <br>
-			Please make at least two options
-		</p>
+		<!-- Warning messages -->
+		<div  ng-show="message.questionNotFound != '' || message.optionsNotEnough != '' || message.categoryNotChosen != '' " class="animated fadeIn alert alert-danger">
+			<div ng-show="message.questionNotFound != ''">
+				- {{message.questionNotFound}} <br>
+			</div>
+			
+			<div ng-show="message.optionsNotEnough != ''">
+				- {{message.optionsNotEnough}} <br>
+			</div>
+			
+			<div ng-show="message.categoryNotChosen != ''">
+				- {{message.categoryNotChosen}}
+			</div>
+		</div>
+		
 		<label for="question" class="explanation">
 			Question:  
 		</label>
@@ -58,6 +69,48 @@
 				<i ng-click="removeOption($index)" class="glyphicon glyphicon-remove pointer"></i>
 			</li>
 		</ul>
+		
+		<hr>
+
+		<label for="category">
+			Category:
+		</label>
+		<select ng-model="question.category" id='category'class="form-control">
+			<option value="0">Select Category</option>
+			<option value="animal">Animal</option>
+			<option value="architecture">Architecture</option>
+			<option value="art">Art</option>
+			<option value="cars">Cars & Motorcycles</option>
+			<option value="celebrities">Celebrities</option>
+			<option value="design">Design</option>
+			<option value="dIY">DIY & Crafts</option>
+			<option value="education">Education</option>
+			<option value="film">Film, Music & Books</option>
+			<option value="food">Food & Drink</option>
+			<option value="gardening">Gardening</option>
+			<option value="geek">Geek</option>
+			<option value="hair">Hair & Beauty</option>
+			<option value="health">Health & Fitness</option>
+			<option value="history">History</option>
+			<option value="holidays">Holidays & Events</option>
+			<option value="home">Home Decor</option>
+			<option value="humor">Humor</option>
+			<option value="illustration">Illustration & Posters</option>
+			<option value="men">Men's Fashion</option>
+			<option value="outdoors">Outdoors</option>
+			<option value="photography">Photography</option>
+			<option value="products">Products</option>
+			<option value="quotes">Quotes</option>
+			<option value="science">Science & Nature</option>
+			<option value="sports">Sports</option>
+			<option value="tatoos">Tatoos</option>
+			<option value="technology">Technology</option>
+			<option value="travel">Travel</option>
+			<option value="weddings">Weddings</option>
+			<option value="women">Women's Fashion</option>
+			<option value="other">Other</option>
+		</select>
+
 	</section>
 
 	<section ng-show="utility.isQuestionCreated" ng-class="{fadeInRight:utility.isQuestionCreated,fadeOutRight :!utility.isQuestionCreated}" class="animated target-audience">
@@ -117,9 +170,10 @@
 	</section>
 
 	<section ng-show="utility.isQuestionCompleted" ng-class="{fadeInRight:utility.isQuestionCompleted,fadeOutRight :!utility.isQuestionCompleted}" class="animated share-box">
+		
 		<div class="share-box">
 			<div class="title-wrapper">
-				<span class="title center"> Via</span>
+				<span class="title center"> Share your question via: </span>
 			</div>
 			<ul class="social-accounts">
 				<li>
@@ -162,17 +216,27 @@
 	<!-- back buttons -->
 	
 	<button ng-show="utility.isQuestionCreated" class="pull-left btn btn-default" ng-click="backToCreateQuestion()">Back</button>
-	<button ng-show="utility.isQuestionCompleted" class="pull-left btn btn-default" ng-click="backToTargetAudience()">Back</button>
+	
 	
 	<!-- close modal button -->
 	
-	<button class="btn btn-default" ng-hide="utility.isQuestionCompleted" ng-click="closeModal()">Cancel</button>
+	<button class="btn btn-default" ng-hide="utility.isQuestionCompleted" ng-click="closeModal()">
+		Cancel
+	</button>
 	
 
 	<!-- confirmation / next buttons -->
 	
-	<button ng-show="utility.isCreatingQuestion" class="btn btn-primary" ng-click="submitQuestion()">Next</button>
-	<button ng-show="utility.isQuestionCreated && !utility.isQuestionCompleted" class="btn btn-primary" ng-click="completeQuestion()">Next</button>
-	<button ng-show="utility.isQuestionCompleted" class="btn btn-primary" ng-click="closeModal()">Finish</button>
+	<button ng-show="utility.isCreatingQuestion" class="btn btn-primary" ng-click="submitQuestion()">
+		Next
+	</button>
+	
+	<button ng-show="utility.isQuestionCreated && !utility.isQuestionCompleted" class="btn btn-primary" ng-click="completeQuestion()">
+		Next
+	</button>
+	
+	<button ng-show="utility.isQuestionCompleted" class="btn btn-primary" ng-click="closeModal()">
+		Finish
+	</button>
 
 </div>

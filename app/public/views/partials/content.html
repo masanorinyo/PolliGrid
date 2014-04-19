@@ -1,7 +1,23 @@
+<section class="utility-section">
+	<h1 hidden>search</h1>
+	<a href="#" ui-sref=".create" class='btn btn-default create'>
+		Create
+	</a>
+     
+	<div class="input-group search">
+		
+		<input ng-model="searchQuestion.$" type="text" placeholder="Search..."class="form-control">
+			
+		<span class="input-group-addon">
+			<i class="glyphicon glyphicon-search"></i>
+		</span>
+	</div>
+
+</section>
 <section class='content-section'>
 	<h1 hidden>question</h1>
 	<ul class='content-cards'>
-		<li class="card card-large" ng-repeat="question in questions">
+		<li class="card card-large" ng-repeat="question in questions | filter:searchQuestion">
 			<!-- should make a directive for this -->
 			<div class="favorite-button" ng-click="fillStar()">
 				<i ng-hide="isStarFilled" class="glyphicon glyphicon-star-empty"></i>
@@ -12,25 +28,18 @@
 			</div>
 
 			<p class='question'>
-				Which one would you like Which one would you like Which one would you like?
+				<span>Which one </span>{{question.question}}
 			</p>
 			<p class="alert alert-danger">
 				Please select something
 			</p>
 			<form id="surveyForm" action="">
 				<ul class="answers">
-					<li class='answer'>
+					<li class='answer' ng-repeat=' option in question.options'>
 						<label class='pointer'>
 							<input type="radio" name="sex" value="male">
-							Male
+							{{option}}
 						</label>
-					</li>
-					<li>
-						<label class='pointer'>
-							<input type="radio" name="sex" value="female">
-							 Female
-						</label>
-						
 					</li>
 				</ul>
 				<button id="surveySubmit" class="btn btn-primary btn-sm">See result</button>

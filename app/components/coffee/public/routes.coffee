@@ -22,10 +22,6 @@ define(
 
 							templateUrl:'views/partials/header.html'
 							
-						'utility':
-							
-							templateUrl:'views/partials/utility.html'
-							controller:'UtilityCtrl'
 						
 						'content':
 

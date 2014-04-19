@@ -1,7 +1,7 @@
 (function() {
   define(['underscore', 'jquery'], function(_, $) {
     return function($scope, $modalInstance, $location, $timeout, filters, question) {
-      var findSameOption, newQuestion, questions, style, targets, utility;
+      var findSameOption, message, newQuestion, questions, targets, utility;
       findSameOption = function(item) {
         if (item === newQuestion.newOption) {
           return true;
@@ -10,22 +10,29 @@
         }
       };
       questions = $scope.questions = question;
+      targets = $scope.targets = filters;
       newQuestion = $scope.question = {
         newOption: "",
         question: "",
+        category: "0",
         options: [],
         targets: []
       };
-      targets = $scope.targets = filters;
-      style = $scope.style = false;
       $scope.showDetails = false;
+      message = $scope.message = {
+        questionNotFound: "",
+        optionsNotEnough: "",
+        categoryNotChosen: ""
+      };
       utility = $scope.utility = {
         isOptionAdded: false,
         isSameOptionFound: false,
-        isQuestionEmpty: false,
+        isQuestionFound: false,
+        isCategoryChosen: false,
+        areOptionsEnough: false,
         readyToMakeNewFilter: false,
-        isCreatingQuestion: false,
-        isQuestionCreated: true,
+        isCreatingQuestion: true,
+        isQuestionCreated: false,
         isQuestionCompleted: false
       };
       $scope.closeModal = function() {
@@ -71,17 +78,34 @@
         return utility.readyToMakeNewFilter = !utility.readyToMakeNewFilter;
       };
       $scope.submitQuestion = function() {
-        var enoughOptions;
-        enoughOptions = false;
-        if (_.size(newQuestion.options) >= 2) {
-          enoughOptions = true;
-        }
-        if (newQuestion.question === "" || !newQuestion.question || !enoughOptions) {
-          return utility.isQuestionEmpty = true;
+        var chosen;
+        if (newQuestion.question !== "") {
+          utility.isQuestionFound = true;
+          message.questionNotFound = "";
         } else {
-          utility.isQuestionEmpty = false;
-          utility.isCreatingQuestion = false;
-          return utility.isQuestionCreated = true;
+          newQuestion.question;
+          utility.isQuestionFound = false;
+          message.questionNotFound = "Please finish making a question";
+        }
+        if (_.size(newQuestion.options) >= 2) {
+          utility.areOptionsEnough = true;
+          message.optionsNotEnough = "";
+        } else {
+          utility.areOptionsEnough = false;
+          message.optionsNotEnough = "Please make at least two options";
+        }
+        if (newQuestion.category !== "0") {
+          chosen = utility.isCategoryChosen = true;
+          message.categoryNotChosen = "";
+        } else {
+          utility.isCategoryChosen = false;
+          message.categoryNotChosen = "Please choose a category";
+        }
+        if (utility.isQuestionFound && utility.areOptionsEnough && utility.isCategoryChosen) {
+          utility.isQuestionCreated = true;
+          return utility.isCreatingQuestion = false;
+        } else {
+          return false;
         }
       };
       $scope.completeQuestion = function() {
