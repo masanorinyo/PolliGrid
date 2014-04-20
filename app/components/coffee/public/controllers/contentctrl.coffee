@@ -1,26 +1,37 @@
-define [], ()->
+define ['underscore'], (_)->
 	($scope,question)->
 
-		# models
+		# ----------------- Scope functions and variables ----------------- #
+		
+		# ***************  Models *************** #
 		$scope.questions = question
 		
-
-		# scope variables
+		$scope.answer = ''
+		
+		# ***************  Variables *************** #
 		$scope.isStarFilled = false
+		$scope.submitted = false
 
-		$scope.searchQuestion = ''
+		targetQ = $scope.targetQ =
+			isQuestionAnswered : false
 
-		# scope functions
 
-		$scope.searchByCategory = (category)->
 
-			console.log $scope.searchQuestion
 
-			$scope.searchQuestion = category
 
-		$scope.fillStar = ()->
+		# ***************  Functions *************** #
+		$scope.submitAnswer = (choice)->
 			
-			$scope.isStarFilled = !$scope.isStarFilled
+			choice.count++
+			
+			$scope.submitted = true
+		
+
+		
+
+		$scope.fillStar = (question)->
+			
+			question.favorite = !question.favorite
 			
 		$scope.$apply()
 

@@ -1,4 +1,4 @@
-define ['underscore','jquery'], ( _,$ )->
+define ['underscore'], ( _ )->
 	($scope,$modalInstance,$location,$timeout,filters,question)->
 		
 		# --------------------- Functions for utility --------------------- #
@@ -88,7 +88,11 @@ define ['underscore','jquery'], ( _,$ )->
 			
 			else 
 
-				newQuestion.options.push(option)
+				newlyCreatedOption = 
+					title : option
+					count : 0
+
+				newQuestion.options.push(newlyCreatedOption)
 				utility.isOptionAdded = true
 				utility.isSameOptionFound = false 
 				$timeout ->
@@ -187,6 +191,11 @@ define ['underscore','jquery'], ( _,$ )->
 
 
 		$scope.completeQuestion = ()->
+			
+			newQuestion.question = "Which one ".concat(newQuestion.question)
+
+			newQuestion.numOfFilters = _.size(newQuestion.targets)
+
 			questions.unshift(newQuestion)
 			utility.isQuestionCreated 		= false
 			utility.isQuestionCompleted 	= true			

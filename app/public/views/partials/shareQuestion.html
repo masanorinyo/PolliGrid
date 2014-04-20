@@ -1,0 +1,40 @@
+<section ng-show="utility.isQuestionCompleted" ng-class="{fadeInRight:utility.isQuestionCompleted,fadeOutRight :!utility.isQuestionCompleted}" class="animated share-box">
+		
+	<div class="share-box">
+		<div class="title-wrapper">
+			<span class="title center"> Share your question via: </span>
+		</div>
+		<ul class="social-accounts">
+			<li>
+				<a  class='btn btn-primary' href="">
+					<i class="glyphicon glyphicon-facebook"></i>
+					Facebook 
+				</a>
+			</li>
+			<li>
+				<a href="" class="btn btn-info">
+					<i class="glyphicon glyphicon-twitter"></i>
+					Twitter 
+				</a>
+			</li>
+			<li>
+				<a href="" class="btn btn-danger">
+					<i class="glyphicon glyphicon-google"></i>
+					Google + 
+				</a>
+			</li>
+		</ul>
+	</div>
+	<hr/>
+	<div class="link-box">
+		<p class="header"> 
+		Send the link below to invite others to your chat room.
+	</p>
+		<div class="link-creator">
+			<span id="link">
+				
+			</span><!--div(data-clipboard-text="link")#copier.btn.btn-default//|  Copy Link-->
+		</div>
+	</div>
+
+</section>

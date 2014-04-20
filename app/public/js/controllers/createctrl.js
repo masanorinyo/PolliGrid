@@ -1,5 +1,5 @@
 (function() {
-  define(['underscore', 'jquery'], function(_, $) {
+  define(['underscore'], function(_) {
     return function($scope, $modalInstance, $location, $timeout, filters, question) {
       var findSameOption, message, newQuestion, questions, targets, utility;
       findSameOption = function(item) {
@@ -42,14 +42,18 @@
         });
       };
       $scope.createOption = function(option) {
-        var sameOptionFound;
+        var newlyCreatedOption, sameOptionFound;
         sameOptionFound = _.find(newQuestion.options, findSameOption);
         if (option === "" || !option) {
           return false;
         } else if (sameOptionFound) {
           utility.isSameOptionFound = true;
         } else {
-          newQuestion.options.push(option);
+          newlyCreatedOption = {
+            title: option,
+            count: 0
+          };
+          newQuestion.options.push(newlyCreatedOption);
           utility.isOptionAdded = true;
           utility.isSameOptionFound = false;
           $timeout(function() {
@@ -109,6 +113,8 @@
         }
       };
       $scope.completeQuestion = function() {
+        newQuestion.question = "Which one ".concat(newQuestion.question);
+        newQuestion.numOfFilters = _.size(newQuestion.targets);
         questions.unshift(newQuestion);
         utility.isQuestionCreated = false;
         return utility.isQuestionCompleted = true;

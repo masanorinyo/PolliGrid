@@ -25,10 +25,14 @@
 		overflow: auto;
 
 		.create{
-			width:20%;
+			width:25%;
 			float:left;
 			text-align:center;
 			color:darken($lightgray,10);
+
+			span{
+				font-size:0.9em;
+			}
 
 			&:hover{
 				color:$darkblue;
@@ -36,7 +40,7 @@
 		}//create
 
 		.search{
-			width:77%;
+			width:72%;
 			float:right;
 
 			.input-group-addon{

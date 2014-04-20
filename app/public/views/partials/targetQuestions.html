@@ -1,0 +1,33 @@
+<div  ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-show="$index == num">	
+	<p class='question'>
+		{{target.question}}
+	</p>
+	
+	<form ng-submit="submitTarget(question)">
+		
+		<ul class="answers">
+			<li class='answer' ng-repeat='list in target.lists'>
+				<label class='pointer'>
+					<input ng-model="$parent.targetAnswer" type="radio" name="targetAnswer" ng-value="list">
+					{{list}}
+				</label>
+			</li>
+		</ul>
+
+		<input type="submit" class="surveySubmit btn btn-primary btn-sm" value="Next">
+	</form>
+</div>
+
+<div  class="content animated fadeInLeft" ng-show="showResult">	
+	<h2>
+		<label class="label label-lg label-primary">Result</label>
+	</h3>
+	<p class='question'>
+		{{question.question}}
+	</p>
+	<ul class="answers">
+		<li class='answer' ng-repeat='option in question.options'>
+			{{option.title}}: {{option.count}}
+		</li>
+	</ul>
+</div>

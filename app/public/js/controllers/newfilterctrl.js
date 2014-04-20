@@ -48,7 +48,6 @@
           filterUtil.isNotFilledOut = false;
           clone_newFilter = angular.copy(newFilter);
           $scope.targets.unshift(clone_newFilter);
-          $scope.question.targets.unshift(clone_newFilter);
           newFilter.title = "";
           newFilter.question = "";
           newFilter.lists = [];

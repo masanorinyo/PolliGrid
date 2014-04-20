@@ -1,6 +1,0 @@
-define [], ()->
-	($scope)->
-		
-		$scope.$apply()
-
-

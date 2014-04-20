@@ -10,6 +10,10 @@
           'content': {
             templateUrl: 'views/partials/content.html',
             controller: 'ContentCtrl'
+          },
+          "result@home": {
+            templateUrl: 'views/partials/targetQuestions.html',
+            controller: 'TargetAudienceCtrl'
           }
         }
       }).state('home.login', {
@@ -40,6 +44,17 @@
         }
       }).state('home.create', {
         url: 'create',
+        views: {
+          'create@': {
+            templateUrl: 'views/partials/createQuestion.html'
+          },
+          'target@': {
+            templateUrl: 'views/partials/targetAudience.html'
+          },
+          'share@': {
+            templateUrl: 'views/partials/shareQuestion.html'
+          }
+        },
         onEnter: function($state, $modal, $location) {
           return $modal.open({
             templateUrl: 'views/modals/createModal.html',
@@ -50,6 +65,23 @@
           }, function() {
             return $location.path('/');
           });
+        }
+      }).state('home.share', {
+        url: 'share/:id',
+        onEnter: function($state, $modal, $stateParams, $location) {
+          if ($stateParams.id === "") {
+            return $location.path('/');
+          } else {
+            return $modal.open({
+              templateUrl: 'views/modals/shareModal.html',
+              controller: "ShareCtrl",
+              windowClass: "shareModal"
+            }).result.then(function() {
+              return console.log('modal is open');
+            }, function() {
+              return $location.path('/');
+            });
+          }
         }
       });
       return $urlRouterProvider.otherwise('/');

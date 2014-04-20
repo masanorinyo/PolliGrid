@@ -4,6 +4,7 @@
 	@include box-shadow(rgb(210, 210, 210) 2px 2px 5px 0px);
 	position:relative;
 	background-color:white;
+
 }
 
 .audience-cards{
@@ -96,14 +97,27 @@
 
 
 .content-cards{
+	
+	width:100%;
 
 	.card-large{
 		
 		border:1px solid rgb(220,220,220);
-		width:350px;
-		margin:10px;
+		width:100%;
+		margin:10px auto;
 		display:inline-block;
+		max-width:370px;
+		min-height:300px;
 		
+		@include at-breakpoint($medium){
+			margin:10px;
+		}
+
+		
+		.content{
+			min-height:150px;
+		}
+
 		.question{
 			margin:4em 2em 2em 2em;
 			font-size:1.2em;
@@ -124,8 +138,9 @@
 			}
 		}
 		
-		#surveySubmit{
+		.surveySubmit{
 			float:right;
+			width:100px;
 			margin:0 2em 2em 0;
 		}
 

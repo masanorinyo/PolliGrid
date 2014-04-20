@@ -72,8 +72,7 @@ define ['underscore'], ( _ )->
 				clone_newFilter = angular.copy(newFilter)
 
 				$scope.targets.unshift(clone_newFilter)
-				$scope.question.targets.unshift(clone_newFilter)
-				
+
 				
 				#clean up after submitting the data					
 				newFilter.title 			= ""

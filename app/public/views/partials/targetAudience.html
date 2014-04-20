@@ -1,0 +1,55 @@
+<section ng-show="utility.isQuestionCreated" ng-class="{fadeInRight:utility.isQuestionCreated,fadeOutRight :!utility.isQuestionCreated}" class="animated target-audience">
+	<label for="">
+		search filters or create your own:
+	</label>
+	<div class="utility-wrapper">
+		<input ng-model="search.$" type="text" placeholder="Filter responses by ..." name="search" class="pull-left search form-control" >
+		<button ng-click="openCreateFilterBox()" class="pull-right btn btn-default">
+			Create
+		</button>
+	</div>
+	
+	<hr>
+
+	<div ng-show="utility.readyToMakeNewFilter">
+		<div new-filter></div>
+
+	</div>
+	<ul class='clear audience-cards'>
+		<p class="hiddenMessage">
+			No filters were found
+		</p>
+		<li ng-repeat="target in targets | filter:search" class="card card-small">
+			<div class="title-wrapper">
+				
+				<div stop-event button-ok ng-click="addFilter(target)" class='icon-wrapper pull-left' ng-transclude>
+					<i class="glyphicon glyphicon-plus"></i>
+				</div>
+				<!-- <div ng-click="addFilter($index,$event,$log,target)" class='icon-wrapper pull-left' ng-class="{'bg-blue':$index==selected}">
+					<i ng-class="{'glyphicon-ok white':$index==selected}" class="glyphicon glyphicon-plus"></i>
+				</div> -->
+
+
+				<div class="semi-title-wrapper">
+					<p class="semi-title">
+						<span>{{target.title}}</span>
+					</p>
+				</div>
+			</div>
+			<hr>
+			<div ng-click="showDetails = !showDetails" class="icon-wrapper">
+				<i ng-class="{'glyphicon-chevron-down':!showDetails,'glyphicon-chevron-up':showDetails}" class="glyphicon"></i>
+			</div>
+			<div ng-show="showDetails" class="details animated fadeInDown">
+				<label class="question">
+					Question: <span>{{target.question}}</span>
+				</label>
+				<ul class="list-group">
+					<li ng-repeat="list in target.lists" class="animated fadeIn list-group-item">
+						 {{list}}
+					</li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+</section>

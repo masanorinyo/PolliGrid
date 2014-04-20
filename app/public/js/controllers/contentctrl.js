@@ -1,15 +1,20 @@
 (function() {
-  define([], function() {
+  define(['underscore'], function(_) {
     return function($scope, question) {
+      var targetQ;
       $scope.questions = question;
+      $scope.answer = '';
       $scope.isStarFilled = false;
-      $scope.searchQuestion = '';
-      $scope.searchByCategory = function(category) {
-        console.log($scope.searchQuestion);
-        return $scope.searchQuestion = category;
+      $scope.submitted = false;
+      targetQ = $scope.targetQ = {
+        isQuestionAnswered: false
       };
-      $scope.fillStar = function() {
-        return $scope.isStarFilled = !$scope.isStarFilled;
+      $scope.submitAnswer = function(choice) {
+        choice.count++;
+        return $scope.submitted = true;
+      };
+      $scope.fillStar = function(question) {
+        return question.favorite = !question.favorite;
       };
       return $scope.$apply();
     };

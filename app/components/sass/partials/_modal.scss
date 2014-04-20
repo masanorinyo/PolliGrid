@@ -21,20 +21,29 @@
 
 }//.small-modal
 
+
+.medium-modal{
+
+	//overwrite the bootstrap style
+	@include force-center;
+	width:80%!important;
+	max-width:500px;
+	height:80%;
+
+}//.small-modal
+
 .large-modal{
 	
 	//overwrite the bootstrap style
 	@include force-center;
 	width:90%!important;
 	max-width:500px;
-	height:40em;
+	height: 95%;
 	
-	.modal-content{
+
 	
-		height:100%;
-	
-	}//.modal-content
 }//.large-modal
+
 
 //-------------------- applied for all modals --------------------//
 
@@ -49,9 +58,76 @@
 }//.modal-dialog .close
 
 
+//-------------------- partials --------------------//
+.share-box{
+	
+	.modal-body{
+		
+		overflow:auto;
+		height:500px;
+	}
+
+	.social-accounts .btn{
+		width: 100%;
+		margin: 0.5em auto;
+	}//.cosial-accounts .btn
+	
+
+
+	.link-box{
+
+		border:1px solid rgb(220,220,220);
+		
+		.header{
+			font-size: 1em;
+			padding: 1px 0 0 0.2em;
+			color: rgb(130,140,140);
+			background-color: rgb(240,240,240);
+			border-bottom: 1px solid rgb(230,230,230);
+		}//header
+
+		.link-creator{
+			width: 100%;
+			min-height: 6.5em;
+			padding:1em;
+			overflow:auto;
+			background-color: rgb(250,250,250);
+			position:relative;
+
+			#link{
+				word-wrap:break-word; 
+				font-size: 0.8em;
+				color: rgb(100,150,200);
+				margin-bottom:1em;
+			}//#link
+		}//link-creator
+	}//link-box
+}//share-box
+
+.modal-header h3{
+	margin:auto;
+	font-size:1.2em;
+	color:$blue;
+}//modal-header
+
+
+.modal-body{
+	
+	overflow:auto;
+
+}//modal-body
 
 //-------------------- modals --------------------//
 //**** auth-modal ***//
+
+.shareModal{
+	.modal-dialog{
+		
+		@extend .medium-modal;
+	
+	}//.modal-dialog
+}//.shareModal
+
 
 .authModal{
 
@@ -122,6 +198,7 @@
 //**** create-modal ***//
 .createModal{
 
+	
 	.modal-dialog{
 		
 		@extend .removeAnimation;		
@@ -129,16 +206,14 @@
 		
 	}
 
-	.modal-header > h3{
-		margin:auto;
-		font-size:1.2em;
-		color:$blue;
-	}
-
 	.modal-body{
-		height:77%;
+		
 		overflow:auto;
-
+		height:500px;
+		
+		
+		
+		
 		label{
 			color:lighten($lightgray,10);
 			font-size:0.9em;
@@ -217,43 +292,7 @@
 			}
 		}
 
-		.share-box{
-			
-			.social-accounts .btn{
-				width: 100%;
-				margin: 0.5em auto;
-			}
-			
-
-			.link-box{
-
-				border:1px solid rgb(220,220,220);
-				
-				.header{
-					font-size: 1em;
-					padding: 1px 0 0 0.2em;
-					color: rgb(130,140,140);
-					background-color: rgb(240,240,240);
-					border-bottom: 1px solid rgb(230,230,230);
-				}
-
-				.link-creator{
-					width: 100%;
-					min-height: 6.5em;
-					padding:1em;
-					overflow:auto;
-					background-color: rgb(250,250,250);
-					position:relative;
-
-					#link{
-						word-wrap:break-word; 
-						font-size: 0.8em;
-						color: rgb(100,150,200);
-						margin-bottom:1em;
-					}
-				}
-			}
-		}
+		
 	}
 
 	.modal-footer{

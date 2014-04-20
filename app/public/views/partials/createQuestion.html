@@ -1,0 +1,101 @@
+<section ng-show="utility.isCreatingQuestion" ng-class="{fadeOutLeft:!utility.isCreatingQuestion,fadeInLeft:utility.isCreatingQuestion}" class="animated create-question">
+		
+	<!-- Warning messages -->
+	<div  ng-show="message.questionNotFound != '' || message.optionsNotEnough != '' || message.categoryNotChosen != '' " class="animated fadeIn alert alert-danger">
+		<div ng-show="message.questionNotFound != ''">
+			- {{message.questionNotFound}} <br>
+		</div>
+		
+		<div ng-show="message.optionsNotEnough != ''">
+			- {{message.optionsNotEnough}} <br>
+		</div>
+		
+		<div ng-show="message.categoryNotChosen != ''">
+			- {{message.categoryNotChosen}}
+		</div>
+	</div>
+	
+	<label for="question" class="explanation">
+		Question:  
+	</label>
+	
+	<input ng-model="question.question" type="text" name="question" id="question" placeholder="Which one do you think ....." class="form-control">
+	
+	<p class='actualQuestion well'>
+		<span class="semi-title">Which one </span> {{question.question}}
+	</p>
+
+	<hr>
+
+	<label for="category">
+		Category:
+	</label>
+	<select ng-model="question.category" id='category'class="form-control">
+		<option value="0">Select Category</option>
+		<option value="animal">Animal</option>
+		<option value="architecture">Architecture</option>
+		<option value="art">Art</option>
+		<option value="cars">Cars & Motorcycles</option>
+		<option value="celebrities">Celebrities</option>
+		<option value="design">Design</option>
+		<option value="dIY">DIY & Crafts</option>
+		<option value="education">Education</option>
+		<option value="film">Film, Music & Books</option>
+		<option value="food">Food & Drink</option>
+		<option value="gardening">Gardening</option>
+		<option value="geek">Geek</option>
+		<option value="hair">Hair & Beauty</option>
+		<option value="health">Health & Fitness</option>
+		<option value="history">History</option>
+		<option value="holidays">Holidays & Events</option>
+		<option value="home">Home Decor</option>
+		<option value="humor">Humor</option>
+		<option value="illustration">Illustration & Posters</option>
+		<option value="men">Men's Fashion</option>
+		<option value="outdoors">Outdoors</option>
+		<option value="photography">Photography</option>
+		<option value="products">Products</option>
+		<option value="quotes">Quotes</option>
+		<option value="science">Science & Nature</option>
+		<option value="sports">Sports</option>
+		<option value="tatoos">Tatoos</option>
+		<option value="technology">Technology</option>
+		<option value="travel">Travel</option>
+		<option value="weddings">Weddings</option>
+		<option value="women">Women's Fashion</option>
+		<option value="other">Other</option>
+	</select>
+
+	<hr>
+
+	<form ng-submit="createOption(question.newOption)" class="create-answers">
+		
+		<label for="newOption" class="explanation">
+			What are the options?
+		</label>
+		
+		<div class="input-group">
+			<input ng-model="question.newOption" id="newOption" type="text" name="newOption" placeholder="option ..."  class="form-control">
+			<span class="input-group-btn">
+				<input type="submit" value="Save" class="btn btn-default">
+			</span>
+		</div>
+		
+	</form>
+	
+	<div ng-class="{fadeOutDown:utility.isOptionAdded}" class="icon-wrapper animated">
+		<i class="glyphicon glyphicon-chevron-down"></i>
+	</div>
+	<div ng-show="utility.isSameOptionFound" class="animated fadeIn alert alert-warning">
+		The same option already created
+	</div>
+	
+	<ul class='list-group'>
+		<li ng-repeat="option in question.options" class='animated fadeInLeft list-group-item'>
+			option {{$index+1}}: 
+			<span class="option">{{option.title}}</span>
+			<i ng-click="removeOption($index)" class="glyphicon glyphicon-remove pointer"></i>
+		</li>
+	</ul>
+
+</section>

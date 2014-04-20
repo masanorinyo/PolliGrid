@@ -2,13 +2,24 @@ define ['angular','services'], (angular) ->
 	angular.module('myapp.controllers', ['myapp.services'])
 		
 		.controller 'WhichOneCtrl', ($scope)->
-			$scope.whichone = 'whichone'
+			$scope.searchQuestion = ''
 
-		.controller 'UtilityCtrl', ($scope,$injector)->
-			require(['controllers/utilityctrl'], (utilityctrl)->
+			# scope functions
+
+			$scope.searchByCategory = (category)->
+
+				console.log $scope.searchQuestion
+
+				$scope.searchQuestion = category
+
+		.controller 'ShareCtrl', ($scope, $injector,$modalInstance,$location,$timeout)->
+			require(['controllers/sharectrl'], (sharectrl)->
 				$injector.invoke(
-					utilityctrl, this,{
+					sharectrl, this,{
 						"$scope" 				: $scope
+						"$modalInstance" 		: $modalInstance
+						"$location" 	 		: $location
+						"$timeout" 				: $timeout
 					}
 				)
 			)
@@ -52,5 +63,12 @@ define ['angular','services'], (angular) ->
 			require(['controllers/contentctrl'], (contentctrl)->
 				$injector.invoke(
 					contentctrl, this,{"$scope": $scope}
+				)
+			)
+
+		.controller 'TargetAudienceCtrl', ($scope, $injector)->
+			require(['controllers/targetaudiencectrl'], (targetaudiencectrl)->
+				$injector.invoke(
+					targetaudiencectrl, this,{"$scope": $scope}
 				)
 			)

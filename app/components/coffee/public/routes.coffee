@@ -16,7 +16,7 @@ define(
 
 					url:"/"
 
-					views:{
+					views:
 
 						'header':
 
@@ -26,9 +26,13 @@ define(
 						'content':
 
 							templateUrl:'views/partials/content.html'
-							controller:'ContentCtrl'
+							controller:'ContentCtrl'						
 
-					}
+						"result@home":
+							
+							templateUrl :'views/partials/targetQuestions.html'
+							controller:'TargetAudienceCtrl'
+
 
 				.state 'home.login',
 					url:'login'
@@ -64,7 +68,23 @@ define(
 
 				.state 'home.create',
 					url:'create'
+					views:
+
+						'create@':
+
+							templateUrl:'views/partials/createQuestion.html'
+							
+						
+						'target@':
+
+							templateUrl:'views/partials/targetAudience.html'
+
+						'share@':
+
+							templateUrl:'views/partials/shareQuestion.html'
+
 					onEnter:($state,$modal,$location)->
+						
 						$modal.open(
 						
 							templateUrl : 'views/modals/createModal.html'
@@ -78,7 +98,35 @@ define(
 						, ()->
 							$location.path('/')
 
-			
+				.state 'home.share',
+					url:'share/:id'
+					onEnter:($state,$modal,$stateParams,$location)->
+						
+						if $stateParams.id is "" 
+
+							$location.path('/')
+
+						else
+
+							$modal.open(
+							
+								templateUrl : 'views/modals/shareModal.html'
+								controller 	: "ShareCtrl"
+								windowClass : "shareModal"
+								
+							
+							).result.then ()->
+	  							console.log('modal is open')
+							
+							, ()->
+								$location.path('/')
+
+		
+							
+						
+						
+
+					
 
 			$urlRouterProvider.otherwise('/')
 
