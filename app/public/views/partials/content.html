@@ -36,12 +36,12 @@
 
 
 				<div ng-hide="submitted" class="content">
+					
 					<p class='question'>
 						{{question.question}}
 					</p>
 
-
-					<form ng-submit="submitAnswer(answer)" id="surveyForm">
+					<form ng-submit="submitAnswer(answer,question)" id="surveyForm">
 						
 						<ul class="answers">
 							<li ng-hide="targetQ.isQuestionAnswered" class='answer' ng-repeat='option in question.options'>
@@ -51,7 +51,7 @@
 								</label>
 							</li>
 						</ul>
-						<input type="submit" class="surveySubmit btn btn-primary btn-sm" value="See result">
+						<input type="submit" class="submit-button btn btn-primary btn-sm" value="See result">
 					</form>
 				</div>
 

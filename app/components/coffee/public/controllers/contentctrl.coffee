@@ -8,6 +8,7 @@ define ['underscore'], (_)->
 		
 		$scope.answer = ''
 		
+
 		# ***************  Variables *************** #
 		$scope.isStarFilled = false
 		$scope.submitted = false
@@ -20,9 +21,10 @@ define ['underscore'], (_)->
 
 
 		# ***************  Functions *************** #
-		$scope.submitAnswer = (choice)->
+		$scope.submitAnswer = (choice,question)->
 			
 			choice.count++
+			question.totalResponses++
 			
 			$scope.submitted = true
 		

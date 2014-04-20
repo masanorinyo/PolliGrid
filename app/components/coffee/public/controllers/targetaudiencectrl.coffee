@@ -6,9 +6,6 @@ define ['underscore'], (_)->
 
 		$scope.submitTarget = (question)->
 
-	
-			
-			
 			if $scope.num == question.numOfFilters-1
 
 				$scope.num = question.numOfFilters

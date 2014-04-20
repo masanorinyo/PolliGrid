@@ -9,8 +9,9 @@
       targetQ = $scope.targetQ = {
         isQuestionAnswered: false
       };
-      $scope.submitAnswer = function(choice) {
+      $scope.submitAnswer = function(choice, question) {
         choice.count++;
+        question.totalResponses++;
         return $scope.submitted = true;
       };
       $scope.fillStar = function(question) {

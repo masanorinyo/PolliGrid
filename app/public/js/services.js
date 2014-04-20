@@ -23,6 +23,7 @@
           category: "lifestyle",
           favorite: true,
           numOfFilters: '2',
+          totalResponses: 0,
           options: [
             {
               title: 'positive',

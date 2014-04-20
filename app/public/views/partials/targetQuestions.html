@@ -14,20 +14,25 @@
 			</li>
 		</ul>
 
-		<input type="submit" class="surveySubmit btn btn-primary btn-sm" value="Next">
+		<input type="submit" class="submit-button btn btn-primary btn-sm" value="Next">
 	</form>
 </div>
 
 <div  class="content animated fadeInLeft" ng-show="showResult">	
-	<h2>
-		<label class="label label-lg label-primary">Result</label>
-	</h3>
-	<p class='question'>
+	<h4 class="gray result-label">
+		Result:
+	</h4>
+
+	<p class='question gray'>
 		{{question.question}}
 	</p>
 	<ul class="answers">
+		<li>Total count: {{question.totalResponses}}</li>
 		<li class='answer' ng-repeat='option in question.options'>
 			{{option.title}}: {{option.count}}
 		</li>
 	</ul>
+	<button class="submit-button bigger btn btn-success">
+		See deep result
+	</button>
 </div>
