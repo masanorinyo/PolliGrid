@@ -17,8 +17,9 @@
 <section class='content-section'>
 	<h1 hidden>question</h1>
 	<ul class='content-cards'>
-		<li ng-repeat="question in questions | filter:searchQuestion">
+		<li  ng-repeat="question in questions | filter:searchQuestion"  ng-controller="ListCtrl">
 			<div class="card card-large">
+				
 				<!-- should make a directive for this -->
 				<div class="favorite-button" ng-click="fillStar(question)">
 					<i ng-show="!question.favorite" class="glyphicon glyphicon-star-empty"></i>
@@ -29,16 +30,15 @@
 					<i class="glyphicon glyphicon-share"></i>
 				</div>
 
-				<!-- Warning message -->
-				<p class="alert alert-danger">
-					Please select something
-				</p>
-
-
 				<div ng-hide="submitted" class="content">
 					
 					<p class='question'>
 						{{question.question}}
+					</p>
+
+					<!-- Warning message -->
+					<p ng-show="warning" class="animated fadeIn alert alert-danger">
+						Please select something
 					</p>
 
 					<form ng-submit="submitAnswer(answer,question)" id="surveyForm">
@@ -63,7 +63,7 @@
 					<ul>
 						<li class='userPhoto'>
 							<a href="#">
-								<img src="/img/profile-pic.jpg" alt="masanorinyo">
+								<img ng-src="{{user.profilePic}}" alt="{{user.name}}">
 							</a>
 						</li>
 						<li class='category silver'>
@@ -79,6 +79,7 @@
 		</li>
 
 	</ul>
+
 	<!-- should make a directive for this -->
 	<div id="loader">
 		<div class="loaderWrapper">

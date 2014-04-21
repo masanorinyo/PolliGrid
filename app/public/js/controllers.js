@@ -1,9 +1,9 @@
 (function() {
   define(['angular', 'services'], function(angular) {
-    return angular.module('myapp.controllers', ['myapp.services']).controller('WhichOneCtrl', function($scope) {
+    return angular.module('myapp.controllers', ['myapp.services']).controller('WhichOneCtrl', function($scope, User) {
       $scope.searchQuestion = '';
+      $scope.user = User;
       return $scope.searchByCategory = function(category) {
-        console.log($scope.searchQuestion);
         return $scope.searchQuestion = category;
       };
     }).controller('ShareCtrl', function($scope, $injector, $modalInstance, $location, $timeout) {
@@ -49,6 +49,18 @@
     }).controller('TargetAudienceCtrl', function($scope, $injector) {
       return require(['controllers/targetaudiencectrl'], function(targetaudiencectrl) {
         return $injector.invoke(targetaudiencectrl, this, {
+          "$scope": $scope
+        });
+      });
+    }).controller('ChartCtrl', function($scope, $injector) {
+      return require(['controllers/chartctrl'], function(chartctrl) {
+        return $injector.invoke(chartctrl, this, {
+          "$scope": $scope
+        });
+      });
+    }).controller('ListCtrl', function($scope, $injector) {
+      return require(['controllers/listctrl'], function(listctrl) {
+        return $injector.invoke(listctrl, this, {
           "$scope": $scope
         });
       });

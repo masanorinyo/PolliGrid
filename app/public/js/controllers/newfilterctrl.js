@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $timeout, filters, question) {
+    return function($scope, $timeout, Filters, Question) {
       var filterUtil, findSameOption, newFilter;
       findSameOption = function(item) {
         if (item === filterUtil.newList) {
@@ -15,9 +15,12 @@
         isNotFilledOut: false
       };
       newFilter = $scope.newFilter = {
+        id: null,
         title: "",
         question: "",
-        lists: []
+        respondents: [],
+        lists: [],
+        created_at: Date
       };
       $scope.addNewList = function(list) {
         var sameOptionFound;
@@ -47,6 +50,8 @@
         } else if (enoughOptions) {
           filterUtil.isNotFilledOut = false;
           clone_newFilter = angular.copy(newFilter);
+          clone_newFilter.created_at = new Date().getTime();
+          clone_newFilter.id = Math.random();
           $scope.targets.unshift(clone_newFilter);
           newFilter.title = "";
           newFilter.question = "";

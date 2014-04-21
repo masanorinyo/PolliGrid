@@ -5,18 +5,11 @@ define [
 	'directives'
 	'services'
 	'filters'
+	'angularUiRouter'
+	'angular-bootstrap'
+	'angles'
 
-
-], (
-		
-		angular
-		controllers
-		directives
-		services
-		filters
-
-		
-	)->
+], (angular)->
 		angular.module('myapp',[
 
 			'ui.router'
@@ -25,8 +18,5 @@ define [
 			'myapp.directives'
 			'myapp.services'
 			'myapp.filters'
-			
-			
+			'angles'
 		])
-
-  

@@ -12,7 +12,9 @@
       "jquery": "../vendors/jquery/dist/jquery.min",
       "angular-bootstrap": "../vendors/angular-bootstrap/ui-bootstrap-tpls.min",
       "domReady": "../vendors/requirejs-domready/domready",
-      "underscore": "../vendors/underscore/underscore"
+      "underscore": "../vendors/underscore/underscore",
+      "chart": "../vendors/Chart.js-master/Chart",
+      "angles": "../vendors/angles-master/angles"
     },
     shim: {
       "angular": {
@@ -48,11 +50,14 @@
       },
       "underscore": {
         exports: '_'
+      },
+      'angles': {
+        deps: ['angular', 'chart']
       }
     }
   });
 
-  require(['angular', 'app', 'routes', 'domReady', 'angularUiRouter', 'angular-bootstrap'], function(angular, app, routes, domReady) {
+  require(['angular', 'app', 'routes', 'domReady'], function(angular, app, routes, domReady) {
     return domReady(function() {
       return angular.bootstrap(document, ['myapp']);
     });

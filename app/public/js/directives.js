@@ -38,6 +38,19 @@
           return elem.bind('click', clickingCallback);
         }
       };
+    }).directive('graph', function() {
+      return {
+        restrict: 'EA',
+        scope: {
+          data: "=test",
+          type: "@"
+        },
+        link: function(scope, elem, attr) {
+          var ctx;
+          ctx = elem[0].getContext("2d");
+          return console.log(scope.data);
+        }
+      };
     });
   });
 

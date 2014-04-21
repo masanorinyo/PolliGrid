@@ -2,6 +2,8 @@ require.config
 	
 	paths:
 
+		# -------------- bower installments -------------- #
+		
 		"angular" 				: "../vendors/angular/angular.min"
 		"angularMocks" 			: "../vendors/angular-mock/angular-mock"
 		"angularRoute"			: "../vendors/angular-route/angular-route.min"
@@ -15,6 +17,10 @@ require.config
 		"domReady" 	 			: "../vendors/requirejs-domready/domready"
 		"underscore" 	 		: "../vendors/underscore/underscore"
 		
+		# -------------- these are manually installed - no bower components -------------- #
+
+		"chart"	 	 			: "../vendors/Chart.js-master/Chart"
+		"angles" 				: "../vendors/angles-master/angles"
 		
 		
 	shim:
@@ -47,22 +53,24 @@ require.config
 		"angular-bootstrap" 	: 
 			deps 		 		: ['angular']
 
-
 		"jquery" 				: 
 			exports 		 	: '$'
 
 		"underscore" 			:
 			exports 			: '_'
 
+		'angles'				:
+			deps 				: ['angular','chart']
+			
+
+
 require(
 
-	[
+	[		
 		'angular'
 		'app'
 		'routes'
 		'domReady'
-		'angularUiRouter'
-		'angular-bootstrap'
 	]
 
 	(angular,app,routes,domReady)->

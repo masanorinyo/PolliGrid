@@ -1,10 +1,11 @@
 define ['angular'], (angular) ->
 	angular.module('myapp.services', [])
-		.factory 'filters', ()->
+		.factory 'Filters', ()->
 			target = [
-				
+					id 				: 1
 					title 			: "Age"
 					question 		: "How old are you?"
+					created_at 	: 1398108212271
 					lists:[
 
 						"~ 10"
@@ -17,8 +18,10 @@ define ['angular'], (angular) ->
 					]
 				,
 				
+					id   : 2
 					title: "Ethnicity"
 					question: "What is your ethnicity?"
+					created_at 	: 1398108312271
 					lists:[
 
 						"Asian"
@@ -29,15 +32,21 @@ define ['angular'], (angular) ->
 				
 			]
 
-		.factory 'question', ()->
+		.factory 'Question', ()->
 			question = [
 					id 					: '1'
 					newOption 			: ""
 					question 			: "Which one of the following best describes you"
-					category 			: "lifestyle"
-					favorite			: true
+					category 			: "Lifestyle"
+					respondents 		: []
+					favorite			: false
+					favoritedBy 		: []
+					numOfFavorites 		: 0
 					numOfFilters 		: '2'
 					totalResponses 		: 0
+					created_at			: 1398108212271
+					
+					
 					options 			: [
 							title : 'positive'
 							count : 0
@@ -47,6 +56,7 @@ define ['angular'], (angular) ->
 					]
 					targets 			: [
 
+							id 				: 1
 							title 			: "Age"
 							question 		: "How old are you?"
 							lists:[
@@ -60,8 +70,9 @@ define ['angular'], (angular) ->
 								"61 ~ "
 							]
 						,
-							title: "Ethnicity"
-							question: "What is your ethnicity?"
+							id 				: 2
+							title 			: "Ethnicity"
+							question 		: "What is your ethnicity?"
 							lists:[
 
 								"Asian"
@@ -71,8 +82,21 @@ define ['angular'], (angular) ->
 							]
 
 					]
-				
 			]
+		.factory 'User', ()->
+			user = 
 				
+				id  					: '1'
+				name  					: 'Masanori'
+				email 					: 'masanorinyo@gmail.com'
+				password 				: 'test'
+				profilePic 				: "/img/profile-pic.jpg"
+				isLoggedIn 				: false
+				favorites 				: []
+				questionsAnswered 		: []
+				filterQuestionsAnswered : []
+
+					
+					
 				
 			

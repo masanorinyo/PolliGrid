@@ -14,6 +14,7 @@ define ['angular','controllers'], (angular,controllers) ->
 				element.bind attr.stopEvent, (e)->
 					e.stopPropagation()
 
+
 		.directive 'buttonOk', ()->
 	        
 			restrict 	: 'A'
@@ -37,3 +38,27 @@ define ['angular','controllers'], (angular,controllers) ->
 						elem.children('i').removeClass('white')
 
 				elem.bind('click', clickingCallback)
+
+
+
+
+
+
+
+		.directive 'graph', ()->
+			restrict	:'EA'
+			scope 		: {
+				
+				data 	: "=test"
+				type 	: "@"
+			
+			}
+			link		: (scope,elem,attr)->
+				
+				ctx = elem[0].getContext("2d")
+				
+				# if scope.type == "doughnutchart"
+				console.log scope.data
+
+				# new Chart(ctx).Line(scope.data,scope.option)
+					

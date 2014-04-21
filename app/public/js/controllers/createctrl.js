@@ -1,20 +1,26 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modalInstance, $location, $timeout, filters, question) {
+    return function($scope, $modalInstance, $location, $timeout, Filters, Question) {
       var findSameOption, message, newQuestion, questions, targets, utility;
       findSameOption = function(item) {
-        if (item === newQuestion.newOption) {
+        if (item.title === newQuestion.newOption) {
           return true;
         } else {
           return false;
         }
       };
-      questions = $scope.questions = question;
-      targets = $scope.targets = filters;
+      questions = $scope.questions = Question;
+      targets = $scope.targets = Filters;
       newQuestion = $scope.question = {
         newOption: "",
         question: "",
         category: "0",
+        respondents: [],
+        favorite: false,
+        favoritedBy: [],
+        numOfFilters: 0,
+        totalResponses: 0,
+        created_at: Date,
         options: [],
         targets: []
       };
@@ -115,6 +121,8 @@
       $scope.completeQuestion = function() {
         newQuestion.question = "Which one ".concat(newQuestion.question);
         newQuestion.numOfFilters = _.size(newQuestion.targets);
+        newQuestion.created_at = new Date().getTime();
+        newQuestion.id = Math.random();
         questions.unshift(newQuestion);
         utility.isQuestionCreated = false;
         return utility.isQuestionCompleted = true;

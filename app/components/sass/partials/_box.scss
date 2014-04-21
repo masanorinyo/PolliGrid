@@ -108,6 +108,7 @@
 		display:inline-block;
 		max-width:370px;
 		min-height:300px;
+		float:left;
 		
 		@include at-breakpoint($medium){
 			margin:10px;
@@ -126,6 +127,10 @@
 				margin:3em 2em 2em 1.5em;
 			}
 
+			.chart-main{
+				margin:0 9% 40px;
+			}
+
 		}
 
 		.question{
@@ -134,7 +139,6 @@
 		}
 
 		.alert{
-			display:none;
 			margin:auto;
 			width:90%;
 		}
@@ -148,6 +152,10 @@
 			}
 		}
 		
+		.reset-button{
+			margin-left:20px;
+		}
+
 		.submit-button{
 			float:right;
 			width:100px;

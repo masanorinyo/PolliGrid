@@ -1,27 +1,33 @@
 define ['underscore'], ( _ )->
-	($scope,$modalInstance,$location,$timeout,filters,question)->
+	($scope,$modalInstance,$location,$timeout,Filters,Question)->
 		
 		# --------------------- Functions for utility --------------------- #
 		
 		findSameOption = (item)->
 			
-			if item == newQuestion.newOption then true else false
+			if item.title == newQuestion.newOption then true else false
 
 						
 		# ----------------- Scope functions and variables ----------------- #
 		
 		# ***************  models *************** #
 
-		questions = $scope.questions = question
-		targets = $scope.targets = filters
+		questions = $scope.questions = Question
+		targets = $scope.targets = Filters
 
 		newQuestion = $scope.question = 
-			
 			newOption 			: ""
 			question 			: ""
 			category 			: "0"
+			respondents 		: []
+			favorite 			: false
+			favoritedBy 		: []
+			numOfFilters		: 0
+			totalResponses 		: 0
+			created_at 			: Date
 			options 			: []
 			targets 			: []
+
 	
 		
 
@@ -75,9 +81,12 @@ define ['underscore'], ( _ )->
 		#this will create options
 		$scope.createOption	= (option)->
 
+
+			# check to see if the same option is present
 			sameOptionFound = _.find(newQuestion.options,findSameOption)
 			
-
+			
+			# check if newly created option is empty and the same option is found
 			if option is "" or !option
 
 				return false
@@ -88,6 +97,7 @@ define ['underscore'], ( _ )->
 			
 			else 
 
+				# newly created option meets the above conditions, added to the question
 				newlyCreatedOption = 
 					title : option
 					count : 0
@@ -95,10 +105,13 @@ define ['underscore'], ( _ )->
 				newQuestion.options.push(newlyCreatedOption)
 				utility.isOptionAdded = true
 				utility.isSameOptionFound = false 
+				
+				# resetting for another option
 				$timeout ->
 					utility.isOptionAdded = false
 				,500,true
 
+			# clears out the input
 			newQuestion.newOption = ''
 
 		# this will remove options 
@@ -114,19 +127,22 @@ define ['underscore'], ( _ )->
 			
 			foundSameTarget = false
 			
+
+			# check to see if the same filter is attached with the question.
 			foundSameTarget = _.find(newQuestion.targets,(item)->
 				
 				_.isEqual(item,target)
 
 			)
 
-			# if found, then remove it
 			if _.isUndefined(foundSameTarget) or !foundSameTarget
 				
+				# attach it to the question
 				newQuestion.targets.push(target)				
 
 			else
 				
+				# if found with the question, then remove it.				
 				index = newQuestion.targets.indexOf(target)	
 				newQuestion.targets.splice(index,1)
 			
@@ -189,12 +205,22 @@ define ['underscore'], ( _ )->
 				false
 				
 
-
+		# This will convert the temporary question into an actual question
 		$scope.completeQuestion = ()->
 			
 			newQuestion.question = "Which one ".concat(newQuestion.question)
 
+			# get the number of added target audience questions
 			newQuestion.numOfFilters = _.size(newQuestion.targets)
+
+			# get the current time
+			newQuestion.created_at = new Date().getTime()			
+
+
+			# development purpose -> once connected with MongoDB
+			# this will be removed because MongoDB will do this task
+			newQuestion.id = Math.random()
+
 
 			questions.unshift(newQuestion)
 			utility.isQuestionCreated 		= false
