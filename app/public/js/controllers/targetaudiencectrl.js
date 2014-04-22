@@ -28,11 +28,13 @@
             answer: targetAnswer
           };
           if ($scope.num === question.numOfFilters - 1) {
+            console.log('current scope num :' + $scope.num);
             $scope.num = question.numOfFilters;
             addFilterAnswer(answer);
             $scope.showResult = true;
             return $scope.question.alreadyAnswered = true;
           } else {
+            console.log('current scope num :' + $scope.num);
             $scope.num++;
             return addFilterAnswer(answer);
           }
@@ -44,6 +46,9 @@
         $scope.question.alreadyAnswered = false;
         return $scope.$emit('resetAnswer', question);
       };
+      $scope.$on("showGraph", function(result) {
+        return $scope.showResult = true;
+      });
       return $scope.$apply();
     };
   });

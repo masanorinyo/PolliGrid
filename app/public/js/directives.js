@@ -59,29 +59,27 @@
         scope: {
           question: "=",
           num: "=",
-          showResult: "=showResult",
+          showResult: "=",
           index: "@",
           answers: "="
         },
         link: function(scope) {
           return $timeout(function() {
             var i, length, targetIds;
-            console.log(scope.num);
             targetIds = _.pluck(scope.question.targets, 'id');
             length = scope.answers.length;
             i = 0;
             while (i < length) {
               if (Number(targetIds[scope.index]) === Number(scope.answers[i])) {
-                console.log('target id :' + targetIds[scope.index]);
-                console.log('scope answer :' + scope.answers[i]);
+                console.log('yes sir');
                 scope.num++;
                 scope.answers.splice(i, 1);
-                break;
               }
               i++;
             }
+            console.log('current scope num from directive:' + scope.num);
             if (Number(scope.num) === Number(scope.question.numOfFilters)) {
-              return scope.showResult = true;
+              return scope.$emit('showGraph', true);
             }
           }, 520, true);
         }

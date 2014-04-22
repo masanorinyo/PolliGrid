@@ -52,7 +52,7 @@ define ['underscore'], (_)->
 				# user's answer to the target question
 				answer = 
 					id 		: targetQuestionID
-					answer 	:targetAnswer
+					answer 	: targetAnswer
 				
 				
 
@@ -61,7 +61,7 @@ define ['underscore'], (_)->
 				# when the $scope num matches the total number of the filter questions
 				# then the result seciton will be shown.
 				if $scope.num == question.numOfFilters-1
-					
+					console.log 'current scope num :'+$scope.num
 					# since the question.numOfFilters is one more
 					# than $scope.num so by euqalizing them, 
 					# the target audience section will be hidden
@@ -79,7 +79,7 @@ define ['underscore'], (_)->
 
 
 				else
-
+					console.log 'current scope num :'+$scope.num
 					$scope.num++
 
 					addFilterAnswer(answer)
@@ -105,7 +105,10 @@ define ['underscore'], (_)->
 			
 			
 
-
+		$scope.$on "showGraph", (result)->
+			
+			$scope.showResult = true
+			
 		
 		
 		# ------------------ Invoke the scope ------------------ #		

@@ -65,7 +65,7 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 			scope:{
 				question  	: "="
 				num 		: "="
-				showResult  : "=showResult"
+				showResult  : "="
 				index 		: "@"
 				answers 	: "="
 			}
@@ -76,28 +76,29 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 				$timeout ()->
 
 					# scope.num = scope.index
-					console.log scope.num
 					targetIds 	= _.pluck(scope.question.targets,'id')
 					
 					length = scope.answers.length
 					i = 0
 
+
+
+
 					while i < length
 
+
 						if Number(targetIds[scope.index]) == Number(scope.answers[i])
-							console.log 'target id :'+targetIds[scope.index]
-							console.log 'scope answer :'+scope.answers[i]
+							console.log 'yes sir'							
 							scope.num++
 							scope.answers.splice(i,1)
-							break
+							
 
 						i++
 
-					# if the index (number of filter questions) equal
-					# number of filters - 1, then show the chart
+					console.log 'current scope num from directive:'+scope.num
 					if Number(scope.num) == Number(scope.question.numOfFilters)
 						
-						scope.showResult = true
+						scope.$emit 'showGraph',true						
 
 						
 				,520,true    
