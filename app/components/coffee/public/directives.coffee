@@ -58,55 +58,6 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 				
 				,500,true      
 
-<<<<<<< HEAD
-		#  should not be based on alreadyAnswered -> based on each answer to the filter question
-		.directive 'skipToResult', ($timeout,User)->
-
-			restrict : "A"
-			scope:{
-				question  	: "="
-				num 		: "="
-				showResult  : "="
-				index 		: "@"
-				answers 	: "="
-			}
-			link : (scope)->
-				
-				
-
-				$timeout ()->
-
-					# scope.num = scope.index
-					targetIds 	= _.pluck(scope.question.targets,'id')
-					
-					length = scope.answers.length
-					i = 0
-
-
-
-
-					while i < length
-
-
-						if Number(targetIds[scope.index]) == Number(scope.answers[i])
-							console.log 'yes sir'							
-							scope.num++
-							scope.answers.splice(i,1)
-							
-
-						i++
-
-					console.log 'current scope num from directive:'+scope.num
-					if Number(scope.num) == Number(scope.question.numOfFilters)
-						
-						scope.$emit 'showGraph',true						
-
-						
-				,520,true    
-		
-=======
->>>>>>> testing
-		
 		.directive 'favorited', ($timeout,User)->
 
 			restrict : "A"

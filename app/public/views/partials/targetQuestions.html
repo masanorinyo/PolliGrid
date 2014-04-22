@@ -1,12 +1,5 @@
-<<<<<<< HEAD
-{{$index}}
-<div  skip-to-result num="$parent.num" show-result="$parent.showResult" question="question" index="{{$index}}" answers="$parent.clonedAnsweredIds" ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-show="$index == num">	
-	{{showResult}}
-	{{clonedAnsweredIds}}
-=======
 <div  ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-hide="targetChecker[$index].isAnswered">	
 	
->>>>>>> testing
 	<p class='question'>
 		{{target.question}}
 	</p>

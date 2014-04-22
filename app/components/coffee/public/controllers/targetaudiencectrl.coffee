@@ -155,24 +155,8 @@ define ['underscore'], (_)->
 				$scope.user.filterQuestionsAnswered.push(answer)
 				
 
-<<<<<<< HEAD
-				# $scope num will increment everytime users answer to
-				# target audience question.
-				# when the $scope num matches the total number of the filter questions
-				# then the result seciton will be shown.
-				if $scope.num == question.numOfFilters-1
-					console.log 'current scope num :'+$scope.num
-					# since the question.numOfFilters is one more
-					# than $scope.num so by euqalizing them, 
-					# the target audience section will be hidden
-					$scope.num = question.numOfFilters
 
-
-					addFilterAnswer(answer)
-=======
 				checkFilterQuestionStatus(answer)
->>>>>>> testing
-
 		
 				# if everything is answered, show result
 				if $scope.areAllQuestionAnswered
@@ -182,17 +166,6 @@ define ['underscore'], (_)->
 					# without answering.
 					$scope.question.alreadyAnswered = true
 
-<<<<<<< HEAD
-
-				else
-					console.log 'current scope num :'+$scope.num
-					$scope.num++
-
-					addFilterAnswer(answer)
-
-=======
-			
->>>>>>> testing
 
 
 		# reset everything 

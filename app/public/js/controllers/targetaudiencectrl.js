@@ -90,23 +90,10 @@
             id: targetQuestionID,
             answer: targetAnswer
           };
-<<<<<<< HEAD
-          if ($scope.num === question.numOfFilters - 1) {
-            console.log('current scope num :' + $scope.num);
-            $scope.num = question.numOfFilters;
-            addFilterAnswer(answer);
-            $scope.showResult = true;
-            return $scope.question.alreadyAnswered = true;
-          } else {
-            console.log('current scope num :' + $scope.num);
-            $scope.num++;
-            return addFilterAnswer(answer);
-=======
           $scope.user.filterQuestionsAnswered.push(answer);
           checkFilterQuestionStatus(answer);
           if ($scope.areAllQuestionAnswered) {
             return $scope.question.alreadyAnswered = true;
->>>>>>> testing
           }
         }
       };
