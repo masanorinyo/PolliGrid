@@ -58,6 +58,7 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 				
 				,500,true      
 
+<<<<<<< HEAD
 		#  should not be based on alreadyAnswered -> based on each answer to the filter question
 		.directive 'skipToResult', ($timeout,User)->
 
@@ -103,6 +104,8 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 						
 				,520,true    
 		
+=======
+>>>>>>> testing
 		
 		.directive 'favorited', ($timeout,User)->
 

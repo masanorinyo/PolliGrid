@@ -71,6 +71,7 @@
           };
           $scope.user.questionsAnswered.push(answer);
           $scope.submitted = true;
+          $scope.$broadcast('answerSubmitted', 'submitted');
           return getData();
         }
       };

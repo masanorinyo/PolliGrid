@@ -53,6 +53,7 @@
           }, 500, true);
         }
       };
+<<<<<<< HEAD
     }).directive('skipToResult', function($timeout, User) {
       return {
         restrict: "A",
@@ -84,6 +85,8 @@
           }, 520, true);
         }
       };
+=======
+>>>>>>> testing
     }).directive('favorited', function($timeout, User) {
       return {
         restrict: "A",

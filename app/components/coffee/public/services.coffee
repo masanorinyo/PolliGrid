@@ -40,20 +40,20 @@ define ['angular'], (angular) ->
 					category 			: "Lifestyle"
 					respondents 		: []
 					favorite			: false
-					alreadyAnswered 	: true
+					alreadyAnswered 	: false
 					favoritedBy 		: [1]
 					numOfFavorites 		: 0
-					numOfFilters 		: '2'
+					numOfFilters 		: 2
 					totalResponses 		: 8
 					created_at			: 1398108212271
 					creator 			: 1
 					
 					options 			: [
 							title : 'positive'
-							count : 5
+							count : 4
 						,
 							title : 'negative'
-							count : 3
+							count : 4
 					]
 					targets 			: [
 
@@ -83,6 +83,70 @@ define ['angular'], (angular) ->
 							]
 
 					]
+				,
+					id 					: 2
+					newOption 			: ""
+					question 			: "Which one of the following best describes you"
+					category 			: "Lifestyle"
+					respondents 		: []
+					favorite			: false
+					alreadyAnswered 	: false
+					favoritedBy 		: [1]
+					numOfFavorites 		: 0
+					numOfFilters 		: 1
+					totalResponses 		: 5
+					created_at			: 1398108212271
+					creator 			: 1
+					
+					options 			: [
+							title : 'positive'
+							count : 2
+						,
+							title : 'negative'
+							count : 3
+					]
+					targets 			: [
+
+						
+							id 				: 2
+							title 			: "Ethnicity"
+							question 		: "What is your ethnicity?"
+							lists:[
+
+								"Asian"
+								"Hispanic"
+								"Caucasian"
+								"African-American"
+							]
+
+					]
+				,
+					id 					: 3
+					newOption 			: ""
+					question 			: "Which one of the following best describes you"
+					category 			: "Lifestyle"
+					respondents 		: []
+					favorite			: false
+					alreadyAnswered 	: false
+					favoritedBy 		: [1]
+					numOfFavorites 		: 0
+					numOfFilters 		: 0
+					totalResponses 		: 4
+					created_at			: 1398108212271
+					creator 			: 1
+					
+					options 			: [
+							title : 'positive'
+							count : 0
+						,
+							title : 'negative'
+							count : 4
+					]
+					targets 			: [
+
+						
+
+					]
 				
 			]
 		.factory 'User', ()->
@@ -97,8 +161,9 @@ define ['angular'], (angular) ->
 				favorites 				: [1]
 				questionMade 			: [1]
 				questionsAnswered 		: [
-					'id' 	: 1
-					'answer': "positive"
+						'id' 	: 1
+						'answer': "positive"
+						
 				]
 				filterQuestionsAnswered : [
 						'id' 	: 2
