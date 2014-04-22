@@ -21,6 +21,11 @@ define ['underscore'], (_)->
 		
 
 
+
+
+
+
+
 		# ***************  Functions *************** #
 		$scope.submitAnswer = (choice,question)->
 
@@ -65,10 +70,50 @@ define ['underscore'], (_)->
 
 			
 		# ------------------ IO listeners ------------------ #
-				
-		$scope.$on 'resetAnswer',(user)->
+			
+		# reset everything	
+		$scope.$on 'resetAnswer',(question)->
+			
+			#shows the main question section
 			$scope.submitted = false
-			$scope.answer = ''			
+			
+			# decrement the total resonse for the reset
+			$scope.question.totalResponses--
+
+
+			questionId = Number($scope.question.id)
+			
+			answers = _.pluck($scope.user.questionsAnswered,'id')
+			
+			foundAnswerId = _.find answers,(id)->	
+					
+					Number(id) == Number(questionId)
+
+			foundAnswered = _.find $scope.user.questionsAnswered, (answer)->
+				Number(answer.id) == Number(foundAnswerId)
+
+			
+			foundOption = _.find $scope.question.options,(option)->
+				option.title == foundAnswered.answer
+
+			# decrement the count for the reset
+			foundOption.count--
+
+
+			index = answers.indexOf(questionId)
+			
+			console.log index
+
+			_.find $scope.user.questionsAnswered,(answer)->
+				if Number(answer.id) == Number(questionId)
+					
+					$scope.user.questionsAnswered.splice(index,1)
+				
+
+			console.log $scope.user
+			
+			# reset the chosen answers
+			$scope.answer = ''
 			
 
 		# ------------------ invoke the scope ------------------ #

@@ -24,6 +24,7 @@ define ['underscore'], ( _ )->
 			favoritedBy 		: []
 			numOfFilters		: 0
 			totalResponses 		: 0
+			alreadyAnswered 	: false
 			created_at 			: Date
 			options 			: []
 			targets 			: []

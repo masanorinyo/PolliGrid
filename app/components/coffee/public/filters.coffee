@@ -1,3 +1,10 @@
-define ['angular'], (angular) ->
-	angular.module('myapp.filters', [])
+define ['angular','underscore'], (angular,_) ->
+	angular.module('myapp.filters', ["myapp.services"])
+
+					
+		
+			
+			
+
+
 		

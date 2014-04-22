@@ -17,8 +17,10 @@
 <section class='content-section'>
 	<h1 hidden>question</h1>
 	<ul class='content-cards'>
-		<li  ng-repeat="question in questions | filter:searchQuestion"  ng-controller="ListCtrl">
-			<div class="card card-large">
+		<li  ng-repeat="question in questions | filter:searchQuestion" 
+		 ng-controller="ListCtrl">
+		 	
+			<div answered='question' submitted="submitted"  class="card card-large">
 				
 				<!-- should make a directive for this -->
 				<div class="favorite-button" ng-click="fillStar(question)">

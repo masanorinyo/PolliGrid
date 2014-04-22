@@ -1,4 +1,4 @@
-<div  ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-show="$index == num">	
+<div  skip-to-result num="$parent.num" question="question" ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-show="$index == num">	
 	<p class='question'>
 		{{target.question}}
 	</p>
@@ -23,7 +23,7 @@
 	</form>
 </div>
 
-<div  class="content animated fadeInLeft" ng-show="showResult">	
+<div show-result="showResult" question="question" class="content animated fadeInLeft" ng-show="showResult">	
 	<h4 class="gray result-label">
 		Result:
 	</h4>
@@ -39,12 +39,12 @@
 		</li>
 	</ul>
  	
-	<!-- <div ng-controller="ChartCtrl">
+	<div ng-if="showResult" ng-controller="ChartCtrl">
 
-        <canvas donutchart class="chart-main" options="myChartOptions" data="myChartData" width="300" height="300"></canvas>
+        <canvas donutchart class="chart-main" data="myChartData" width="300" height="300"></canvas>
 
-    </div> -->
-	<button ng-click="resetAnswer(user)" class="reset-button bigger btn btn-default">
+    </div>
+	<button ng-click="resetAnswer(question)" class="reset-button bigger btn btn-default">
 		Reset
 	</button>
 

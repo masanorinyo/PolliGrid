@@ -40,25 +40,57 @@ define ['angular','controllers'], (angular,controllers) ->
 				elem.bind('click', clickingCallback)
 
 
+		.directive 'answered', ($timeout)->
 
-
-
-
-
-		.directive 'graph', ()->
-			restrict	:'EA'
-			scope 		: {
-				
-				data 	: "=test"
-				type 	: "@"
-			
+			restrict : "A"
+			scope:{
+				answered  	: "="
+				submitted 	: "="
 			}
-			link		: (scope,elem,attr)->
+			controller : ($scope)->
 				
-				ctx = elem[0].getContext("2d")
+				$timeout ()->
 				
-				# if scope.type == "doughnutchart"
-				console.log scope.data
+					if $scope.answered.alreadyAnswered
+				
+						$scope.submitted = true
+						
+				
+				,500,true      
 
-				# new Chart(ctx).Line(scope.data,scope.option)
-					
+		#  should not be based on alreadyAnswered -> based on each answer to the filter question
+		.directive 'skipToResult', ($timeout)->
+
+			restrict : "A"
+			scope:{
+				question  	: "="
+				num 		: "="
+			}
+			controller : ($scope)->
+				
+				$timeout ()->
+				
+				
+					if $scope.question.alreadyAnswered
+				
+						$scope.num = -1
+						
+						
+				,520,true    
+		
+		.directive 'showResult', ($timeout)->
+
+			restrict : "A"
+			scope:{
+				showResult  	: "=showResult"
+				question 		: "="
+			}
+			controller : ($scope)->
+				
+				$timeout ()->
+				
+					if $scope.question.alreadyAnswered
+				
+						$scope.showResult = true
+						
+				,550,true   

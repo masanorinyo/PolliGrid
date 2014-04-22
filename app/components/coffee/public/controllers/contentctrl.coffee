@@ -6,7 +6,6 @@ define ['underscore'], (_)->
 		# ***************  Models *************** #
 		$scope.questions = Question
 		
-		
 
 
 		# ***************  Variables *************** #

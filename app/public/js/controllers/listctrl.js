@@ -36,8 +36,30 @@
           return $scope.user.favorites.splice(index, 1);
         }
       };
-      $scope.$on('resetAnswer', function(user) {
+      $scope.$on('resetAnswer', function(question) {
+        var answers, foundAnswerId, foundAnswered, foundOption, index, questionId;
         $scope.submitted = false;
+        $scope.question.totalResponses--;
+        questionId = Number($scope.question.id);
+        answers = _.pluck($scope.user.questionsAnswered, 'id');
+        foundAnswerId = _.find(answers, function(id) {
+          return Number(id) === Number(questionId);
+        });
+        foundAnswered = _.find($scope.user.questionsAnswered, function(answer) {
+          return Number(answer.id) === Number(foundAnswerId);
+        });
+        foundOption = _.find($scope.question.options, function(option) {
+          return option.title === foundAnswered.answer;
+        });
+        foundOption.count--;
+        index = answers.indexOf(questionId);
+        console.log(index);
+        _.find($scope.user.questionsAnswered, function(answer) {
+          if (Number(answer.id) === Number(questionId)) {
+            return $scope.user.questionsAnswered.splice(index, 1);
+          }
+        });
+        console.log($scope.user);
         return $scope.answer = '';
       });
       return $scope.$apply();

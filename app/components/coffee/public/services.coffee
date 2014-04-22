@@ -40,6 +40,7 @@ define ['angular'], (angular) ->
 					category 			: "Lifestyle"
 					respondents 		: []
 					favorite			: false
+					alreadyAnswered 	: false
 					favoritedBy 		: []
 					numOfFavorites 		: 0
 					numOfFilters 		: '2'
@@ -82,6 +83,56 @@ define ['angular'], (angular) ->
 							]
 
 					]
+				,
+					id 					: '2'
+					newOption 			: ""
+					question 			: "Which one of the following best describes you"
+					category 			: "Lifestyle"
+					respondents 		: []
+					favorite			: false
+					alreadyAnswered 	: true
+					favoritedBy 		: []
+					numOfFavorites 		: 0
+					numOfFilters 		: '2'
+					totalResponses 		: 1
+					created_at			: 1398108212271
+					
+					
+					options 			: [
+							title : 'positive'
+							count : 1
+						,
+							title : 'negative'
+							count : 0
+					]
+					targets 			: [
+
+							id 				: 1
+							title 			: "Age"
+							question 		: "How old are you?"
+							lists:[
+
+								"~ 10"
+								"11 ~ 20"
+								"21 ~ 30"
+								"31 ~ 40"
+								"41 ~ 50"
+								"51 ~ 60"
+								"61 ~ "
+							]
+						,
+							id 				: 2
+							title 			: "Ethnicity"
+							question 		: "What is your ethnicity?"
+							lists:[
+
+								"Asian"
+								"Hispanic"
+								"Caucasian"
+								"African-American"
+							]
+
+					]
 			]
 		.factory 'User', ()->
 			user = 
@@ -92,9 +143,21 @@ define ['angular'], (angular) ->
 				password 				: 'test'
 				profilePic 				: "/img/profile-pic.jpg"
 				isLoggedIn 				: false
-				favorites 				: []
-				questionsAnswered 		: []
-				filterQuestionsAnswered : []
+				favorites 				: [1]
+				questionsAnswered 		: [
+					'id' 	: 2
+					'answer': "positive"
+				]
+				filterQuestionsAnswered : [
+						'id' 	: 1
+						'answer':'11 ~ 20'
+					,
+						'id' 	: 2
+						'answer':'Asian'
+				]
+
+
+
 
 					
 					

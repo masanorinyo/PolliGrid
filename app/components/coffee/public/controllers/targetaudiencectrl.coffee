@@ -11,6 +11,7 @@ define ['underscore'], (_)->
 		$scope.targetAnswer = ""
 
 		
+
 		# ------------------ Scope funcitons ------------------ #
 		
 		$scope.submitTarget = (question,targetAnswer)->
@@ -53,7 +54,6 @@ define ['underscore'], (_)->
 					# this will show the result section
 					$scope.showResult = true
 
-					console.log $scope.user
 
 
 
@@ -67,26 +67,18 @@ define ['underscore'], (_)->
 
 
 		# reset everything 
-		$scope.resetAnswer = (user)->
-
-			# get rid of the last question answered
-			$scope.user.questionsAnswered.pop()
-
+		$scope.resetAnswer = (question)->
+			
 			# remove filterQuestionAnswered one by one
 			# $scope.num = 0 means no new answers
-			while $scope.num != 0
-				
-				$scope.user.filterQuestionsAnswered.pop()
-
-				$scope.num--
+			$scope.num = 0
 
 			#cancels out everything
 			$scope.showResult = false
 			
 
-
 			# send the information to the upper scopes
-			$scope.$emit('resetAnswer',user)
+			$scope.$emit('resetAnswer',question)
 			
 			
 			

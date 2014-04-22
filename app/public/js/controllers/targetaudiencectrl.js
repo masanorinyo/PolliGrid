@@ -18,22 +18,17 @@
           if ($scope.num === question.numOfFilters - 1) {
             $scope.num = question.numOfFilters;
             $scope.user.filterQuestionsAnswered.push(answer);
-            $scope.showResult = true;
-            return console.log($scope.user);
+            return $scope.showResult = true;
           } else {
             $scope.num++;
             return $scope.user.filterQuestionsAnswered.push(answer);
           }
         }
       };
-      $scope.resetAnswer = function(user) {
-        $scope.user.questionsAnswered.pop();
-        while ($scope.num !== 0) {
-          $scope.user.filterQuestionsAnswered.pop();
-          $scope.num--;
-        }
+      $scope.resetAnswer = function(question) {
+        $scope.num = 0;
         $scope.showResult = false;
-        return $scope.$emit('resetAnswer', user);
+        return $scope.$emit('resetAnswer', question);
       };
       return $scope.$apply();
     };

@@ -1,6 +1,6 @@
 (function() {
-  define(['angular'], function(angular) {
-    return angular.module('myapp.filters', []);
+  define(['angular', 'underscore'], function(angular, _) {
+    return angular.module('myapp.filters', ["myapp.services"]);
   });
 
 }).call(this);

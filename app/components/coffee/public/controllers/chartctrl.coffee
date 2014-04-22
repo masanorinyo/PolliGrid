@@ -15,7 +15,8 @@ define ['underscore'], (_)->
 	        animateRotate : true,
 	        animateScale : true,
 	        onAnimationComplete : null
-	    
+
+
 
 		$scope.myChartData = [
 			

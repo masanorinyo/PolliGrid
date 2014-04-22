@@ -38,17 +38,49 @@
           return elem.bind('click', clickingCallback);
         }
       };
-    }).directive('graph', function() {
+    }).directive('answered', function($timeout) {
       return {
-        restrict: 'EA',
+        restrict: "A",
         scope: {
-          data: "=test",
-          type: "@"
+          answered: "=",
+          submitted: "="
         },
-        link: function(scope, elem, attr) {
-          var ctx;
-          ctx = elem[0].getContext("2d");
-          return console.log(scope.data);
+        controller: function($scope) {
+          return $timeout(function() {
+            if ($scope.answered.alreadyAnswered) {
+              return $scope.submitted = true;
+            }
+          }, 500, true);
+        }
+      };
+    }).directive('skipToResult', function($timeout) {
+      return {
+        restrict: "A",
+        scope: {
+          question: "=",
+          num: "="
+        },
+        controller: function($scope) {
+          return $timeout(function() {
+            if ($scope.question.alreadyAnswered) {
+              return $scope.num = -1;
+            }
+          }, 520, true);
+        }
+      };
+    }).directive('showResult', function($timeout) {
+      return {
+        restrict: "A",
+        scope: {
+          showResult: "=showResult",
+          question: "="
+        },
+        controller: function($scope) {
+          return $timeout(function() {
+            if ($scope.question.alreadyAnswered) {
+              return $scope.showResult = true;
+            }
+          }, 550, true);
         }
       };
     });
