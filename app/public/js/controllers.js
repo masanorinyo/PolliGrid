@@ -46,16 +46,11 @@
           "$scope": $scope
         });
       });
-    }).controller('TargetAudienceCtrl', function($scope, $injector) {
+    }).controller('TargetAudienceCtrl', function($scope, $timeout, $injector) {
       return require(['controllers/targetaudiencectrl'], function(targetaudiencectrl) {
         return $injector.invoke(targetaudiencectrl, this, {
-          "$scope": $scope
-        });
-      });
-    }).controller('ChartCtrl', function($scope, $injector) {
-      return require(['controllers/chartctrl'], function(chartctrl) {
-        return $injector.invoke(chartctrl, this, {
-          "$scope": $scope
+          "$scope": $scope,
+          "$timeout": $timeout
         });
       });
     }).controller('ListCtrl', function($scope, $injector) {

@@ -91,7 +91,7 @@ define ['angular'], (angular) ->
 					respondents 		: []
 					favorite			: false
 					alreadyAnswered 	: true
-					favoritedBy 		: []
+					favoritedBy 		: [1]
 					numOfFavorites 		: 0
 					numOfFilters 		: '2'
 					totalResponses 		: 1

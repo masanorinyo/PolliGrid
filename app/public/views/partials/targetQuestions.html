@@ -39,11 +39,11 @@
 		</li>
 	</ul>
  	
-	<div ng-if="showResult" ng-controller="ChartCtrl">
+	
 
-        <canvas donutchart class="chart-main" data="myChartData" width="300" height="300"></canvas>
+    <canvas ng-if="showResult" donutchart class="chart-main" data="myChartData" width="300" height="300"></canvas>
 
-    </div>
+    
 	<button ng-click="resetAnswer(question)" class="reset-button bigger btn btn-default">
 		Reset
 	</button>

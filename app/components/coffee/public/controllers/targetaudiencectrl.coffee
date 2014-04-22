@@ -2,7 +2,8 @@ define ['underscore'], (_)->
 	($scope,Question)->
 
 		
-
+		getColor = ()->
+			'#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
 
 		# ------------------ Scope variables ------------------ #
 		
@@ -10,7 +11,7 @@ define ['underscore'], (_)->
 		$scope.showResult = false
 		$scope.targetAnswer = ""
 
-		
+		$scope.myChartData = []	
 
 		# ------------------ Scope funcitons ------------------ #
 		
@@ -55,6 +56,13 @@ define ['underscore'], (_)->
 					$scope.showResult = true
 
 
+					for i in question.options
+						num = question.options[i].count
+						color = getColor()
+						newValue = 
+							value : num
+							color : color
+						$scope.myChartData.push(newValue)
 
 
 				else

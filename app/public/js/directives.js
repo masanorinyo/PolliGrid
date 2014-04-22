@@ -1,6 +1,6 @@
 (function() {
-  define(['angular', 'controllers'], function(angular, controllers) {
-    return angular.module('myapp.directives', ['myapp.controllers']).directive('newFilter', function() {
+  define(['angular', 'controllers', 'underscore'], function(angular, controllers, _) {
+    return angular.module('myapp.directives', ['myapp.controllers', 'myapp.services']).directive('newFilter', function() {
       return {
         restrict: 'EA',
         scope: true,
@@ -45,10 +45,10 @@
           answered: "=",
           submitted: "="
         },
-        controller: function($scope) {
+        link: function(scope) {
           return $timeout(function() {
-            if ($scope.answered.alreadyAnswered) {
-              return $scope.submitted = true;
+            if (scope.answered.alreadyAnswered) {
+              return scope.submitted = true;
             }
           }, 500, true);
         }
@@ -60,10 +60,10 @@
           question: "=",
           num: "="
         },
-        controller: function($scope) {
+        link: function(scope) {
           return $timeout(function() {
-            if ($scope.question.alreadyAnswered) {
-              return $scope.num = -1;
+            if (scope.question.alreadyAnswered) {
+              return scope.num = -1;
             }
           }, 520, true);
         }
@@ -75,10 +75,29 @@
           showResult: "=showResult",
           question: "="
         },
-        controller: function($scope) {
+        link: function(scope) {
           return $timeout(function() {
-            if ($scope.question.alreadyAnswered) {
-              return $scope.showResult = true;
+            if (scope.question.alreadyAnswered) {
+              return scope.showResult = true;
+            }
+          }, 550, true);
+        }
+      };
+    }).directive('favorited', function($timeout, User) {
+      return {
+        restrict: "A",
+        scope: {
+          question: "=favorited"
+        },
+        link: function(scope) {
+          return $timeout(function() {
+            var foundUser;
+            foundUser = _.find(scope.question.favoritedBy, function(id) {
+              return Number(id) === Number(User.id);
+            });
+            console.log(foundUser);
+            if (foundUser) {
+              return scope.question.favorite = true;
             }
           }, 550, true);
         }

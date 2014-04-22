@@ -1,5 +1,5 @@
-define ['angular','controllers'], (angular,controllers) ->
-	angular.module('myapp.directives', ['myapp.controllers'])
+define ['angular','controllers','underscore'], (angular,controllers,_) ->
+	angular.module('myapp.directives', ['myapp.controllers','myapp.services'])
 
 		.directive 'newFilter',()->
 			restrict 	: 'EA'
@@ -47,13 +47,13 @@ define ['angular','controllers'], (angular,controllers) ->
 				answered  	: "="
 				submitted 	: "="
 			}
-			controller : ($scope)->
+			link : (scope)->
 				
 				$timeout ()->
 				
-					if $scope.answered.alreadyAnswered
+					if scope.answered.alreadyAnswered
 				
-						$scope.submitted = true
+						scope.submitted = true
 						
 				
 				,500,true      
@@ -66,14 +66,15 @@ define ['angular','controllers'], (angular,controllers) ->
 				question  	: "="
 				num 		: "="
 			}
-			controller : ($scope)->
+			link : (scope)->
 				
 				$timeout ()->
 				
 				
-					if $scope.question.alreadyAnswered
+					if scope.question.alreadyAnswered
+						
 				
-						$scope.num = -1
+						scope.num = -1
 						
 						
 				,520,true    
@@ -85,12 +86,37 @@ define ['angular','controllers'], (angular,controllers) ->
 				showResult  	: "=showResult"
 				question 		: "="
 			}
-			controller : ($scope)->
+			link : (scope)->
 				
 				$timeout ()->
 				
-					if $scope.question.alreadyAnswered
+					if scope.question.alreadyAnswered
 				
-						$scope.showResult = true
+						scope.showResult = true
 						
-				,550,true   
+				,550,true 
+
+		# check if the question is already favorited -> if yes, then fill the star
+		.directive 'favorited', ($timeout,User)->
+
+			restrict : "A"
+			scope:{
+				question 		: "=favorited"
+			}
+			link : (scope)->
+				
+				$timeout ()->
+					
+					
+
+					foundUser = _.find scope.question.favoritedBy, (id)->
+						Number(id) == Number(User.id)
+
+					console.log foundUser
+
+					if foundUser
+						scope.question.favorite = true
+						
+				,550,true 
+
+	
