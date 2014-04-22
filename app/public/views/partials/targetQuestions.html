@@ -39,9 +39,7 @@
 		</li>
 	</ul>
  	
-	
-
-    <canvas  id="canvas" ng-if="showResult" piechart class="chart-main" data="myChartData" width="300" height="300"></canvas>
+    <canvas  ng-if="showResult" piechart options="myChartOptions" class="chart-main" data="myChartData" width="300" height="300"></canvas>
 
     
 	<button ng-click="resetAnswer(question)" class="reset-button bigger btn btn-default">

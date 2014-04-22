@@ -35,10 +35,13 @@
           created_at: 1398108212271,
           options: [
             {
-              title: 'positive',
+              title: 'test1',
               count: 0
             }, {
-              title: 'negative',
+              title: 'test 2',
+              count: 0
+            }, {
+              title: 'test 3',
               count: 0
             }
           ],

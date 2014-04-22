@@ -95,7 +95,6 @@
             foundUser = _.find(scope.question.favoritedBy, function(id) {
               return Number(id) === Number(User.id);
             });
-            console.log(foundUser);
             if (foundUser) {
               return scope.question.favorite = true;
             }

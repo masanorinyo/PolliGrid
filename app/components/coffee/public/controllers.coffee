@@ -65,22 +65,23 @@ define ['angular','services'], (angular) ->
 				)
 			)
 
-		.controller 'TargetAudienceCtrl', ($scope, $timeout, $injector)->
+		.controller 'ListCtrl', ($scope, $q,$injector)->
+			require(['controllers/listctrl'], (listctrl)->
+				$injector.invoke(
+					listctrl, this,{
+						"$scope": $scope
+						"$q" 	: $q
+					}
+				)
+			)
+
+		.controller 'TargetAudienceCtrl', ($scope, $timeout,$q, $injector)->
 			require(['controllers/targetaudiencectrl'], (targetaudiencectrl)->
 				$injector.invoke(
 					targetaudiencectrl, this,{
 						"$scope": $scope
 						"$timeout":$timeout
-					}
-				)
-			)
-
-
-		.controller 'ListCtrl', ($scope, $injector)->
-			require(['controllers/listctrl'], (listctrl)->
-				$injector.invoke(
-					listctrl, this,{
-						"$scope": $scope
+						"$q":$q
 					}
 				)
 			)

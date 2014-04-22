@@ -1,9 +1,19 @@
 define ['underscore'], (_)->
-	($scope,Question)->
+	($scope,$timeout,$q,Question)->
 
 		
 		getColor = ()->
 			'#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+
+		getInvertColor = (hexTripletColor)->
+    		color = hexTripletColor
+    		color = color.substring(1)          
+    		color = parseInt(color, 16)         
+    		color = 0xFFFFFF ^ color          
+    		color = color.toString(16)
+    		color = ("000000" + color).slice(-6)
+    		color = "#" + color 
+    		color
 
 		# ------------------ Scope variables ------------------ #
 		
@@ -11,28 +21,54 @@ define ['underscore'], (_)->
 		$scope.showResult = false
 		$scope.targetAnswer = ""
 
-		$scope.myChartData = [
-	        	value: 30,
-	        	color: "#F38630",
-	        	label: 'Yo yo yo yo yo',
-	        	labelColor: 'black',
-	        	labelFontSize: '12'
-    		,
-        		value: 50,
-        		color: "#E0E4CC"
-        		label: 'HELLO super \nagative omg ',
-	        	labelColor: 'black',
-	        	labelFontSize: '12'
-    		, 
-        		value: 100,
-        		color: "#69D2E7"
-        		label: 'HELLO',
-	        	labelColor: 'black',
-	        	labelFontSize: '12'
-    	]	
 
+		#chartJS / angles - chart configuration
+		$scope.myChartOptions =  
+	       
+	        # Boolean - Whether we should animate the chart
+	        animation : true
 
+	        # Number - Number of animation steps
+	        animationStep : 100
 
+	        # String - Animation easing effect
+	        animationEasing : "easeOutQuart"
+
+	    # ---- chart data ---- #
+	    
+	    # data holder
+	    $scope.myChartData = []
+
+		# get data when the page loads up
+		getData = ->
+			$scope.myChartData = []
+			_ref = $scope.question.options
+			_i = 0
+			_len = _ref.length
+
+			while _i < _len
+				obj = _ref[_i]
+				count = obj.count
+				title = obj.title
+				color = getColor()
+				invertColor = getInvertColor(color)
+				data =
+					value: count
+					color: color
+					label: title
+					labelColor: invertColor
+					labelFontSize: "20"
+
+				$scope.myChartData.push data
+				_i++
+			return
+	    
+	    # loads the chart data when the page initially is loaded
+		do ()->
+			
+			getData()
+
+			
 
 		# ------------------ Scope funcitons ------------------ #
 		
@@ -76,15 +112,9 @@ define ['underscore'], (_)->
 					# this will show the result section
 					$scope.showResult = true
 
+					$scope.question.alreadyAnswered = true
 
-					# for i in question.options
-					# 	num = question.options[i].count
-					# 	color = getColor()
-					# 	newValue = 
-					# 		value : num
-					# 		color : color
-					# 	$scope.myChartData.push(newValue)
-
+					getData()
 
 				else
 
@@ -92,6 +122,7 @@ define ['underscore'], (_)->
 
 					# add the answer to the user's list
 					$scope.user.filterQuestionsAnswered.push(answer)					
+
 
 
 
@@ -104,6 +135,8 @@ define ['underscore'], (_)->
 
 			#cancels out everything
 			$scope.showResult = false
+
+			$scope.question.alreadyAnswered = false
 			
 
 			# send the information to the upper scopes

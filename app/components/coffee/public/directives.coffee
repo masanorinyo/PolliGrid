@@ -72,7 +72,7 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 				
 				
 					if scope.question.alreadyAnswered
-						
+
 				
 						scope.num = -1
 						
@@ -111,8 +111,6 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 
 					foundUser = _.find scope.question.favoritedBy, (id)->
 						Number(id) == Number(User.id)
-
-					console.log foundUser
 
 					if foundUser
 						scope.question.favorite = true

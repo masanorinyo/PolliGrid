@@ -49,10 +49,13 @@ define ['angular'], (angular) ->
 					
 					
 					options 			: [
-							title : 'positive'
+							title : 'test1'
 							count : 0
 						,
-							title : 'negative'
+							title : 'test 2'
+							count : 0
+						,
+							title : 'test 3'
 							count : 0
 					]
 					targets 			: [
