@@ -50,10 +50,10 @@ define ['angular'], (angular) ->
 					
 					options 			: [
 							title : 'positive'
-							count : 5
+							count : 4
 						,
 							title : 'negative'
-							count : 3
+							count : 4
 					]
 					targets 			: [
 

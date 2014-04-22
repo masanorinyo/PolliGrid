@@ -66,19 +66,18 @@
         link: function(scope) {
           return $timeout(function() {
             var i, length, targetIds;
-            console.log(scope.num);
             targetIds = _.pluck(scope.question.targets, 'id');
             length = scope.answers.length;
             i = 0;
-            while (i < length) {
-              if (Number(targetIds[scope.index]) === Number(scope.answers[i])) {
-                console.log('target id :' + targetIds[scope.index]);
-                console.log('scope answer :' + scope.answers[i]);
-                scope.num++;
-                scope.answers.splice(i, 1);
-                break;
+            if (Number(scope.index) !== Number(scope.num)) {
+              while (i < length) {
+                if (Number(targetIds[scope.index]) === Number(scope.answers[i])) {
+                  scope.num++;
+                  scope.answers.splice(i, 1);
+                  break;
+                }
+                i++;
               }
-              i++;
             }
             if (Number(scope.num) === Number(scope.question.numOfFilters)) {
               return scope.showResult = true;

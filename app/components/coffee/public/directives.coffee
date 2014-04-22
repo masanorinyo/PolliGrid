@@ -75,26 +75,32 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 
 				$timeout ()->
 
-					# scope.num = scope.index
-					console.log scope.num
 					targetIds 	= _.pluck(scope.question.targets,'id')
 					
 					length = scope.answers.length
 					i = 0
 
-					while i < length
+					# console.log Number(scope.num)
+					# console.log Number(scope.index)
 
-						if Number(targetIds[scope.index]) == Number(scope.answers[i])
-							console.log 'target id :'+targetIds[scope.index]
-							console.log 'scope answer :'+scope.answers[i]
-							scope.num++
-							scope.answers.splice(i,1)
-							break
+					if Number(scope.index) != Number(scope.num)
+						while i < length
 
-						i++
+							if Number(targetIds[scope.index]) == Number(scope.answers[i])
+							
+								scope.num++
+
+								scope.answers.splice(i,1)
+								break
+
+							i++
+
+
+					
+					
 
 					# if the index (number of filter questions) equal
-					# number of filters - 1, then show the chart
+					# number of filters, then show the chart
 					if Number(scope.num) == Number(scope.question.numOfFilters)
 						
 						scope.showResult = true

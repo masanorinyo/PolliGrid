@@ -1,4 +1,4 @@
-<div  skip-to-result num="$parent.num" show-result="$parent.showResult" question="question" index="{{$index}}" answers="$parent.clonedAnsweredIds" ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-show="$index == num">	
+<div  skip-to-result num="$parent.num" show-result="$parent.showResult" question="question" index="{{$index}}" answers="$parent.clonedAnsweredIds" ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-show="!targetChecker[$index].isAnswered || $index == num">	
 	{{$parent.num}}
 	{{$parent.clonedAnsweredIds}}
 	<p class='question'>
@@ -10,7 +10,7 @@
 		Please select something
 	</p>
 	
-	<form ng-submit="submitTarget(question,targetAnswer)">
+	<form ng-submit="submitTarget(question,targetAnswer,$index)">
 		
 		<ul class="answers">
 			<li class='answer' ng-repeat='list in target.lists'>

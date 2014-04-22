@@ -1,21 +1,26 @@
 define ['underscore'], (_)->
 	($scope,$timeout,$q,Question)->
 
+		# ------------------ Utility functions ------------------ #		
 		
-		
+		# check if all of the filter question is answered
+		checkIfEverythingAnswered = ()->
+			
+			length = $scope.targetChecker.length
+			i=0
 
-		# ------------------ Scope variables ------------------ #
-		
-		$scope.num = 0	
-		$scope.showResult = false
-		$scope.targetAnswer = ""
+			while i < length
 
-		# for show-result directive
-		# used to compare the question's target id 
-		# if it is found in the question's target id, then removes it.
-		$scope.clonedAnsweredIds = _.pluck(angular.copy($scope.user.filterQuestionsAnswered),'id')
+				if $scope.targetChecker[i].isAnswered
+					
+					$scope.areAllQuestionAnswered = true
 
-	
+				else 
+
+					$scope.areAllQuestionAnswered = false
+				i++
+				
+
 		addFilterAnswer = (answer)->
 			#once answers to the filter added, 
 			defer = $q.defer()
@@ -31,10 +36,53 @@ define ['underscore'], (_)->
 					$scope.clonedAnsweredIds = _.pluck(angular.copy($scope.user.filterQuestionsAnswered),'id')
 			defer.resolve()
 
+
+		makeTargetChecker = ()->
+
+			length = $scope.question.targets.length
+			i=0
+
+			
+			
+			while i < length
+				
+				#this will be used to show if the user already answered to the filter question	
+				target  =
+					id  		: $scope.question.targets[i].id
+					isAnswered 	: false
+
+
+
+				$scope.targetChecker.push(target)
+				i++
+
+		# ------------------ Scope variables ------------------ #
+		
+		$scope.num = 0	
+		$scope.showResult = false
+		$scope.targetAnswer = ""
+		$scope.areAllQuestionAnswered = false
+
+		# target filter answered or not
+		$scope.targetChecker =[]
+
+		# for show-result directive
+		# used to compare the question's target id 
+		# if it is found in the question's target id, then removes it.
+		$scope.clonedAnsweredIds = _.pluck(angular.copy($scope.user.filterQuestionsAnswered),'id')
+
+
+
+
+		do ()->
+
+			makeTargetChecker()
+
+
 		# ------------------ Scope funcitons ------------------ #
 		
-		$scope.submitTarget = (question,targetAnswer)->
-
+		$scope.submitTarget = (question,targetAnswer,index)->
+			
 
 			# warning message pops up if users didn't choose any answer
 			if targetAnswer is "" or !targetAnswer
@@ -47,41 +95,53 @@ define ['underscore'], (_)->
 				$scope.warning = false
 
 				# this will get the id of the target audience question.
-				targetQuestionID = question.targets[$scope.num].id
+				targetQuestionID = question.targets[index].id
+
 
 				# user's answer to the target question
 				answer = 
 					id 		: targetQuestionID
-					answer 	:targetAnswer
+					answer 	: targetAnswer
 				
 				
+				# find the answered filter question 
+				# make true the boolean value isAnswered of the targetChecker related to the filter id 
+				defer = $q.defer()
+				defer.promise
+					.then ()->
+						
+						answer = _.find $scope.targetChecker, (target)->
 
-				# $scope num will increment everytime users answer to
-				# target audience question.
-				# when the $scope num matches the total number of the filter questions
-				# then the result seciton will be shown.
-				if $scope.num == question.numOfFilters-1
+							target.id == targetQuestionID
+
+						
+						answer.isAnswered = true
+
+					.then ()->
+
+						checkIfEverythingAnswered()
+
+				defer.resolve()
+
+
+
+				# if everything is answered, show result
+				if $scope.areAllQuestionAnswered
 					
-					# since the question.numOfFilters is one more
-					# than $scope.num so by euqalizing them, 
-					# the target audience section will be hidden
-					$scope.num = question.numOfFilters
-
-
+					# this will add the filter answer to user's answers list
 					addFilterAnswer(answer)
-
-					
 
 					# this will show the result section
 					$scope.showResult = true
 
+					# by making this true, the question will show result from the next time
+					# without answering.
 					$scope.question.alreadyAnswered = true
 
-
+				# if everything is not answered, go to the next filter question
 				else
 
-					$scope.num++
-
+					# this will add the filter answer to user's answers list
 					addFilterAnswer(answer)
 
 
@@ -89,10 +149,10 @@ define ['underscore'], (_)->
 		# reset everything 
 		$scope.resetAnswer = (question)->
 			
-			# remove filterQuestionAnswered one by one
-			# $scope.num = 0 means no new answers
-			$scope.num = 0
-
+			# cancels out all the answers
+			$scope.areAllQuestionAnswered = false
+			makeTargetChecker()
+			
 			#cancels out everything
 			$scope.showResult = false
 
