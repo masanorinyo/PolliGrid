@@ -58,56 +58,6 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 				
 				,500,true      
 
-		#  should not be based on alreadyAnswered -> based on each answer to the filter question
-		.directive 'skipToResult', ($timeout,User)->
-
-			restrict : "A"
-			scope:{
-				question  	: "="
-				num 		: "="
-				showResult  : "=showResult"
-				index 		: "@"
-				answers 	: "="
-			}
-			link : (scope)->
-				
-				
-
-				$timeout ()->
-
-					targetIds 	= _.pluck(scope.question.targets,'id')
-					
-					length = scope.answers.length
-					i = 0
-
-					# console.log Number(scope.num)
-					# console.log Number(scope.index)
-
-					if Number(scope.index) != Number(scope.num)
-						while i < length
-
-							if Number(targetIds[scope.index]) == Number(scope.answers[i])
-							
-								scope.num++
-
-								scope.answers.splice(i,1)
-								break
-
-							i++
-
-
-					
-					
-
-					# if the index (number of filter questions) equal
-					# number of filters, then show the chart
-					if Number(scope.num) == Number(scope.question.numOfFilters)
-						
-						scope.showResult = true
-
-						
-				,520,true    
-		
 		
 		.directive 'favorited', ($timeout,User)->
 

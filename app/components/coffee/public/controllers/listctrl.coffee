@@ -39,6 +39,9 @@ define ['underscore'], (_)->
 				$scope.myChartData.push data
 				i++
 			return
+
+
+
 		# ----------------- Scope functions and variables ----------------- #
 	
 		# ***************  ChartJS configuration *************** #
@@ -59,7 +62,7 @@ define ['underscore'], (_)->
 	        animationEasing : "easeOutQuart"
 
 
-		
+
 
 		
 		# ***************  Models *************** #
@@ -107,6 +110,10 @@ define ['underscore'], (_)->
 				$scope.user.questionsAnswered.push(answer)
 
 				$scope.submitted = true
+
+				$scope.$broadcast('answerSubmitted','submitted')
+
+
 				getData()
 		
 

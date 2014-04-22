@@ -1,58 +1,86 @@
 (function() {
   define(['underscore'], function(_) {
     return function($scope, $timeout, $q, Question) {
-      var addFilterAnswer, checkIfEverythingAnswered, makeTargetChecker;
+      var checkFilterQuestionStatus, checkIfEverythingAnswered, checkIfQuestionAlaredyAnswered, makeTargetChecker;
       checkIfEverythingAnswered = function() {
-        var i, length, _results;
+        var i, length, numOfAnswers;
         length = $scope.targetChecker.length;
         i = 0;
-        _results = [];
+        numOfAnswers = 0;
         while (i < length) {
           if ($scope.targetChecker[i].isAnswered) {
-            $scope.areAllQuestionAnswered = true;
-          } else {
-            $scope.areAllQuestionAnswered = false;
+            numOfAnswers++;
           }
-          _results.push(i++);
+          i++;
         }
-        return _results;
+        if (numOfAnswers === length) {
+          return $scope.areAllQuestionAnswered = true;
+        }
       };
-      addFilterAnswer = function(answer) {
-        var defer;
-        defer = $q.defer();
-        defer.promise.then(function() {
-          return $scope.user.filterQuestionsAnswered.push(answer);
-        }).then(function() {
-          return $scope.clonedAnsweredIds = _.pluck(angular.copy($scope.user.filterQuestionsAnswered), 'id');
-        });
-        return defer.resolve();
-      };
-      makeTargetChecker = function() {
-        var i, length, target, _results;
+      makeTargetChecker = function(answer) {
+        var answeredIds, found, i, length, target, _results;
+        $scope.targetChecker = [];
         length = $scope.question.targets.length;
         i = 0;
+        answeredIds = _.pluck($scope.user.filterQuestionsAnswered, 'id');
+        if (answer !== "") {
+          answeredIds.push(answer.id);
+        }
         _results = [];
         while (i < length) {
-          target = {
-            id: $scope.question.targets[i].id,
-            isAnswered: false
-          };
+          found = _.find(answeredIds, function(id) {
+            return Number(id) === Number($scope.question.targets[i].id);
+          });
+          if (found) {
+            target = {
+              id: found,
+              isAnswered: true
+            };
+          } else {
+            $scope.question.targets[i].id;
+            target = {
+              id: $scope.question.targets[i].id,
+              isAnswered: false
+            };
+          }
           $scope.targetChecker.push(target);
           _results.push(i++);
         }
         return _results;
       };
-      $scope.num = 0;
+      checkFilterQuestionStatus = function(answer) {
+        var defer;
+        defer = $q.defer();
+        defer.promise.then(function() {
+          return makeTargetChecker(answer);
+        }).then(function() {
+          return checkIfEverythingAnswered();
+        });
+        return defer.resolve();
+      };
+      checkIfQuestionAlaredyAnswered = function() {
+        var found, isThisQuestionAnswered;
+        found = _.pluck($scope.user.questionsAnswered, 'id');
+        isThisQuestionAnswered = _.find(found, function(id) {
+          return id === $scope.question.id;
+        });
+        if (isThisQuestionAnswered) {
+          return $scope.question.alreadyAnswered = true;
+        }
+      };
       $scope.showResult = false;
       $scope.targetAnswer = "";
       $scope.areAllQuestionAnswered = false;
       $scope.targetChecker = [];
-      $scope.clonedAnsweredIds = _.pluck(angular.copy($scope.user.filterQuestionsAnswered), 'id');
       (function() {
-        return makeTargetChecker();
+        checkFilterQuestionStatus('');
+        return checkIfQuestionAlaredyAnswered();
       })();
+      $scope.$on('answerSubmitted', function(message) {
+        return checkFilterQuestionStatus('');
+      });
       $scope.submitTarget = function(question, targetAnswer, index) {
-        var answer, defer, targetQuestionID;
+        var answer, targetQuestionID;
         if (targetAnswer === "" || !targetAnswer) {
           return $scope.warning = true;
         } else {
@@ -62,28 +90,16 @@
             id: targetQuestionID,
             answer: targetAnswer
           };
-          defer = $q.defer();
-          defer.promise.then(function() {
-            answer = _.find($scope.targetChecker, function(target) {
-              return target.id === targetQuestionID;
-            });
-            return answer.isAnswered = true;
-          }).then(function() {
-            return checkIfEverythingAnswered();
-          });
-          defer.resolve();
+          $scope.user.filterQuestionsAnswered.push(answer);
+          checkFilterQuestionStatus(answer);
           if ($scope.areAllQuestionAnswered) {
-            addFilterAnswer(answer);
-            $scope.showResult = true;
             return $scope.question.alreadyAnswered = true;
-          } else {
-            return addFilterAnswer(answer);
           }
         }
       };
       $scope.resetAnswer = function(question) {
         $scope.areAllQuestionAnswered = false;
-        makeTargetChecker();
+        makeTargetChecker('');
         $scope.showResult = false;
         $scope.question.alreadyAnswered = false;
         return $scope.$emit('resetAnswer', question);

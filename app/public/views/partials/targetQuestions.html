@@ -1,6 +1,5 @@
-<div  skip-to-result num="$parent.num" show-result="$parent.showResult" question="question" index="{{$index}}" answers="$parent.clonedAnsweredIds" ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-show="!targetChecker[$index].isAnswered || $index == num">	
-	{{$parent.num}}
-	{{$parent.clonedAnsweredIds}}
+<div  ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-hide="targetChecker[$index].isAnswered">	
+	
 	<p class='question'>
 		{{target.question}}
 	</p>
@@ -25,7 +24,7 @@
 	</form>
 </div>
 
-<div class="content animated fadeInLeft" ng-show="showResult">	
+<div class="content animated fadeInLeft" ng-show="areAllQuestionAnswered">	
 	<h4 class="gray result-label">
 		Result:
 	</h4>
@@ -50,7 +49,7 @@
 		</li> -->
 	</ul>
  	
-    <canvas  ng-if="showResult" piechart options="myChartOptions" class="chart-main" data="myChartData" width="300" height="300"></canvas>
+    <canvas  ng-if="areAllQuestionAnswered" piechart options="myChartOptions" class="chart-main" data="myChartData" width="300" height="300"></canvas>
 
     
 	<button ng-click="resetAnswer(question)" class="reset-button bigger btn btn-default">

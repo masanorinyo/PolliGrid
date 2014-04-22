@@ -8,57 +8,103 @@ define ['underscore'], (_)->
 			
 			length = $scope.targetChecker.length
 			i=0
+			numOfAnswers = 0
 
 			while i < length
-
-				if $scope.targetChecker[i].isAnswered
-					
-					$scope.areAllQuestionAnswered = true
-
-				else 
-
-					$scope.areAllQuestionAnswered = false
-				i++
 				
 
-		addFilterAnswer = (answer)->
-			#once answers to the filter added, 
-			defer = $q.defer()
-			defer.promise
-				.then ()->
-					# add the answer to the user's list
-					$scope.user.filterQuestionsAnswered.push(answer)					
-				.then ()->
+				if $scope.targetChecker[i].isAnswered
+					numOfAnswers++ 
+					
+				i++
 
-					# for show-result directive
-					# used to compare the question's target id 
-					# if it is found in the question's target id, then removes it.
-					$scope.clonedAnsweredIds = _.pluck(angular.copy($scope.user.filterQuestionsAnswered),'id')
-			defer.resolve()
+			# if the number of filter questions and 
+			# number of filter questions answered
+			# make allQuestionAnswered true, which show the result section
+			if numOfAnswers == length
+				$scope.areAllQuestionAnswered = true
+				
 
-
-		makeTargetChecker = ()->
-
+		# this will determine which filter question needs to be shown
+		makeTargetChecker = (answer)->
+			
+			#cleans up the checker first
+			$scope.targetChecker = []
+			
+			# get how many filter questions the question has
 			length = $scope.question.targets.length
 			i=0
 
-			
+
+			# get which question the user already answered to
+			answeredIds = _.pluck $scope.user.filterQuestionsAnswered, 'id'
+
+			# if the user answered to a filter question
+			# add the filter id into the answeredIds array
+			if answer != ""
+				answeredIds.push(answer.id)
 			
 			while i < length
 				
-				#this will be used to show if the user already answered to the filter question	
-				target  =
-					id  		: $scope.question.targets[i].id
-					isAnswered 	: false
+				# find out if the question has filter questions, which
+				# the user already answered to
+				found = _.find answeredIds, (id)->
+					Number(id) == Number($scope.question.targets[i].id)
+
+				# if found, then this filter question won't show up
+				if found
+					
+					#this will be used to show if the user already answered to the filter question	
+					target  =
+						id 			: found
+						isAnswered 	: true
+
+				# if not found, then this filter question will show up
+				else 
+
+					# get the filter question id
+					$scope.question.targets[i].id
+
+					#this will be used to show if the user already answered to the filter question	
+					target  =
+						id 			: $scope.question.targets[i].id
+						isAnswered 	: false
 
 
 
 				$scope.targetChecker.push(target)
 				i++
 
+		# check to see if all the filter question is answered
+		checkFilterQuestionStatus = (answer)->
+			defer = $q.defer()
+			defer.promise
+				.then ()->
+					
+					makeTargetChecker(answer)
+					
+				.then ()->
+
+					checkIfEverythingAnswered()
+
+			defer.resolve()
+
+
+		# check if the question is already answered by the user
+		checkIfQuestionAlaredyAnswered = ()->
+			
+			found = _.pluck $scope.user.questionsAnswered,'id'
+
+			isThisQuestionAnswered = _.find found, (id)->
+				id == $scope.question.id
+
+			if isThisQuestionAnswered
+				
+				$scope.question.alreadyAnswered = true		
+
+
 		# ------------------ Scope variables ------------------ #
 		
-		$scope.num = 0	
 		$scope.showResult = false
 		$scope.targetAnswer = ""
 		$scope.areAllQuestionAnswered = false
@@ -66,18 +112,19 @@ define ['underscore'], (_)->
 		# target filter answered or not
 		$scope.targetChecker =[]
 
-		# for show-result directive
-		# used to compare the question's target id 
-		# if it is found in the question's target id, then removes it.
-		$scope.clonedAnsweredIds = _.pluck(angular.copy($scope.user.filterQuestionsAnswered),'id')
 
-
-
-
+		# inital loading - to show results of the questions users already answered
 		do ()->
 
-			makeTargetChecker()
+			checkFilterQuestionStatus('')
+			checkIfQuestionAlaredyAnswered()
+		
 
+		# when users answer to a main question,
+		# check if the user already answered to all its filter questions
+		$scope.$on 'answerSubmitted',(message)->
+
+			checkFilterQuestionStatus('')
 
 		# ------------------ Scope funcitons ------------------ #
 		
@@ -103,47 +150,23 @@ define ['underscore'], (_)->
 					id 		: targetQuestionID
 					answer 	: targetAnswer
 				
+				# add the answered filter question to the user's filterQuestionsAnswered collection
+				# this way, the same filter question won't show up from the next time
+				$scope.user.filterQuestionsAnswered.push(answer)
 				
-				# find the answered filter question 
-				# make true the boolean value isAnswered of the targetChecker related to the filter id 
-				defer = $q.defer()
-				defer.promise
-					.then ()->
-						
-						answer = _.find $scope.targetChecker, (target)->
 
-							target.id == targetQuestionID
+				checkFilterQuestionStatus(answer)
 
-						
-						answer.isAnswered = true
-
-					.then ()->
-
-						checkIfEverythingAnswered()
-
-				defer.resolve()
-
-
-
+		
 				# if everything is answered, show result
 				if $scope.areAllQuestionAnswered
 					
-					# this will add the filter answer to user's answers list
-					addFilterAnswer(answer)
-
-					# this will show the result section
-					$scope.showResult = true
 
 					# by making this true, the question will show result from the next time
 					# without answering.
 					$scope.question.alreadyAnswered = true
 
-				# if everything is not answered, go to the next filter question
-				else
-
-					# this will add the filter answer to user's answers list
-					addFilterAnswer(answer)
-
+			
 
 
 		# reset everything 
@@ -151,7 +174,8 @@ define ['underscore'], (_)->
 			
 			# cancels out all the answers
 			$scope.areAllQuestionAnswered = false
-			makeTargetChecker()
+			
+			makeTargetChecker('')
 			
 			#cancels out everything
 			$scope.showResult = false

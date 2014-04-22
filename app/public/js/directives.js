@@ -53,38 +53,6 @@
           }, 500, true);
         }
       };
-    }).directive('skipToResult', function($timeout, User) {
-      return {
-        restrict: "A",
-        scope: {
-          question: "=",
-          num: "=",
-          showResult: "=showResult",
-          index: "@",
-          answers: "="
-        },
-        link: function(scope) {
-          return $timeout(function() {
-            var i, length, targetIds;
-            targetIds = _.pluck(scope.question.targets, 'id');
-            length = scope.answers.length;
-            i = 0;
-            if (Number(scope.index) !== Number(scope.num)) {
-              while (i < length) {
-                if (Number(targetIds[scope.index]) === Number(scope.answers[i])) {
-                  scope.num++;
-                  scope.answers.splice(i, 1);
-                  break;
-                }
-                i++;
-              }
-            }
-            if (Number(scope.num) === Number(scope.question.numOfFilters)) {
-              return scope.showResult = true;
-            }
-          }, 520, true);
-        }
-      };
     }).directive('favorited', function($timeout, User) {
       return {
         restrict: "A",
