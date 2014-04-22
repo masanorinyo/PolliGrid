@@ -63,18 +63,18 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 			restrict : "A"
 			scope:{
 				question 		: "=favorited"
+				favorite 		: "="
 			}
 			link : (scope)->
 				
 				$timeout ()->
 					
-					
+									
+					favoriteQuestion = _.find User.favorites, (id)->
+						Number(id) == Number(scope.question.id)
 
-					foundUser = _.find scope.question.favoritedBy, (id)->
-						Number(id) == Number(User.id)
-
-					if foundUser
-						scope.question.favorite = true
+					if favoriteQuestion
+						scope.favorite = true
 						
 				,550,true 
 

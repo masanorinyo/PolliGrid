@@ -57,16 +57,17 @@
       return {
         restrict: "A",
         scope: {
-          question: "=favorited"
+          question: "=favorited",
+          favorite: "="
         },
         link: function(scope) {
           return $timeout(function() {
-            var foundUser;
-            foundUser = _.find(scope.question.favoritedBy, function(id) {
-              return Number(id) === Number(User.id);
+            var favoriteQuestion;
+            favoriteQuestion = _.find(User.favorites, function(id) {
+              return Number(id) === Number(scope.question.id);
             });
-            if (foundUser) {
-              return scope.question.favorite = true;
+            if (favoriteQuestion) {
+              return scope.favorite = true;
             }
           }, 550, true);
         }

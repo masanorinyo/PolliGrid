@@ -39,9 +39,7 @@ define ['angular'], (angular) ->
 					question 			: "Which one of the following best describes you"
 					category 			: "Lifestyle"
 					respondents 		: []
-					favorite			: false
 					alreadyAnswered 	: false
-					favoritedBy 		: [1]
 					numOfFavorites 		: 0
 					numOfFilters 		: 2
 					totalResponses 		: 8
@@ -89,9 +87,7 @@ define ['angular'], (angular) ->
 					question 			: "Which one of the following best describes you"
 					category 			: "Lifestyle"
 					respondents 		: []
-					favorite			: false
 					alreadyAnswered 	: false
-					favoritedBy 		: [1]
 					numOfFavorites 		: 0
 					numOfFilters 		: 1
 					totalResponses 		: 5
@@ -126,9 +122,7 @@ define ['angular'], (angular) ->
 					question 			: "Which one of the following best describes you"
 					category 			: "Lifestyle"
 					respondents 		: []
-					favorite			: false
 					alreadyAnswered 	: false
-					favoritedBy 		: [1]
 					numOfFavorites 		: 0
 					numOfFilters 		: 0
 					totalResponses 		: 4

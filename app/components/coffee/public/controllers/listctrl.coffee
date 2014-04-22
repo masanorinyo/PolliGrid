@@ -81,7 +81,7 @@ define ['underscore'], (_)->
 
 		$scope.warning = false
 		
-
+		$scope.favorite = false
 		# ***************  Functions *************** #
 		# loads the chart data when the page initially is loaded
 		do ()->
@@ -123,9 +123,9 @@ define ['underscore'], (_)->
 
 		$scope.fillStar = (question)->
 			
-			question.favorite = !question.favorite
+			$scope.favorite = !$scope.favorite
 
-			if question.favorite
+			if $scope.favorite
 
 				$scope.user.favorites.push(question.id)
 
@@ -135,7 +135,7 @@ define ['underscore'], (_)->
 				index = $scope.user.favorites.indexOf(question.id)	
 				$scope.user.favorites.splice(index,1)
 				
-
+			console.log User
 			
 		# ------------------ IO listeners ------------------ #
 			

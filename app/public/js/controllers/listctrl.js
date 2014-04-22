@@ -54,6 +54,7 @@
         isQuestionAnswered: false
       };
       $scope.warning = false;
+      $scope.favorite = false;
       (function() {
         return getData();
       })();
@@ -77,13 +78,14 @@
       };
       $scope.fillStar = function(question) {
         var index;
-        question.favorite = !question.favorite;
-        if (question.favorite) {
-          return $scope.user.favorites.push(question.id);
+        $scope.favorite = !$scope.favorite;
+        if ($scope.favorite) {
+          $scope.user.favorites.push(question.id);
         } else {
           index = $scope.user.favorites.indexOf(question.id);
-          return $scope.user.favorites.splice(index, 1);
+          $scope.user.favorites.splice(index, 1);
         }
+        return console.log(User);
       };
       $scope.$on('resetAnswer', function(question) {
         var answers, foundAnswerId, foundAnswered, foundOption, index, questionId;
