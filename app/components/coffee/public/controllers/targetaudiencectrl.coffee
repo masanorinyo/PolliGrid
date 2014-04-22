@@ -11,7 +11,28 @@ define ['underscore'], (_)->
 		$scope.showResult = false
 		$scope.targetAnswer = ""
 
-		$scope.myChartData = []	
+		$scope.myChartData = [
+	        	value: 30,
+	        	color: "#F38630",
+	        	label: 'Yo yo yo yo yo',
+	        	labelColor: 'black',
+	        	labelFontSize: '12'
+    		,
+        		value: 50,
+        		color: "#E0E4CC"
+        		label: 'HELLO super \nagative omg ',
+	        	labelColor: 'black',
+	        	labelFontSize: '12'
+    		, 
+        		value: 100,
+        		color: "#69D2E7"
+        		label: 'HELLO',
+	        	labelColor: 'black',
+	        	labelFontSize: '12'
+    	]	
+
+
+
 
 		# ------------------ Scope funcitons ------------------ #
 		
@@ -56,13 +77,13 @@ define ['underscore'], (_)->
 					$scope.showResult = true
 
 
-					for i in question.options
-						num = question.options[i].count
-						color = getColor()
-						newValue = 
-							value : num
-							color : color
-						$scope.myChartData.push(newValue)
+					# for i in question.options
+					# 	num = question.options[i].count
+					# 	color = getColor()
+					# 	newValue = 
+					# 		value : num
+					# 		color : color
+					# 	$scope.myChartData.push(newValue)
 
 
 				else

@@ -8,9 +8,29 @@
       $scope.num = 0;
       $scope.showResult = false;
       $scope.targetAnswer = "";
-      $scope.myChartData = [];
+      $scope.myChartData = [
+        {
+          value: 30,
+          color: "#F38630",
+          label: 'Yo yo yo yo yo',
+          labelColor: 'black',
+          labelFontSize: '12'
+        }, {
+          value: 50,
+          color: "#E0E4CC",
+          label: 'HELLO super \nagative omg ',
+          labelColor: 'black',
+          labelFontSize: '12'
+        }, {
+          value: 100,
+          color: "#69D2E7",
+          label: 'HELLO',
+          labelColor: 'black',
+          labelFontSize: '12'
+        }
+      ];
       $scope.submitTarget = function(question, targetAnswer) {
-        var answer, color, i, newValue, num, targetQuestionID, _i, _len, _ref, _results;
+        var answer, targetQuestionID;
         if (targetAnswer === "" || !targetAnswer) {
           return $scope.warning = true;
         } else {
@@ -23,20 +43,7 @@
           if ($scope.num === question.numOfFilters - 1) {
             $scope.num = question.numOfFilters;
             $scope.user.filterQuestionsAnswered.push(answer);
-            $scope.showResult = true;
-            _ref = question.options;
-            _results = [];
-            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-              i = _ref[_i];
-              num = question.options[i].count;
-              color = getColor();
-              newValue = {
-                value: num,
-                color: color
-              };
-              _results.push($scope.myChartData.push(newValue));
-            }
-            return _results;
+            return $scope.showResult = true;
           } else {
             $scope.num++;
             return $scope.user.filterQuestionsAnswered.push(answer);
