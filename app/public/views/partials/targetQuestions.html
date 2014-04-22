@@ -1,4 +1,6 @@
-<div  skip-to-result num="$parent.num" question="question" ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-show="$index == num">	
+<div  skip-to-result num="$parent.num" show-result="$parent.showResult" question="question" index="{{$index}}" answers="$parent.clonedAnsweredIds" ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-show="$index == num">	
+	{{$parent.num}}
+	{{$parent.clonedAnsweredIds}}
 	<p class='question'>
 		{{target.question}}
 	</p>
@@ -23,7 +25,7 @@
 	</form>
 </div>
 
-<div show-result="showResult" question="question" class="content animated fadeInLeft" ng-show="showResult">	
+<div class="content animated fadeInLeft" ng-show="showResult">	
 	<h4 class="gray result-label">
 		Result:
 	</h4>
@@ -33,10 +35,19 @@
 	</p>
 
 	<ul class="answers">
-		<li>Total count: {{question.totalResponses}}</li>
-		<li class='answer' ng-repeat='option in question.options'>
-			{{option.title}}: {{option.count}}
+		<li class="blue">	
+			Total count: 
+			<span class="badge">
+				{{question.totalResponses}}
+			</span>
+		
 		</li>
+		<!-- <li class='answer' ng-repeat='option in question.options'>
+			{{option.title}}: 
+			<span class='badge badge-primary'>
+				{{option.count}}
+			</span>
+		</li> -->
 	</ul>
  	
     <canvas  ng-if="showResult" piechart options="myChartOptions" class="chart-main" data="myChartData" width="300" height="300"></canvas>

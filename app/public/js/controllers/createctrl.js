@@ -23,7 +23,8 @@
         alreadyAnswered: false,
         created_at: Date,
         options: [],
-        targets: []
+        targets: [],
+        creator: null
       };
       $scope.showDetails = false;
       message = $scope.message = {
@@ -124,6 +125,7 @@
         newQuestion.numOfFilters = _.size(newQuestion.targets);
         newQuestion.created_at = new Date().getTime();
         newQuestion.id = Math.random();
+        newQuestion.creator = $scope.user.id;
         questions.unshift(newQuestion);
         utility.isQuestionCreated = false;
         return utility.isQuestionCompleted = true;

@@ -1,7 +1,66 @@
 define ['underscore'], (_)->
 	($scope,Question,User,Filters)->
 
+		# ----------------- Utility functions ----------------- #
+		getColor = ()->
+			'#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+
+		getInvertColor = (hexTripletColor)->
+    		color = hexTripletColor
+    		color = color.substring(1)          
+    		color = parseInt(color, 16)         
+    		color = 0xFFFFFF ^ color          
+    		color = color.toString(16)
+    		color = ("000000" + color).slice(-6)
+    		color = "#" + color 
+    		return color
+
+    	# get data when the page loads up
+		getData = ->
+			$scope.myChartData = []
+			ref = $scope.question.options
+			i = 0
+			len = ref.length
+
+			while i < len
+				obj = ref[i]
+				count = obj.count
+				title = obj.title
+				color = getColor()
+				invertColor = getInvertColor(color)
+				data =
+					value 			: count
+					color 			: color
+					label 			: title
+					labelColor 		: invertColor
+					labelFontSize 	: "18"
+					labelAlign 		: 'center'
+
+				$scope.myChartData.push data
+				i++
+			return
 		# ----------------- Scope functions and variables ----------------- #
+	
+		# ***************  ChartJS configuration *************** #
+		
+		# chart data #
+		$scope.myChartData = []
+
+	    #chartJS / angles - chart configuration
+		$scope.myChartOptions =  
+	       
+	        # Boolean - Whether we should animate the chart
+	        animation : true
+
+	        # Number - Number of animation steps
+	        animationStep : 30
+
+	        # String - Animation easing effect
+	        animationEasing : "easeOutQuart"
+
+
+		
+
 		
 		# ***************  Models *************** #
 		$scope.questions = Question
@@ -20,13 +79,14 @@ define ['underscore'], (_)->
 		$scope.warning = false
 		
 
-		
-
-
-
-
-
 		# ***************  Functions *************** #
+		# loads the chart data when the page initially is loaded
+		do ()->
+			
+			getData()
+
+
+
 		$scope.submitAnswer = (choice,question)->
 
 			if choice is "" or !choice
@@ -47,6 +107,7 @@ define ['underscore'], (_)->
 				$scope.user.questionsAnswered.push(answer)
 
 				$scope.submitted = true
+				getData()
 		
 
 

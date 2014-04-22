@@ -2,73 +2,34 @@ define ['underscore'], (_)->
 	($scope,$timeout,$q,Question)->
 
 		
-		getColor = ()->
-			'#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
-
-		getInvertColor = (hexTripletColor)->
-    		color = hexTripletColor
-    		color = color.substring(1)          
-    		color = parseInt(color, 16)         
-    		color = 0xFFFFFF ^ color          
-    		color = color.toString(16)
-    		color = ("000000" + color).slice(-6)
-    		color = "#" + color 
-    		color
+		
 
 		# ------------------ Scope variables ------------------ #
 		
-		$scope.num = 0
+		$scope.num = 0	
 		$scope.showResult = false
 		$scope.targetAnswer = ""
 
+		# for show-result directive
+		# used to compare the question's target id 
+		# if it is found in the question's target id, then removes it.
+		$scope.clonedAnsweredIds = _.pluck(angular.copy($scope.user.filterQuestionsAnswered),'id')
 
-		#chartJS / angles - chart configuration
-		$scope.myChartOptions =  
-	       
-	        # Boolean - Whether we should animate the chart
-	        animation : true
+	
+		addFilterAnswer = (answer)->
+			#once answers to the filter added, 
+			defer = $q.defer()
+			defer.promise
+				.then ()->
+					# add the answer to the user's list
+					$scope.user.filterQuestionsAnswered.push(answer)					
+				.then ()->
 
-	        # Number - Number of animation steps
-	        animationStep : 100
-
-	        # String - Animation easing effect
-	        animationEasing : "easeOutQuart"
-
-	    # ---- chart data ---- #
-	    
-	    # data holder
-	    $scope.myChartData = []
-
-		# get data when the page loads up
-		getData = ->
-			$scope.myChartData = []
-			_ref = $scope.question.options
-			_i = 0
-			_len = _ref.length
-
-			while _i < _len
-				obj = _ref[_i]
-				count = obj.count
-				title = obj.title
-				color = getColor()
-				invertColor = getInvertColor(color)
-				data =
-					value: count
-					color: color
-					label: title
-					labelColor: invertColor
-					labelFontSize: "20"
-
-				$scope.myChartData.push data
-				_i++
-			return
-	    
-	    # loads the chart data when the page initially is loaded
-		do ()->
-			
-			getData()
-
-			
+					# for show-result directive
+					# used to compare the question's target id 
+					# if it is found in the question's target id, then removes it.
+					$scope.clonedAnsweredIds = _.pluck(angular.copy($scope.user.filterQuestionsAnswered),'id')
+			defer.resolve()
 
 		# ------------------ Scope funcitons ------------------ #
 		
@@ -106,23 +67,22 @@ define ['underscore'], (_)->
 					# the target audience section will be hidden
 					$scope.num = question.numOfFilters
 
-					# add the answer to the user's list
-					$scope.user.filterQuestionsAnswered.push(answer)
+
+					addFilterAnswer(answer)
+
+					
 
 					# this will show the result section
 					$scope.showResult = true
 
 					$scope.question.alreadyAnswered = true
 
-					getData()
 
 				else
 
 					$scope.num++
 
-					# add the answer to the user's list
-					$scope.user.filterQuestionsAnswered.push(answer)					
-
+					addFilterAnswer(answer)
 
 
 

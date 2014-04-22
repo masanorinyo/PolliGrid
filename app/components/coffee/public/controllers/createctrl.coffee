@@ -28,6 +28,7 @@ define ['underscore'], ( _ )->
 			created_at 			: Date
 			options 			: []
 			targets 			: []
+			creator 			: null
 
 	
 		
@@ -221,6 +222,8 @@ define ['underscore'], ( _ )->
 			# development purpose -> once connected with MongoDB
 			# this will be removed because MongoDB will do this task
 			newQuestion.id = Math.random()
+
+			newQuestion.creator = $scope.user.id
 
 
 			questions.unshift(newQuestion)

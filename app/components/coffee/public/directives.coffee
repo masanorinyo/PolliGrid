@@ -59,44 +59,50 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 				,500,true      
 
 		#  should not be based on alreadyAnswered -> based on each answer to the filter question
-		.directive 'skipToResult', ($timeout)->
+		.directive 'skipToResult', ($timeout,User)->
 
 			restrict : "A"
 			scope:{
 				question  	: "="
 				num 		: "="
+				showResult  : "=showResult"
+				index 		: "@"
+				answers 	: "="
 			}
 			link : (scope)->
 				
-				$timeout ()->
 				
-				
-					if scope.question.alreadyAnswered
 
-				
-						scope.num = -1
+				$timeout ()->
+
+					# scope.num = scope.index
+					console.log scope.num
+					targetIds 	= _.pluck(scope.question.targets,'id')
+					
+					length = scope.answers.length
+					i = 0
+
+					while i < length
+
+						if Number(targetIds[scope.index]) == Number(scope.answers[i])
+							console.log 'target id :'+targetIds[scope.index]
+							console.log 'scope answer :'+scope.answers[i]
+							scope.num++
+							scope.answers.splice(i,1)
+							break
+
+						i++
+
+					# if the index (number of filter questions) equal
+					# number of filters - 1, then show the chart
+					if Number(scope.num) == Number(scope.question.numOfFilters)
 						
+						scope.showResult = true
+
 						
 				,520,true    
 		
-		.directive 'showResult', ($timeout)->
-
-			restrict : "A"
-			scope:{
-				showResult  	: "=showResult"
-				question 		: "="
-			}
-			link : (scope)->
-				
-				$timeout ()->
-				
-					if scope.question.alreadyAnswered
-				
-						scope.showResult = true
-						
-				,550,true 
-
-		# check if the question is already favorited -> if yes, then fill the star
+		
 		.directive 'favorited', ($timeout,User)->
 
 			restrict : "A"

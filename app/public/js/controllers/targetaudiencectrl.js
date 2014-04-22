@@ -1,56 +1,21 @@
 (function() {
   define(['underscore'], function(_) {
     return function($scope, $timeout, $q, Question) {
-      var getColor, getData, getInvertColor;
-      getColor = function() {
-        return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
-      };
-      getInvertColor = function(hexTripletColor) {
-        var color;
-        color = hexTripletColor;
-        color = color.substring(1);
-        color = parseInt(color, 16);
-        color = 0xFFFFFF ^ color;
-        color = color.toString(16);
-        color = ("000000" + color).slice(-6);
-        color = "#" + color;
-        return color;
-      };
+      var addFilterAnswer;
       $scope.num = 0;
       $scope.showResult = false;
       $scope.targetAnswer = "";
-      $scope.myChartOptions = {
-        animation: true,
-        animationStep: 100,
-        animationEasing: "easeOutQuart"
+      $scope.clonedAnsweredIds = _.pluck(angular.copy($scope.user.filterQuestionsAnswered), 'id');
+      addFilterAnswer = function(answer) {
+        var defer;
+        defer = $q.defer();
+        defer.promise.then(function() {
+          return $scope.user.filterQuestionsAnswered.push(answer);
+        }).then(function() {
+          return $scope.clonedAnsweredIds = _.pluck(angular.copy($scope.user.filterQuestionsAnswered), 'id');
+        });
+        return defer.resolve();
       };
-      $scope.myChartData = [];
-      getData = function() {
-        var color, count, data, invertColor, obj, title, _i, _len, _ref;
-        $scope.myChartData = [];
-        _ref = $scope.question.options;
-        _i = 0;
-        _len = _ref.length;
-        while (_i < _len) {
-          obj = _ref[_i];
-          count = obj.count;
-          title = obj.title;
-          color = getColor();
-          invertColor = getInvertColor(color);
-          data = {
-            value: count,
-            color: color,
-            label: title,
-            labelColor: invertColor,
-            labelFontSize: "20"
-          };
-          $scope.myChartData.push(data);
-          _i++;
-        }
-      };
-      (function() {
-        return getData();
-      })();
       $scope.submitTarget = function(question, targetAnswer) {
         var answer, targetQuestionID;
         if (targetAnswer === "" || !targetAnswer) {
@@ -64,13 +29,12 @@
           };
           if ($scope.num === question.numOfFilters - 1) {
             $scope.num = question.numOfFilters;
-            $scope.user.filterQuestionsAnswered.push(answer);
+            addFilterAnswer(answer);
             $scope.showResult = true;
-            $scope.question.alreadyAnswered = true;
-            return getData();
+            return $scope.question.alreadyAnswered = true;
           } else {
             $scope.num++;
-            return $scope.user.filterQuestionsAnswered.push(answer);
+            return addFilterAnswer(answer);
           }
         }
       };

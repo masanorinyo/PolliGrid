@@ -53,34 +53,37 @@
           }, 500, true);
         }
       };
-    }).directive('skipToResult', function($timeout) {
+    }).directive('skipToResult', function($timeout, User) {
       return {
         restrict: "A",
         scope: {
           question: "=",
-          num: "="
-        },
-        link: function(scope) {
-          return $timeout(function() {
-            if (scope.question.alreadyAnswered) {
-              return scope.num = -1;
-            }
-          }, 520, true);
-        }
-      };
-    }).directive('showResult', function($timeout) {
-      return {
-        restrict: "A",
-        scope: {
+          num: "=",
           showResult: "=showResult",
-          question: "="
+          index: "@",
+          answers: "="
         },
         link: function(scope) {
           return $timeout(function() {
-            if (scope.question.alreadyAnswered) {
+            var i, length, targetIds;
+            console.log(scope.num);
+            targetIds = _.pluck(scope.question.targets, 'id');
+            length = scope.answers.length;
+            i = 0;
+            while (i < length) {
+              if (Number(targetIds[scope.index]) === Number(scope.answers[i])) {
+                console.log('target id :' + targetIds[scope.index]);
+                console.log('scope answer :' + scope.answers[i]);
+                scope.num++;
+                scope.answers.splice(i, 1);
+                break;
+              }
+              i++;
+            }
+            if (Number(scope.num) === Number(scope.question.numOfFilters)) {
               return scope.showResult = true;
             }
-          }, 550, true);
+          }, 520, true);
         }
       };
     }).directive('favorited', function($timeout, User) {
