@@ -13,14 +13,12 @@ define ['underscore'], (_)->
 			length = $scope.targetChecker.length
 			i = 0
 			
-			console.log 'length'+length
-			console.log 'from above'
-			console.log $scope.targetChecker
-
+			# keep skipping the filter question until it hits 
+			# the question which has not been answered.
 			while i < length
-				console.log 'index'+i
+				
 				if $scope.targetChecker[i].isAnswered
-					console.log 'test'
+					
 					$scope.filterNumber++
 									
 					
@@ -30,8 +28,9 @@ define ['underscore'], (_)->
 
 				i++
 
+
 			return $scope.filterNumber
-			
+				
 
 		# check if all of the filter question is answered
 		checkIfEverythingAnswered = ()->
@@ -59,7 +58,7 @@ define ['underscore'], (_)->
 				$scope.areAllQuestionAnswered = true
 				
 
-		# this will determine which filter question needs to be shown
+		# this will determine which filter question is not answered
 		makeTargetChecker = (answer)->
 			
 
@@ -74,8 +73,6 @@ define ['underscore'], (_)->
 			# get which question the user already answered to
 			answeredIds = _.pluck $scope.user.filterQuestionsAnswered, 'id'
 
-
-			
 
 			while i < length
 				
@@ -106,9 +103,10 @@ define ['underscore'], (_)->
 						isAnswered 	: false
 
 
-
+				# after determining if the filter question is answered
+				# add it to the targetChecker object
 				$scope.targetChecker.push(target)
-			
+
 				i++
 
 
@@ -123,6 +121,7 @@ define ['underscore'], (_)->
 					
 					makeTargetChecker(answer)
 					
+				
 				.then ()->
 
 					checkIfEverythingAnswered()
@@ -190,6 +189,8 @@ define ['underscore'], (_)->
 					id 		: targetQuestionID
 					answer 	: targetAnswer
 				
+
+
 				# add the answered filter question to the user's filterQuestionsAnswered collection
 				# this way, the same filter question won't show up from the next time
 				$scope.user.filterQuestionsAnswered.push(answer)
@@ -202,16 +203,10 @@ define ['underscore'], (_)->
 						checkFilterQuestionStatus(answer)
 
 					.then ->
-						$scope.filterNumber++
-						
-
-						if $scope.filterNumber <= question.numOfFilters
+					
+						# skip the filter question which is already answered
+						skipThroughFilterQuestions()
 							
-							if $scope.targetChecker[$scope.filterNumber].isAnswered
-							
-								$scope.filterNumber++
-
-						
 
 						# if everything is answered, show result
 						if $scope.areAllQuestionAnswered
@@ -261,10 +256,14 @@ define ['underscore'], (_)->
 			
 				skipThroughFilterQuestions()
 				
+				console.log "low"
+				console.log $scope.filterNumber
+				console.log "low"
+				console.log $scope.targetChecker
 			
 
 
-			,250,true
+			,500,true
 			
 		
 		# ------------------ Invoke the scope ------------------ #		

@@ -70,7 +70,7 @@
               question: "What is your ethnicity?",
               lists: ["test", "dsa", "Caucasian", "African-American"]
             }, {
-              id: 5,
+              id: 4,
               title: "Ethnicity",
               question: "What is your ethnicity?",
               lists: ["ds", "s", "d", "African-American"]
@@ -109,17 +109,17 @@
               question: "What is your ethnicity?",
               lists: ["Asian", "Hispanic", "Caucasian", "African-American"]
             }, {
-              id: 9,
+              id: 3,
               title: "Ethnicity",
               question: "What is your ethnicity?",
               lists: ["test", "dsa", "Caucasian", "African-American"]
             }, {
-              id: 5,
+              id: 4,
               title: "Ethnicity",
               question: "What is your ethnicity?",
               lists: ["ds", "s", "d", "African-American"]
             }, {
-              id: 14,
+              id: 5,
               title: "Ethnicity",
               question: "What is your ethnicity?",
               lists: ["dhjg", "s", "d", "African-American"]

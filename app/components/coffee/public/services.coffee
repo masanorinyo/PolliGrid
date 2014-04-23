@@ -119,7 +119,7 @@ define ['angular'], (angular) ->
 								"African-American"
 							]
 						,
-							id 				: 5
+							id 				: 4
 							title 			: "Ethnicity"
 							question 		: "What is your ethnicity?"
 							lists:[
@@ -178,7 +178,7 @@ define ['angular'], (angular) ->
 								"African-American"
 							]
 						,
-							id 				: 9
+							id 				: 3
 							title 			: "Ethnicity"
 							question 		: "What is your ethnicity?"
 							lists:[
@@ -189,7 +189,7 @@ define ['angular'], (angular) ->
 								"African-American"
 							]
 						,
-							id 				: 5
+							id 				: 4
 							title 			: "Ethnicity"
 							question 		: "What is your ethnicity?"
 							lists:[
@@ -201,7 +201,7 @@ define ['angular'], (angular) ->
 							]
 						,
 
-							id 				: 14
+							id 				: 5
 							title 			: "Ethnicity"
 							question 		: "What is your ethnicity?"
 							lists:[

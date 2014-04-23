@@ -215,7 +215,7 @@ define ['underscore'], ( _ )->
 			# get the number of added target audience questions
 			newQuestion.numOfFilters = _.size(newQuestion.targets)
 
-			console.log newQuestion.numOfFilters
+			
 			# get the current time
 			newQuestion.created_at = new Date().getTime()			
 

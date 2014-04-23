@@ -53,7 +53,6 @@
           clone_newFilter.created_at = new Date().getTime();
           clone_newFilter.id = Math.random();
           $scope.targets.unshift(clone_newFilter);
-          console.log($scope.targets);
           newFilter.title = "";
           newFilter.question = "";
           newFilter.lists = [];

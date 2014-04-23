@@ -123,7 +123,6 @@
       $scope.completeQuestion = function() {
         newQuestion.question = "Which one ".concat(newQuestion.question);
         newQuestion.numOfFilters = _.size(newQuestion.targets);
-        console.log(newQuestion.numOfFilters);
         newQuestion.created_at = new Date().getTime();
         newQuestion.id = Math.random();
         newQuestion.creator = User.id;

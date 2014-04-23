@@ -7,13 +7,8 @@
         $scope.filterNumber = 0;
         length = $scope.targetChecker.length;
         i = 0;
-        console.log('length' + length);
-        console.log('from above');
-        console.log($scope.targetChecker);
         while (i < length) {
-          console.log('index' + i);
           if ($scope.targetChecker[i].isAnswered) {
-            console.log('test');
             $scope.filterNumber++;
           } else {
             break;
@@ -110,12 +105,7 @@
           defer.promise.then(function() {
             return checkFilterQuestionStatus(answer);
           }).then(function() {
-            $scope.filterNumber++;
-            if ($scope.filterNumber <= question.numOfFilters) {
-              if ($scope.targetChecker[$scope.filterNumber].isAnswered) {
-                $scope.filterNumber++;
-              }
-            }
+            skipThroughFilterQuestions();
             if ($scope.areAllQuestionAnswered) {
               return $scope.question.alreadyAnswered = true;
             }
@@ -136,8 +126,12 @@
       $scope.$on('answerSubmitted', function(message) {
         checkFilterQuestionStatus('');
         return $timeout(function() {
-          return skipThroughFilterQuestions();
-        }, 250, true);
+          skipThroughFilterQuestions();
+          console.log("low");
+          console.log($scope.filterNumber);
+          console.log("low");
+          return console.log($scope.targetChecker);
+        }, 500, true);
       });
       return $scope.$apply();
     };
