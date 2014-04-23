@@ -15,29 +15,31 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 					e.stopPropagation()
 
 
-		.directive 'buttonOk', ()->
+		# this will check if target question is already added to the question
+		.directive 'buttonOk', ($timeout)->
 	        
 			restrict 	: 'A'
-			replace		: true
-			scope 		: true
-			transclude  : true
+			scope 		:{
+				question 	: "=buttonOk"
+				target 		: "="
+				filterAdded : "="
+
+			}
 			link		: (scope,elem)->
+				
+				$timeout ()->
 					
-				clickingCallback = ()->
-					
-					if !elem.hasClass('bg-blue')
+					# if the target question is already added to the question
+					# change the button looks
+					targetIds = _.pluck scope.question.targets,'id'
+									
+					addedFilter = _.find targetIds, (id)->
+						Number(id) == Number(scope.target.id)
+
+					if addedFilter
+						scope.filterAdded = true
 						
-						elem.addClass('bg-blue')
-						elem.children('i').addClass('glyphicon-ok')
-						elem.children('i').addClass('white')
-					
-					else
-
-						elem.removeClass('bg-blue')
-						elem.children('i').removeClass('glyphicon-ok')
-						elem.children('i').removeClass('white')
-
-				elem.bind('click', clickingCallback)
+				,100,true 
 
 
 		.directive 'answered', ($timeout)->

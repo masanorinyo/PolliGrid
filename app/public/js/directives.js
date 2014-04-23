@@ -16,26 +16,25 @@
           });
         }
       };
-    }).directive('buttonOk', function() {
+    }).directive('buttonOk', function($timeout) {
       return {
         restrict: 'A',
-        replace: true,
-        scope: true,
-        transclude: true,
+        scope: {
+          question: "=buttonOk",
+          target: "=",
+          filterAdded: "="
+        },
         link: function(scope, elem) {
-          var clickingCallback;
-          clickingCallback = function() {
-            if (!elem.hasClass('bg-blue')) {
-              elem.addClass('bg-blue');
-              elem.children('i').addClass('glyphicon-ok');
-              return elem.children('i').addClass('white');
-            } else {
-              elem.removeClass('bg-blue');
-              elem.children('i').removeClass('glyphicon-ok');
-              return elem.children('i').removeClass('white');
+          return $timeout(function() {
+            var addedFilter, targetIds;
+            targetIds = _.pluck(scope.question.targets, 'id');
+            addedFilter = _.find(targetIds, function(id) {
+              return Number(id) === Number(scope.target.id);
+            });
+            if (addedFilter) {
+              return scope.filterAdded = true;
             }
-          };
-          return elem.bind('click', clickingCallback);
+          }, 100, true);
         }
       };
     }).directive('answered', function($timeout) {

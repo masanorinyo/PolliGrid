@@ -33,6 +33,13 @@
           "$timeout": $timeout
         });
       });
+    }).controller('FilterCtrl', function($scope, $injector, $timeout) {
+      return require(['controllers/filterctrl'], function(filterctrl) {
+        return $injector.invoke(filterctrl, this, {
+          "$scope": $scope,
+          "$timeout": $timeout
+        });
+      });
     }).controller('NewFilterCtrl', function($scope, $injector, $timeout) {
       return require(['controllers/newfilterctrl'], function(newfilterctrl) {
         return $injector.invoke(newfilterctrl, this, {

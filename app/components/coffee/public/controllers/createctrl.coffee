@@ -38,6 +38,7 @@ define ['underscore'], ( _ )->
 		# If true, this will show the details of a filter
 		$scope.showDetails 		= false
 
+
 		# warning messages
 		message = $scope.message = 
 
@@ -121,34 +122,6 @@ define ['underscore'], ( _ )->
 
 			newQuestion.options.splice(index,1)
 			
-
-		# -- for target audience section --#
-
-		#this will add a filter to the question
-		$scope.addFilter = (target)->
-			
-			foundSameTarget = false
-			
-
-			# check to see if the same filter is attached with the question.
-			foundSameTarget = _.find(newQuestion.targets,(item)->
-				
-				_.isEqual(item,target)
-
-			)
-
-			if _.isUndefined(foundSameTarget) or !foundSameTarget
-				
-				# attach it to the question
-				newQuestion.targets.push(target)				
-
-			else
-				
-				# if found with the question, then remove it.				
-				index = newQuestion.targets.indexOf(target)	
-				newQuestion.targets.splice(index,1)
-			
-
 			
 			
 		# this will open the box for creating a new filter
@@ -215,7 +188,7 @@ define ['underscore'], ( _ )->
 			# get the number of added target audience questions
 			newQuestion.numOfFilters = _.size(newQuestion.targets)
 
-			
+
 			# get the current time
 			newQuestion.created_at = new Date().getTime()			
 

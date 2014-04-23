@@ -9,7 +9,7 @@ define ['angular','services'], (angular) ->
 			$scope.searchByCategory = (category)->
 
 				$scope.searchQuestion = category
-				
+
 
 
 		.controller 'ShareCtrl', ($scope, $injector,$modalInstance,$location,$timeout)->
@@ -43,6 +43,17 @@ define ['angular','services'], (angular) ->
 						"$scope" 				: $scope
 						"$modalInstance" 		: $modalInstance
 						"$location" 	 		: $location
+						"$timeout" 				: $timeout
+						
+					}
+				)
+			)
+
+		.controller 'FilterCtrl', ($scope, $injector,$timeout)->
+			require(['controllers/filterctrl'], (filterctrl)->
+				$injector.invoke(
+					filterctrl, this,{
+						"$scope" 				: $scope
 						"$timeout" 				: $timeout
 						
 					}

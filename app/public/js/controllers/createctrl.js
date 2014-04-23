@@ -73,19 +73,6 @@
       $scope.removeOption = function(index) {
         return newQuestion.options.splice(index, 1);
       };
-      $scope.addFilter = function(target) {
-        var foundSameTarget, index;
-        foundSameTarget = false;
-        foundSameTarget = _.find(newQuestion.targets, function(item) {
-          return _.isEqual(item, target);
-        });
-        if (_.isUndefined(foundSameTarget) || !foundSameTarget) {
-          return newQuestion.targets.push(target);
-        } else {
-          index = newQuestion.targets.indexOf(target);
-          return newQuestion.targets.splice(index, 1);
-        }
-      };
       $scope.openCreateFilterBox = function() {
         return utility.readyToMakeNewFilter = !utility.readyToMakeNewFilter;
       };
