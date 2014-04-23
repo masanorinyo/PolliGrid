@@ -9,7 +9,8 @@ define ['underscore'], (_)->
 		
 		foundQuestion = _.findWhere Question,Number(questionId)
 
-
+		$scope.chartType = "pie"
+		
 		$scope.question = foundQuestion
 
 
@@ -83,29 +84,15 @@ define ['underscore'], (_)->
 
 		$scope.donutData = [
 			
-				value: 30
-				color:"#F7464A"
-				label 			: 'test'
-				labelColor 		: "#FEFEFE"
-				labelFontSize 	: "18"
-				labelAlign 		: 'center'
-			,
+			value: 35,
+			color:"#3F9F3F"
+		,
 			
-				value : 50
-				color : "#E2EAE9"
-			,
-			
-				value : 100
-				color : "#D4CCC5"
-			,
-			
-				value : 40
-				color : "#949FB1"
-			,
-			
-				value : 120
-				color : "#4D5360"
+			value : 100-35,
+			color : "#222"
+
 		]
+		
 		
 
 

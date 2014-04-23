@@ -477,7 +477,11 @@ window.Chart = function(context, options){
 			animateRotate : true,
 			animateScale : false,
 			onAnimationComplete : null,
-			showTooltips : true
+			showTooltips : true,
+			labelFontFamily : "Arial",
+	        labelFontStyle : "normal",
+	        labelFontSize : 24,
+	        labelFontColor : "#666"
 		};		
 
 		var config = (options)? mergeChartConfig(chart.Doughnut.defaults,options) : chart.Doughnut.defaults;
@@ -1041,6 +1045,10 @@ window.Chart = function(context, options){
 		
 		
 		function drawPieSegments (animationDecimal){
+			ctx.font = config.labelFontStyle + " " + config.labelFontSize+"px " + config.labelFontFamily;
+	        ctx.fillStyle = 'black';
+	        ctx.textBaseline = 'middle';
+	        ctx.fillText(data[0].value + "%", width/2 - 20, width/2, 200);
 			var cumulativeAngle = -Math.PI/2,
 			scaleAnimation = 1,
 			rotateAnimation = 1;

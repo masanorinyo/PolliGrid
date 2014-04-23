@@ -8,12 +8,15 @@
 </div>
 <div class="modal-body" >
 	
-	<div class="content">	
+	<div class="content">
+		
+		<!-- Filter button -->
 		<div class="btn-group pull-left">
 			<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-				Filters 
+				Add Filters 
 				<span class="caret"></span>
 			</button>
+			
 			<ul class="dropdown-menu" role="menu">
 				<li><a href="#">Pie</a></li>
 				<li class="dropdown">
@@ -30,22 +33,24 @@
 				<li><a href="#">Line</a></li>
 			</ul>
 		</div>
-		<div class="btn-group pull-right">
-			<button type="button" class="active btn btn-sm btn-default">Pie chart</button>
-			<button type="button" class="btn btn-sm btn-default">Rader chart</button>
-			<button type="button" class="btn btn-sm btn-default">Line chart</button>
-		</div>
-		<div>
+
+		<!-- Filter button -->
 		<ul class="clear fitlers">
 			<!-- <li class="pull-left badge">Age</li>
 			<li class="pull-left badge">Ethnicity</li>
 			<li class="pull-left badge">Job</li> -->
 		</ul>
+		
 		<hr>
+
+		<!-- Statistics Section -->
 		<div style="width:100%;text-align:center;"class='blue'>Statistics</div>
 		<br>
-		<div>
+		
+		<!-- Statistics box -->
+		<div class="statistics">
 			<ul class="answer-overall">
+				<label>Overall</label>
 				<li class="blue">	
 					Total count: 
 					<span class="badge">
@@ -61,6 +66,7 @@
 				</li>
 			</ul>
 			<ul class="answer-filter">
+				<label>Filter</label>
 				<li class="blue">	
 					Total count: 
 					<span class="badge">
@@ -76,29 +82,40 @@
 				</li>
 			</ul>
 		</div>
+		
+		<!-- Graph Section -->
 		<hr>
 		<div style="width:100%;text-align:center;"class='blue'>Graph</div>
-		<br>
-		<canvas  piechart  class="chart-main" data="myChartDataDeep" width="300" height="300"></canvas> 
-		<!-- <canvas  radarchart  class='' data="chart" width="400" height="400"></canvas>
-		<canvas  linechart  class='' data="chart" width="400" height="400"></canvas>
-		 -->
-		<ul class='clear'>
+		
+		<ul class='clear' ng-hide="chartType=='pie'">
 			<li class='label label-default'>Overall</li>
 			<li class='label label-default'>Filter</li>
 		</ul>
+
+		<div class="charts">
+		
+			<canvas  ng-show="chartType=='pie'" piechart  class="chart-main" data="myChartDataDeep" width="300" height="300"></canvas> 
+			
+			<canvas  ng-show="chartType=='radar'" radarchart  class='' data="chart" width="400" height="400"></canvas>
+			
+			<canvas  ng-show="chartType=='line'" linechart  class='' data="chart" width="300" height="300"></canvas>
 		
 		</div>
 		
+		<div class="btn-group">
+			<button type="button" ng-click="chartType='pie'" ng-class="{active:chartType=='pie'}" class="btn btn-sm btn-default">Pie chart</button>
+			<button type="button"  ng-click="chartType='radar'" ng-class="{active:chartType=='radar'}" class="btn btn-sm btn-default">Rader chart</button>
+			<button type="button"  ng-click="chartType='line'" ng-class="{active:chartType=='line'}" class="btn btn-sm btn-default">Line chart</button>
+		</div>
 		
+		<!-- Percentage Section -->
 		<hr>
 		<div style="width:100%;text-align:center;"class='blue'>Percentage</div>
 		<br>
 
-		<!-- options="myChartOptions" -->
-		
 		<ul>
 			<li>
+				
 				<label>Title</label>
 				<canvas  doughnutchart options="donutOption" class="chart-main" data="donutData" width="300" height="300"></canvas>
 				<div class="btn-group pull-left">
@@ -107,6 +124,7 @@
 				</div>
 			</li>
 			<li>
+				
 				<label>Title</label>
 				<canvas  doughnutchart options="donutOption" class="chart-main" data="donutData" width="300" height="300"></canvas>
 				<div class="btn-group pull-left">
@@ -115,9 +133,7 @@
 				</div>
 			</li>
 		</ul>
-
 	</div>
-	
 </div>
 <div class="modal-footer">
 	<button class="btn btn-primary" ng-click="closeModal()">
