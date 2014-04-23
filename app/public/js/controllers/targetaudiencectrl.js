@@ -1,7 +1,27 @@
 (function() {
   define(['underscore'], function(_) {
     return function($scope, $timeout, $q, Question) {
-      var checkFilterQuestionStatus, checkIfEverythingAnswered, checkIfQuestionAlaredyAnswered, makeTargetChecker;
+      var checkFilterQuestionStatus, checkIfEverythingAnswered, checkIfQuestionAlaredyAnswered, makeTargetChecker, skipThroughFilterQuestions;
+      skipThroughFilterQuestions = function() {
+        var i, length;
+        $scope.filterNumber = 0;
+        length = $scope.targetChecker.length;
+        i = 0;
+        console.log('length' + length);
+        console.log('from above');
+        console.log($scope.targetChecker);
+        while (i < length) {
+          console.log('index' + i);
+          if ($scope.targetChecker[i].isAnswered) {
+            console.log('test');
+            $scope.filterNumber++;
+          } else {
+            break;
+          }
+          i++;
+        }
+        return $scope.filterNumber;
+      };
       checkIfEverythingAnswered = function() {
         var i, length, numOfAnswers;
         length = $scope.targetChecker.length;
@@ -18,35 +38,31 @@
         }
       };
       makeTargetChecker = function(answer) {
-        var answeredIds, found, i, length, target, _results;
+        var answeredIds, foundId, i, length, questionId, target;
         $scope.targetChecker = [];
         length = $scope.question.targets.length;
         i = 0;
         answeredIds = _.pluck($scope.user.filterQuestionsAnswered, 'id');
-        if (answer !== "") {
-          answeredIds.push(answer.id);
-        }
-        _results = [];
         while (i < length) {
-          found = _.find(answeredIds, function(id) {
-            return Number(id) === Number($scope.question.targets[i].id);
+          questionId = Number($scope.question.targets[i].id);
+          foundId = _.find(answeredIds, function(id) {
+            return Number(id) === questionId;
           });
-          if (found) {
+          if (foundId) {
             target = {
-              id: found,
+              id: foundId,
               isAnswered: true
             };
           } else {
-            $scope.question.targets[i].id;
             target = {
-              id: $scope.question.targets[i].id,
+              id: questionId,
               isAnswered: false
             };
           }
           $scope.targetChecker.push(target);
-          _results.push(i++);
+          i++;
         }
-        return _results;
+        return $scope.targetChecker;
       };
       checkFilterQuestionStatus = function(answer) {
         var defer;
@@ -71,13 +87,15 @@
       $scope.showResult = false;
       $scope.targetAnswer = "";
       $scope.areAllQuestionAnswered = false;
+      $scope.filterNumber = 0;
       $scope.targetChecker = [];
       (function() {
         checkFilterQuestionStatus('');
-        return checkIfQuestionAlaredyAnswered();
+        checkIfQuestionAlaredyAnswered();
+        return skipThroughFilterQuestions();
       })();
       $scope.submitTarget = function(question, targetAnswer, index) {
-        var answer, targetQuestionID;
+        var answer, defer, targetQuestionID;
         if (targetAnswer === "" || !targetAnswer) {
           return $scope.warning = true;
         } else {
@@ -88,10 +106,21 @@
             answer: targetAnswer
           };
           $scope.user.filterQuestionsAnswered.push(answer);
-          checkFilterQuestionStatus(answer);
-          if ($scope.areAllQuestionAnswered) {
-            return $scope.question.alreadyAnswered = true;
-          }
+          defer = $q.defer();
+          defer.promise.then(function() {
+            return checkFilterQuestionStatus(answer);
+          }).then(function() {
+            $scope.filterNumber++;
+            if ($scope.filterNumber <= question.numOfFilters) {
+              if ($scope.targetChecker[$scope.filterNumber].isAnswered) {
+                $scope.filterNumber++;
+              }
+            }
+            if ($scope.areAllQuestionAnswered) {
+              return $scope.question.alreadyAnswered = true;
+            }
+          });
+          return defer.resolve();
         }
       };
       $scope.resetAnswer = function(question) {
@@ -105,7 +134,10 @@
         return $scope.showResult = true;
       });
       $scope.$on('answerSubmitted', function(message) {
-        return checkFilterQuestionStatus('');
+        checkFilterQuestionStatus('');
+        return $timeout(function() {
+          return skipThroughFilterQuestions();
+        }, 250, true);
       });
       return $scope.$apply();
     };

@@ -58,6 +58,9 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 				
 				,500,true      
 
+	
+
+
 		.directive 'favorited', ($timeout,User)->
 
 			restrict : "A"

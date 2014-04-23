@@ -80,8 +80,8 @@ define ['underscore'], ( _ )->
 
 				# add it to the filter list
 				$scope.targets.unshift(clone_newFilter)
-
 				
+				console.log $scope.targets
 				#clean up after submitting the data					
 				newFilter.title 			= ""
 				newFilter.question  		= ""

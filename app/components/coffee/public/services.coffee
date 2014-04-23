@@ -29,6 +29,34 @@ define ['angular'], (angular) ->
 						"Caucasian"
 						"African-American"
 					]
+				,
+					id 				: 3
+					title 			: "Age"
+					question 		: "How old are you?"
+					created_at 	: 1398108212271
+					lists:[
+
+						"~ 10"
+						"11 ~ 20"
+						"21 ~ 30"
+						"31 ~ 40"
+						"41 ~ 50"
+						"51 ~ 60"
+						"61 ~ "
+					]
+				,
+				
+					id   : 4
+					title: "Ethnicity"
+					question: "What is your ethnicity?"
+					created_at 	: 1398108312271
+					lists:[
+
+						"Asian"
+						"Hispanic"
+						"Caucasian"
+						"African-American"
+					]
 				
 			]
 
@@ -41,7 +69,7 @@ define ['angular'], (angular) ->
 					respondents 		: []
 					alreadyAnswered 	: false
 					numOfFavorites 		: 0
-					numOfFilters 		: 2
+					numOfFilters 		: 3
 					totalResponses 		: 8
 					created_at			: 1398108212271
 					creator 			: 1
@@ -79,39 +107,26 @@ define ['angular'], (angular) ->
 								"Caucasian"
 								"African-American"
 							]
-
-					]
-				,
-					id 					: 2
-					newOption 			: ""
-					question 			: "Which one of the following best describes you"
-					category 			: "Lifestyle"
-					respondents 		: []
-					alreadyAnswered 	: false
-					numOfFavorites 		: 0
-					numOfFilters 		: 1
-					totalResponses 		: 5
-					created_at			: 1398108212271
-					creator 			: 1
-					
-					options 			: [
-							title : 'positive'
-							count : 2
 						,
-							title : 'negative'
-							count : 3
-					]
-					targets 			: [
-
-						
-							id 				: 2
+							id 				: 3
 							title 			: "Ethnicity"
 							question 		: "What is your ethnicity?"
 							lists:[
 
-								"Asian"
-								"Hispanic"
+								"test"
+								"dsa"
 								"Caucasian"
+								"African-American"
+							]
+						,
+							id 				: 5
+							title 			: "Ethnicity"
+							question 		: "What is your ethnicity?"
+							lists:[
+
+								"ds"
+								"s"
+								"d"
 								"African-American"
 							]
 
@@ -124,24 +139,80 @@ define ['angular'], (angular) ->
 					respondents 		: []
 					alreadyAnswered 	: false
 					numOfFavorites 		: 0
-					numOfFilters 		: 0
-					totalResponses 		: 4
+					numOfFilters 		: 3
+					totalResponses 		: 8
 					created_at			: 1398108212271
 					creator 			: 1
 					
 					options 			: [
 							title : 'positive'
-							count : 0
+							count : 4
 						,
 							title : 'negative'
 							count : 4
 					]
 					targets 			: [
 
-						
+							id 				: 1
+							title 			: "Age"
+							question 		: "How old are you?"
+							lists:[
+
+								"~ 10"
+								"11 ~ 20"
+								"21 ~ 30"
+								"31 ~ 40"
+								"41 ~ 50"
+								"51 ~ 60"
+								"61 ~ "
+							]
+						,
+							id 				: 2
+							title 			: "Ethnicity"
+							question 		: "What is your ethnicity?"
+							lists:[
+
+								"Asian"
+								"Hispanic"
+								"Caucasian"
+								"African-American"
+							]
+						,
+							id 				: 9
+							title 			: "Ethnicity"
+							question 		: "What is your ethnicity?"
+							lists:[
+
+								"test"
+								"dsa"
+								"Caucasian"
+								"African-American"
+							]
+						,
+							id 				: 5
+							title 			: "Ethnicity"
+							question 		: "What is your ethnicity?"
+							lists:[
+
+								"ds"
+								"s"
+								"d"
+								"African-American"
+							]
+						,
+
+							id 				: 14
+							title 			: "Ethnicity"
+							question 		: "What is your ethnicity?"
+							lists:[
+
+								"dhjg"
+								"s"
+								"d"
+								"African-American"
+							]
 
 					]
-				
 			]
 		.factory 'User', ()->
 			user = 

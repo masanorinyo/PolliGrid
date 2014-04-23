@@ -1,19 +1,9 @@
 define ['underscore'], (_)->
-	($scope,Question,User,Filters)->
+	($scope,$timeout,Question,User,Filters)->
 
 		# ----------------- Utility functions ----------------- #
 		getColor = ()->
 			'#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
-
-		getInvertColor = (hexTripletColor)->
-    		color = hexTripletColor
-    		color = color.substring(1)          
-    		color = parseInt(color, 16)         
-    		color = 0xFFFFFF ^ color          
-    		color = color.toString(16)
-    		color = ("000000" + color).slice(-6)
-    		color = "#" + color 
-    		return color
 
     	# get data when the page loads up
 		getData = ->
@@ -27,12 +17,12 @@ define ['underscore'], (_)->
 				count = obj.count
 				title = obj.title
 				color = getColor()
-				invertColor = getInvertColor(color)
+				
 				data =
 					value 			: count
 					color 			: color
 					label 			: title
-					labelColor 		: invertColor
+					labelColor 		: "#FEFEFE"
 					labelFontSize 	: "18"
 					labelAlign 		: 'center'
 
@@ -56,7 +46,7 @@ define ['underscore'], (_)->
 	        animation : true
 
 	        # Number - Number of animation steps
-	        animationStep : 100
+	        animationStep : 30
 
 	        # String - Animation easing effect
 	        animationEasing : "easeOutQuart"
@@ -77,6 +67,7 @@ define ['underscore'], (_)->
 
 		targetQ = $scope.targetQ =
 			isQuestionAnswered : false
+
 
 
 		$scope.warning = false
@@ -105,6 +96,11 @@ define ['underscore'], (_)->
 
 			else
 				
+
+				
+				$scope.$broadcast('answerSubmitted','submitted')
+
+
 				$scope.warning = false
 				choice.count++
 				question.totalResponses++
@@ -118,11 +114,12 @@ define ['underscore'], (_)->
 
 				$scope.submitted = true
 
-				$scope.$broadcast('answerSubmitted','submitted')
-
-
 				getData()
-		
+				
+
+
+				
+				
 
 
 

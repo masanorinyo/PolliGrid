@@ -1,7 +1,9 @@
-<div  ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-hide="targetChecker[$index].isAnswered">	
+
+<div  ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-show="$index==filterNumber">	
 	
 	<p class='question'>
 		{{target.question}}
+		
 	</p>
 	
 	<!-- Warning message -->

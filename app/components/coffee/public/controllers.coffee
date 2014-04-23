@@ -9,6 +9,7 @@ define ['angular','services'], (angular) ->
 			$scope.searchByCategory = (category)->
 
 				$scope.searchQuestion = category
+				
 
 
 		.controller 'ShareCtrl', ($scope, $injector,$modalInstance,$location,$timeout)->
