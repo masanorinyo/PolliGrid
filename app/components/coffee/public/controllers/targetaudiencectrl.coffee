@@ -56,6 +56,7 @@ define ['underscore'], (_)->
 			# make allQuestionAnswered true, which show the result section
 			if numOfAnswers == length
 				$scope.areAllQuestionAnswered = true
+				$scope.filterNumber = -1
 				
 
 		# this will determine which filter question is not answered
@@ -263,7 +264,7 @@ define ['underscore'], (_)->
 			
 
 
-			,500,true
+			,300,true
 			
 		
 		# ------------------ Invoke the scope ------------------ #		

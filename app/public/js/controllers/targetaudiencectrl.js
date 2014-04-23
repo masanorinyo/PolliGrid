@@ -29,7 +29,8 @@
           i++;
         }
         if (numOfAnswers === length) {
-          return $scope.areAllQuestionAnswered = true;
+          $scope.areAllQuestionAnswered = true;
+          return $scope.filterNumber = -1;
         }
       };
       makeTargetChecker = function(answer) {
@@ -131,7 +132,7 @@
           console.log($scope.filterNumber);
           console.log("low");
           return console.log($scope.targetChecker);
-        }, 500, true);
+        }, 300, true);
       });
       return $scope.$apply();
     };
