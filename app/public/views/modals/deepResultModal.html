@@ -11,124 +11,123 @@
 	<div class="content">
 		
 		<!-- Filter button -->
-		<div class="btn-group pull-left">
-			<button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-				Add Filters 
-				<span class="caret"></span>
-			</button>
-			
-			<ul class="dropdown-menu" role="menu">
-				<li><a href="#">Pie</a></li>
-				<li class="dropdown">
-				  <a class="dropdown-toggle">
-				    Click me for a dropdown, yo!
-				  </a>
-				  <ul class="dropdown-menu">
-				    <li ng-repeat="choice in items">
-				      <a>test</a>
-				    </li>
-				  </ul>
-				</li>
-				<li><a href="#">Rader</a></li>
-				<li><a href="#">Line</a></li>
-			</ul>
-		</div>
 
-		<!-- Filter button -->
-		<ul class="clear fitlers">
-			<!-- <li class="pull-left badge">Age</li>
-			<li class="pull-left badge">Ethnicity</li>
-			<li class="pull-left badge">Job</li> -->
-		</ul>
+		<div class='sub-title blue'>Add filters:</div>
+		<br>
 		
+		<ul class="list-group">
+			<li class="list-group-item">Job 
+				
+				<span class='badge'>3</span>
+				
+			</li>
+			<li class="list-group-item">Age 
+				
+				<span class='badge'>3</span>
+				
+			</li>
+			<li class="list-group-item">Ethnicity 
+				
+				<span class='badge'>5</span>
+				
+			</li>
+		</ul>
+
 		<hr>
 
 		<!-- Statistics Section -->
-		<div style="width:100%;text-align:center;"class='blue'>Statistics</div>
+		<div class='sub-title gray'>Statistics</div>
 		<br>
 		
 		<!-- Statistics box -->
 		<div class="statistics">
-			<ul class="answer-overall">
-				<label>Overall</label>
-				<li class="blue">	
-					Total count: 
-					<span class="badge">
+			<div class="filter-wrapper">
+				<ul class="well">
+					<label class='slightlyBlack'>Overall</label>
+					<li class="blue">	
+						- Total count: 
+						<span class="badge">
 						{{question.totalResponses}}
-					</span>
-				
-				</li>
-				<li class='answer gray' ng-repeat='option in question.options'>
-					{{option.title}}: 
-					<span>
-						{{option.count}}
-					</span>
-				</li>
-			</ul>
-			<ul class="answer-filter">
-				<label>Filter</label>
-				<li class="blue">	
-					Total count: 
-					<span class="badge">
-						{{question.totalResponses}}
-					</span>
-				
-				</li>
-				<li class='answer gray' ng-repeat='option in question.options'>
-					{{option.title}}: 
-					<span>
-						{{option.count}}
-					</span>
-				</li>
-			</ul>
+						</span>
+					
+					</li>
+					<li class='answer gray' ng-repeat='option in question.options'>
+						- {{option.title}}: 
+						<span>
+							{{option.count}}
+						</span>
+					</li>
+				</ul>
+				<ul class="well">
+					<label class='slightlyBlack'>Filter</label>
+					<li class="blue">	
+						- Total count: 
+						<span class="badge">
+							{{question.totalResponses}}
+						</span>
+					
+					</li>
+					<li class='answer gray' ng-repeat='option in question.options'>
+						- {{option.title}}: 
+						<span>
+							{{option.count}}
+						</span>
+					</li>
+				</ul>
+			</div>
 		</div>
 		
 		<!-- Graph Section -->
 		<hr>
-		<div style="width:100%;text-align:center;"class='blue'>Graph</div>
+		<div class='sub-title gray'>Graph</div>
 		
-		<ul class='clear' ng-hide="chartType=='pie'">
-			<li class='label label-default'>Overall</li>
-			<li class='label label-default'>Filter</li>
-		</ul>
-
-		<div class="charts">
-		
-			<canvas  ng-if="chartType=='pie'" piechart  class="chart-main" data="myChartDataDeep" width="300" height="300"></canvas> 
+		<div class="chart">
+			<ul class='legends' ng-hide="chartType=='pie'">
+				<li class='label label-default'>Overall</li>
+				<li class='label label-default'>Filter</li>
+			</ul>
 			
-			<canvas  ng-if="chartType=='radar'" radarchart  class='' data="chart" width="400" height="400"></canvas>
+			<div class="graphs">
 			
-			<canvas  ng-if="chartType=='line'" linechart  class='' data="chart" width="300" height="300"></canvas>
-		
-		</div>
-		
-		<div class="btn-group">
-			<button type="button" ng-click="chartType='pie'" ng-class="{active:chartType=='pie'}" class="btn btn-sm btn-default">Pie chart</button>
-			<button type="button"  ng-click="chartType='radar'" ng-class="{active:chartType=='radar'}" class="btn btn-sm btn-default">Rader chart</button>
-			<button type="button"  ng-click="chartType='line'" ng-class="{active:chartType=='line'}" class="btn btn-sm btn-default">Line chart</button>
+				<canvas  ng-if="chartType=='pie'" piechart  class="chart-main" data="myChartDataDeep" width="320" height="320"></canvas> 
+				
+				<canvas  ng-if="chartType=='radar'" radarchart  class='' data="chart" width="350" height="350"></canvas>
+				
+				<canvas  ng-if="chartType=='line'" linechart  class='' data="chart" width="320" height="320"></canvas>
+			
+			</div>
+			
+			<div class="button-charts btn-group">
+				<button type="button" ng-click="chartType='pie'" ng-class="{active:chartType=='pie'}" class="btn btn-sm btn-default">Pie chart</button>
+				<button type="button"  ng-click="chartType='radar'" ng-class="{active:chartType=='radar'}" class="btn btn-sm btn-default">Rader chart</button>
+				<button type="button"  ng-click="chartType='line'" ng-class="{active:chartType=='line'}" class="btn btn-sm btn-default">Line chart</button>
+			</div>
 		</div>
 		
 		<!-- Percentage Section -->
 		<hr>
-		<div style="width:100%;text-align:center;"class='blue'>Percentage</div>
+		<div class='sub-title gray'>Percentage</div>
 		<br>
 
-		<ul>
-			<li>
+		<ul class="chart-percentage">
+			<li class="list-chart">
 				
-				<label>Title</label>
-				<canvas  doughnutchart options="donutOption" class="chart-main" data="donutData" width="300" height="300"></canvas>
-				<div class="btn-group pull-left">
+				<span class='chart-title'>NodeJS</span>
+				<div class="graphs">
+					<canvas  doughnutchart options="donutOption" class="chart-main" data="donutData" width="300" height="300"></canvas>
+				</div>
+				<div class="button-switch btn-group">
 					<button class='btn btn-sm btn-default active'>Overall</button>
 					<button class='btn btn-sm btn-default'>Filtered</button>
 				</div>
 			</li>
-			<li>
+			<li class="list-chart">
 				
-				<label>Title</label>
-
-				<canvas  doughnutchart options="donutOption" class="chart-main" data="donutData" width="300" height="300"></canvas>
-				<div class="btn-group pull-left">
+				<span class='chart-title'>Ruby</span>
+				<div class="graphs">
+					<canvas  doughnutchart options="donutOption" class="chart-main" data="donutData" width="300" height="300"></canvas>
+				</div>
+				<div class="button-switch btn-group">
 					<button class='btn btn-sm btn-default active'>Overall</button>
 					<button class='btn btn-sm btn-default'>Filtered</button>
 				</div>
@@ -137,8 +136,11 @@
 	</div>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-primary" ng-click="closeModal()">
+	<button class="pull-left btn btn-default" ng-click="closeModal()">
 		Close	
+	</button>
+	<button class="pull-right btn btn-primary">
+		See Comments
 	</button>
 
 </div>

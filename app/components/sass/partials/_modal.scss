@@ -301,3 +301,116 @@
 	
 }
 
+.graphs{
+	height:370px;
+	width:95%;
+	margin:40px auto 60px;
+
+	> canvas{
+		position: absolute;
+		right: 0;
+		left: 0;
+		margin: auto;
+	}
+}
+
+.switch{
+	position: absolute;
+	right: 0;
+	left: 0;
+	bottom: -40px;
+	margin: auto;
+	width: 240px;
+}
+
+.deepResult{
+
+	.sub-title{
+		width:100%;
+		text-align:center;
+		margin-bottom:10px;
+	}
+
+	
+	.list-group-item{
+		
+		color:rgb(100,100,100);
+		cursor: pointer;
+		
+		.hidden-message{
+			visibility:hidden;
+			color:white;
+		}
+
+		&:hover{
+			
+			background-color:$blue;
+			color:white;
+
+			.hidden-message{
+				visibility: visible;
+			}
+		}
+	}
+	
+
+	.filter-wrapper{
+		position: relative;
+		width: 95%;
+		margin: auto;
+
+		.well{
+			width:49%;
+			display:inline-block;
+		}
+	}
+
+	.chart{
+		position:relative;
+		
+		.legends{
+			position: absolute;
+			bottom: 15px;
+			right: 0;
+			left: 0;
+			margin: auto;
+			width: 100px;
+		}
+
+		.graphs{
+			@extend .graphs;
+		}
+
+		.button-charts{
+			@extend .switch;
+		}
+	}
+
+	.chart-percentage{
+		
+		
+		.list-chart{
+
+			position:relative;
+			
+			.chart-title{
+				margin:0 0 0 40px;
+				font-size:1.2em;
+			}
+			
+
+			.graphs{
+				
+				@extend .graphs;
+				height:320px;
+				margin:15px auto 75px;
+			}
+
+			.button-switch{
+				@extend .switch;
+				width:120px;
+			}
+		}
+	}
+}
+
