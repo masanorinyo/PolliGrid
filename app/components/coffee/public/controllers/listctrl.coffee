@@ -56,7 +56,7 @@ define ['underscore'], (_)->
 	        animation : true
 
 	        # Number - Number of animation steps
-	        animationStep : 30
+	        animationStep : 100
 
 	        # String - Animation easing effect
 	        animationEasing : "easeOutQuart"
@@ -84,9 +84,16 @@ define ['underscore'], (_)->
 		$scope.favorite = false
 		# ***************  Functions *************** #
 		# loads the chart data when the page initially is loaded
+		
 		do ()->
-			
-			getData()
+		
+			alreadyAnswered = _.find _.pluck($scope.user.questionsAnswered,'id'),(id)->
+
+				Number($scope.question.id) == Number(id)
+
+			if alreadyAnswered
+
+				getData()
 
 
 

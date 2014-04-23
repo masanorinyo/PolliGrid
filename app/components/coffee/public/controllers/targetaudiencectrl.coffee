@@ -120,12 +120,6 @@ define ['underscore'], (_)->
 			checkIfQuestionAlaredyAnswered()
 		
 
-		# when users answer to a main question,
-		# check if the user already answered to all its filter questions
-		$scope.$on 'answerSubmitted',(message)->
-
-			checkFilterQuestionStatus('')
-
 		# ------------------ Scope funcitons ------------------ #
 		
 		$scope.submitTarget = (question,targetAnswer,index)->
@@ -192,7 +186,11 @@ define ['underscore'], (_)->
 			
 			$scope.showResult = true
 			
-		
+		# when users answer to a main question,
+		# check if the user already answered to all its filter questions
+		$scope.$on 'answerSubmitted',(message)->
+
+			checkFilterQuestionStatus('')
 		
 		# ------------------ Invoke the scope ------------------ #		
 		

@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modalInstance, $location, $timeout, Filters, Question) {
+    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User) {
       var findSameOption, message, newQuestion, questions, targets, utility;
       findSameOption = function(item) {
         if (item.title === newQuestion.newOption) {
@@ -125,7 +125,7 @@
         newQuestion.numOfFilters = _.size(newQuestion.targets);
         newQuestion.created_at = new Date().getTime();
         newQuestion.id = Math.random();
-        newQuestion.creator = $scope.user.id;
+        newQuestion.creator = User.id;
         questions.unshift(newQuestion);
         utility.isQuestionCreated = false;
         return utility.isQuestionCompleted = true;

@@ -1,5 +1,5 @@
 define ['underscore'], ( _ )->
-	($scope,$modalInstance,$location,$timeout,Filters,Question)->
+	($scope,$modalInstance,$location,$timeout,Filters,Question,User)->
 		
 		# --------------------- Functions for utility --------------------- #
 		
@@ -223,7 +223,7 @@ define ['underscore'], ( _ )->
 			# this will be removed because MongoDB will do this task
 			newQuestion.id = Math.random()
 
-			newQuestion.creator = $scope.user.id
+			newQuestion.creator = User.id
 
 
 			questions.unshift(newQuestion)

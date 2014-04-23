@@ -49,7 +49,9 @@
 		</li> -->
 	</ul>
  	
-    <canvas  ng-if="areAllQuestionAnswered" piechart options="myChartOptions" class="chart-main" data="myChartData" width="300" height="300"></canvas>
+	<div>
+		<canvas  ng-if="areAllQuestionAnswered" piechart options="myChartOptions" class="chart-main animated fadeIn" data="myChartData" width="300" height="300"></canvas>
+	</div>
 
     
 	<button ng-click="resetAnswer(question)" class="reset-button bigger btn btn-default">

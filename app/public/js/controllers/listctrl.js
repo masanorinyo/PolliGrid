@@ -43,7 +43,7 @@
       $scope.myChartData = [];
       $scope.myChartOptions = {
         animation: true,
-        animationStep: 30,
+        animationStep: 100,
         animationEasing: "easeOutQuart"
       };
       $scope.questions = Question;
@@ -56,7 +56,13 @@
       $scope.warning = false;
       $scope.favorite = false;
       (function() {
-        return getData();
+        var alreadyAnswered;
+        alreadyAnswered = _.find(_.pluck($scope.user.questionsAnswered, 'id'), function(id) {
+          return Number($scope.question.id) === Number(id);
+        });
+        if (alreadyAnswered) {
+          return getData();
+        }
       })();
       $scope.submitAnswer = function(choice, question) {
         var answer;

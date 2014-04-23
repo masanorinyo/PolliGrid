@@ -76,9 +76,6 @@
         checkFilterQuestionStatus('');
         return checkIfQuestionAlaredyAnswered();
       })();
-      $scope.$on('answerSubmitted', function(message) {
-        return checkFilterQuestionStatus('');
-      });
       $scope.submitTarget = function(question, targetAnswer, index) {
         var answer, targetQuestionID;
         if (targetAnswer === "" || !targetAnswer) {
@@ -106,6 +103,9 @@
       };
       $scope.$on("showGraph", function(result) {
         return $scope.showResult = true;
+      });
+      $scope.$on('answerSubmitted', function(message) {
+        return checkFilterQuestionStatus('');
       });
       return $scope.$apply();
     };
