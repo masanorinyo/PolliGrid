@@ -1,6 +1,48 @@
 define ['underscore'], (_)->
 	($scope,$modalInstance,$stateParams,$location,$timeout,Question)->
 		
+
+		# ----------------- Utility functions ----------------- #
+		getColor = ()->
+			'#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
+
+		getInvertColor = (color)->
+
+    		color = color.substring(1)
+    		color = parseInt(color, 16)
+    		color = 0xFFFFFF ^ color
+    		color = color.toString(16)
+    		color = ("000000" + color).slice(-6)
+    		color = "#" + color
+    		return color
+
+
+    	# get data when the page loads up
+		getData = ->
+			$scope.myChartData = []
+			ref = $scope.question.options
+			i = 0
+			len = ref.length
+
+			while i < len
+				obj = ref[i]
+				count = obj.count
+				title = obj.title
+				color = getColor()
+				
+				data =
+					value 			: count
+					color 			: color
+					label 			: title
+					labelColor 		: "#FEFEFE"
+					labelFontSize 	: "18"
+					labelAlign 		: 'center'
+
+				$scope.myChartData.push data
+				i++
+			return
+
+
 		# ------------ Variables ---------------#
 		questionId = $stateParams.id
 
@@ -82,14 +124,16 @@ define ['underscore'], (_)->
 			onAnimationComplete : null
 
 
+
+
 		$scope.donutData = [
 			
 			value: 35,
-			color:"#3F9F3F"
+			color: color = getColor()
 		,
 			
 			value : 100-35,
-			color : "#222"
+			color : getInvertColor(color)
 
 		]
 		

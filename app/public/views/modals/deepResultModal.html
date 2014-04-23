@@ -94,11 +94,11 @@
 
 		<div class="charts">
 		
-			<canvas  ng-show="chartType=='pie'" piechart  class="chart-main" data="myChartDataDeep" width="300" height="300"></canvas> 
+			<canvas  ng-if="chartType=='pie'" piechart  class="chart-main" data="myChartDataDeep" width="300" height="300"></canvas> 
 			
-			<canvas  ng-show="chartType=='radar'" radarchart  class='' data="chart" width="400" height="400"></canvas>
+			<canvas  ng-if="chartType=='radar'" radarchart  class='' data="chart" width="400" height="400"></canvas>
 			
-			<canvas  ng-show="chartType=='line'" linechart  class='' data="chart" width="300" height="300"></canvas>
+			<canvas  ng-if="chartType=='line'" linechart  class='' data="chart" width="300" height="300"></canvas>
 		
 		</div>
 		
@@ -126,6 +126,7 @@
 			<li>
 				
 				<label>Title</label>
+
 				<canvas  doughnutchart options="donutOption" class="chart-main" data="donutData" width="300" height="300"></canvas>
 				<div class="btn-group pull-left">
 					<button class='btn btn-sm btn-default active'>Overall</button>
