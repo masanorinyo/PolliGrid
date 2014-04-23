@@ -35,6 +35,8 @@
 		{{question.question}}
 	</p>
 
+	<hr>
+
 	<ul class="answers">
 		<li class="blue">	
 			Total count: 
@@ -43,16 +45,16 @@
 			</span>
 		
 		</li>
-		<!-- <li class='answer' ng-repeat='option in question.options'>
+		<li class='answer gray' ng-repeat='option in question.options'>
 			{{option.title}}: 
-			<span class='badge badge-primary'>
+			<span>
 				{{option.count}}
 			</span>
-		</li> -->
+		</li>
 	</ul>
  	
 	<div>
-		<canvas  ng-if="areAllQuestionAnswered" piechart options="myChartOptions" class="chart-main animated fadeIn" data="myChartData" width="300" height="300"></canvas>
+		<canvas  ng-if="areAllQuestionAnswered" piechart options="myChartOptions" class="chart-main" data="myChartData" width="300" height="300"></canvas>
 	</div>
 
     
@@ -61,7 +63,7 @@
 	</button>
 
 
-	<button class="submit-button bigger btn btn-success">
+	<button ui-sref=".deepResult({id:question.id})" class="submit-button bigger btn btn-success">
 		See deep result
 	</button>
 </div>

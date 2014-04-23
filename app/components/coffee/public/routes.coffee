@@ -121,6 +121,29 @@ define(
 							, ()->
 								$location.path('/')
 
+				.state 'home.deepResult',
+					url:'deepResult/:id'
+					onEnter:($state,$modal,$stateParams,$location)->
+						
+						if $stateParams.id is "" 
+
+							$location.path('/')
+
+						else
+
+							$modal.open(
+							
+								templateUrl : 'views/modals/deepResultModal.html'
+								controller 	: "DeepResultCtrl"
+								windowClass : "deepResult"
+								
+							
+							).result.then ()->
+	  							console.log('modal is open')
+							
+							, ()->
+								$location.path('/')
+
 		
 							
 						

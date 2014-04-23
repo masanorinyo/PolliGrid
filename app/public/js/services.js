@@ -146,7 +146,16 @@
         ],
         filterQuestionsAnswered: [
           {
+            'id': 1,
+            'answer': 'Asian'
+          }, {
             'id': 2,
+            'answer': 'Asian'
+          }, {
+            'id': 3,
+            'answer': 'Asian'
+          }, {
+            'id': 4,
             'answer': 'Asian'
           }
         ]

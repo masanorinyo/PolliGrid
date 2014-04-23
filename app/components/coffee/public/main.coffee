@@ -21,7 +21,8 @@ require.config
 
 		# -- this chart script is tweeked -> ca be found at (git clone https://github.com/Regaddi/Chart.js.git) --#
 		"chart"	 	 			: "../vendors/Chart.js-master/Chart"
-		
+
+
 		# -- this angles script is tweeked - added $timeout function --#
 		"angles" 				: "../vendors/angles-master/angles"
 		
