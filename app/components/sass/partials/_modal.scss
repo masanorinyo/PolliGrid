@@ -325,6 +325,26 @@
 
 .deepResult{
 
+	.modal-header{
+		position: relative;
+
+		.btn-comment{
+			position: absolute;
+			right: 53px;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			height: 29px;
+		}
+	}
+
+	
+	.question-name{
+		color:rgb(50,50,80);
+	}
+	
+
+
 	.sub-title{
 		width:100%;
 		text-align:center;
@@ -332,27 +352,34 @@
 	}
 
 	
-	.list-group-item{
+	.panel-heading{
 		
-		color:rgb(100,100,100);
-		cursor: pointer;
-		
-		.hidden-message{
-			visibility:hidden;
-			color:white;
-		}
+		padding:0;
+		color:rgb(120,120,120);
 
-		&:hover{
+		.accordion-header{
 			
-			background-color:$blue;
-			color:white;
+			padding:10px 15px;
+			cursor:pointer;
 
-			.hidden-message{
-				visibility: visible;
-			}
 		}
 	}
-	
+
+	.list-group-item{
+		.option-content{
+			width:83%;
+		}
+
+		.btn-list{
+			position: absolute;
+			right: 9px;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			height: 28px;
+		}
+	}
+
 
 	.filter-wrapper{
 		position: relative;

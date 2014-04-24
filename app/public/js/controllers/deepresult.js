@@ -37,10 +37,17 @@
           i++;
         }
       };
-      questionId = $stateParams.id;
-      foundQuestion = _.findWhere(Question, Number(questionId));
-      $scope.chartType = "pie";
-      $scope.question = foundQuestion;
+      $scope.groups = [
+        {
+          title: "Dynamic Group Header - 1",
+          content: "Dynamic Group Body - 1",
+          open: false
+        }, {
+          title: "Dynamic Group Header - 2",
+          content: "Dynamic Group Body - 2",
+          open: false
+        }
+      ];
       $scope.myChartDataDeep = [
         {
           value: 30,
@@ -95,6 +102,27 @@
           color: getInvertColor(color)
         }
       ];
+      $scope.oneAtATime = true;
+      questionId = $stateParams.id;
+      foundQuestion = _.findWhere(Question, Number(questionId));
+      $scope.chartType = "pie";
+      $scope.question = foundQuestion;
+      $scope.filteredData = [
+        {
+          answer: null,
+          count: 0
+        }
+      ];
+      $scope.overallData = [
+        {
+          answer: null,
+          count: 0
+        }
+      ];
+      $scope.filterAdded = 'Add';
+      $scope.openAccordion = function(index) {
+        return $scope.groups[index].open = !$scope.groups[index].open;
+      };
       $scope.closeModal = function() {
         $scope.$dismiss();
         return $timeout(function() {

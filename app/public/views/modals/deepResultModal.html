@@ -3,6 +3,7 @@
 	<h3 class="animated">
 		Deep Result
 	</h3>
+	<button class="btn btn-sm btn-default btn-comment">See Comments</button>
 	<button type="button" ng-click="closeModal()" class="close"> ×</button>
 
 </div>
@@ -10,28 +11,36 @@
 	
 	<div class="content">
 		
+		<div class="question">
+			<span class="gray">Question:</span> <br>
+			<span class="question-name">{{question.question}}</span>
+		</div>
+	
+		<hr>
+
 		<!-- Filter button -->
 
-		<div class='sub-title blue'>Add filters:</div>
+		<div class='sub-title gray'>Add filters:</div>
 		<br>
 		
-		<ul class="list-group">
-			<li class="list-group-item">Job 
-				
-				<span class='badge'>3</span>
-				
-			</li>
-			<li class="list-group-item">Age 
-				
-				<span class='badge'>3</span>
-				
-			</li>
-			<li class="list-group-item">Ethnicity 
-				
-				<span class='badge'>5</span>
-				
-			</li>
-		</ul>
+		<accordion close-others="oneAtATime">
+			<accordion-group heading="{{group.title}}" is-open="true" ng-repeat="target in question.targets">
+				<accordion-heading>
+					<div class="accordion-header">
+						<span class="filter-name">{{target.title}}</span> 
+						<span class='badge pull-right'>0</span>
+					</div>
+				</accordion-heading>
+				<ul class='list-group'>
+				 	<li class='list-group-item' ng-repeat="list in target.lists">
+				 		<div class="option-content">{{list}}</div>
+				 		<button class="btn-list btn btn-sm btn-default">
+				 			{{filterAdded}} 
+				 		</button>
+				 	</li>
+			 	</ul> 
+			</accordion-group>
+		</accordion>
 
 		<hr>
 

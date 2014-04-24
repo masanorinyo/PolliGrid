@@ -42,18 +42,20 @@ define ['underscore'], (_)->
 				i++
 			return
 
+		# ------------- Data for chart ------------- #
 
-		# ------------ Variables ---------------#
-		questionId = $stateParams.id
+		$scope.groups = [
 
-		# if $stateParams.id.$http(get) -> false -> $location.path('/')
-		# http request
-		
-		foundQuestion = _.findWhere Question,Number(questionId)
+			title: "Dynamic Group Header - 1",
+			content: "Dynamic Group Body - 1",
+			open: false
+		,
 
-		$scope.chartType = "pie"
-		
-		$scope.question = foundQuestion
+			title: "Dynamic Group Header - 2",
+			content: "Dynamic Group Body - 2",
+			open: false
+
+		]
 
 
 		$scope.myChartDataDeep = [			
@@ -136,9 +138,49 @@ define ['underscore'], (_)->
 			color : getInvertColor(color)
 
 		]
-		
-		
 
+		# ------------- Scope Variables ------------- #
+
+		$scope.oneAtATime = true
+
+		questionId = $stateParams.id
+
+		# if $stateParams.id.$http(get) -> false -> $location.path('/')
+		# http request
+		
+		foundQuestion = _.findWhere Question,Number(questionId)
+
+		$scope.chartType = "pie"
+		
+		$scope.question = foundQuestion
+
+		$scope.filteredData = [
+			answer 	: null # which answer of the question
+			count 	: 0    # how many filtered people voted 
+		]
+
+		$scope.overallData = [
+			answer 	: null # which answer of the question
+			count 	: 0    # how many people voted 
+		]
+
+		$scope.filterAdded = 'Add'
+
+
+
+
+
+
+
+
+
+		# ------------- Scope Function ------------- #
+		$scope.openAccordion = (index)->
+			
+			$scope.groups[index].open = !$scope.groups[index].open
+
+		
+	
 
 		$scope.closeModal = ()->
 			$scope.$dismiss()
