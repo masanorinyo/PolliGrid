@@ -1,6 +1,6 @@
 <h2 hidden>Deep Result</h1>
 <div class="modal-header">	
-	<h3 class="animated">
+	<h3>
 		Deep Result
 	</h3>
 	<button class="btn btn-sm btn-default btn-comment">See Comments</button>
@@ -11,12 +11,12 @@
 	
 	<div class="content">
 		
-		<div class="question">
+		<!-- <div class="question">
 			<span class="gray">Question:</span> <br>
 			<span class="question-name">{{question.question}}</span>
 		</div>
 	
-		<hr>
+		<hr> -->
 
 		<!-- Filter button -->
 
@@ -24,18 +24,27 @@
 		<br>
 		
 		<accordion close-others="oneAtATime">
-			<accordion-group heading="{{group.title}}" is-open="true" ng-repeat="target in question.targets">
+			<accordion-group heading="{{target.title}}" ng-repeat="target in filters">
 				<accordion-heading>
 					<div class="accordion-header">
 						<span class="filter-name">{{target.title}}</span> 
-						<span class='badge pull-right'>0</span>
+						<span tooltip-placement="top" tooltip="# of filtered respondents" class="badge pull-right">{{target.numOfAdded}}</span>
 					</div>
+
 				</accordion-heading>
 				<ul class='list-group'>
 				 	<li class='list-group-item' ng-repeat="list in target.lists">
-				 		<div class="option-content">{{list.option}}</div>
-				 		<button class="btn-list btn btn-sm btn-default">
-				 			{{filterAdded}} 
+				 		<div tooltip-placement="right" tooltip="# of respondents" class="box-count pull-left">
+			 				<span ng-class="{blue:list.numOfResponses!=0,gray:list.numOfResponses==0}" class='number' >
+			 					{{list.numOfResponses}}
+			 				</span>
+		 				</div>
+				 		<div class="option-content"> 
+				 			{{list.option}}
+				 		</div>
+
+				 		<button ng-class="{'btn-primary':!list.isAdded,'btn-danger':list.isAdded}"  ng-click="addFilter(list,target)" class="btn-list btn btn-sm">
+				 			{{list.filterBtn}} 
 				 		</button>
 				 	</li>
 			 	</ul> 
@@ -54,14 +63,14 @@
 				<ul class="well">
 					<label class='slightlyBlack'>Overall</label>
 					<li class="blue">	
-						- Total count: 
+						Total : 
 						<span class="badge">
 						{{question.totalResponses}}
 						</span>
 					
 					</li>
 					<li class='answer gray' ng-repeat='option in question.options'>
-						- {{option.title}}: 
+						{{option.title}}: 
 						<span>
 							{{option.count}}
 						</span>
@@ -70,14 +79,14 @@
 				<ul class="well">
 					<label class='slightlyBlack'>Filter</label>
 					<li class="blue">	
-						- Total count: 
+						Total : 
 						<span class="badge">
-							{{question.totalResponses}}
+							{{filterGroup.total}}
 						</span>
 					
 					</li>
 					<li class='answer gray' ng-repeat='option in question.options'>
-						- {{option.title}}: 
+						{{option.title}}: 
 						<span>
 							{{option.count}}
 						</span>
@@ -91,18 +100,18 @@
 		<div class='sub-title gray'>Graph</div>
 		
 		<div class="chart">
-			<ul class='legends' ng-hide="chartType=='pie'">
-				<li class='label label-default'>Overall</li>
-				<li class='label label-default'>Filter</li>
+			<ul class='legends'>
+				<li ng-hide="chartType=='pie' && filterAdded"class='overall label label-default'>Overall</li>
+				<li ng-show="filterAdded" ng-class="{'toCenter':chartType=='pie'}"class='filter label label-default'>Filter</li>
 			</ul>
 			
 			<div class="graphs">
 			
-				<canvas  ng-if="chartType=='pie'" piechart  class="chart-pie" data="myChartDataDeep" width="280" height="280"></canvas> 
+				<canvas  ng-if="chartType=='pie'" piechart  class="chart-pie" data="myChartDataDeep" width="300" height="300"></canvas> 
 				
-				<canvas  ng-if="chartType=='radar'" radarchart  class='chart-radar' data="chart" width="300" height="300"></canvas>
+				<canvas  ng-if="chartType=='radar'" radarchart options="radarChartOptions" class='chart-radar' data="chart" width="300" height="300"></canvas>
 				
-				<canvas  ng-if="chartType=='line'" linechart  class='chart-line' data="chart" width="290" height="290"></canvas>
+				<canvas  ng-if="chartType=='line'" linechart options="lineChartOptions" class='chart-line' data="chart" width="300" height="300"></canvas>
 			
 			</div>
 			

@@ -314,15 +314,27 @@
 }
 
 .switch{
-	position: absolute;
-	right: 0;
-	left: 0;
+	@include absolute-center($top:auto,$bottom:auto);
 	bottom: -40px;
-	margin: auto;
 	width: 240px;
 }
 
 .deepResult{
+	
+	.modal-dialog{
+		
+		@extend .removeAnimation;		
+		@extend .large-modal;
+		
+	}
+
+	.modal-body{
+		
+		overflow:auto;
+		height:500px;
+		
+		
+	}
 
 	.modal-header{
 		position: relative;
@@ -357,16 +369,20 @@
 		color:rgb(120,120,120);
 
 		.accordion-header{
-			
+		
 			padding:10px 15px;
 			cursor:pointer;
-
+			
+			.filter-name{
+				color: rgb(150,150,150);
+				text-decoration: none;
+			}
 		}
 	}
-
 	.list-group-item{
 		.option-content{
-			width:69%;
+			width: 56%;
+			margin-left: 27px;
 		}
 
 		.btn-list{
@@ -376,6 +392,24 @@
 			bottom: 0;
 			margin: auto;
 			height: 28px;
+		}
+
+		.box-count.pull-left {
+			width: 35px;
+			height: 100%;
+			border-right: 1px solid rgb(221,221,221);
+			background-color:$slightlyGray;
+			@include absolute-center($right:auto);
+			
+			.number {
+				@include absolute-center;
+				word-break: break-all;
+				height: 14px;
+				width: 35px;
+				font-size: 0.8em;
+				text-align: center;
+			}
+
 		}
 	}
 
@@ -395,12 +429,23 @@
 		position:relative;
 		
 		.legends{
-			position: absolute;
-			bottom: 15px;
-			right: 0;
-			left: 0;
-			margin: auto;
+			@include absolute-center($top:auto,$bottom:auto);
 			width: 100px;
+
+			.toCenter{
+				@include absolute-center($top:auto,$bottom:auto);
+				margin:auto;
+				width:52px;
+			}
+
+			// needs to be the same color with the related graphs
+			.overall{
+				background-color:rgba(180,180,180,1);
+			}
+
+			.filter{
+				background-color:rgba(151,187,205,1);
+			}
 		}
 
 		.graphs{
@@ -453,4 +498,5 @@
 		}
 	}
 }
+
 

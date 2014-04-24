@@ -56,20 +56,20 @@
         }
       ];
       $scope.chart = {
-        labels: ["Monday", "Tuesday", '', '', '', ''],
+        labels: ["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Partying", "Running"],
         datasets: [
           {
-            fillColor: "rgba(151,187,205,0)",
-            strokeColor: "#e67e22",
-            pointColor: "rgba(151,187,205,0)",
-            pointStrokeColor: "#e67e22",
-            data: [4, 3, 0, 0, 0, 0]
+            fillColor: "rgba(220,220,220,0.5)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            data: [65, 59, 90, 81, 56, 55, 40]
           }, {
-            fillColor: "rgba(151,187,205,0)",
-            strokeColor: "#f1c40f",
-            pointColor: "rgba(151,187,205,0)",
-            pointStrokeColor: "#f1c40f",
-            data: [8, 3, 0, 0, 0, 0]
+            fillColor: "rgba(151,187,205,0.5)",
+            strokeColor: "rgba(151,187,205,1)",
+            pointColor: "rgba(151,187,205,1)",
+            pointStrokeColor: "#fff",
+            data: [28, 48, 40, 19, 96, 27, 100]
           }
         ]
       };
@@ -91,10 +91,25 @@
           color: getInvertColor(color)
         }
       ];
+      $scope.radarChartOptions = {
+        scaleShowLabels: true,
+        pointLabelFontSize: 9,
+        pointLabelFontColor: "rgb(120,120,120)",
+        scaleFontSize: 9,
+        scaleFontColor: "rgb(120,120,120)"
+      };
+      $scope.lineChartOptions = {
+        scaleShowLabels: true,
+        scaleFontFamily: "'Arial'",
+        scaleFontSize: 9,
+        scaleFontColor: "#666"
+      };
+      $scope.filterAdded = true;
       $scope.oneAtATime = true;
       questionId = $stateParams.id;
       foundQuestion = _.findWhere(Question, Number(questionId));
       $scope.chartType = "pie";
+      $scope.filterAdded = false;
       $scope.question = foundQuestion;
       $scope.filteredData = [
         {
@@ -108,23 +123,101 @@
           count: 0
         }
       ];
+      $scope.filters = [];
+      $scope.filterGroup = [];
       $scope.filterAdded = 'Add to filter';
-      $scope.groups = [
-        {
-          title: "Dynamic Group Header - 1",
-          content: "Dynamic Group Body - 1",
-          open: false
-        }, {
-          title: "Dynamic Group Header - 2",
-          content: "Dynamic Group Body - 2",
-          open: false
+      (function() {
+        var data, i, length, targetId, targetTitle, targets, _results;
+        length = $scope.question.targets.length;
+        i = 0;
+        _results = [];
+        while (i < length) {
+          targets = [];
+          targetId = $scope.question.targets[i].id;
+          targetTitle = $scope.question.targets[i].title;
+          _.each($scope.question.targets[i].lists, function(num) {
+            var optionData;
+            optionData = {
+              option: num.option,
+              answeredBy: num.answeredBy,
+              numOfResponses: num.answeredBy.length,
+              isAdded: false,
+              filterBtn: "Add to filter"
+            };
+            return targets.push(optionData);
+          });
+          data = {
+            id: targetId,
+            title: targetTitle,
+            numOfAdded: 0,
+            lists: targets
+          };
+          $scope.filters.push(data);
+          _results.push(i++);
         }
-      ];
+        return _results;
+      })();
+      $scope.filterGroup = {
+        total: 0,
+        filters: [],
+        answers: {
+          answer: null,
+          count: 0
+        }
+      };
+      $scope.addFilter = function(answer, target) {
+        var filter, filters, i, length, sameIdFound, users;
+        users = $scope.question.respondents;
+        filters = $scope.filterGroup.filters;
+        answer.isAdded = !answer.isAdded;
+        if (answer.isAdded) {
+          answer.filterBtn = "Remove filter";
+          target.numOfAdded += answer.numOfResponses;
+          filter = {
+            id: target.id,
+            respondents: answer.answeredBy
+          };
+          sameIdFound = _.findWhere(filters, {
+            id: target.id
+          });
+          if (sameIdFound) {
+            sameIdFound.respondents = _.union(sameIdFound.respondents, answer.answeredBy);
+          } else {
+            $scope.filterGroup.filters.push(filter);
+          }
+        } else {
+          console.log('removed');
+          answer.filterBtn = "Add to filter";
+          target.numOfAdded -= answer.numOfResponses;
+          sameIdFound = _.findWhere(filters, {
+            id: target.id
+          });
+          sameIdFound.respondents = _.difference(sameIdFound.respondents, answer.answeredBy);
+          if (sameIdFound.respondents.length === 0) {
+            console.log('NO RESPONDENTS');
+            filters = _.without(filters, _.findWhere(filters, {
+              id: target.id
+            }));
+          }
+        }
+        $scope.filterGroup.filters = filters;
+        length = $scope.filterGroup.filters.length;
+        i = 0;
+        while (i < length) {
+          users = _.intersection(users, $scope.filterGroup.filters[i].respondents);
+          i++;
+        }
+        if ($scope.filterGroup.filters.length === 0) {
+          return $scope.filterGroup.total = 0;
+        } else {
+          return $scope.filterGroup.total = users.length;
+        }
+      };
       $scope.closeModal = function() {
         $scope.$dismiss();
         return $timeout(function() {
           return $location.path('/');
-        });
+        }, 500, true);
       };
       return $scope.$apply();
     };
