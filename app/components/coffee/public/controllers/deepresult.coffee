@@ -225,6 +225,8 @@ define ['underscore'], (_)->
 
 		$scope.filterCategories = []
 
+		$scope.foundRespondents = false
+
 		# this will add or remove filtered respondents from
 		# filter group
 		$scope.addFilter = (answer,target)->
@@ -234,7 +236,7 @@ define ['underscore'], (_)->
 			answer.isAdded = !answer.isAdded
 			
 			if answer.isAdded
-				
+				$scope.foundRespondents = true
 				# add category
 				foundCategory = _.findWhere $scope.filterCategories, {categoryTitle:target.title}
 				
@@ -310,7 +312,7 @@ define ['underscore'], (_)->
 				if sameIdFound.respondents.length == 0
 					console.log 'NO RESPONDENTS'
 					filters = _.without filters,_.findWhere filters,{id:target.id}
-								
+					$scope.foundRespondents = false
 			
 
 			$scope.filterGroup.filters = filters

@@ -362,7 +362,17 @@
 		margin-bottom:10px;
 	}
 
-	
+	.respondents{
+		
+		list-style-type:circle;
+		
+		.respondent{
+			width: 80%;
+			margin-left: 15px;
+		}
+	}
+
+
 	.panel-heading{
 		
 		padding:0;
@@ -464,6 +474,7 @@
 
 		.button-charts{
 			@extend .switch;
+			bottom: 30px;
 		}
 	}
 

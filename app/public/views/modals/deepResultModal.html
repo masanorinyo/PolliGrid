@@ -20,56 +20,65 @@
 
 		<!-- Filter button -->
 
-		<div class='sub-title gray'>Add filters:</div>
-		<br>
+		<div class="list-filters">
+			<div class='sub-title gray'>
+				<span ng-hide="foundRespondents">Add filters:</span>
+				<span class="blue" ng-show="foundRespondents">
+					Users who are: 
+				</span>
+			</div>
+			<br>
+			
+			<!-- added target question Section -->
+			<div class="well" ng-show="foundRespondents">
+				<ul class="respondents" ng-repeat="category in filterCategories">
+					<li class="label label-info">
+						{{category.categoryTitle}}
+					</li>
+					<li class="respondent" ng-repeat="option in category.options">
+						{{option}}
+					</li>
+				</ul>
+			</div>
+
+			<accordion close-others="oneAtATime">
+				<accordion-group heading="{{target.title}}" ng-repeat="target in filters">
+					<accordion-heading>
+						<div class="accordion-header">
+							<span class="filter-name">{{target.title}}</span> 
+							<span tooltip-placement="top" tooltip="# of filtered respondents" class="badge pull-right">{{target.numOfAdded}}</span>
+						</div>
+			
+					</accordion-heading>
+					<ul class='list-group'>
+					 	<li class='list-group-item' ng-repeat="list in target.lists">
+					 		<div tooltip-placement="right" tooltip="# of respondents" class="box-count pull-left">
+				 				<span ng-class="{blue:list.numOfResponses!=0,gray:list.numOfResponses==0}" class='number' >
+				 					{{list.numOfResponses}}
+				 				</span>
+			 				</div>
+					 		<div class="option-content"> 
+					 			{{list.option}}
+					 		</div>
+			
+					 		<button ng-class="{'btn-primary':!list.isAdded,'btn-danger':list.isAdded}"  ng-click="addFilter(list,target)" class="btn-list btn btn-sm">
+					 			{{list.filterBtn}} 
+					 		</button>
+					 	</li>
+				 	</ul> 
+				</accordion-group>
+			</accordion>
+			<hr>
+		</div>
+
 		
-		<accordion close-others="oneAtATime">
-			<accordion-group heading="{{target.title}}" ng-repeat="target in filters">
-				<accordion-heading>
-					<div class="accordion-header">
-						<span class="filter-name">{{target.title}}</span> 
-						<span tooltip-placement="top" tooltip="# of filtered respondents" class="badge pull-right">{{target.numOfAdded}}</span>
-					</div>
-
-				</accordion-heading>
-				<ul class='list-group'>
-				 	<li class='list-group-item' ng-repeat="list in target.lists">
-				 		<div tooltip-placement="right" tooltip="# of respondents" class="box-count pull-left">
-			 				<span ng-class="{blue:list.numOfResponses!=0,gray:list.numOfResponses==0}" class='number' >
-			 					{{list.numOfResponses}}
-			 				</span>
-		 				</div>
-				 		<div class="option-content"> 
-				 			{{list.option}}
-				 		</div>
-
-				 		<button ng-class="{'btn-primary':!list.isAdded,'btn-danger':list.isAdded}"  ng-click="addFilter(list,target)" class="btn-list btn btn-sm">
-				 			{{list.filterBtn}} 
-				 		</button>
-				 	</li>
-			 	</ul> 
-			</accordion-group>
-		</accordion>
-
-		<hr>
-
-		<!-- Statistics Section -->
-		<div class='sub-title gray'>Filtered respondents</div>
-		<br>
-	
-		<ul ng-repeat="category in filterCategories">
-			<li>{{category.categoryTitle}}</li>
-			<li ng-repeat="option in category.options">{{option}}</li>
-		</ul>
-
-		<hr>
-
-		<!-- Statistics Section -->
-		<div class='sub-title gray'>Statistics</div>
-		<br>
 		
+
 		<!-- Statistics box -->
 		<div class="statistics">
+			<!-- Statistics Section -->
+			<div class='sub-title gray'>Statistics</div>
+			<br>
 			<div class="filter-wrapper">
 				<ul class="well">
 					<label class='slightlyBlack'>Overall</label>
@@ -104,13 +113,13 @@
 					</li>
 				</ul>
 			</div>
+			<hr>
 		</div>
 		
 		<!-- Graph Section -->
-		<hr>
-		<div class='sub-title gray'>Graph</div>
-		
+
 		<div class="chart">
+			<div class='sub-title gray'>Graph</div>
 			<ul class='legends'>
 				<li ng-hide="chartType=='pie' && filterAdded"class='overall label label-default'>Overall</li>
 				<li ng-show="filterAdded" ng-class="{'toCenter':chartType=='pie'}"class='filter label label-default'>Filter</li>
@@ -131,37 +140,39 @@
 				<button type="button"  ng-click="chartType='radar'" ng-class="{active:chartType=='radar'}" class="btn btn-sm btn-default">Rader chart</button>
 				<button type="button"  ng-click="chartType='line'" ng-class="{active:chartType=='line'}" class="btn btn-sm btn-default">Line chart</button>
 			</div>
+			<hr>
 		</div>
 		
 		<!-- Percentage Section -->
-		<hr>
-		<div class='sub-title gray'>Percentage</div>
-		<br>
-
-		<ul class="chart-percentage">
-			<li class="list-chart">
-				
-				<span class='chart-title'>NodeJS</span>
-				<div class="graphs">
-					<canvas  doughnutchart options="donutOption" class="chart-main" data="donutData" width="300" height="300"></canvas>
-				</div>
-				<div class="button-switch btn-group">
-					<button class='btn btn-sm btn-default active'>Overall</button>
-					<button class='btn btn-sm btn-default'>Filtered</button>
-				</div>
-			</li>
-			<li class="list-chart">
-				
-				<span class='chart-title'>Ruby</span>
-				<div class="graphs">
-					<canvas  doughnutchart options="donutOption" class="chart-main" data="donutData" width="300" height="300"></canvas>
-				</div>
-				<div class="button-switch btn-group">
-					<button class='btn btn-sm btn-default active'>Overall</button>
-					<button class='btn btn-sm btn-default'>Filtered</button>
-				</div>
-			</li>
-		</ul>
+		<div class="percentage">
+			<div class='sub-title gray'>Percentage</div>
+			<br>
+	
+			<ul class="chart-percentage">
+				<li class="list-chart">
+					
+					<span class='chart-title'>NodeJS</span>
+					<div class="graphs">
+						<canvas  doughnutchart options="donutOption" class="chart-main" data="donutData" width="300" height="300"></canvas>
+					</div>
+					<div class="button-switch btn-group">
+						<button class='btn btn-sm btn-default active'>Overall</button>
+						<button class='btn btn-sm btn-default'>Filtered</button>
+					</div>
+				</li>
+				<li class="list-chart">
+					
+					<span class='chart-title'>Ruby</span>
+					<div class="graphs">
+						<canvas  doughnutchart options="donutOption" class="chart-main" data="donutData" width="300" height="300"></canvas>
+					</div>
+					<div class="button-switch btn-group">
+						<button class='btn btn-sm btn-default active'>Overall</button>
+						<button class='btn btn-sm btn-default'>Filtered</button>
+					</div>
+				</li>
+			</ul>
+		</div>
 	</div>
 </div>
 <div class="modal-footer">

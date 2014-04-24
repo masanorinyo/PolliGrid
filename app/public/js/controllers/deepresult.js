@@ -166,12 +166,14 @@
         }
       };
       $scope.filterCategories = [];
+      $scope.foundRespondents = false;
       $scope.addFilter = function(answer, target) {
         var category, filter, filters, foundCategory, i, index, length, sameIdFound, users;
         users = $scope.question.respondents;
         filters = $scope.filterGroup.filters;
         answer.isAdded = !answer.isAdded;
         if (answer.isAdded) {
+          $scope.foundRespondents = true;
           foundCategory = _.findWhere($scope.filterCategories, {
             categoryTitle: target.title
           });
@@ -221,6 +223,7 @@
             filters = _.without(filters, _.findWhere(filters, {
               id: target.id
             }));
+            $scope.foundRespondents = false;
           }
         }
         $scope.filterGroup.filters = filters;
