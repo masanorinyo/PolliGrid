@@ -223,6 +223,8 @@ define ['underscore'], (_)->
 				answer:null
 				count:0
 
+		$scope.filterCategories = []
+
 		# this will add or remove filtered respondents from
 		# filter group
 		$scope.addFilter = (answer,target)->
@@ -233,6 +235,24 @@ define ['underscore'], (_)->
 			
 			if answer.isAdded
 				
+				# add category
+				foundCategory = _.findWhere $scope.filterCategories, {categoryTitle:target.title}
+				
+				if foundCategory 
+					console.log 'found'
+					foundCategory.options.push(answer.option)
+				
+				else
+
+					category = 
+						categoryTitle 	: target.title
+						options 			: [
+							answer.option
+						]
+
+					$scope.filterCategories.push(category)
+
+
 				# number of added users from the specific filter question
 				answer.filterBtn = "Remove filter"
 				target.numOfAdded += answer.numOfResponses
@@ -258,13 +278,32 @@ define ['underscore'], (_)->
 				
 			else
 
-				console.log 'removed'
+				# remove the added category
+				
+				foundCategory = _.findWhere $scope.filterCategories, {categoryTitle:target.title} 
+				
+				console.log foundCategory
+				index = foundCategory.options.indexOf(answer.option)
+				console.log index
+
+				foundCategory.options.splice(index,1)
+
+
+
+				if foundCategory.options.length == 0
+					$scope.filterCategories = _.without $scope.filterCategories,foundCategory
+				
+						
+
+					
+				
+				# change the button text and decrement the total number of responses
 				answer.filterBtn = "Add to filter"				
 				target.numOfAdded -= answer.numOfResponses
 
-				
+				# find the filter group with the same id
+				# if any, then remove it from the group
 				sameIdFound = _.findWhere filters, {id:target.id}
-
 				sameIdFound.respondents = _.difference sameIdFound.respondents,answer.answeredBy
 				
 				# if the filter is empty, remove it

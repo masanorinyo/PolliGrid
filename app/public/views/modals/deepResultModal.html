@@ -54,6 +54,17 @@
 		<hr>
 
 		<!-- Statistics Section -->
+		<div class='sub-title gray'>Filtered respondents</div>
+		<br>
+	
+		<ul ng-repeat="category in filterCategories">
+			<li>{{category.categoryTitle}}</li>
+			<li ng-repeat="option in category.options">{{option}}</li>
+		</ul>
+
+		<hr>
+
+		<!-- Statistics Section -->
 		<div class='sub-title gray'>Statistics</div>
 		<br>
 		

@@ -165,12 +165,26 @@
           count: 0
         }
       };
+      $scope.filterCategories = [];
       $scope.addFilter = function(answer, target) {
-        var filter, filters, i, length, sameIdFound, users;
+        var category, filter, filters, foundCategory, i, index, length, sameIdFound, users;
         users = $scope.question.respondents;
         filters = $scope.filterGroup.filters;
         answer.isAdded = !answer.isAdded;
         if (answer.isAdded) {
+          foundCategory = _.findWhere($scope.filterCategories, {
+            categoryTitle: target.title
+          });
+          if (foundCategory) {
+            console.log('found');
+            foundCategory.options.push(answer.option);
+          } else {
+            category = {
+              categoryTitle: target.title,
+              options: [answer.option]
+            };
+            $scope.filterCategories.push(category);
+          }
           answer.filterBtn = "Remove filter";
           target.numOfAdded += answer.numOfResponses;
           filter = {
@@ -186,7 +200,16 @@
             $scope.filterGroup.filters.push(filter);
           }
         } else {
-          console.log('removed');
+          foundCategory = _.findWhere($scope.filterCategories, {
+            categoryTitle: target.title
+          });
+          console.log(foundCategory);
+          index = foundCategory.options.indexOf(answer.option);
+          console.log(index);
+          foundCategory.options.splice(index, 1);
+          if (foundCategory.options.length === 0) {
+            $scope.filterCategories = _.without($scope.filterCategories, foundCategory);
+          }
           answer.filterBtn = "Add to filter";
           target.numOfAdded -= answer.numOfResponses;
           sameIdFound = _.findWhere(filters, {
