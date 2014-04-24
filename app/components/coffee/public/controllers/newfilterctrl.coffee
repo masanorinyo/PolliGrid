@@ -19,7 +19,6 @@ define ['underscore'], ( _ )->
 			id 				: null
 			title 			: ""
 			question 		: ""
-			respondents 	: []
 			lists 			: []
 			created_at	 	: Date
 			
@@ -40,7 +39,14 @@ define ['underscore'], ( _ )->
 				filterUtil.sameListFound = true 
 			
 			else
-				newFilter.lists.push(list)
+				
+				# create a list option
+				data = 
+					option 		:list
+					answeredBy	:[]
+
+				# store it into the list
+				newFilter.lists.push(data)
 				filterUtil.newList = ""
 				filterUtil.sameListFound = false
 

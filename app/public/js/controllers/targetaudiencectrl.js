@@ -91,7 +91,7 @@
         return skipThroughFilterQuestions();
       })();
       $scope.submitTarget = function(question, targetAnswer, index) {
-        var answer, defer, targetQuestionID;
+        var answer, answeredOption, defer, targetQuestionID;
         if (targetAnswer === "" || !targetAnswer) {
           return $scope.warning = true;
         } else {
@@ -101,6 +101,10 @@
             id: targetQuestionID,
             answer: targetAnswer
           };
+          answeredOption = _.findWhere(question.targets[index].lists, {
+            option: targetAnswer
+          });
+          answeredOption.answeredBy.push($scope.user.id);
           $scope.user.filterQuestionsAnswered.push(answer);
           defer = $q.defer();
           defer.promise.then(function() {

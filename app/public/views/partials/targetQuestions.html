@@ -16,8 +16,8 @@
 		<ul class="answers">
 			<li class='answer' ng-repeat='list in target.lists'>
 				<label class='pointer'>
-					<input ng-model="$parent.targetAnswer" type="radio" name="targetAnswer" ng-value="list">
-					{{list}}
+					<input ng-model="$parent.targetAnswer" type="radio" name="targetAnswer" ng-value="list.option">
+					{{list.option}}
 				</label>
 			</li>
 		</ul>
@@ -53,8 +53,8 @@
 		</li>
 	</ul>
  	
-	<div>
-		<canvas  ng-if="areAllQuestionAnswered" piechart options="myChartOptions" class="chart-main" data="myChartData" width="300" height="300"></canvas>
+	<div class="canvas-wrapper">
+		<canvas  ng-if="areAllQuestionAnswered" piechart options="myChartOptions" class="chart-main" data="myChartData" width="235" height="235"></canvas>
 	</div>
 
     

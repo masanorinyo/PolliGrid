@@ -97,9 +97,10 @@ define ['underscore'], (_)->
 			else
 				
 
-				
+					
 				$scope.$broadcast('answerSubmitted','submitted')
 
+				$scope.question.respondents.push($scope.user.id)
 
 				$scope.warning = false
 				choice.count++
@@ -115,12 +116,6 @@ define ['underscore'], (_)->
 				$scope.submitted = true
 
 				getData()
-				
-
-
-				
-				
-
 
 
 		
@@ -132,12 +127,14 @@ define ['underscore'], (_)->
 			if $scope.favorite
 
 				$scope.user.favorites.push(question.id)
+				question.numOfFavorites++
 
 			else
 
 				# attach it to the question
 				index = $scope.user.favorites.indexOf(question.id)	
 				$scope.user.favorites.splice(index,1)
+				question.numOfFavorites--
 				
 			console.log User
 			
@@ -151,6 +148,9 @@ define ['underscore'], (_)->
 			
 			# decrement the total resonse for the reset
 			$scope.question.totalResponses--
+
+			indexOfRespondents = $scope.question.respondents.indexOf($scope.user.id)	
+			$scope.question.respondents.splice(indexOfRespondents,1)
 
 
 			questionId = Number($scope.question.id)

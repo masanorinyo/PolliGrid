@@ -33,7 +33,7 @@
 				</accordion-heading>
 				<ul class='list-group'>
 				 	<li class='list-group-item' ng-repeat="list in target.lists">
-				 		<div class="option-content">{{list}}</div>
+				 		<div class="option-content">{{list.option}}</div>
 				 		<button class="btn-list btn btn-sm btn-default">
 				 			{{filterAdded}} 
 				 		</button>
@@ -98,11 +98,11 @@
 			
 			<div class="graphs">
 			
-				<canvas  ng-if="chartType=='pie'" piechart  class="chart-main" data="myChartDataDeep" width="320" height="320"></canvas> 
+				<canvas  ng-if="chartType=='pie'" piechart  class="chart-pie" data="myChartDataDeep" width="280" height="280"></canvas> 
 				
-				<canvas  ng-if="chartType=='radar'" radarchart  class='' data="chart" width="350" height="350"></canvas>
+				<canvas  ng-if="chartType=='radar'" radarchart  class='chart-radar' data="chart" width="300" height="300"></canvas>
 				
-				<canvas  ng-if="chartType=='line'" linechart  class='' data="chart" width="320" height="320"></canvas>
+				<canvas  ng-if="chartType=='line'" linechart  class='chart-line' data="chart" width="290" height="290"></canvas>
 			
 			</div>
 			

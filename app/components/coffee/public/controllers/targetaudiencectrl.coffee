@@ -169,7 +169,6 @@ define ['underscore'], (_)->
 		
 		$scope.submitTarget = (question,targetAnswer,index)->
 			
-
 			# warning message pops up if users didn't choose any answer
 			if targetAnswer is "" or !targetAnswer
 			
@@ -191,9 +190,15 @@ define ['underscore'], (_)->
 					answer 	: targetAnswer
 				
 
+				# find the answered option
+				answeredOption = _.findWhere question.targets[index].lists,{option:targetAnswer}				
+				answeredOption.answeredBy.push($scope.user.id)
+
+
 
 				# add the answered filter question to the user's filterQuestionsAnswered collection
 				# this way, the same filter question won't show up from the next time
+				
 				$scope.user.filterQuestionsAnswered.push(answer)
 
 				

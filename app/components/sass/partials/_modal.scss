@@ -307,10 +307,9 @@
 	margin:40px auto 60px;
 
 	> canvas{
-		position: absolute;
-		right: 0;
-		left: 0;
-		margin: auto;
+        max-width: 400px;
+        height: auto !important;
+		@include absolute-center;
 	}
 }
 
@@ -367,7 +366,7 @@
 
 	.list-group-item{
 		.option-content{
-			width:83%;
+			width:69%;
 		}
 
 		.btn-list{
@@ -406,6 +405,16 @@
 
 		.graphs{
 			@extend .graphs;
+
+			.chart-pie{
+				width: 90% !important;
+			}
+
+			.chart-radar,.chart-line{
+				width: 100% !important;
+			}
+
+
 		}
 
 		.button-charts{
@@ -431,11 +440,15 @@
 				@extend .graphs;
 				height:320px;
 				margin:15px auto 75px;
-			}
 
+				> canvas{
+					width: 90% !important;
+				}
+			}
+			
 			.button-switch{
 				@extend .switch;
-				width:120px;
+				width:140px;
 			}
 		}
 	}

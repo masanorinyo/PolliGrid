@@ -58,6 +58,7 @@
           return $scope.warning = true;
         } else {
           $scope.$broadcast('answerSubmitted', 'submitted');
+          $scope.question.respondents.push($scope.user.id);
           $scope.warning = false;
           choice.count++;
           question.totalResponses++;
@@ -75,16 +76,20 @@
         $scope.favorite = !$scope.favorite;
         if ($scope.favorite) {
           $scope.user.favorites.push(question.id);
+          question.numOfFavorites++;
         } else {
           index = $scope.user.favorites.indexOf(question.id);
           $scope.user.favorites.splice(index, 1);
+          question.numOfFavorites--;
         }
         return console.log(User);
       };
       $scope.$on('resetAnswer', function(question) {
-        var answers, foundAnswerId, foundAnswered, foundOption, index, questionId;
+        var answers, foundAnswerId, foundAnswered, foundOption, index, indexOfRespondents, questionId;
         $scope.submitted = false;
         $scope.question.totalResponses--;
+        indexOfRespondents = $scope.question.respondents.indexOf($scope.user.id);
+        $scope.question.respondents.splice(indexOfRespondents, 1);
         questionId = Number($scope.question.id);
         answers = _.pluck($scope.user.questionsAnswered, 'id');
         foundAnswerId = _.find(answers, function(id) {

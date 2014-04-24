@@ -44,20 +44,6 @@ define ['underscore'], (_)->
 
 		# ------------- Data for chart ------------- #
 
-		$scope.groups = [
-
-			title: "Dynamic Group Header - 1",
-			content: "Dynamic Group Body - 1",
-			open: false
-		,
-
-			title: "Dynamic Group Header - 2",
-			content: "Dynamic Group Body - 2",
-			open: false
-
-		]
-
-
 		$scope.myChartDataDeep = [			
 	            
 				value: 30
@@ -164,9 +150,23 @@ define ['underscore'], (_)->
 			count 	: 0    # how many people voted 
 		]
 
-		$scope.filterAdded = 'Add'
 
 
+
+		$scope.filterAdded = 'Add to filter'
+
+		$scope.groups = [
+
+			title: "Dynamic Group Header - 1",
+			content: "Dynamic Group Body - 1",
+			open: false
+		,
+
+			title: "Dynamic Group Header - 2",
+			content: "Dynamic Group Body - 2",
+			open: false
+
+		]
 
 
 
@@ -175,12 +175,6 @@ define ['underscore'], (_)->
 
 
 		# ------------- Scope Function ------------- #
-		$scope.openAccordion = (index)->
-			
-			$scope.groups[index].open = !$scope.groups[index].open
-
-		
-	
 
 		$scope.closeModal = ()->
 			$scope.$dismiss()

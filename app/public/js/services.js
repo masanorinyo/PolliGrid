@@ -8,25 +8,50 @@
           title: "Age",
           question: "How old are you?",
           created_at: 1398108212271,
-          lists: ["~ 10", "11 ~ 20", "21 ~ 30", "31 ~ 40", "41 ~ 50", "51 ~ 60", "61 ~ "]
+          lists: [
+            {
+              option: "~ 10",
+              answeredBy: []
+            }, {
+              option: "11 ~ 20",
+              answeredBy: []
+            }, {
+              option: "21 ~ 30",
+              answeredBy: []
+            }, {
+              option: "31 ~ 40",
+              answeredBy: []
+            }, {
+              option: "41 ~ 50",
+              answeredBy: []
+            }, {
+              option: "51 ~ 60",
+              answeredBy: []
+            }, {
+              option: "61 ~ ",
+              answeredBy: []
+            }
+          ]
         }, {
           id: 2,
           title: "Ethnicity",
           question: "What is your ethnicity?",
           created_at: 1398108312271,
-          lists: ["Asian", "Hispanic", "Caucasian", "African-American"]
-        }, {
-          id: 3,
-          title: "Age",
-          question: "How old are you?",
-          created_at: 1398108212271,
-          lists: ["~ 10", "11 ~ 20", "21 ~ 30", "31 ~ 40", "41 ~ 50", "51 ~ 60", "61 ~ "]
-        }, {
-          id: 4,
-          title: "Ethnicity",
-          question: "What is your ethnicity?",
-          created_at: 1398108312271,
-          lists: ["Asian", "Hispanic", "Caucasian", "African-American"]
+          lists: [
+            {
+              option: "Asian",
+              answeredBy: []
+            }, {
+              option: "Hispanic",
+              answeredBy: []
+            }, {
+              option: "Caucasian",
+              answeredBy: []
+            }, {
+              option: "African-American",
+              answeredBy: []
+            }
+          ]
         }
       ];
     }).factory('Question', function() {
@@ -37,20 +62,20 @@
           newOption: "",
           question: "Which one of the following best describes you",
           category: "Lifestyle",
-          respondents: [],
+          respondents: [8, 3, 2, 4, 5, 6, 7, 9],
           alreadyAnswered: false,
-          numOfFavorites: 0,
-          numOfFilters: 3,
+          numOfFavorites: 1,
+          numOfFilters: 2,
           totalResponses: 8,
           created_at: 1398108212271,
           creator: 1,
           options: [
             {
               title: 'positive',
-              count: 4
+              count: 3
             }, {
               title: 'negative',
-              count: 4
+              count: 5
             }
           ],
           targets: [
@@ -58,71 +83,49 @@
               id: 1,
               title: "Age",
               question: "How old are you?",
-              lists: ["~ 10", "11 ~ 20", "21 ~ 30", "31 ~ 40", "41 ~ 50", "51 ~ 60", "61 ~ "]
+              lists: [
+                {
+                  option: "~ 10",
+                  answeredBy: [9]
+                }, {
+                  option: "11 ~ 20",
+                  answeredBy: [2, 5]
+                }, {
+                  option: "21 ~ 30",
+                  answeredBy: [3, 6, 7]
+                }, {
+                  option: "31 ~ 40",
+                  answeredBy: [4, 8]
+                }, {
+                  option: "41 ~ 50",
+                  answeredBy: []
+                }, {
+                  option: "51 ~ 60",
+                  answeredBy: []
+                }, {
+                  option: "61 ~ ",
+                  answeredBy: []
+                }
+              ]
             }, {
               id: 2,
               title: "Ethnicity",
               question: "What is your ethnicity?",
-              lists: ["Asian", "Hispanic", "Caucasian", "African-American"]
-            }, {
-              id: 3,
-              title: "Ethnicity",
-              question: "What is your ethnicity?",
-              lists: ["test", "dsa", "Caucasian", "African-American"]
-            }, {
-              id: 4,
-              title: "Ethnicity",
-              question: "What is your ethnicity?",
-              lists: ["ds", "s", "d", "African-American"]
-            }
-          ]
-        }, {
-          id: 3,
-          newOption: "",
-          question: "Which one of the following best describes you",
-          category: "Lifestyle",
-          respondents: [],
-          alreadyAnswered: false,
-          numOfFavorites: 0,
-          numOfFilters: 3,
-          totalResponses: 8,
-          created_at: 1398108212271,
-          creator: 1,
-          options: [
-            {
-              title: 'positive',
-              count: 4
-            }, {
-              title: 'negative',
-              count: 4
-            }
-          ],
-          targets: [
-            {
-              id: 1,
-              title: "Age",
-              question: "How old are you?",
-              lists: ["~ 10", "11 ~ 20", "21 ~ 30", "31 ~ 40", "41 ~ 50", "51 ~ 60", "61 ~ "]
-            }, {
-              id: 2,
-              title: "Ethnicity",
-              question: "What is your ethnicity?",
-              lists: ["Asian", "Hispanic", "Caucasian", "African-American"]
-            }, {
-              id: 3,
-              title: "Ethnicity",
-              question: "What is your ethnicity?",
-              lists: ["test", "dsa", "Caucasian", "African-American"]
-            }, {
-              id: 4,
-              title: "Ethnicity",
-              question: "What is your ethnicity?",
-              lists: ["ds", "s", "d", "African-American"]
-            }, {
-              id: 5,
-              title: "Ethnicity",
-              question: "What is your ethnicity?",
-              lists: ["dhjg", "s", "d", "African-American"]
+              lists: [
+                {
+                  option: "Asian",
+                  answeredBy: [7, 9]
+                }, {
+                  option: "Hispanic",
+                  answeredBy: [2]
+                }, {
+                  option: "Caucasian",
+                  answeredBy: [3, 6, 8]
+                }, {
+                  option: "African-American",
+                  answeredBy: [4, 5]
+                }
+              ]
             }
           ]
         }
@@ -136,29 +139,10 @@
         password: 'test',
         profilePic: "/img/profile-pic.jpg",
         isLoggedIn: false,
-        favorites: [1],
+        favorites: [],
         questionMade: [1],
-        questionsAnswered: [
-          {
-            'id': 1,
-            'answer': "positive"
-          }
-        ],
-        filterQuestionsAnswered: [
-          {
-            'id': 1,
-            'answer': 'Asian'
-          }, {
-            'id': 2,
-            'answer': 'Asian'
-          }, {
-            'id': 3,
-            'answer': 'Asian'
-          }, {
-            'id': 4,
-            'answer': 'Asian'
-          }
-        ]
+        questionsAnswered: [],
+        filterQuestionsAnswered: []
       };
     });
   });

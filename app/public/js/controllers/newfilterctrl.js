@@ -18,19 +18,22 @@
         id: null,
         title: "",
         question: "",
-        respondents: [],
         lists: [],
         created_at: Date
       };
       $scope.addNewList = function(list) {
-        var sameOptionFound;
+        var data, sameOptionFound;
         sameOptionFound = _.find(newFilter.lists, findSameOption);
         if (list === "" || !list) {
           return false;
         } else if (sameOptionFound) {
           return filterUtil.sameListFound = true;
         } else {
-          newFilter.lists.push(list);
+          data = {
+            option: list,
+            answeredBy: []
+          };
+          newFilter.lists.push(data);
           filterUtil.newList = "";
           return filterUtil.sameListFound = false;
         }
