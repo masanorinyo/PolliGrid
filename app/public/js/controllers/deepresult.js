@@ -144,7 +144,6 @@
           };
           return $scope.filterGroup.answers.push(answer);
         });
-        console.log($scope.filterGroup);
         _results = [];
         while (i < length) {
           targets = [];
@@ -173,7 +172,7 @@
         return _results;
       })();
       $scope.addFilter = function(answer, target) {
-        var category, filter, filters, foundCategory, i, index, length, sameIdFound, users;
+        var category, data, filter, filters, foundCategory, i, index, length, sameIdFound, users;
         users = $scope.question.respondents;
         filters = $scope.filterGroup.filters;
         answer.isAdded = !answer.isAdded;
@@ -183,7 +182,6 @@
             categoryTitle: target.title
           });
           if (foundCategory) {
-            console.log('found');
             foundCategory.options.push(answer.option);
           } else {
             category = {
@@ -210,9 +208,7 @@
           foundCategory = _.findWhere($scope.filterCategories, {
             categoryTitle: target.title
           });
-          console.log(foundCategory);
           index = foundCategory.options.indexOf(answer.option);
-          console.log(index);
           foundCategory.options.splice(index, 1);
           if (foundCategory.options.length === 0) {
             $scope.filterCategories = _.without($scope.filterCategories, foundCategory);
@@ -239,10 +235,20 @@
         }
         if ($scope.filterGroup.filters.length === 0) {
           $scope.filterGroup.total = 0;
-          return $scope.foundRespondents = false;
+          $scope.foundRespondents = false;
         } else {
-          return $scope.filterGroup.total = users.length;
+          $scope.filterGroup.total = users.length;
         }
+        data = [];
+        _.each($scope.question.options, function(option, index) {
+          data[index] = option.answeredBy;
+          return _.each($scope.filterGroup.filters, function(filter) {
+            return data[index] = _.intersection(data[index], filter.respondents);
+          });
+        });
+        return _.each(data, function(filteredRespondents, index) {
+          return $scope.filterGroup.answers[index].count = filteredRespondents.length;
+        });
       };
       $scope.closeModal = function() {
         $scope.$dismiss();

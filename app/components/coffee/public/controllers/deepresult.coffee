@@ -206,7 +206,7 @@ define ['underscore'], (_)->
 					count : 0
 				$scope.filterGroup.answers.push(answer)
 
-			console.log $scope.filterGroup
+			
 
 			# create filter array
 			while i < length
@@ -260,7 +260,7 @@ define ['underscore'], (_)->
 				foundCategory = _.findWhere $scope.filterCategories, {categoryTitle:target.title}
 				
 				if foundCategory 
-					console.log 'found'
+					
 					foundCategory.options.push(answer.option)
 				
 				else
@@ -302,11 +302,7 @@ define ['underscore'], (_)->
 				# remove the added category
 				
 				foundCategory = _.findWhere $scope.filterCategories, {categoryTitle:target.title} 
-				
-				console.log foundCategory
 				index = foundCategory.options.indexOf(answer.option)
-				console.log index
-
 				foundCategory.options.splice(index,1)
 
 
@@ -362,8 +358,34 @@ define ['underscore'], (_)->
 			
 
 
+			
+			# filters out overall respondents by filter groups
+			# _.each $scope.filterGroup.filters,(filter)->
+				
+			# 	console.log filter
+
+			# 	_.each $scope.question.options,(option,index)->
+					
+			# 		option.answeredBy = _.intersection option.answeredBy,filter.respondents
+					
+			# 	$scope.filterGroup.answers[index].count = users.length
+
+			data = []
+			_.each $scope.question.options,(option,index)->
+				
+				data[index] = option.answeredBy
+
+				_.each $scope.filterGroup.filters,(filter)->
+
+					data[index] = _.intersection data[index],filter.respondents
+
+			_.each data,(filteredRespondents,index)->
+				$scope.filterGroup.answers[index].count = filteredRespondents.length
+					
 
 			# console.log $scope.filterGroup
+
+
 
 		# ------------- Scope Function ------------- #
 
