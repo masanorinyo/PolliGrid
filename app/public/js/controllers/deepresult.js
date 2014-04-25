@@ -124,12 +124,27 @@
         }
       ];
       $scope.filters = [];
-      $scope.filterGroup = [];
+      $scope.filterGroup = {
+        total: 0,
+        filters: [],
+        answers: []
+      };
       $scope.filterAdded = 'Add to filter';
+      $scope.filterCategories = [];
+      $scope.foundRespondents = false;
       (function() {
         var data, i, length, targetId, targetTitle, targets, _results;
         length = $scope.question.targets.length;
         i = 0;
+        _.each($scope.question.options, function(obj) {
+          var answer;
+          answer = {
+            title: obj.title,
+            count: 0
+          };
+          return $scope.filterGroup.answers.push(answer);
+        });
+        console.log($scope.filterGroup);
         _results = [];
         while (i < length) {
           targets = [];
@@ -157,16 +172,6 @@
         }
         return _results;
       })();
-      $scope.filterGroup = {
-        total: 0,
-        filters: [],
-        answers: {
-          answer: null,
-          count: 0
-        }
-      };
-      $scope.filterCategories = [];
-      $scope.foundRespondents = false;
       $scope.addFilter = function(answer, target) {
         var category, filter, filters, foundCategory, i, index, length, sameIdFound, users;
         users = $scope.question.respondents;
@@ -223,7 +228,6 @@
             filters = _.without(filters, _.findWhere(filters, {
               id: target.id
             }));
-            $scope.foundRespondents = false;
           }
         }
         $scope.filterGroup.filters = filters;
@@ -234,7 +238,8 @@
           i++;
         }
         if ($scope.filterGroup.filters.length === 0) {
-          return $scope.filterGroup.total = 0;
+          $scope.filterGroup.total = 0;
+          return $scope.foundRespondents = false;
         } else {
           return $scope.filterGroup.total = users.length;
         }

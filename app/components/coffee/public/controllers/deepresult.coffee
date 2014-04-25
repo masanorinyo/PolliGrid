@@ -181,12 +181,34 @@ define ['underscore'], (_)->
 
 		
 		$scope.filters = []
-		$scope.filterGroup = []
-		$scope.filterAdded = 'Add to filter'
+		$scope.filterGroup = 
+			total 		: 0
+			filters		: []
+			answers 	: []
 
+		# answer:null / count:0 
+
+		$scope.filterAdded = 'Add to filter'
+		$scope.filterCategories = []
+		$scope.foundRespondents = false
+
+		# create filters array
 		do ()->
 			length = $scope.question.targets.length
 			i = 0
+
+			
+
+			# add option answers to $scope filter group
+			_.each $scope.question.options, (obj)->
+				answer = 
+					title : obj.title
+					count : 0
+				$scope.filterGroup.answers.push(answer)
+
+			console.log $scope.filterGroup
+
+			# create filter array
 			while i < length
 				targets = []
 				targetId 	= $scope.question.targets[i].id
@@ -215,17 +237,13 @@ define ['underscore'], (_)->
 
 				i++		
 
-		$scope.filterGroup = 
 
-			total 		: 0
-			filters		: []
-			answers:
-				answer:null
-				count:0
 
-		$scope.filterCategories = []
+					
 
-		$scope.foundRespondents = false
+
+
+		
 
 		# this will add or remove filtered respondents from
 		# filter group
@@ -237,6 +255,7 @@ define ['underscore'], (_)->
 			
 			if answer.isAdded
 				$scope.foundRespondents = true
+				
 				# add category
 				foundCategory = _.findWhere $scope.filterCategories, {categoryTitle:target.title}
 				
@@ -306,13 +325,16 @@ define ['underscore'], (_)->
 				# find the filter group with the same id
 				# if any, then remove it from the group
 				sameIdFound = _.findWhere filters, {id:target.id}
+
+				
 				sameIdFound.respondents = _.difference sameIdFound.respondents,answer.answeredBy
+				
 				
 				# if the filter is empty, remove it
 				if sameIdFound.respondents.length == 0
 					console.log 'NO RESPONDENTS'
 					filters = _.without filters,_.findWhere filters,{id:target.id}
-					$scope.foundRespondents = false
+					
 			
 
 			$scope.filterGroup.filters = filters
@@ -320,15 +342,19 @@ define ['underscore'], (_)->
 			length = $scope.filterGroup.filters.length
 			i = 0 
 
+
 			while i < length
 
 				users = _.intersection(users,$scope.filterGroup.filters[i].respondents)
 				i++
 
+			
+			
 
 			if $scope.filterGroup.filters.length == 0
 
 				$scope.filterGroup.total = 0
+				$scope.foundRespondents = false
 			
 			else 
 			
@@ -336,13 +362,8 @@ define ['underscore'], (_)->
 			
 
 
-				
 
-
-
-
-				
-
+			# console.log $scope.filterGroup
 
 		# ------------- Scope Function ------------- #
 
