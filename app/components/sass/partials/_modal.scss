@@ -302,9 +302,9 @@
 }
 
 .graphs{
-	height:370px;
+	height:410px;
 	width:95%;
-	margin:40px auto 60px;
+	
 
 	> canvas{
         max-width: 400px;
@@ -429,6 +429,10 @@
 		width: 95%;
 		margin: auto;
 
+		.question{
+			font-size:0.8em;
+		}
+
 		.well{
 			width:49%;
 			display:inline-block;
@@ -439,7 +443,7 @@
 		position:relative;
 		
 		.legends{
-			@include absolute-center($top:auto,$bottom:auto);
+			@include absolute-center($top:45px,$bottom:auto,$left:25px,$right:auto);
 			width: 100px;
 
 			.toCenter{
@@ -474,7 +478,7 @@
 
 		.button-charts{
 			@extend .switch;
-			bottom: 30px;
+			bottom: 20px;
 		}
 	}
 
