@@ -70,8 +70,14 @@ define ['underscore'], (_)->
 				
 				i++
 
-			console.log $scope.myChartDataOverall
-			console.log $scope.myChartDataDeep
+			# if foundRespondents is false, meaning no filters selected
+			# reset the count numbers in the filter box
+			if !$scope.foundRespondents
+
+				_.each $scope.filterGroup.answers,(obj)->
+					obj.count = 0
+
+
 			# if the number of question options is less than 2
 			if i <= 2 && $scope.foundRespondents
 				$scope.myChartInfo.datasets[1].data.push(0)
@@ -110,7 +116,7 @@ define ['underscore'], (_)->
 			answers 	: []
 
 		$scope.myChartDataOverall = []
-		
+
 		# ------------- graph configuration ------------- #
 		$scope.radarChartOptions = 
 			scaleShowLabels 	: true
@@ -376,30 +382,11 @@ define ['underscore'], (_)->
 
 				$scope.filterGroup.total = 0
 				$scope.foundRespondents = false
-				
-				console.log $scope.filterGroup
-				_.each $scope.filterGroup.answers,(obj)->
-					obj.count = 0
-					console.log obj
-					
 			
 			else 
 			
 				$scope.filterGroup.total = users.length
 			
-
-
-			
-			# filters out overall respondents by filter groups
-			# _.each $scope.filterGroup.filters,(filter)->
-				
-			# 	console.log filter
-
-			# 	_.each $scope.question.options,(option,index)->
-					
-			# 		option.answeredBy = _.intersection option.answeredBy,filter.respondents
-					
-			# 	$scope.filterGroup.answers[index].count = users.length
 
 			defer = $q.defer()
 			defer.promise

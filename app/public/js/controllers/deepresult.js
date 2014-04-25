@@ -51,8 +51,11 @@
           }
           i++;
         }
-        console.log($scope.myChartDataOverall);
-        console.log($scope.myChartDataDeep);
+        if (!$scope.foundRespondents) {
+          _.each($scope.filterGroup.answers, function(obj) {
+            return obj.count = 0;
+          });
+        }
         if (i <= 2 && $scope.foundRespondents) {
           $scope.myChartInfo.datasets[1].data.push(0);
         }
@@ -243,11 +246,6 @@
         if ($scope.filterGroup.filters.length === 0) {
           $scope.filterGroup.total = 0;
           $scope.foundRespondents = false;
-          console.log($scope.filterGroup);
-          _.each($scope.filterGroup.answers, function(obj) {
-            obj.count = 0;
-            return console.log(obj);
-          });
         } else {
           $scope.filterGroup.total = users.length;
         }
