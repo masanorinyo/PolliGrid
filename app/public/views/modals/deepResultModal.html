@@ -11,12 +11,6 @@
 	
 	<div class="content">
 		
-		<!-- <div class="question">
-			<span class="gray">Question:</span> <br>
-			<span class="question-name">{{question.question}}</span>
-		</div>
-	
-		<hr> -->
 
 		<!-- Filter button -->
 
@@ -24,7 +18,7 @@
 			<div class='sub-title gray'>
 				<span ng-hide="foundRespondents">Add filters:</span>
 				<span class="blue" ng-show="foundRespondents">
-					Filtered by users: 
+					Filtered by : 
 				</span>
 			</div>
 			<br>
@@ -80,7 +74,7 @@
 			<div class='sub-title gray'>Statistics</div>
 			<br>
 			<div class="filter-wrapper">
-				<blockquote>
+				<blockquote class='question'>
 					 <p class='gray'>
 					 	<i class="fa fa-quote-left"></i>
 					 		{{question.question}} 
@@ -128,17 +122,19 @@
 		<div class="chart">
 			<div class='sub-title gray'>Graph</div>
 			<ul class='legends'>
-				<li ng-hide="chartType=='pie' && filterAdded"class='overall label label-default'>Overall</li>
-				<li ng-show="filterAdded" ng-class="{'toCenter':chartType=='pie'}"class='filter label label-default'>Filter</li>
+				<li ng-hide="foundRespondents && chartType=='pie'" class='overall label label-default'>Overall</li>
+				<li ng-show="foundRespondents" ng-class="{'toCenter':chartType=='pie'}"class='filter label label-default'>Filter</li>
 			</ul>
 			
 			<div class="graphs">
 			
-				<canvas  ng-if="chartType=='pie'" piechart options="pieChartOptions"  class="chart-pie" data="myChartDataDeep" width="300" height="300"></canvas> 
+				<canvas  ng-if="chartType=='pie' && !foundRespondents" piechart options="pieChartOptions"  class="chart-pie" data="myChartDataOverall" width="300" height="300"></canvas> 
 				
-				<canvas  ng-if="chartType=='radar'" radarchart options="radarChartOptions" class='chart-radar' data="chart" width="300" height="300"></canvas>
+				<canvas  ng-if="chartType=='pie' && foundRespondents"  piechart options="pieChartOptions"  class="chart-pie" data="myChartDataDeep" width="300" height="300"></canvas>
 				
-				<canvas  ng-if="chartType=='line'" linechart options="lineChartOptions" class='chart-line' data="chart" width="300" height="300"></canvas>
+				<canvas  ng-if="chartType=='radar'" radarchart options="radarChartOptions" class='chart-radar' data="myChartInfo" width="300" height="300"></canvas>
+				
+				<canvas  ng-if="chartType=='line'" linechart options="lineChartOptions" class='chart-line' data="myChartInfo" width="300" height="300"></canvas>
 			
 			</div>
 			

@@ -17,8 +17,8 @@
       getData = function(message) {
         var color, count, data, i, len, obj, ref, title;
         $scope.myChartDataDeep = [];
-        console.log($scope.question.options);
-        if (message === 'initial') {
+        $scope.myChartInfo.datasets[1].data = [];
+        if (message === 'createOverallPieData') {
           ref = $scope.question.options;
         } else {
           ref = $scope.filterGroup.answers;
@@ -28,7 +28,6 @@
         }
         i = 0;
         len = ref.length;
-        console.log(len);
         while (i < len) {
           obj = ref[i];
           count = obj.count;
@@ -42,28 +41,60 @@
             labelFontSize: "18",
             labelAlign: 'center'
           };
-          $scope.myChartDataDeep.push(data);
+          if (message === 'createOverallPieData') {
+            $scope.myChartDataOverall.push(data);
+          } else {
+            $scope.myChartDataDeep.push(data);
+          }
+          if ($scope.foundRespondents) {
+            $scope.myChartInfo.datasets[1].data.push(count);
+          }
           i++;
         }
+        console.log($scope.myChartDataOverall);
         console.log($scope.myChartDataDeep);
+        if (i <= 2 && $scope.foundRespondents) {
+          $scope.myChartInfo.datasets[1].data.push(0);
+        }
       };
-      $scope.chart = {
-        labels: ["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Partying", "Running"],
+      $scope.myChartInfo = {
+        labels: [],
         datasets: [
           {
             fillColor: "rgba(220,220,220,0.5)",
             strokeColor: "rgba(220,220,220,1)",
             pointColor: "rgba(220,220,220,1)",
             pointStrokeColor: "#fff",
-            data: [65, 59, 90, 81, 56, 55, 40]
+            data: []
           }, {
             fillColor: "rgba(151,187,205,0.5)",
             strokeColor: "rgba(151,187,205,1)",
             pointColor: "rgba(151,187,205,1)",
             pointStrokeColor: "#fff",
-            data: [28, 48, 40, 19, 96, 27, 100]
+            data: []
           }
         ]
+      };
+      $scope.filters = [];
+      $scope.filterGroup = {
+        total: 0,
+        filters: [],
+        answers: []
+      };
+      $scope.myChartDataOverall = [];
+      $scope.radarChartOptions = {
+        scaleShowLabels: true,
+        pointLabelFontSize: 10,
+        pointLabelFontColor: "rgb(120,120,120)",
+        scaleFontSize: 13,
+        scaleFontColor: "rgb(56,121,217)",
+        pointDot: false
+      };
+      $scope.lineChartOptions = {
+        scaleShowLabels: true,
+        scaleFontFamily: "'Arial'",
+        scaleFontSize: 9,
+        scaleFontColor: "#666"
       };
       $scope.donutOption = {
         percentageInnerCutout: 50,
@@ -74,6 +105,12 @@
         animateScale: false,
         onAnimationComplete: null
       };
+      $scope.filteredData = [
+        {
+          answer: null,
+          count: 0
+        }
+      ];
       $scope.donutData = [
         {
           value: 35,
@@ -83,19 +120,6 @@
           color: getInvertColor(color)
         }
       ];
-      $scope.radarChartOptions = {
-        scaleShowLabels: true,
-        pointLabelFontSize: 9,
-        pointLabelFontColor: "rgb(120,120,120)",
-        scaleFontSize: 9,
-        scaleFontColor: "rgb(120,120,120)"
-      };
-      $scope.lineChartOptions = {
-        scaleShowLabels: true,
-        scaleFontFamily: "'Arial'",
-        scaleFontSize: 9,
-        scaleFontColor: "#666"
-      };
       $scope.filterAdded = true;
       $scope.oneAtATime = true;
       questionId = $stateParams.id;
@@ -103,30 +127,20 @@
       $scope.chartType = "pie";
       $scope.filterAdded = false;
       $scope.question = foundQuestion;
-      $scope.filteredData = [
-        {
-          answer: null,
-          count: 0
-        }
-      ];
-      $scope.overallData = [
-        {
-          answer: null,
-          count: 0
-        }
-      ];
-      $scope.filters = [];
-      $scope.filterGroup = {
-        total: 0,
-        filters: [],
-        answers: []
-      };
       $scope.filterAdded = 'Add to filter';
       $scope.filterCategories = [];
       $scope.foundRespondents = false;
       (function() {
         var data, i, length, targetId, targetTitle, targets, _results;
-        getData('initial');
+        getData('createOverallPieData');
+        _.each($scope.question.options, function(option) {
+          $scope.myChartInfo.labels.push(option.title);
+          return $scope.myChartInfo.datasets[0].data.push(option.count);
+        });
+        if ($scope.myChartInfo.labels.length <= 2) {
+          $scope.myChartInfo.labels.push('');
+          $scope.myChartInfo.datasets[0].data.push(0);
+        }
         length = $scope.question.targets.length;
         i = 0;
         _.each($scope.question.options, function(obj) {
@@ -229,6 +243,11 @@
         if ($scope.filterGroup.filters.length === 0) {
           $scope.filterGroup.total = 0;
           $scope.foundRespondents = false;
+          console.log($scope.filterGroup);
+          _.each($scope.filterGroup.answers, function(obj) {
+            obj.count = 0;
+            return console.log(obj);
+          });
         } else {
           $scope.filterGroup.total = users.length;
         }

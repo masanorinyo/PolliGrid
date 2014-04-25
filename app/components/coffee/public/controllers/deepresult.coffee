@@ -17,14 +17,18 @@ define ['underscore'], (_)->
     		return color
 
 
+
+
     	# get data when the page loads up
 		getData = (message)->
+			
 			$scope.myChartDataDeep = []
 			
 
+			# clean up the data in the filter
+			$scope.myChartInfo.datasets[1].data = []
 
-			console.log $scope.question.options
-			if message == 'initial'
+			if message == 'createOverallPieData'
 				ref = $scope.question.options
 			else
 				ref = $scope.filterGroup.answers
@@ -34,9 +38,9 @@ define ['underscore'], (_)->
 			i = 0
 			len = ref.length
 
-			console.log len
 
 			while i < len
+				
 				obj = ref[i]
 				count = obj.count
 				title = obj.title
@@ -50,37 +54,80 @@ define ['underscore'], (_)->
 					labelFontSize 	: "18"
 					labelAlign 		: 'center'
 
-				$scope.myChartDataDeep.push(data)
+				if message == 'createOverallPieData'
+
+					$scope.myChartDataOverall.push(data)
+					
+				else
+					
+					$scope.myChartDataDeep.push(data)
+				
+
+				# if any filters selected
+				if $scope.foundRespondents
+					# put it into the filter data chart
+					$scope.myChartInfo.datasets[1].data.push(count)
+				
 				i++
+
+			console.log $scope.myChartDataOverall
 			console.log $scope.myChartDataDeep
+			# if the number of question options is less than 2
+			if i <= 2 && $scope.foundRespondents
+				$scope.myChartInfo.datasets[1].data.push(0)
+
 			return
 
 		# ------------- Data for chart ------------- #
 
-		$scope.chart = 
-			labels : ["Eating","Drinking","Sleeping","Designing","Coding","Partying","Running"]
+		# create targetAnswers object, which helps in identifiying
+		# who answered to what filter question.		
+
+		# create the variable for filling overall data
+		$scope.myChartInfo = 
+			labels : []
 			datasets : [
 			
 				fillColor : "rgba(220,220,220,0.5)"
 				strokeColor : "rgba(220,220,220,1)"
 				pointColor : "rgba(220,220,220,1)"
 				pointStrokeColor : "#fff"
-				data : [65,59,90,81,56,55,40]
+				data : []
 			,
 			
 				fillColor : "rgba(151,187,205,0.5)"
 				strokeColor : "rgba(151,187,205,1)"
 				pointColor : "rgba(151,187,205,1)"
 				pointStrokeColor : "#fff"
-				data : [28,48,40,19,96,27,100]
+				data : []
 			
 			]
 
+		$scope.filters = []
+		$scope.filterGroup = 
+			total 		: 0
+			filters		: []
+			answers 	: []
+
+		$scope.myChartDataOverall = []
+		
+		# ------------- graph configuration ------------- #
+		$scope.radarChartOptions = 
+			scaleShowLabels 	: true
+			pointLabelFontSize 	: 10
+			pointLabelFontColor : "rgb(120,120,120)"
+			scaleFontSize 		: 13
+			scaleFontColor 		: "rgb(56,121,217)"
+			pointDot 			: false
+			
+			
 		
 
-		
-
-
+		$scope.lineChartOptions = 
+			scaleShowLabels : true
+			scaleFontFamily : "'Arial'"
+			scaleFontSize : 9
+			scaleFontColor : "#666"
 
 		$scope.donutOption =  
 			
@@ -107,6 +154,15 @@ define ['underscore'], (_)->
 
 
 
+		
+
+
+		
+		$scope.filteredData = [
+
+			answer 	: null # which answer of the question
+			count 	: 0    # how many filtered people voted 
+		]
 
 		$scope.donutData = [
 			
@@ -118,23 +174,6 @@ define ['underscore'], (_)->
 			color : getInvertColor(color)
 
 		]
-
-
-
-		# ------------- graph configuration ------------- #
-		$scope.radarChartOptions = 
-			scaleShowLabels : true
-			pointLabelFontSize : 9
-			pointLabelFontColor : "rgb(120,120,120)"
-			scaleFontSize : 9
-			scaleFontColor : "rgb(120,120,120)"
-		
-
-		$scope.lineChartOptions = 
-			scaleShowLabels : true
-			scaleFontFamily : "'Arial'"
-			scaleFontSize : 9
-			scaleFontColor : "#666"
 
 		$scope.filterAdded = true
 		$scope.oneAtATime = true
@@ -154,28 +193,7 @@ define ['underscore'], (_)->
 		
 		$scope.question = foundQuestion
 
-		$scope.filteredData = [
-
-			answer 	: null # which answer of the question
-			count 	: 0    # how many filtered people voted 
-		]
-
-		$scope.overallData = [
-			answer 	: null # which answer of the question
-			count 	: 0    # how many people voted 
-		]
-
-		# create targetAnswers object, which helps in identifiying
-		# who answered to what filter question.
 		
-
-		
-		$scope.filters = []
-		$scope.filterGroup = 
-			total 		: 0
-			filters		: []
-			answers 	: []
-
 		# answer:null / count:0 
 
 		$scope.filterAdded = 'Add to filter'
@@ -186,13 +204,25 @@ define ['underscore'], (_)->
 		do ()->
 
 			#make a pie at the initial load
-			getData('initial')
+			getData('createOverallPieData')
+
+			#load information of overall for other charts
+			_.each $scope.question.options,(option)->
+				$scope.myChartInfo.labels.push(option.title)
+				$scope.myChartInfo.datasets[0].data.push(option.count)
+				
+			# if the number of question options is less than 2
+			# put a blank data
+			if $scope.myChartInfo.labels.length <=2
+				$scope.myChartInfo.labels.push('')
+				$scope.myChartInfo.datasets[0].data.push(0)
+
+
 
 
 			length = $scope.question.targets.length
 			i = 0
 
-			
 
 			# add option answers to $scope filter group
 			_.each $scope.question.options, (obj)->
@@ -346,6 +376,12 @@ define ['underscore'], (_)->
 
 				$scope.filterGroup.total = 0
 				$scope.foundRespondents = false
+				
+				console.log $scope.filterGroup
+				_.each $scope.filterGroup.answers,(obj)->
+					obj.count = 0
+					console.log obj
+					
 			
 			else 
 			
