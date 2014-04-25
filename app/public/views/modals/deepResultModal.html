@@ -152,26 +152,16 @@
 			<br>
 	
 			<ul class="chart-percentage">
-				<li class="list-chart">
+				<li class="list-chart" ng-repeat="option in question.options">
 					
-					<span class='chart-title'>NodeJS</span>
+					<span class='chart-title'>{{option.title}}</span>
 					<div class="graphs">
-						<canvas  doughnutchart options="donutOption" class="chart-main" data="donutData" width="300" height="300"></canvas>
+						<canvas ng-hide="isFiltered" doughnutchart options="donutOption" class="chart-main" data="donutDataOverall[$index]" width="300" height="300"></canvas>
+						<canvas ng-show="isFiltered"  doughnutchart options="donutOption" class="chart-main" data="donutDataFiltered[$index]" width="300" height="300"></canvas>
 					</div>
 					<div class="button-switch btn-group">
-						<button class='btn btn-sm btn-default active'>Overall</button>
-						<button class='btn btn-sm btn-default'>Filtered</button>
-					</div>
-				</li>
-				<li class="list-chart">
-					
-					<span class='chart-title'>Ruby</span>
-					<div class="graphs">
-						<canvas  doughnutchart options="donutOption" class="chart-main" data="donutData" width="300" height="300"></canvas>
-					</div>
-					<div class="button-switch btn-group">
-						<button class='btn btn-sm btn-default active'>Overall</button>
-						<button class='btn btn-sm btn-default'>Filtered</button>
+						<button ng-click="isFiltered=!isFiltered" class='btn btn-sm btn-default' ng-class="{'active':!isFiltered}">Overall</button>
+						<button ng-click="isFiltered=!isFiltered" class='btn btn-sm btn-default' ng-class="{'active':isFiltered}">Filtered</button>
 					</div>
 				</li>
 			</ul>

@@ -16,8 +16,10 @@ define ['underscore'], (_)->
     		color = "#" + color
     		return color
 
-
-
+    	getPercentage = (num,overall)->
+    		
+    		return percentage = Math.floor((num/overall) * 100)
+    		
 
     	# get data when the page loads up
 		getData = (message)->
@@ -28,12 +30,12 @@ define ['underscore'], (_)->
 			# clean up the data in the filter
 			$scope.myChartInfo.datasets[1].data = []
 
+
 			if message == 'createOverallPieData'
 				ref = $scope.question.options
 			else
 				ref = $scope.filterGroup.answers
-				$scope.pieChartOptions = 
-					animation : false
+				
 			
 			i = 0
 			len = ref.length
@@ -109,6 +111,13 @@ define ['underscore'], (_)->
 			
 			]
 
+
+
+		$scope.donutDataOverall = []
+
+		$scope.donutDataFiltered = []
+
+
 		$scope.filters = []
 		$scope.filterGroup = 
 			total 		: 0
@@ -116,15 +125,21 @@ define ['underscore'], (_)->
 			answers 	: []
 
 		$scope.myChartDataOverall = []
+		$scope.filterAdded = true
+		$scope.oneAtATime = true
 
+		
 		# ------------- graph configuration ------------- #
+		$scope.pieChartOptions = 
+			animationEasing : "easeOutQuart"
+
 		$scope.radarChartOptions = 
 			scaleShowLabels 	: true
-			pointLabelFontSize 	: 10
+			pointLabelFontSize 	: 12
 			pointLabelFontColor : "rgb(120,120,120)"
 			scaleFontSize 		: 13
 			scaleFontColor 		: "rgb(56,121,217)"
-			pointDot 			: false
+			scaleOverlay 		: true
 			
 			
 		
@@ -132,8 +147,9 @@ define ['underscore'], (_)->
 		$scope.lineChartOptions = 
 			scaleShowLabels : true
 			scaleFontFamily : "'Arial'"
-			scaleFontSize : 9
-			scaleFontColor : "#666"
+			scaleFontSize 	: 9
+			scaleFontColor 	: "#666"
+			
 
 		$scope.donutOption =  
 			
@@ -141,48 +157,11 @@ define ['underscore'], (_)->
 			percentageInnerCutout : 50
 
 			#Boolean - Whether we should animate the chart
-			animation : false
-
-			#Number - Amount of animation steps
-			animationSteps : 100
-
-			#String - Animation easing effect
-			animationEasing : "easeOutBounce"
-
-			#Boolean - Whether we animate the rotation of the Doughnut
-			animateRotate : false
-
-			#Boolean - Whether we animate scaling the Doughnut from the centre
-			animateScale : false
-
-			#Function - Will fire on animation completion.
-			onAnimationComplete : null
-
+			showTooltips:false
+			animation:false
 
 
 		
-
-
-		
-		$scope.filteredData = [
-
-			answer 	: null # which answer of the question
-			count 	: 0    # how many filtered people voted 
-		]
-
-		$scope.donutData = [
-			
-			value: 35,
-			color: color = getColor()
-		,
-			
-			value : 100-35,
-			color : getInvertColor(color)
-
-		]
-
-		$scope.filterAdded = true
-		$scope.oneAtATime = true
 
 		# ------------- Scope Variables ------------- #
 
@@ -206,75 +185,15 @@ define ['underscore'], (_)->
 		$scope.filterCategories = []
 		$scope.foundRespondents = false
 
-		# create filters array
-		do ()->
-
-			#make a pie at the initial load
-			getData('createOverallPieData')
-
-			#load information of overall for other charts
-			_.each $scope.question.options,(option)->
-				$scope.myChartInfo.labels.push(option.title)
-				$scope.myChartInfo.datasets[0].data.push(option.count)
-				
-			# if the number of question options is less than 2
-			# put a blank data
-			if $scope.myChartInfo.labels.length <=2
-				$scope.myChartInfo.labels.push('')
-				$scope.myChartInfo.datasets[0].data.push(0)
+		$scope.isFiltered = false
 
 
 
 
-			length = $scope.question.targets.length
-			i = 0
 
 
-			# add option answers to $scope filter group
-			_.each $scope.question.options, (obj)->
-				answer = 
-					title : obj.title
-					count : 0
-				$scope.filterGroup.answers.push(answer)
 
 			
-
-			# create filter array
-			while i < length
-				targets = []
-				targetId 	= $scope.question.targets[i].id
-				targetTitle = $scope.question.targets[i].title
-
-				_.each $scope.question.targets[i].lists,(num)->
-					optionData = 
-						option 			: num.option
-						answeredBy  	: num.answeredBy
-						numOfResponses 	: num.answeredBy.length
-						isAdded 		: false
-						filterBtn 		: "Add to filter"
-						
-
-
-					targets.push(optionData)
-
-				data = 
-					id  		: targetId
-					title 		: targetTitle
-					numOfAdded 	: 0
-					lists 		: targets
-					
-
-				$scope.filters.push(data)
-
-				i++		
-
-
-
-					
-
-
-
-		
 
 		# this will add or remove filtered respondents from
 		# filter group
@@ -389,6 +308,7 @@ define ['underscore'], (_)->
 			
 
 			defer = $q.defer()
+			test = []
 			defer.promise
 				.then ()->
 					data = []
@@ -406,11 +326,146 @@ define ['underscore'], (_)->
 
 					getData('filtered')
 
+				.then ()->
+					# get the percentage of the filtered data
+					sumOfFilteredData = 0
+					
+					# reset the donutData for percentage 
+					$scope.donutDataFiltered = []
+					_.each $scope.filterGroup.answers,(obj)->
+						
+						sumOfFilteredData += obj.count
+
+					console.log "Number of filters added : "+sumOfFilteredData
+
+					_.each $scope.filterGroup.answers, (obj)->
+
+
+						percentage = parseInt(getPercentage(obj.count,sumOfFilteredData))
+						console.log "Percentage "+percentage
+
+						filteredDataForDonut = [
+							
+								
+								label : obj.title
+								value: percentage
+								color: "rgb(100,150,245)"
+							,
+								label : obj.title
+								value : 100 - percentage
+								color: "rgb(235,235,235)"
+							
+						]
+
+						
+						
+
+						$scope.donutDataFiltered.push(filteredDataForDonut)
+
+						console.log $scope.donutDataFiltered
+
+				
+
 			defer.resolve()
+
+
+
+
+
+		
+		# create filters array
+		do ()->
+
+			#make a pie at the initial load
+			getData('createOverallPieData')
+
+			#load information of overall for other charts
+			_.each $scope.question.options,(option)->
+				$scope.myChartInfo.labels.push(option.title)
+				$scope.myChartInfo.datasets[0].data.push(option.count)
+				
+			# if the number of question options is less than 2
+			# put a blank data
+			if $scope.myChartInfo.labels.length <=2
+				$scope.myChartInfo.labels.push('')
+				$scope.myChartInfo.datasets[0].data.push(0)
+
+
+
+
+			length = $scope.question.targets.length
+			i = 0
+
+
+			# add option answers to $scope filter group
+			_.each $scope.question.options, (obj)->
+				answer = 
+					title : obj.title
+					count : 0
+				$scope.filterGroup.answers.push(answer)
 
 			
 
+			# create filter array
+			while i < length
+				targets = []
+				targetId 	= $scope.question.targets[i].id
+				targetTitle = $scope.question.targets[i].title
 
+				_.each $scope.question.targets[i].lists,(num)->
+					optionData = 
+						option 			: num.option
+						answeredBy  	: num.answeredBy
+						numOfResponses 	: num.answeredBy.length
+						isAdded 		: false
+						filterBtn 		: "Add to filter"
+						
+
+
+					targets.push(optionData)
+
+				data = 
+					id  		: targetId
+					title 		: targetTitle
+					numOfAdded 	: 0
+					lists 		: targets
+					
+
+				$scope.filters.push(data)
+
+				i++		
+
+
+			_.each $scope.question.options, (obj)->
+
+
+				percentage = parseInt(getPercentage(obj.count,$scope.question.totalResponses))
+				
+				
+				overallDataForDonut = [ 
+						label : obj.title
+						value : percentage
+						color : "rgb(100,250,245)"
+					,
+						label : obj.title
+						value : 100-percentage
+						color : "rgb(235,235,235)"
+				]
+
+				filteredDataForDonut =[
+
+						label : obj.title
+						value: 0
+						color: "rgb(100,150,245)"
+					,
+						label : obj.title
+						value : 100
+						color: "rgb(235,235,235)"
+				]
+
+
+				$scope.donutDataOverall.push(overallDataForDonut) 
+				$scope.donutDataFiltered.push(filteredDataForDonut) 
 
 		# ------------- Scope Function ------------- #
 

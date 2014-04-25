@@ -1,7 +1,7 @@
 (function() {
   define(['underscore'], function(_) {
     return function($scope, $modalInstance, $stateParams, $location, $q, $timeout, Question) {
-      var color, foundQuestion, getColor, getData, getInvertColor, questionId;
+      var foundQuestion, getColor, getData, getInvertColor, getPercentage, questionId;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
       };
@@ -14,6 +14,10 @@
         color = "#" + color;
         return color;
       };
+      getPercentage = function(num, overall) {
+        var percentage;
+        return percentage = Math.floor((num / overall) * 100);
+      };
       getData = function(message) {
         var color, count, data, i, len, obj, ref, title;
         $scope.myChartDataDeep = [];
@@ -22,9 +26,6 @@
           ref = $scope.question.options;
         } else {
           ref = $scope.filterGroup.answers;
-          $scope.pieChartOptions = {
-            animation: false
-          };
         }
         i = 0;
         len = ref.length;
@@ -78,6 +79,8 @@
           }
         ]
       };
+      $scope.donutDataOverall = [];
+      $scope.donutDataFiltered = [];
       $scope.filters = [];
       $scope.filterGroup = {
         total: 0,
@@ -85,13 +88,18 @@
         answers: []
       };
       $scope.myChartDataOverall = [];
+      $scope.filterAdded = true;
+      $scope.oneAtATime = true;
+      $scope.pieChartOptions = {
+        animationEasing: "easeOutQuart"
+      };
       $scope.radarChartOptions = {
         scaleShowLabels: true,
-        pointLabelFontSize: 10,
+        pointLabelFontSize: 12,
         pointLabelFontColor: "rgb(120,120,120)",
         scaleFontSize: 13,
         scaleFontColor: "rgb(56,121,217)",
-        pointDot: false
+        scaleOverlay: true
       };
       $scope.lineChartOptions = {
         scaleShowLabels: true,
@@ -101,30 +109,9 @@
       };
       $scope.donutOption = {
         percentageInnerCutout: 50,
-        animation: false,
-        animationSteps: 100,
-        animationEasing: "easeOutBounce",
-        animateRotate: false,
-        animateScale: false,
-        onAnimationComplete: null
+        showTooltips: false,
+        animation: false
       };
-      $scope.filteredData = [
-        {
-          answer: null,
-          count: 0
-        }
-      ];
-      $scope.donutData = [
-        {
-          value: 35,
-          color: color = getColor()
-        }, {
-          value: 100 - 35,
-          color: getInvertColor(color)
-        }
-      ];
-      $scope.filterAdded = true;
-      $scope.oneAtATime = true;
       questionId = $stateParams.id;
       foundQuestion = _.findWhere(Question, Number(questionId));
       $scope.chartType = "pie";
@@ -133,56 +120,9 @@
       $scope.filterAdded = 'Add to filter';
       $scope.filterCategories = [];
       $scope.foundRespondents = false;
-      (function() {
-        var data, i, length, targetId, targetTitle, targets, _results;
-        getData('createOverallPieData');
-        _.each($scope.question.options, function(option) {
-          $scope.myChartInfo.labels.push(option.title);
-          return $scope.myChartInfo.datasets[0].data.push(option.count);
-        });
-        if ($scope.myChartInfo.labels.length <= 2) {
-          $scope.myChartInfo.labels.push('');
-          $scope.myChartInfo.datasets[0].data.push(0);
-        }
-        length = $scope.question.targets.length;
-        i = 0;
-        _.each($scope.question.options, function(obj) {
-          var answer;
-          answer = {
-            title: obj.title,
-            count: 0
-          };
-          return $scope.filterGroup.answers.push(answer);
-        });
-        _results = [];
-        while (i < length) {
-          targets = [];
-          targetId = $scope.question.targets[i].id;
-          targetTitle = $scope.question.targets[i].title;
-          _.each($scope.question.targets[i].lists, function(num) {
-            var optionData;
-            optionData = {
-              option: num.option,
-              answeredBy: num.answeredBy,
-              numOfResponses: num.answeredBy.length,
-              isAdded: false,
-              filterBtn: "Add to filter"
-            };
-            return targets.push(optionData);
-          });
-          data = {
-            id: targetId,
-            title: targetTitle,
-            numOfAdded: 0,
-            lists: targets
-          };
-          $scope.filters.push(data);
-          _results.push(i++);
-        }
-        return _results;
-      })();
+      $scope.isFiltered = false;
       $scope.addFilter = function(answer, target) {
-        var category, defer, filter, filters, foundCategory, i, index, length, sameIdFound, users;
+        var category, defer, filter, filters, foundCategory, i, index, length, sameIdFound, test, users;
         users = $scope.question.respondents;
         filters = $scope.filterGroup.filters;
         answer.isAdded = !answer.isAdded;
@@ -250,6 +190,7 @@
           $scope.filterGroup.total = users.length;
         }
         defer = $q.defer();
+        test = [];
         defer.promise.then(function() {
           var data;
           data = [];
@@ -264,9 +205,109 @@
           });
         }).then(function() {
           return getData('filtered');
+        }).then(function() {
+          var sumOfFilteredData;
+          sumOfFilteredData = 0;
+          $scope.donutDataFiltered = [];
+          _.each($scope.filterGroup.answers, function(obj) {
+            return sumOfFilteredData += obj.count;
+          });
+          console.log("Number of filters added : " + sumOfFilteredData);
+          return _.each($scope.filterGroup.answers, function(obj) {
+            var filteredDataForDonut, percentage;
+            percentage = parseInt(getPercentage(obj.count, sumOfFilteredData));
+            console.log("Percentage " + percentage);
+            filteredDataForDonut = [
+              {
+                label: obj.title,
+                value: percentage,
+                color: "rgb(100,150,245)"
+              }, {
+                label: obj.title,
+                value: 100 - percentage,
+                color: "rgb(235,235,235)"
+              }
+            ];
+            $scope.donutDataFiltered.push(filteredDataForDonut);
+            return console.log($scope.donutDataFiltered);
+          });
         });
         return defer.resolve();
       };
+      (function() {
+        var data, i, length, targetId, targetTitle, targets;
+        getData('createOverallPieData');
+        _.each($scope.question.options, function(option) {
+          $scope.myChartInfo.labels.push(option.title);
+          return $scope.myChartInfo.datasets[0].data.push(option.count);
+        });
+        if ($scope.myChartInfo.labels.length <= 2) {
+          $scope.myChartInfo.labels.push('');
+          $scope.myChartInfo.datasets[0].data.push(0);
+        }
+        length = $scope.question.targets.length;
+        i = 0;
+        _.each($scope.question.options, function(obj) {
+          var answer;
+          answer = {
+            title: obj.title,
+            count: 0
+          };
+          return $scope.filterGroup.answers.push(answer);
+        });
+        while (i < length) {
+          targets = [];
+          targetId = $scope.question.targets[i].id;
+          targetTitle = $scope.question.targets[i].title;
+          _.each($scope.question.targets[i].lists, function(num) {
+            var optionData;
+            optionData = {
+              option: num.option,
+              answeredBy: num.answeredBy,
+              numOfResponses: num.answeredBy.length,
+              isAdded: false,
+              filterBtn: "Add to filter"
+            };
+            return targets.push(optionData);
+          });
+          data = {
+            id: targetId,
+            title: targetTitle,
+            numOfAdded: 0,
+            lists: targets
+          };
+          $scope.filters.push(data);
+          i++;
+        }
+        return _.each($scope.question.options, function(obj) {
+          var filteredDataForDonut, overallDataForDonut, percentage;
+          percentage = parseInt(getPercentage(obj.count, $scope.question.totalResponses));
+          overallDataForDonut = [
+            {
+              label: obj.title,
+              value: percentage,
+              color: "rgb(100,250,245)"
+            }, {
+              label: obj.title,
+              value: 100 - percentage,
+              color: "rgb(235,235,235)"
+            }
+          ];
+          filteredDataForDonut = [
+            {
+              label: obj.title,
+              value: 0,
+              color: "rgb(100,150,245)"
+            }, {
+              label: obj.title,
+              value: 100,
+              color: "rgb(235,235,235)"
+            }
+          ];
+          $scope.donutDataOverall.push(overallDataForDonut);
+          return $scope.donutDataFiltered.push(filteredDataForDonut);
+        });
+      })();
       $scope.closeModal = function() {
         $scope.$dismiss();
         return $timeout(function() {
