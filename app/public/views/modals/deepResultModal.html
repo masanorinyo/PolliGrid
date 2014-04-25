@@ -127,7 +127,7 @@
 			
 			<div class="graphs">
 			
-				<canvas  ng-if="chartType=='pie'" piechart  class="chart-pie" data="myChartDataDeep" width="300" height="300"></canvas> 
+				<canvas  ng-if="chartType=='pie'" piechart options="pieChartOptions"  class="chart-pie" data="myChartDataDeep" width="300" height="300"></canvas> 
 				
 				<canvas  ng-if="chartType=='radar'" radarchart options="radarChartOptions" class='chart-radar' data="chart" width="300" height="300"></canvas>
 				

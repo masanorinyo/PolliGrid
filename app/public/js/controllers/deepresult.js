@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modalInstance, $stateParams, $location, $timeout, Question) {
+    return function($scope, $modalInstance, $stateParams, $location, $q, $timeout, Question) {
       var color, foundQuestion, getColor, getData, getInvertColor, questionId;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
@@ -14,12 +14,21 @@
         color = "#" + color;
         return color;
       };
-      getData = function() {
+      getData = function(message) {
         var color, count, data, i, len, obj, ref, title;
-        $scope.myChartData = [];
-        ref = $scope.question.options;
+        $scope.myChartDataDeep = [];
+        console.log($scope.question.options);
+        if (message === 'initial') {
+          ref = $scope.question.options;
+        } else {
+          ref = $scope.filterGroup.answers;
+          $scope.pieChartOptions = {
+            animation: false
+          };
+        }
         i = 0;
         len = ref.length;
+        console.log(len);
         while (i < len) {
           obj = ref[i];
           count = obj.count;
@@ -33,28 +42,11 @@
             labelFontSize: "18",
             labelAlign: 'center'
           };
-          $scope.myChartData.push(data);
+          $scope.myChartDataDeep.push(data);
           i++;
         }
+        console.log($scope.myChartDataDeep);
       };
-      $scope.myChartDataDeep = [
-        {
-          value: 30,
-          color: "#F7464A"
-        }, {
-          value: 50,
-          color: "#E2EAE9"
-        }, {
-          value: 100,
-          color: "#D4CCC5"
-        }, {
-          value: 40,
-          color: "#949FB1"
-        }, {
-          value: 120,
-          color: "#4D5360"
-        }
-      ];
       $scope.chart = {
         labels: ["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Partying", "Running"],
         datasets: [
@@ -78,7 +70,7 @@
         animation: false,
         animationSteps: 100,
         animationEasing: "easeOutBounce",
-        animateRotate: true,
+        animateRotate: false,
         animateScale: false,
         onAnimationComplete: null
       };
@@ -134,6 +126,7 @@
       $scope.foundRespondents = false;
       (function() {
         var data, i, length, targetId, targetTitle, targets, _results;
+        getData('initial');
         length = $scope.question.targets.length;
         i = 0;
         _.each($scope.question.options, function(obj) {
@@ -172,7 +165,7 @@
         return _results;
       })();
       $scope.addFilter = function(answer, target) {
-        var category, data, filter, filters, foundCategory, i, index, length, sameIdFound, users;
+        var category, defer, filter, filters, foundCategory, i, index, length, sameIdFound, users;
         users = $scope.question.respondents;
         filters = $scope.filterGroup.filters;
         answer.isAdded = !answer.isAdded;
@@ -239,16 +232,23 @@
         } else {
           $scope.filterGroup.total = users.length;
         }
-        data = [];
-        _.each($scope.question.options, function(option, index) {
-          data[index] = option.answeredBy;
-          return _.each($scope.filterGroup.filters, function(filter) {
-            return data[index] = _.intersection(data[index], filter.respondents);
+        defer = $q.defer();
+        defer.promise.then(function() {
+          var data;
+          data = [];
+          _.each($scope.question.options, function(option, index) {
+            data[index] = option.answeredBy;
+            return _.each($scope.filterGroup.filters, function(filter) {
+              return data[index] = _.intersection(data[index], filter.respondents);
+            });
           });
+          return _.each(data, function(filteredRespondents, index) {
+            return $scope.filterGroup.answers[index].count = filteredRespondents.length;
+          });
+        }).then(function() {
+          return getData('filtered');
         });
-        return _.each(data, function(filteredRespondents, index) {
-          return $scope.filterGroup.answers[index].count = filteredRespondents.length;
-        });
+        return defer.resolve();
       };
       $scope.closeModal = function() {
         $scope.$dismiss();

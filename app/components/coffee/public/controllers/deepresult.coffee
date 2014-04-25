@@ -1,5 +1,5 @@
 define ['underscore'], (_)->
-	($scope,$modalInstance,$stateParams,$location,$timeout,Question)->
+	($scope,$modalInstance,$stateParams,$location,$q,$timeout,Question)->
 		
 
 		# ----------------- Utility functions ----------------- #
@@ -18,11 +18,23 @@ define ['underscore'], (_)->
 
 
     	# get data when the page loads up
-		getData = ->
-			$scope.myChartData = []
-			ref = $scope.question.options
+		getData = (message)->
+			$scope.myChartDataDeep = []
+			
+
+
+			console.log $scope.question.options
+			if message == 'initial'
+				ref = $scope.question.options
+			else
+				ref = $scope.filterGroup.answers
+				$scope.pieChartOptions = 
+					animation : false
+			
 			i = 0
 			len = ref.length
+
+			console.log len
 
 			while i < len
 				obj = ref[i]
@@ -38,34 +50,12 @@ define ['underscore'], (_)->
 					labelFontSize 	: "18"
 					labelAlign 		: 'center'
 
-				$scope.myChartData.push data
+				$scope.myChartDataDeep.push(data)
 				i++
+			console.log $scope.myChartDataDeep
 			return
 
 		# ------------- Data for chart ------------- #
-
-		$scope.myChartDataDeep = [			
-	            
-				value: 30
-				color:"#F7464A"
-			,
-				value : 50,
-				color : "#E2EAE9"
-			,
-			
-				value : 100,
-				color : "#D4CCC5"
-			,
-			
-				value : 40,
-				color : "#949FB1"
-			,
-			
-				value : 120,
-				color : "#4D5360"
-			
-	    ]
-
 
 		$scope.chart = 
 			labels : ["Eating","Drinking","Sleeping","Designing","Coding","Partying","Running"]
@@ -107,7 +97,7 @@ define ['underscore'], (_)->
 			animationEasing : "easeOutBounce"
 
 			#Boolean - Whether we animate the rotation of the Doughnut
-			animateRotate : true
+			animateRotate : false
 
 			#Boolean - Whether we animate scaling the Doughnut from the centre
 			animateScale : false
@@ -194,6 +184,11 @@ define ['underscore'], (_)->
 
 		# create filters array
 		do ()->
+
+			#make a pie at the initial load
+			getData('initial')
+
+
 			length = $scope.question.targets.length
 			i = 0
 
@@ -370,20 +365,27 @@ define ['underscore'], (_)->
 					
 			# 	$scope.filterGroup.answers[index].count = users.length
 
-			data = []
-			_.each $scope.question.options,(option,index)->
-				
-				data[index] = option.answeredBy
+			defer = $q.defer()
+			defer.promise
+				.then ()->
+					data = []
+					_.each $scope.question.options,(option,index)->
+						
+						data[index] = option.answeredBy
 
-				_.each $scope.filterGroup.filters,(filter)->
+						_.each $scope.filterGroup.filters,(filter)->
 
-					data[index] = _.intersection data[index],filter.respondents
+							data[index] = _.intersection data[index],filter.respondents
 
-			_.each data,(filteredRespondents,index)->
-				$scope.filterGroup.answers[index].count = filteredRespondents.length
-					
+					_.each data,(filteredRespondents,index)->
+						$scope.filterGroup.answers[index].count = filteredRespondents.length
+				.then ()->	
 
-			# console.log $scope.filterGroup
+					getData('filtered')
+
+			defer.resolve()
+
+			
 
 
 

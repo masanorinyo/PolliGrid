@@ -68,13 +68,14 @@
           "$q": $q
         });
       });
-    }).controller('DeepResultCtrl', function($scope, $injector, $modalInstance, $location, $timeout) {
+    }).controller('DeepResultCtrl', function($scope, $injector, $modalInstance, $location, $timeout, $q) {
       return require(['controllers/deepresult'], function(deepresult) {
         return $injector.invoke(deepresult, this, {
           "$scope": $scope,
           "$modalInstance": $modalInstance,
           "$location": $location,
-          "$timeout": $timeout
+          "$timeout": $timeout,
+          "$q": $q
         });
       });
     });
