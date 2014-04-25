@@ -59,7 +59,8 @@
         } else {
           newlyCreatedOption = {
             title: option,
-            count: 0
+            count: 0,
+            answeredBy: []
           };
           newQuestion.options.push(newlyCreatedOption);
           utility.isOptionAdded = true;

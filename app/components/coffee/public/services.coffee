@@ -67,9 +67,11 @@ define ['angular'], (angular) ->
 					options 			: [
 							title : 'positive'
 							count : 3
+							answeredBy :[3,2,5,8]
 						,
 							title : 'negative'
 							count : 5
+							answeredBy :[4,6,7,9]
 					]
 					targets 			: [
 

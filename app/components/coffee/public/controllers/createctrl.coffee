@@ -102,8 +102,9 @@ define ['underscore'], ( _ )->
 
 				# newly created option meets the above conditions, added to the question
 				newlyCreatedOption = 
-					title : option
-					count : 0
+					title 		: option
+					count 		: 0
+					answeredBy 	: []
 
 				newQuestion.options.push(newlyCreatedOption)
 				utility.isOptionAdded = true
@@ -187,7 +188,6 @@ define ['underscore'], ( _ )->
 
 			# get the number of added target audience questions
 			newQuestion.numOfFilters = _.size(newQuestion.targets)
-
 
 			# get the current time
 			newQuestion.created_at = new Date().getTime()			

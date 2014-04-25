@@ -57,9 +57,10 @@
         if (choice === "" || !choice) {
           return $scope.warning = true;
         } else {
+          $scope.warning = false;
           $scope.$broadcast('answerSubmitted', 'submitted');
           $scope.question.respondents.push($scope.user.id);
-          $scope.warning = false;
+          choice.answeredBy.push($scope.user.id);
           choice.count++;
           question.totalResponses++;
           answer = {
@@ -68,7 +69,8 @@
           };
           $scope.user.questionsAnswered.push(answer);
           $scope.submitted = true;
-          return getData();
+          getData();
+          return console.log($scope.question);
         }
       };
       $scope.fillStar = function(question) {
@@ -85,7 +87,7 @@
         return console.log(User);
       };
       $scope.$on('resetAnswer', function(question) {
-        var answers, foundAnswerId, foundAnswered, foundOption, index, indexOfRespondents, questionId;
+        var answers, foundAnswerId, foundAnswered, foundOption, index, indexOfRespondents, optionIndex, questionId;
         $scope.submitted = false;
         $scope.question.totalResponses--;
         indexOfRespondents = $scope.question.respondents.indexOf($scope.user.id);
@@ -101,15 +103,15 @@
         foundOption = _.find($scope.question.options, function(option) {
           return option.title === foundAnswered.answer;
         });
+        optionIndex = foundOption.answeredBy.indexOf($scope.user.id);
+        foundOption.answeredBy.splice(optionIndex, 1);
         foundOption.count--;
         index = answers.indexOf(questionId);
-        console.log(index);
         _.find($scope.user.questionsAnswered, function(answer) {
           if (Number(answer.id) === Number(questionId)) {
             return $scope.user.questionsAnswered.splice(index, 1);
           }
         });
-        console.log($scope.user);
         return $scope.answer = '';
       });
       return $scope.$apply();
