@@ -8,6 +8,9 @@
 				<span>{{title}}</span>
 			</p>
 		</div>
+		<p ng-show="alertMessage.length != 0"class="alert alert-warning">
+			{{alertMessage}}
+		</p>
 		<div class="social-box">
 			
 			<ul class="social-accounts">
@@ -49,6 +52,19 @@
 				</label>
 				<button type="submit" class="btn btn-primary btn-sm pull-right">  Submit</button>
 			</form>
+		</div>
+		<br>
+		<hr>
+		<div class="reverse-box">
+			<p  ng-show="title=='Signup'" class="gray reverse">
+				You already have an account? - 
+				<a href="#" ng-click="switch('login')">Login</a>	
+			</p>
+			<p ng-show="title=='Login'" class="gray reverse">
+				If you don't have an account, 
+				<a href="#" ng-click="switch('signup')">Sign up</a>
+			</p>
+			
 		</div>
 	</div>
 </section>

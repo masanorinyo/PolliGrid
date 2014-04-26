@@ -1,5 +1,5 @@
 define ['underscore'], (_)->
-	($scope,$location,$state,$stateParams,$timeout,Question,User,Filters)->
+	($scope,$location,$state,$stateParams,$timeout,Question,User,Filters,Error)->
 
 		# ----------------- Utility functions ----------------- #
 		getColor = ()->
@@ -147,19 +147,27 @@ define ['underscore'], (_)->
 
 		$scope.fillStar = (question)->
 			
-			$scope.favorite = !$scope.favorite
+			if User.isLoggedIn 
 
-			if $scope.favorite
+				$scope.favorite = !$scope.favorite
 
-				$scope.user.favorites.push(question.id)
-				question.numOfFavorites++
+				if $scope.favorite
 
-			else
+					$scope.user.favorites.push(question.id)
+					question.numOfFavorites++
 
-				# attach it to the question
-				index = $scope.user.favorites.indexOf(question.id)	
-				$scope.user.favorites.splice(index,1)
-				question.numOfFavorites--
+				else
+
+					# attach it to the question
+					index = $scope.user.favorites.indexOf(question.id)	
+					$scope.user.favorites.splice(index,1)
+					question.numOfFavorites--
+
+			else 
+
+				Error.auth = "Please sign up to proceed"
+				console.log Error.auth
+				$location.path('/signup')
 				
 			console.log User
 			

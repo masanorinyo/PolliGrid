@@ -141,6 +141,9 @@ define ['angular'], (angular) ->
 						
 				]
 
+		.factory 'Error', ()->
+			error = 
+				auth : ""
 
 
 

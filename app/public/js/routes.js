@@ -18,7 +18,7 @@
         }
       }).state('home.login', {
         url: 'login',
-        onEnter: function($state, $modal, $location) {
+        onEnter: function($state, $modal, $location, Error) {
           return $modal.open({
             templateUrl: 'views/modals/authmodal.html',
             controller: "AuthCtrl",
@@ -26,12 +26,13 @@
           }).result.then(function() {
             return console.log('modal is open');
           }, function() {
-            return $location.path('/');
+            $location.path('/');
+            return Error.auth = '';
           });
         }
       }).state('home.signup', {
         url: 'signup',
-        onEnter: function($state, $modal, $location) {
+        onEnter: function($state, $modal, $location, Error) {
           return $modal.open({
             templateUrl: 'views/modals/authmodal.html',
             controller: "AuthCtrl",
@@ -39,7 +40,8 @@
           }).result.then(function() {
             return console.log('modal is open');
           }, function() {
-            return $location.path('/');
+            $location.path('/');
+            return Error.auth = '';
           });
         }
       }).state('home.create', {
@@ -55,16 +57,23 @@
             templateUrl: 'views/partials/shareQuestion.html'
           }
         },
-        onEnter: function($state, $modal, $location) {
-          return $modal.open({
-            templateUrl: 'views/modals/createModal.html',
-            controller: "CreateCtrl",
-            windowClass: "createModal"
-          }).result.then(function() {
-            return console.log('modal is open');
-          }, function() {
-            return $location.path('/');
-          });
+        onEnter: function($state, $modal, $location, $timeout, User, Error) {
+          if (!User.isLoggedIn) {
+            Error.auth = 'Please sign up to proceed';
+            return $timeout(function() {
+              return $location.path('signup');
+            }, 300, true);
+          } else {
+            return $modal.open({
+              templateUrl: 'views/modals/createModal.html',
+              controller: "CreateCtrl",
+              windowClass: "createModal"
+            }).result.then(function() {
+              return console.log('modal is open');
+            }, function() {
+              return $location.path('/');
+            });
+          }
         }
       }).state('home.share', {
         url: 'share/:id',
@@ -85,9 +94,14 @@
         }
       }).state('home.deepResult', {
         url: 'deepResult/:id',
-        onEnter: function($state, $modal, $stateParams, $location) {
+        onEnter: function($state, $modal, $timeout, $stateParams, $location, User, Error) {
           if ($stateParams.id === "") {
             return $location.path('/');
+          } else if (!User.isLoggedIn) {
+            Error.auth = 'Please sign up to proceed';
+            return $timeout(function() {
+              return $location.path('signup');
+            }, 300, true);
           } else {
             return $modal.open({
               templateUrl: 'views/modals/deepResultModal.html',

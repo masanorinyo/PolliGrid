@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $location, $state, $stateParams, $timeout, Question, User, Filters) {
+    return function($scope, $location, $state, $stateParams, $timeout, Question, User, Filters, Error) {
       var foundQuestion, getColor, getData, questionId, targetQ;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
@@ -86,14 +86,20 @@
       };
       $scope.fillStar = function(question) {
         var index;
-        $scope.favorite = !$scope.favorite;
-        if ($scope.favorite) {
-          $scope.user.favorites.push(question.id);
-          question.numOfFavorites++;
+        if (User.isLoggedIn) {
+          $scope.favorite = !$scope.favorite;
+          if ($scope.favorite) {
+            $scope.user.favorites.push(question.id);
+            question.numOfFavorites++;
+          } else {
+            index = $scope.user.favorites.indexOf(question.id);
+            $scope.user.favorites.splice(index, 1);
+            question.numOfFavorites--;
+          }
         } else {
-          index = $scope.user.favorites.indexOf(question.id);
-          $scope.user.favorites.splice(index, 1);
-          question.numOfFavorites--;
+          Error.auth = "Please sign up to proceed";
+          console.log(Error.auth);
+          $location.path('/signup');
         }
         return console.log(User);
       };

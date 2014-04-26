@@ -148,6 +148,11 @@
         questionsAnswered: [],
         filterQuestionsAnswered: []
       };
+    }).factory('Error', function() {
+      var error;
+      return error = {
+        auth: ""
+      };
     });
   });
 

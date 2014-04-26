@@ -3,7 +3,6 @@ define ['angular','services'], (angular) ->
 		
 		.controller 'WhichOneCtrl', ($scope,User)->
 			$scope.searchQuestion = ''
-
 			$scope.user = User
 
 			$scope.searchByCategory = (category)->

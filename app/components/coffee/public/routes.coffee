@@ -36,7 +36,7 @@ define(
 
 				.state 'home.login',
 					url:'login'
-					onEnter:($state,$modal,$location)->
+					onEnter:($state,$modal,$location,Error)->
 						$modal.open(
 						
 							templateUrl : 'views/modals/authmodal.html'
@@ -49,10 +49,11 @@ define(
 						
 						, ()->
 							$location.path('/')
+							Error.auth = ''
   							
 				.state 'home.signup',
 					url:'signup'
-					onEnter:($state,$modal,$location)->
+					onEnter:($state,$modal,$location,Error)->
 						$modal.open(
 							
 							templateUrl : 'views/modals/authmodal.html'
@@ -65,6 +66,7 @@ define(
 						
 						, ()->
 							$location.path('/')
+							Error.auth = ''
 
 				.state 'home.create',
 					url:'create'
@@ -83,20 +85,30 @@ define(
 
 							templateUrl:'views/partials/shareQuestion.html'
 
-					onEnter:($state,$modal,$location)->
-						
-						$modal.open(
-						
-							templateUrl : 'views/modals/createModal.html'
-							controller 	: "CreateCtrl"
-							windowClass : "createModal"
+					onEnter:($state,$modal,$location,$timeout,User,Error)->
+						if !User.isLoggedIn
 							
-						
-						).result.then ()->
-  							console.log('modal is open')
-						
-						, ()->
-							$location.path('/')
+							Error.auth = 'Please sign up to proceed'
+
+							$timeout ()->
+								$location.path('signup')
+							,300,true
+
+						else
+
+
+							$modal.open(
+							
+								templateUrl : 'views/modals/createModal.html'
+								controller 	: "CreateCtrl"
+								windowClass : "createModal"
+								
+							
+							).result.then ()->
+	  							console.log('modal is open')
+							
+							, ()->
+								$location.path('/')
 
 				.state 'home.share',
 					url:'share/:id'
@@ -123,11 +135,19 @@ define(
 
 				.state 'home.deepResult',
 					url:'deepResult/:id'
-					onEnter:($state,$modal,$stateParams,$location)->
+					onEnter:($state,$modal,$timeout,$stateParams,$location,User,Error)->
 						
 						if $stateParams.id is "" 
 
 							$location.path('/')
+
+						else if !User.isLoggedIn
+							
+							Error.auth = 'Please sign up to proceed'
+
+							$timeout ()->
+								$location.path('signup')
+							,300,true
 
 						else
 
