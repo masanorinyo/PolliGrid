@@ -1,7 +1,7 @@
 define ['angular','services'], (angular) ->
 	angular.module('myapp.controllers', ['myapp.services'])
 		
-		.controller 'WhichOneCtrl', ($scope,$location,$stateParams,$timeout,$state,User)->
+		.controller 'WhichOneCtrl', ($sce,$scope,$location,$stateParams,$timeout,$state,User)->
 			$scope.searchQuestion = ''
 			$scope.user = User
 
@@ -22,6 +22,9 @@ define ['angular','services'], (angular) ->
 
 				$scope.searchQuestion = category
 
+
+			$scope.logout = ()->
+				User.isLoggedIn = false
 
 
 		.controller 'ShareCtrl', ($scope, $injector,$modalInstance,$location,$timeout)->
@@ -117,6 +120,18 @@ define ['angular','services'], (angular) ->
 					deepresult, this,{
 						"$scope" 				: $scope
 						"$modalInstance" 		: $modalInstance
+						"$location" 	 		: $location
+						"$timeout" 				: $timeout
+						"$q" 					: $q
+					}
+				)
+			)
+
+		.controller 'SettingCtrl', ($scope, $injector,$location,$timeout,$q)->
+			require(['controllers/settingctrl'], (settingctrl)->
+				$injector.invoke(
+					settingctrl, this,{
+						"$scope" 				: $scope
 						"$location" 	 		: $location
 						"$timeout" 				: $timeout
 						"$q" 					: $q

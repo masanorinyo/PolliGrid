@@ -1,6 +1,6 @@
 (function() {
   define(['angular', 'services'], function(angular) {
-    return angular.module('myapp.controllers', ['myapp.services']).controller('WhichOneCtrl', function($scope, $location, $stateParams, $timeout, $state, User) {
+    return angular.module('myapp.controllers', ['myapp.services']).controller('WhichOneCtrl', function($sce, $scope, $location, $stateParams, $timeout, $state, User) {
       $scope.searchQuestion = '';
       $scope.user = User;
       $scope.refresh = function() {
@@ -13,8 +13,11 @@
           });
         }, 100, true);
       };
-      return $scope.searchByCategory = function(category) {
+      $scope.searchByCategory = function(category) {
         return $scope.searchQuestion = category;
+      };
+      return $scope.logout = function() {
+        return User.isLoggedIn = false;
       };
     }).controller('ShareCtrl', function($scope, $injector, $modalInstance, $location, $timeout) {
       return require(['controllers/sharectrl'], function(sharectrl) {
@@ -84,6 +87,15 @@
         return $injector.invoke(deepresult, this, {
           "$scope": $scope,
           "$modalInstance": $modalInstance,
+          "$location": $location,
+          "$timeout": $timeout,
+          "$q": $q
+        });
+      });
+    }).controller('SettingCtrl', function($scope, $injector, $location, $timeout, $q) {
+      return require(['controllers/settingctrl'], function(settingctrl) {
+        return $injector.invoke(settingctrl, this, {
+          "$scope": $scope,
           "$location": $location,
           "$timeout": $timeout,
           "$q": $q

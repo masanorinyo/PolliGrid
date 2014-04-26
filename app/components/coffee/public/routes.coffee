@@ -203,9 +203,17 @@ define(
 										notify: true
 									})
 								,200,true
-		
+				
+				.state 'home.setting',
+					url:'setting/:id/:type'
+					views:
+
+						'content@':
+
+							templateUrl:'/views/partials/setting.html'
+							controller:'SettingCtrl'
+
 							
-						
 						
 
 					

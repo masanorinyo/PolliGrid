@@ -6,11 +6,19 @@
 				Which one?</a>
 		</h1>
 		
-		<div ng-if="user.isLoggedIn" class="profile pull-right">
-		    <a href="#">
+		<div ng-if="user.isLoggedIn" class="profile pull-right dropdown">
+		    <a href="#" class="dropdown-toggle">
 		      <img ng-src="{{user.profilePic}}" alt="{{user.name}}" class="img-circle">
 		    </a>
+			<ul class="dropdown-menu">
+				<li><a ng-href="#/setting/{{user.id}}">Profile</a></li>
+				<li><a ng-href="#/setting/{{user.id}}/favorites">favorites</a></li>
+				<li><a ng-href="#/setting/{{user.id}}/questions">My questions</a></li>
+				<li><a ng-href="#/setting/{{user.id}}/answers">My answers</a></li>
+				<li ng-click="logout()"class="border-top"><a ng-href="/logout">Logout</a></li>
+			</ul>
 		</div>
+
 		
 		<ul ng-if="!user.isLoggedIn">
 			

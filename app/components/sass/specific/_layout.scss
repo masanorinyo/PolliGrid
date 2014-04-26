@@ -33,6 +33,28 @@
 		&:hover img{
 			@include opacity(0.8);
 		}
+
+		.dropdown-menu{
+
+			right: 1px;
+			left: -124px;
+			height: 160px;
+			bottom: -200px;
+			width: 50px;
+
+			> li {
+				text-align: center;
+				height: 30px;
+				padding:3px;
+				font-size: 0.9em;
+				color: rgb(150,150,150);
+				cursor: pointer;
+
+				&:hover{
+					color:$blue;
+				}
+			}
+		}
 	}
 
 	ul{

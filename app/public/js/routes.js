@@ -144,6 +144,14 @@
             });
           }
         }
+      }).state('home.setting', {
+        url: 'setting/:id/:type',
+        views: {
+          'content@': {
+            templateUrl: '/views/partials/setting.html',
+            controller: 'SettingCtrl'
+          }
+        }
       });
       return $urlRouterProvider.otherwise('/');
     });
