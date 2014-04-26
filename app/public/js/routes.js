@@ -102,14 +102,20 @@
         }
       }).state('home.question', {
         url: 'question/:id',
+        views: {
+          "questionResult@": {
+            templateUrl: 'views/partials/targetQuestions.html',
+            controller: 'TargetAudienceCtrl'
+          }
+        },
         onEnter: function($state, $modal, $stateParams, $location) {
           if ($stateParams.id === "") {
             return $location.path('/');
           } else {
             return $modal.open({
               templateUrl: 'views/modals/questionModal.html',
-              controller: "ContentCtrl",
-              windowClass: ""
+              controller: "ListCtrl",
+              windowClass: "questionModal"
             }).result.then(function() {
               return console.log('modal is open');
             }, function() {

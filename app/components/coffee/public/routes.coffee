@@ -147,6 +147,13 @@ define(
 
 				.state 'home.question',
 					url:'question/:id'
+					views:
+
+						"questionResult@":
+							
+							templateUrl :'views/partials/targetQuestions.html'
+							controller:'TargetAudienceCtrl'
+
 					onEnter:($state,$modal,$stateParams,$location)->
 						
 						if $stateParams.id is "" 
@@ -158,8 +165,8 @@ define(
 							$modal.open(
 							
 								templateUrl : 'views/modals/questionModal.html'
-								controller 	: "ContentCtrl"
-								windowClass : ""
+								controller 	: "ListCtrl"
+								windowClass : "questionModal"
 								
 							
 							).result.then ()->

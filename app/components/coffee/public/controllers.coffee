@@ -77,12 +77,13 @@ define ['angular','services'], (angular) ->
 				)
 			)
 
-		.controller 'ListCtrl', ($scope, $q,$injector)->
+		.controller 'ListCtrl', ($scope, $q, $location,$injector)->
 			require(['controllers/listctrl'], (listctrl)->
 				$injector.invoke(
 					listctrl, this,{
-						"$scope": $scope
-						"$q" 	: $q
+						"$scope" 				: $scope
+						"$q" 					: $q
+						"$location" 	 		: $location
 					}
 				)
 			)
@@ -102,6 +103,19 @@ define ['angular','services'], (angular) ->
 			require(['controllers/deepresult'], (deepresult)->
 				$injector.invoke(
 					deepresult, this,{
+						"$scope" 				: $scope
+						"$modalInstance" 		: $modalInstance
+						"$location" 	 		: $location
+						"$timeout" 				: $timeout
+						"$q" 					: $q
+					}
+				)
+			)
+
+		.controller 'QuestionCtrl', ($scope, $injector,$modalInstance,$location,$timeout,$q)->
+			require(['controllers/questionctrl'], (questionctrl)->
+				$injector.invoke(
+					questionctrl, this,{
 						"$scope" 				: $scope
 						"$modalInstance" 		: $modalInstance
 						"$location" 	 		: $location

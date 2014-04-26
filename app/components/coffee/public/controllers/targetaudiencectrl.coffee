@@ -3,6 +3,8 @@ define ['underscore'], (_)->
 
 		# ------------------ Utility functions ------------------ #		
 		
+
+
 		# determine the initial filter questions
 		# increment filterNumber until it hits the unanswered filter question
 		skipThroughFilterQuestions = ()->
@@ -284,7 +286,8 @@ define ['underscore'], (_)->
 				
 
 			,300,true
-			
+		
+		
 		
 		# ------------------ Invoke the scope ------------------ #		
 		

@@ -1,11 +1,10 @@
 <div class="modal-header">
-	Question
+	<h3>Question</h3>
+	<button type="button" ng-click="closeModal()" class="close"> ×</button>
 </div>
 <div class="modal-body">
 	<ul class='content-cards'>
-		<li  ng-repeat="question in questions | filter:searchQuestion" 
-		 ng-controller="ListCtrl">
-
+		<li ng-controller="ListCtrl">
 			<div answered='question' submitted="submitted"  class="card card-large">
 				
 				<!-- should make a directive for this -->
@@ -42,16 +41,15 @@
 						<input type="submit" class="submit-button btn btn-primary btn-sm" value="See result">
 					</form>
 				</div>
-
-
-				<div ui-view='result' ng-show="submitted" class="animated question-content" ng-class="{back:submitted}"></div>
-
+				
+				<div ui-view='questionResult' ng-show="submitted" class="animated question-content" ng-class="{back:submitted}"></div>
+				
 
 				<div class="card-bottom">
 					<ul>
 						<li class='userPhoto'>
 							<a href="#">
-								<img ng-src="{{user.profilePic}}" alt="{{user.name}}">
+								<img ng-src="{{question.photo}}" alt="{{question.creatorName}}">
 							</a>
 						</li>
 						<li class='category silver'>
@@ -69,5 +67,5 @@
 	</ul>	
 </div>
 <div class="modal-footer">
-	<button class='btn btn-default pull-left'>Close</button>
+	<button ng-click="closeModal()" class='btn btn-default pull-left'>Close</button>
 </div>

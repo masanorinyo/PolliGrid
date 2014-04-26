@@ -53,11 +53,12 @@
           "$scope": $scope
         });
       });
-    }).controller('ListCtrl', function($scope, $q, $injector) {
+    }).controller('ListCtrl', function($scope, $q, $location, $injector) {
       return require(['controllers/listctrl'], function(listctrl) {
         return $injector.invoke(listctrl, this, {
           "$scope": $scope,
-          "$q": $q
+          "$q": $q,
+          "$location": $location
         });
       });
     }).controller('TargetAudienceCtrl', function($scope, $timeout, $q, $injector) {
@@ -71,6 +72,16 @@
     }).controller('DeepResultCtrl', function($scope, $injector, $modalInstance, $location, $timeout, $q) {
       return require(['controllers/deepresult'], function(deepresult) {
         return $injector.invoke(deepresult, this, {
+          "$scope": $scope,
+          "$modalInstance": $modalInstance,
+          "$location": $location,
+          "$timeout": $timeout,
+          "$q": $q
+        });
+      });
+    }).controller('QuestionCtrl', function($scope, $injector, $modalInstance, $location, $timeout, $q) {
+      return require(['controllers/questionctrl'], function(questionctrl) {
+        return $injector.invoke(questionctrl, this, {
           "$scope": $scope,
           "$modalInstance": $modalInstance,
           "$location": $location,

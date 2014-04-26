@@ -1,5 +1,5 @@
 define ['underscore'], (_)->
-	($scope,$timeout,Question,User,Filters)->
+	($scope,$location,$stateParams,$timeout,Question,User,Filters)->
 
 		# ----------------- Utility functions ----------------- #
 		getColor = ()->
@@ -31,7 +31,7 @@ define ['underscore'], (_)->
 			return
 
 
-			
+		
 
 		# ----------------- Scope functions and variables ----------------- #
 	
@@ -57,12 +57,29 @@ define ['underscore'], (_)->
 
 		
 		# ***************  Models *************** #
-		$scope.questions = Question
+		$scope.user = User
+
+		# if the question is accessed via external link
+		# get the url id and find the question with the id
+		if $stateParams.id
+			
+
+			questionId = Number($stateParams.id)
+			foundQuestion = _.findWhere Question,{id:questionId}
+			$scope.question = foundQuestion	
+
+			$scope.isThisQuestionForm = true
+
+		else
+
+			$scope.questions = Question
 		
 		$scope.answer = ''
 		
 
+
 		# ***************  Variables *************** #
+		$scope.isThisQuestionForm = false
 		$scope.isStarFilled = false
 		$scope.submitted = false
 
@@ -202,6 +219,13 @@ define ['underscore'], (_)->
 			# reset the chosen answers
 			$scope.answer = ''
 			
+		# ------------- Scope Function ------------- #
+
+		$scope.closeModal = ()->
+			$scope.$dismiss()
+			$timeout ->
+				$location.path('/')
+			,500,true
 
 		# ------------------ invoke the scope ------------------ #
 		$scope.$apply()

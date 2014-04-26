@@ -1,7 +1,7 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $timeout, Question, User, Filters) {
-      var getColor, getData, targetQ;
+    return function($scope, $location, $stateParams, $timeout, Question, User, Filters) {
+      var foundQuestion, getColor, getData, questionId, targetQ;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
       };
@@ -34,8 +34,19 @@
         animationStep: 30,
         animationEasing: "easeOutQuart"
       };
-      $scope.questions = Question;
+      $scope.user = User;
+      if ($stateParams.id) {
+        questionId = Number($stateParams.id);
+        foundQuestion = _.findWhere(Question, {
+          id: questionId
+        });
+        $scope.question = foundQuestion;
+        $scope.isThisQuestionForm = true;
+      } else {
+        $scope.questions = Question;
+      }
       $scope.answer = '';
+      $scope.isThisQuestionForm = false;
       $scope.isStarFilled = false;
       $scope.submitted = false;
       targetQ = $scope.targetQ = {
@@ -87,7 +98,7 @@
         return console.log(User);
       };
       $scope.$on('resetAnswer', function(question) {
-        var answers, foundAnswerId, foundAnswered, foundOption, index, indexOfRespondents, optionIndex, questionId;
+        var answers, foundAnswerId, foundAnswered, foundOption, index, indexOfRespondents, optionIndex;
         $scope.submitted = false;
         $scope.question.totalResponses--;
         indexOfRespondents = $scope.question.respondents.indexOf($scope.user.id);
@@ -114,6 +125,12 @@
         });
         return $scope.answer = '';
       });
+      $scope.closeModal = function() {
+        $scope.$dismiss();
+        return $timeout(function() {
+          return $location.path('/');
+        }, 500, true);
+      };
       return $scope.$apply();
     };
   });
