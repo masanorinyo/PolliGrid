@@ -100,6 +100,23 @@
             });
           }
         }
+      }).state('home.question', {
+        url: 'question/:id',
+        onEnter: function($state, $modal, $stateParams, $location) {
+          if ($stateParams.id === "") {
+            return $location.path('/');
+          } else {
+            return $modal.open({
+              templateUrl: 'views/modals/questionModal.html',
+              controller: "ContentCtrl",
+              windowClass: ""
+            }).result.then(function() {
+              return console.log('modal is open');
+            }, function() {
+              return $location.path('/');
+            });
+          }
+        }
       });
       return $urlRouterProvider.otherwise('/');
     });

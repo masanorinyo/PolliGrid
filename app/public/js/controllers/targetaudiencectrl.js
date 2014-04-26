@@ -3,12 +3,23 @@
     return function($scope, $timeout, $q, Question) {
       var checkFilterQuestionStatus, checkIfEverythingAnswered, checkIfQuestionAlaredyAnswered, makeTargetChecker, skipThroughFilterQuestions;
       skipThroughFilterQuestions = function() {
-        var i, length;
+        var i, length, matchedOption;
         $scope.filterNumber = 0;
         length = $scope.targetChecker.length;
         i = 0;
         while (i < length) {
           if ($scope.targetChecker[i].isAnswered) {
+            matchedOption = null;
+            _.each($scope.user.filterQuestionsAnswered, function(answer, index) {
+              matchedOption = _.find($scope.question.targets[i].lists, function(list) {
+                return list.option === answer.answer;
+              });
+              if (matchedOption) {
+                if (!_.contains(matchedOption.answeredBy, $scope.user.id)) {
+                  return matchedOption.answeredBy.push($scope.user.id);
+                }
+              }
+            });
             $scope.filterNumber++;
           } else {
             break;
@@ -131,11 +142,7 @@
       $scope.$on('answerSubmitted', function(message) {
         checkFilterQuestionStatus('');
         return $timeout(function() {
-          skipThroughFilterQuestions();
-          console.log("low");
-          console.log($scope.filterNumber);
-          console.log("low");
-          return console.log($scope.targetChecker);
+          return skipThroughFilterQuestions();
         }, 300, true);
       });
       return $scope.$apply();

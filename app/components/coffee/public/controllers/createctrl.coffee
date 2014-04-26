@@ -29,6 +29,7 @@ define ['underscore'], ( _ )->
 			options 			: []
 			targets 			: []
 			creator 			: null
+			photo				: ""
 
 	
 		
@@ -191,6 +192,9 @@ define ['underscore'], ( _ )->
 
 			# get the current time
 			newQuestion.created_at = new Date().getTime()			
+
+			newQuestion.photo = User.profilePic
+			newQuestion.creatorName = User.profilePic
 
 
 			# development purpose -> once connected with MongoDB

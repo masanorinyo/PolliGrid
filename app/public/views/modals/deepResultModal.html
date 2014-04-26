@@ -3,51 +3,39 @@
 	<h3>
 		Deep Result
 	</h3>
-	<button class="btn btn-sm btn-default btn-comment">See Comments</button>
+	<button ng-click="showMessages()" class="btn btn-sm btn-default btn-comment">
+		{{buttonMessage}}
+	</button>
 	<button type="button" ng-click="closeModal()" class="close"> ×</button>
 
 </div>
 <div class="modal-body" >
 	
-	<div class="content">
+	<section ng-hide="showMessageBox" class="content" ng-hide="">
 		
-
 		<!-- Filter button -->
 
 		<div class="list-filters">
-			<div class='sub-title gray'>
+			<div class='sub-title white bg-teal'>
 				<span ng-hide="foundRespondents">Add filters:</span>
-				<span class="blue" ng-show="foundRespondents">
+				<span class="white" ng-show="foundRespondents">
 					Filtered by : 
 				</span>
 			</div>
 			<br>
-			
-			<!-- added target question Section -->
-			<div class="well" ng-show="foundRespondents">
-				<ul class="respondents" ng-repeat="category in filterCategories">
-					<li class="label label-info">
-						{{category.categoryTitle}}
-					</li>
-					<li class="respondent" ng-repeat="option in category.options">
-						{{option}}
-					</li>
-				</ul>
-			</div>
-
 			<accordion close-others="oneAtATime">
 				<accordion-group heading="{{target.title}}" ng-repeat="target in filters">
 					<accordion-heading>
 						<div class="accordion-header">
 							<span class="filter-name">{{target.title}}</span> 
-							<span tooltip-placement="top" tooltip="# of filtered respondents" class="badge pull-right">{{target.numOfAdded}}</span>
+							<span tooltip-placement="top" tooltip="# of filtered respondents" ng-class="{'bg-blue':target.numOfAdded!=0}" class="badge pull-right">{{target.numOfAdded}}</span>
 						</div>
 			
 					</accordion-heading>
 					<ul class='list-group'>
 					 	<li class='list-group-item' ng-repeat="list in target.lists">
 					 		<div tooltip-placement="right" tooltip="# of respondents" class="box-count pull-left">
-				 				<span ng-class="{blue:list.numOfResponses!=0,gray:list.numOfResponses==0}" class='number' >
+				 				<span ng-class="{'blue-badge':list.numOfResponses!=0,gray:list.numOfResponses==0}" class='number' >
 				 					{{list.numOfResponses}}
 				 				</span>
 			 				</div>
@@ -62,6 +50,17 @@
 				 	</ul> 
 				</accordion-group>
 			</accordion>
+			<!-- added target question Section -->
+			<div class="well" ng-show="foundRespondents">
+				<ul class="respondents" ng-repeat="category in filterCategories">
+					<li class="label label-info">
+						{{category.categoryTitle}}
+					</li>
+					<li class="respondent" ng-repeat="option in category.options">
+						{{option}}
+					</li>
+				</ul>
+			</div>
 			<hr>
 		</div>
 
@@ -71,7 +70,7 @@
 		<!-- Statistics box -->
 		<div class="statistics">
 			<!-- Statistics Section -->
-			<div class='sub-title gray'>Statistics</div>
+			<div class='sub-title white bg-orange'>Statistics</div>
 			<br>
 			<div class="filter-wrapper">
 				<blockquote class='question'>
@@ -120,17 +119,21 @@
 		<!-- Graph Section -->
 
 		<div class="chart">
-			<div class='sub-title gray'>Graph</div>
+			<div class='bg-olive white sub-title'>Graph</div>
 			<ul class='legends'>
 				<li ng-hide="foundRespondents && chartType=='pie'" class='overall label label-default'>Overall</li>
-				<li ng-show="foundRespondents" ng-class="{'toCenter':chartType=='pie'}"class='filter label label-default'>Filter</li>
+				<li ng-show="foundRespondents && filterGroup.total != 0" ng-class="{'toCenter':chartType=='pie'}"class='filter label label-default'>Filter</li>
 			</ul>
 			
 			<div class="graphs">
-			
+				<!-- if the chart type is pie and filters seleced but the total number is 0, show this message -->
+				<div ng-if="chartType=='pie' && foundRespondents && filterGroup.total==0" class="noInfo">
+					<p class="aqua"><i class="fa fa-frown-o"></i> No filtered data</p>
+				</div>
+
 				<canvas  ng-if="chartType=='pie' && !foundRespondents" piechart options="pieChartOptions"  class="chart-pie" data="myChartDataOverall" width="300" height="300"></canvas> 
 				
-				<canvas  ng-if="chartType=='pie' && foundRespondents"  piechart options="pieChartOptions"  class="chart-pie" data="myChartDataDeep" width="300" height="300"></canvas>
+				<canvas  ng-if="chartType=='pie' && foundRespondents && filterGroup.total != 0"  piechart options="pieChartOptions"  class="chart-pie" data="myChartDataDeep" width="300" height="300"></canvas>
 				
 				<canvas  ng-if="chartType=='radar'" radarchart options="radarChartOptions" class='chart-radar' data="myChartInfo" width="300" height="300"></canvas>
 				
@@ -148,13 +151,17 @@
 		
 		<!-- Percentage Section -->
 		<div class="percentage">
-			<div class='sub-title gray'>Percentage</div>
+			<div class='bg-lightPurple white sub-title'>Percentage</div>
 			<br>
 	
 			<ul class="chart-percentage">
 				<li class="list-chart" ng-repeat="option in question.options">
 					
-					<span class='chart-title'>{{option.title}}</span>
+					<p class='gray chart-title'>
+						
+						<span class="fuchsia">{{option.title}}</span>
+						 was chosen by
+					</p>
 					<div class="graphs">
 						<canvas ng-hide="isFiltered" doughnutchart options="donutOption" class="chart-main" data="donutDataOverall[$index]" width="300" height="300"></canvas>
 						<canvas ng-show="isFiltered"  doughnutchart options="donutOption" class="chart-main" data="donutDataFiltered[$index]" width="300" height="300"></canvas>
@@ -166,14 +173,34 @@
 				</li>
 			</ul>
 		</div>
-	</div>
+	</section>
+
+	<section ng-show="showMessageBox" class="messages">
+		<div id="disqus_thread"></div>
+	    <script type="text/javascript">
+	    	var disqus_developer = 1; 
+	        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	        var disqus_shortname = 'whichone'; // required: replace example with your forum shortname
+
+	        /* * * DON'T EDIT BELOW THIS LINE * * */
+	        (function() {
+	            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	        })();
+	    </script>
+	    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	    
+	</section>
+	
 </div>
 <div class="modal-footer">
 	<button class="pull-left btn btn-default" ng-click="closeModal()">
 		Close	
 	</button>
-	<button class="pull-right btn btn-primary">
-		See Comments
+	
+	<button ng-click="showMessages()" class="pull-right btn btn-primary">
+		{{buttonMessage}}
 	</button>
-
 </div>

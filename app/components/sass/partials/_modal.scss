@@ -333,6 +333,9 @@
 		overflow:auto;
 		height:500px;
 		
+		hr{
+			margin-top:50px;
+		}
 		
 	}
 
@@ -357,9 +360,12 @@
 
 
 	.sub-title{
-		width:100%;
-		text-align:center;
-		margin-bottom:10px;
+		width:100px;
+		text-align: center;
+		right: 0;
+		left: 0;
+		margin: 0 auto 10px;
+		@include border-radius(25px);
 	}
 
 	.respondents{
@@ -408,7 +414,6 @@
 			width: 35px;
 			height: 100%;
 			border-right: 1px solid rgb(221,221,221);
-			background-color:$slightlyGray;
 			@include absolute-center($right:auto);
 			
 			.number {
@@ -418,6 +423,13 @@
 				width: 35px;
 				font-size: 0.8em;
 				text-align: center;
+				
+				&.blue-badge{
+					background-color:lighten($lightblue,10);
+					width: 80%;
+					color: white;
+					@include border-radius(100px);
+				}
 			}
 
 		}
@@ -443,7 +455,7 @@
 		position:relative;
 		
 		.legends{
-			@include absolute-center($top:45px,$bottom:auto,$left:25px,$right:auto);
+			@include absolute-center($top:60px,$bottom:auto,$left:45px,$right:auto);
 			width: 100px;
 
 			.toCenter{
@@ -472,13 +484,19 @@
 			.chart-radar,.chart-line{
 				width: 100% !important;
 			}
-
+			
+			.noInfo{
+				@include absolute-center;
+				height: 20%;
+				text-align: center;
+				font-size: 2.2em;
+			}
 
 		}
 
 		.button-charts{
 			@extend .switch;
-			bottom: 20px;
+			bottom: 33px;
 		}
 	}
 
@@ -490,16 +508,17 @@
 			position:relative;
 			
 			.chart-title{
-				margin:0 0 0 40px;
 				font-size:1.2em;
+				text-align: center;
+				margin-bottom: 30px;
 			}
 			
 
 			.graphs{
 				
 				@extend .graphs;
-				height:320px;
-				margin:15px auto 75px;
+				height:345px;
+				margin:20px auto 75px;
 
 				> canvas{
 					width: 90% !important;
@@ -509,6 +528,7 @@
 			.button-switch{
 				@extend .switch;
 				width:140px;
+				bottom:0;
 			}
 		}
 	}

@@ -1,21 +1,7 @@
-<section class="utility-section">
-	<h1 hidden>search</h1>
-	<a href="#" ui-sref=".create" class='btn btn-default create'>
-		Create
-	</a>
-     
-	<div class="input-group search">
-		
-		<input ng-model="searchQuestion" type="text" placeholder="Search..."class="form-control">
-			
-		<span class="input-group-addon">
-			<i class="glyphicon glyphicon-search"></i>
-		</span>
-	</div>
-
-</section>
-<section class='content-section'>
-	<h1 hidden>question</h1>
+<div class="modal-header">
+	Question
+</div>
+<div class="modal-body">
 	<ul class='content-cards'>
 		<li  ng-repeat="question in questions | filter:searchQuestion" 
 		 ng-controller="ListCtrl">
@@ -65,7 +51,7 @@
 					<ul>
 						<li class='userPhoto'>
 							<a href="#">
-								<img ng-src="{{question.photo}}" alt="{{question.creatorName}}">
+								<img ng-src="{{user.profilePic}}" alt="{{user.name}}">
 							</a>
 						</li>
 						<li class='category silver'>
@@ -80,12 +66,8 @@
 			</div>
 		</li>
 
-	</ul>
-
-	<!-- should make a directive for this -->
-	<div id="loader">
-		<div class="loaderWrapper">
-			<img src="/img/utility/loader.gif" alt="loading">
-		</div>
-	</div>
-</section>
+	</ul>	
+</div>
+<div class="modal-footer">
+	<button class='btn btn-default pull-left'>Close</button>
+</div>

@@ -144,6 +144,30 @@ define(
 							, ()->
 								$location.path('/')
 
+
+				.state 'home.question',
+					url:'question/:id'
+					onEnter:($state,$modal,$stateParams,$location)->
+						
+						if $stateParams.id is "" 
+
+							$location.path('/')
+
+						else
+
+							$modal.open(
+							
+								templateUrl : 'views/modals/questionModal.html'
+								controller 	: "ContentCtrl"
+								windowClass : ""
+								
+							
+							).result.then ()->
+	  							console.log('modal is open')
+							
+							, ()->
+								$location.path('/')
+
 		
 							
 						

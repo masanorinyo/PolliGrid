@@ -63,6 +63,9 @@ define ['angular'], (angular) ->
 					totalResponses 		: 8
 					created_at			: 1398108212271
 					creator 			: 1
+					creatorName 		: "Masanori"
+					photo				: "/img/users/profile-pic.jpg"
+
 					
 					options 			: [
 							title : 'positive'
@@ -127,7 +130,7 @@ define ['angular'], (angular) ->
 				name  					: 'Masanori'
 				email 					: 'masanorinyo@gmail.com'
 				password 				: 'test'
-				profilePic 				: "/img/profile-pic.jpg"
+				profilePic 				: "/img/users/profile-pic.jpg"
 				isLoggedIn 				: false
 				favorites 				: []
 				questionMade 			: [1]

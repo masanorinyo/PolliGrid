@@ -1,18 +1,9 @@
 (function() {
   define(['underscore'], function(_) {
     return function($scope, $modalInstance, $stateParams, $location, $q, $timeout, Question) {
-      var foundQuestion, getColor, getData, getInvertColor, getPercentage, questionId;
+      var foundQuestion, getColor, getData, getPercentage, questionId;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
-      };
-      getInvertColor = function(color) {
-        color = color.substring(1);
-        color = parseInt(color, 16);
-        color = 0xFFFFFF ^ color;
-        color = color.toString(16);
-        color = ("000000" + color).slice(-6);
-        color = "#" + color;
-        return color;
       };
       getPercentage = function(num, overall) {
         var percentage;
@@ -90,8 +81,10 @@
       $scope.myChartDataOverall = [];
       $scope.filterAdded = true;
       $scope.oneAtATime = true;
+      $scope.showMessageBox = false;
       $scope.pieChartOptions = {
-        animationEasing: "easeOutQuart"
+        animationEasing: "easeOutQuart",
+        animation: false
       };
       $scope.radarChartOptions = {
         scaleShowLabels: true,
@@ -112,15 +105,26 @@
         showTooltips: false,
         animation: false
       };
-      questionId = $stateParams.id;
-      foundQuestion = _.findWhere(Question, Number(questionId));
+      questionId = Number($stateParams.id);
+      foundQuestion = _.findWhere(Question, {
+        id: questionId
+      });
+      $scope.question = foundQuestion;
       $scope.chartType = "pie";
       $scope.filterAdded = false;
-      $scope.question = foundQuestion;
       $scope.filterAdded = 'Add to filter';
       $scope.filterCategories = [];
       $scope.foundRespondents = false;
       $scope.isFiltered = false;
+      $scope.buttonMessage = "See comments";
+      $scope.showMessages = function() {
+        $scope.showMessageBox = !$scope.showMessageBox;
+        if ($scope.showMessageBox) {
+          return $scope.buttonMessage = "Back to result";
+        } else {
+          return $scope.buttonMessage = "See comments";
+        }
+      };
       $scope.addFilter = function(answer, target) {
         var category, defer, filter, filters, foundCategory, i, index, length, sameIdFound, test, users;
         users = $scope.question.respondents;
@@ -216,7 +220,10 @@
           return _.each($scope.filterGroup.answers, function(obj) {
             var filteredDataForDonut, percentage;
             percentage = parseInt(getPercentage(obj.count, sumOfFilteredData));
-            console.log("Percentage " + percentage);
+            if (isNaN(parseFloat(percentage))) {
+              percentage = 0;
+              console.log(percentage);
+            }
             filteredDataForDonut = [
               {
                 label: obj.title,

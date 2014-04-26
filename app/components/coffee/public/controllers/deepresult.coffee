@@ -5,18 +5,8 @@ define ['underscore'], (_)->
 		# ----------------- Utility functions ----------------- #
 		getColor = ()->
 			'#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
-
-		getInvertColor = (color)->
-
-    		color = color.substring(1)
-    		color = parseInt(color, 16)
-    		color = 0xFFFFFF ^ color
-    		color = color.toString(16)
-    		color = ("000000" + color).slice(-6)
-    		color = "#" + color
-    		return color
-
-    	getPercentage = (num,overall)->
+		
+		getPercentage = (num,overall)->
     		
     		return percentage = Math.floor((num/overall) * 100)
     		
@@ -128,10 +118,11 @@ define ['underscore'], (_)->
 		$scope.filterAdded = true
 		$scope.oneAtATime = true
 
-		
+		$scope.showMessageBox = false
 		# ------------- graph configuration ------------- #
 		$scope.pieChartOptions = 
 			animationEasing : "easeOutQuart"
+			animation:false
 
 		$scope.radarChartOptions = 
 			scaleShowLabels 	: true
@@ -165,18 +156,18 @@ define ['underscore'], (_)->
 
 		# ------------- Scope Variables ------------- #
 
-		questionId = $stateParams.id
-
 		# if $stateParams.id.$http(get) -> false -> $location.path('/')
 		# http request
+		# find the question using the url id
+		questionId = Number($stateParams.id)
+		foundQuestion = _.findWhere Question,{id:questionId}
+		$scope.question = foundQuestion	
 		
-		foundQuestion = _.findWhere Question,Number(questionId)
-
 		$scope.chartType = "pie"
 
 		$scope.filterAdded = false
 		
-		$scope.question = foundQuestion
+		
 
 		
 		# answer:null / count:0 
@@ -189,9 +180,15 @@ define ['underscore'], (_)->
 
 
 
+		$scope.buttonMessage = "See comments"
 
+		$scope.showMessages = ()->
+			$scope.showMessageBox=!$scope.showMessageBox
 
-
+			if $scope.showMessageBox
+				$scope.buttonMessage = "Back to result"	
+			else
+				$scope.buttonMessage = "See comments"	
 
 			
 
@@ -342,8 +339,11 @@ define ['underscore'], (_)->
 
 
 						percentage = parseInt(getPercentage(obj.count,sumOfFilteredData))
-						console.log "Percentage "+percentage
-
+						
+						if isNaN(parseFloat(percentage))
+							percentage = 0
+							console.log percentage
+						
 						filteredDataForDonut = [
 							
 								

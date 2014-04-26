@@ -24,7 +24,8 @@
         created_at: Date,
         options: [],
         targets: [],
-        creator: null
+        creator: null,
+        photo: ""
       };
       $scope.showDetails = false;
       message = $scope.message = {
@@ -112,6 +113,8 @@
         newQuestion.question = "Which one ".concat(newQuestion.question);
         newQuestion.numOfFilters = _.size(newQuestion.targets);
         newQuestion.created_at = new Date().getTime();
+        newQuestion.photo = User.profilePic;
+        newQuestion.creatorName = User.profilePic;
         newQuestion.id = Math.random();
         newQuestion.creator = User.id;
         questions.unshift(newQuestion);

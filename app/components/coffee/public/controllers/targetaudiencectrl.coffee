@@ -19,6 +19,28 @@ define ['underscore'], (_)->
 				
 				if $scope.targetChecker[i].isAnswered
 					
+					# put the user's id into 
+					# the array of question target lists's answeredBy array
+					matchedOption = null
+
+					# loop through the already answered target questions
+					_.each $scope.user.filterQuestionsAnswered,(answer,index)->
+						
+						# if any of the answered question matched, store the object into the variable 
+						matchedOption = _.find $scope.question.targets[i].lists,(list)->
+							list.option == answer.answer
+					
+						# if the variable contains the matched object
+						if matchedOption
+						
+							# and if the variable contains the user id
+							if !_.contains(matchedOption.answeredBy,$scope.user.id)
+							
+								matchedOption.answeredBy.push($scope.user.id)
+
+		
+
+					# skip the problem
 					$scope.filterNumber++
 									
 					
@@ -243,8 +265,6 @@ define ['underscore'], (_)->
 			# send the information to the upper scopes
 			$scope.$emit('resetAnswer',question)
 			
-			
-			
 
 		$scope.$on "showGraph", (result)->
 			
@@ -262,12 +282,6 @@ define ['underscore'], (_)->
 			
 				skipThroughFilterQuestions()
 				
-				console.log "low"
-				console.log $scope.filterNumber
-				console.log "low"
-				console.log $scope.targetChecker
-			
-
 
 			,300,true
 			
