@@ -154,7 +154,7 @@ define(
 							templateUrl :'views/partials/targetQuestions.html'
 							controller:'TargetAudienceCtrl'
 
-					onEnter:($state,$modal,$stateParams,$location)->
+					onEnter:($state,$timeout,$modal,$stateParams,$location)->
 						
 						if $stateParams.id is "" 
 
@@ -174,7 +174,15 @@ define(
 							
 							, ()->
 								$location.path('/')
-
+								
+								$timeout ()->
+									
+									$state.transitionTo($state.current, $stateParams, {
+										reload: true
+										inherit: false
+										notify: true
+									})
+								,200,true
 		
 							
 						

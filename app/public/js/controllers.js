@@ -79,16 +79,6 @@
           "$q": $q
         });
       });
-    }).controller('QuestionCtrl', function($scope, $injector, $modalInstance, $location, $timeout, $q) {
-      return require(['controllers/questionctrl'], function(questionctrl) {
-        return $injector.invoke(questionctrl, this, {
-          "$scope": $scope,
-          "$modalInstance": $modalInstance,
-          "$location": $location,
-          "$timeout": $timeout,
-          "$q": $q
-        });
-      });
     });
   });
 

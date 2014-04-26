@@ -151,6 +151,15 @@ define ['underscore'], (_)->
 
 					checkIfEverythingAnswered()
 
+				.then ()->
+					console.log $scope.isAccessedViaLink
+
+					# if the question is accessed via an external link
+					# close the modal box
+					if $scope.areAllQuestionAnswered && $scope.isAccessedViaLink
+						console.log 'test'
+						$scope.closeModal()
+
 			defer.resolve()
 
 
@@ -245,6 +254,9 @@ define ['underscore'], (_)->
 							# by making this true, the question will show result from the next time
 							# without answering.
 							$scope.question.alreadyAnswered = true
+
+
+
 
 				defer.resolve()
 

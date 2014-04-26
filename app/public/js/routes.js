@@ -108,7 +108,7 @@
             controller: 'TargetAudienceCtrl'
           }
         },
-        onEnter: function($state, $modal, $stateParams, $location) {
+        onEnter: function($state, $timeout, $modal, $stateParams, $location) {
           if ($stateParams.id === "") {
             return $location.path('/');
           } else {
@@ -119,7 +119,14 @@
             }).result.then(function() {
               return console.log('modal is open');
             }, function() {
-              return $location.path('/');
+              $location.path('/');
+              return $timeout(function() {
+                return $state.transitionTo($state.current, $stateParams, {
+                  reload: true,
+                  inherit: false,
+                  notify: true
+                });
+              }, 200, true);
             });
           }
         }

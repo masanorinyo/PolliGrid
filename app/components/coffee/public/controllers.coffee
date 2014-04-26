@@ -112,15 +112,4 @@ define ['angular','services'], (angular) ->
 				)
 			)
 
-		.controller 'QuestionCtrl', ($scope, $injector,$modalInstance,$location,$timeout,$q)->
-			require(['controllers/questionctrl'], (questionctrl)->
-				$injector.invoke(
-					questionctrl, this,{
-						"$scope" 				: $scope
-						"$modalInstance" 		: $modalInstance
-						"$location" 	 		: $location
-						"$timeout" 				: $timeout
-						"$q" 					: $q
-					}
-				)
-			)
+		

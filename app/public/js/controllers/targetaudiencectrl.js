@@ -78,6 +78,12 @@
           return makeTargetChecker(answer);
         }).then(function() {
           return checkIfEverythingAnswered();
+        }).then(function() {
+          console.log($scope.isAccessedViaLink);
+          if ($scope.areAllQuestionAnswered && $scope.isAccessedViaLink) {
+            console.log('test');
+            return $scope.closeModal();
+          }
         });
         return defer.resolve();
       };

@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $location, $stateParams, $timeout, Question, User, Filters) {
+    return function($scope, $location, $state, $stateParams, $timeout, Question, User, Filters) {
       var foundQuestion, getColor, getData, questionId, targetQ;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
@@ -35,18 +35,19 @@
         animationEasing: "easeOutQuart"
       };
       $scope.user = User;
+      $scope.isAccessedViaLink = false;
       if ($stateParams.id) {
+        $scope.isAccessedViaLink = true;
+        console.log($scope.isAccessedViaLink);
         questionId = Number($stateParams.id);
         foundQuestion = _.findWhere(Question, {
           id: questionId
         });
         $scope.question = foundQuestion;
-        $scope.isThisQuestionForm = true;
       } else {
         $scope.questions = Question;
       }
       $scope.answer = '';
-      $scope.isThisQuestionForm = false;
       $scope.isStarFilled = false;
       $scope.submitted = false;
       targetQ = $scope.targetQ = {
@@ -80,8 +81,7 @@
           };
           $scope.user.questionsAnswered.push(answer);
           $scope.submitted = true;
-          getData();
-          return console.log($scope.question);
+          return getData();
         }
       };
       $scope.fillStar = function(question) {
@@ -99,6 +99,9 @@
       };
       $scope.$on('resetAnswer', function(question) {
         var answers, foundAnswerId, foundAnswered, foundOption, index, indexOfRespondents, optionIndex;
+        console.clear();
+        console.trace();
+        console.count("Reset was called:");
         $scope.submitted = false;
         $scope.question.totalResponses--;
         indexOfRespondents = $scope.question.respondents.indexOf($scope.user.id);
@@ -128,8 +131,13 @@
       $scope.closeModal = function() {
         $scope.$dismiss();
         return $timeout(function() {
-          return $location.path('/');
-        }, 500, true);
+          $location.path('/');
+          return $state.transitionTo($state.current, $stateParams, {
+            reload: true,
+            inherit: false,
+            notify: true
+          });
+        }, 100, true);
       };
       return $scope.$apply();
     };

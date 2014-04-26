@@ -1,5 +1,5 @@
 define ['underscore'], (_)->
-	($scope,$location,$stateParams,$timeout,Question,User,Filters)->
+	($scope,$location,$state,$stateParams,$timeout,Question,User,Filters)->
 
 		# ----------------- Utility functions ----------------- #
 		getColor = ()->
@@ -58,17 +58,17 @@ define ['underscore'], (_)->
 		
 		# ***************  Models *************** #
 		$scope.user = User
-
+		$scope.isAccessedViaLink = false
 		# if the question is accessed via external link
 		# get the url id and find the question with the id
 		if $stateParams.id
 			
-
+			$scope.isAccessedViaLink = true
+			console.log $scope.isAccessedViaLink
 			questionId = Number($stateParams.id)
 			foundQuestion = _.findWhere Question,{id:questionId}
 			$scope.question = foundQuestion	
 
-			$scope.isThisQuestionForm = true
 
 		else
 
@@ -79,7 +79,9 @@ define ['underscore'], (_)->
 
 
 		# ***************  Variables *************** #
-		$scope.isThisQuestionForm = false
+
+		
+
 		$scope.isStarFilled = false
 		$scope.submitted = false
 
@@ -141,7 +143,6 @@ define ['underscore'], (_)->
 
 				getData()
 
-				console.log $scope.question
 			
 
 		$scope.fillStar = (question)->
@@ -166,7 +167,14 @@ define ['underscore'], (_)->
 			
 		# reset everything	
 		$scope.$on 'resetAnswer',(question)->
+			console.clear()
+			console.trace()
+			console.count "Reset was called:"
+
 			
+			
+
+
 			#shows the main question section
 			$scope.submitted = false
 			
@@ -185,6 +193,7 @@ define ['underscore'], (_)->
 			# 2: extract the IDs from the question already answered array from User
 			answers = _.pluck($scope.user.questionsAnswered,'id')
 			
+
 			# 3: compare the extracted IDs with the question ID# 3
 			foundAnswerId = _.find answers,(id)->		
 					Number(id) == Number(questionId)
@@ -200,6 +209,7 @@ define ['underscore'], (_)->
 			optionIndex = foundOption.answeredBy.indexOf($scope.user.id)
 			foundOption.answeredBy.splice(optionIndex,1)
 			
+
 
 			# using the found option, decrement the count for the reset
 			foundOption.count--
@@ -223,9 +233,18 @@ define ['underscore'], (_)->
 
 		$scope.closeModal = ()->
 			$scope.$dismiss()
+			
 			$timeout ->
 				$location.path('/')
-			,500,true
+
+				# reload the page
+				$state.transitionTo($state.current, $stateParams, {
+					reload: true
+					inherit: false
+					notify: true
+				})
+
+			,100,true
 
 		# ------------------ invoke the scope ------------------ #
 		$scope.$apply()
