@@ -142,7 +142,7 @@
         email: 'masanorinyo@gmail.com',
         password: 'test',
         profilePic: "/img/users/profile-pic.jpg",
-        isLoggedIn: false,
+        isLoggedIn: true,
         favorites: [],
         questionMade: [1],
         questionsAnswered: [],

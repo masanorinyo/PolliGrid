@@ -1,9 +1,22 @@
 define ['angular','services'], (angular) ->
 	angular.module('myapp.controllers', ['myapp.services'])
 		
-		.controller 'WhichOneCtrl', ($scope,User)->
+		.controller 'WhichOneCtrl', ($scope,$location,$stateParams,$timeout,$state,User)->
 			$scope.searchQuestion = ''
 			$scope.user = User
+
+			$scope.refresh = ()->
+				$timeout ->
+					$location.path('/')
+
+					# reload the page
+					$state.transitionTo($state.current, $stateParams, {
+						reload: true
+						inherit: false
+						notify: true
+					})
+
+				,100,true
 
 			$scope.searchByCategory = (category)->
 

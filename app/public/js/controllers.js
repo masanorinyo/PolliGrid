@@ -1,8 +1,18 @@
 (function() {
   define(['angular', 'services'], function(angular) {
-    return angular.module('myapp.controllers', ['myapp.services']).controller('WhichOneCtrl', function($scope, User) {
+    return angular.module('myapp.controllers', ['myapp.services']).controller('WhichOneCtrl', function($scope, $location, $stateParams, $timeout, $state, User) {
       $scope.searchQuestion = '';
       $scope.user = User;
+      $scope.refresh = function() {
+        return $timeout(function() {
+          $location.path('/');
+          return $state.transitionTo($state.current, $stateParams, {
+            reload: true,
+            inherit: false,
+            notify: true
+          });
+        }, 100, true);
+      };
       return $scope.searchByCategory = function(category) {
         return $scope.searchQuestion = category;
       };

@@ -8,6 +8,32 @@
 	z-index:100;
 	background-color:$blue;
 	
+	.header-wrapper{
+		@include absolute-center;
+		width:85%;
+		height:100%;
+		
+		.header-title{
+			width:160px;
+		}
+
+	}
+
+	.profile {
+		position: absolute;
+		right:20px;
+		top:0;
+		bottom:0;
+
+		img{
+			height: 70%;
+			@include absolute-center;
+		}
+
+		&:hover img{
+			@include opacity(0.8);
+		}
+	}
 
 	ul{
 		@include absolute-center($left:initial,$right:0);

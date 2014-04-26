@@ -1,18 +1,32 @@
 <header class='main-header'>
-	<h1><a class='header-title' href="/#">Which one?</a></h1>
+	
+	<div class="header-wrapper">
+		<h1 ng-click="refresh()">
+			<a class='header-title' href="#">
+				Which one?</a>
+		</h1>
+		
+		<div ng-if="user.isLoggedIn" class="profile pull-right">
+		    <a href="#">
+		      <img ng-src="{{user.profilePic}}" alt="{{user.name}}" class="img-circle">
+		    </a>
+		</div>
+		
+		<ul ng-if="!user.isLoggedIn">
+			
+			<a href="#"  ui-sref=".login">
+				<li class="btn btn-sm btn-default">
+					login
+				</li>
+			</a>
+			<a href="#"  ui-sref=".signup">
+				<li class="btn btn-sm btn-success">
+					signup
+				</li>
+			</a>
+		</ul>
+	</div>
 
-	<ul>
-		<a href="#"  ui-sref=".login">
-			<li class="btn btn-sm btn-default">
-				login
-			</li>
-		</a>
-		<a href="#"  ui-sref=".signup">
-			<li class="btn btn-sm btn-success">
-				signup
-			</li>
-		</a>
-	</ul>
 </header>
 
 <!-- login / signup directive -->
