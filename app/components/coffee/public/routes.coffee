@@ -36,7 +36,7 @@ define(
 
 				.state 'home.login',
 					url:'login'
-					onEnter:($state,$modal,$location,Error)->
+					onEnter:($state,$modal,$stateParams,$location,Error)->
 						$modal.open(
 						
 							templateUrl : 'views/modals/authmodal.html'
@@ -50,10 +50,34 @@ define(
 						, ()->
 							$location.path('/')
 							Error.auth = ''
+
+				.state 'home.loginRedirect',
+					url:'login/:id'
+					onEnter:($state,$modal,$stateParams,$location,Error,User)->
+						
+						if User.isLoggedIn
+
+							$location.path '/deepResult/'+$stateParams.id
+							
+						else	
+
+							$modal.open(
+							
+								templateUrl : 'views/modals/authmodal.html'
+								controller 	: "AuthCtrl"
+								windowClass : "authModal "
+							
+							).result.then ()->
+	  						
+	  							console.log('modal is open')
+							
+							, ()->
+								$location.path('/')
+								Error.auth = ''
   							
 				.state 'home.signup',
 					url:'signup'
-					onEnter:($state,$modal,$location,Error)->
+					onEnter:($state,$modal,$stateParams,$location,Error)->
 						$modal.open(
 							
 							templateUrl : 'views/modals/authmodal.html'
@@ -67,6 +91,29 @@ define(
 						, ()->
 							$location.path('/')
 							Error.auth = ''
+
+				.state 'home.signupRedirect',
+					url:'signup/:id'
+					onEnter:($state,$modal,$stateParams,$location,Error,User)->
+						if User.isLoggedIn
+
+							$location.path '/deepResult/'+$stateParams.id
+
+						else
+
+							$modal.open(
+								
+								templateUrl : 'views/modals/authmodal.html'
+								controller 	: "AuthCtrl"
+								windowClass : 'authModal'
+							
+							).result.then ()->
+	  						
+	  							console.log('modal is open')
+							
+							, ()->
+								$location.path('/')
+								Error.auth = ''
 
 				.state 'home.create',
 					url:'create'
@@ -174,6 +221,7 @@ define(
 							templateUrl :'views/partials/targetQuestions.html'
 							controller:'TargetAudienceCtrl'
 
+
 					onEnter:($state,$timeout,$modal,$stateParams,$location)->
 						
 						if $stateParams.id is "" 
@@ -186,7 +234,9 @@ define(
 							
 								templateUrl : 'views/modals/questionModal.html'
 								controller 	: "ListCtrl"
+								backdrop 	: "static"
 								windowClass : "questionModal"
+
 								
 							
 							).result.then ()->
@@ -195,14 +245,7 @@ define(
 							, ()->
 								$location.path('/')
 								
-								$timeout ()->
-									
-									$state.transitionTo($state.current, $stateParams, {
-										reload: true
-										inherit: false
-										notify: true
-									})
-								,200,true
+								
 				
 				.state 'home.setting',
 					url:'setting/:id/:type'

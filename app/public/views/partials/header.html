@@ -22,12 +22,16 @@
 		
 		<ul ng-if="!user.isLoggedIn">
 			
-			<a href="#"  ui-sref=".login">
+			<div class="btn-auth btn btn-default" ui-sref=".signup">
+				<i  class="fa fa-user"></i>
+			</div>
+
+			<a class="btn-login" href="#"  ui-sref=".login">
 				<li class="btn btn-sm btn-default">
 					login
 				</li>
 			</a>
-			<a href="#"  ui-sref=".signup">
+			<a class="btn-signup" href="#"  ui-sref=".signup">
 				<li class="btn btn-sm btn-success">
 					signup
 				</li>

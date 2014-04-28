@@ -170,10 +170,11 @@ define ['underscore'], (_)->
 
 
 		# ------------------ Scope variables ------------------ #
-		
+			
 		$scope.showResult = false
 		$scope.targetAnswer = ""
 		$scope.areAllQuestionAnswered = false
+
 
 		# this will show and hide specific filter questions
 		$scope.filterNumber = 0
@@ -230,6 +231,7 @@ define ['underscore'], (_)->
 				
 				defer = $q.defer()
 				defer.promise
+					
 					.then ->
 
 						checkFilterQuestionStatus(answer)
@@ -253,6 +255,8 @@ define ['underscore'], (_)->
 
 				defer.resolve()
 
+
+	
 
 
 		# reset everything 

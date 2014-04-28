@@ -62,8 +62,13 @@
 		Reset
 	</button>
 
+	<!-- If the question is accessed via an external link, show this button. This won't refresh the page -->
+	<button ng-if="isAccessedViaLink" ng-click="closeQuestionModal()" ui-sref="home.signupRedirect({id:question.id})" class="submit-button bigger btn btn-success">
+		See deep result
+	</button>
 
-	<button ui-sref="home.deepResult({id:question.id})" ng-click="closeModal()" class="submit-button bigger btn btn-success">
+	<!-- This will refresh the page -->
+	<button ng-if="!isAccessedViaLink" ui-sref="home.deepResult({id:question.id})" class="submit-button bigger btn btn-success">
 		See deep result
 	</button>
 </div>

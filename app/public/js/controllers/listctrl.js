@@ -145,6 +145,9 @@
           });
         }, 100, true);
       };
+      $scope.closeQuestionModal = function() {
+        return $scope.$dismiss();
+      };
       return $scope.$apply();
     };
   });

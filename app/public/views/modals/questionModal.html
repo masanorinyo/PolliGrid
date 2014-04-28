@@ -1,8 +1,11 @@
 <div class="modal-header">
 	<h3>Question</h3>
-	<button type="button" ng-click="closeModal()" class="close"> ×</button>
+	<button type="button" ng-click="closeModal()" class="close">
+	 	×
+	 </button>
 </div>
 <div class="modal-body">
+
 	<ul class='content-cards'>
 		<li ng-controller="ListCtrl">
 			<div answered='question' submitted="submitted"  class="card card-large">
@@ -12,22 +15,22 @@
 					<i ng-show="!favorite" class="glyphicon glyphicon-star-empty"></i>
 					<i ng-show="favorite" class="glyphicon glyphicon-star"></i>
 				</div>
-
+	
 				<div ui-sref=".share({id:question.id})" class="share-button">
 					<i class="glyphicon glyphicon-share"></i>
 				</div>
-
+	
 				<div ng-hide="submitted" class="content">
 					
 					<p class='question'>
 						{{question.question}}
 					</p>
-
+	
 					<!-- Warning message -->
 					<p ng-show="warning" class="animated fadeIn alert alert-danger">
 						Please select something
 					</p>
-
+	
 					<form ng-submit="submitAnswer(answer,question)" id="surveyForm">
 						
 						<ul class="answers">
@@ -44,7 +47,7 @@
 				
 				<div ui-view='questionResult' ng-show="submitted" class="animated question-content" ng-class="{back:submitted}"></div>
 				
-
+	
 				<div class="card-bottom">
 					<ul>
 						<li class='userPhoto'>
@@ -60,11 +63,12 @@
 						</li>
 					</ul>
 				</div>
-
+	
 			</div>
 		</li>
+	
+	</ul>
 
-	</ul>	
 </div>
 <div class="modal-footer">
 	<button ng-click="closeModal()" class='btn btn-default pull-right'>Close</button>

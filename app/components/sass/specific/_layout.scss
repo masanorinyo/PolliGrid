@@ -59,8 +59,25 @@
 
 	ul{
 		@include absolute-center($left:initial,$right:0);
-		width:130px;
 		height:50%;
+
+		.btn-login,.btn-signup{
+			display:none;
+		}
+
+		@include at-breakpoint($medium){
+			
+
+			.btn-auth{
+				display:none;
+			}
+
+			.btn-login,.btn-signup{
+				float:right;
+				display:block;
+				margin-right:10px;
+			}
+		}
 
 	}//ul
 }//header

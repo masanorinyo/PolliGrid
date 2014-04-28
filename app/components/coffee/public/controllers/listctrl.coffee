@@ -80,11 +80,9 @@ define ['underscore'], (_)->
 
 		# ***************  Variables *************** #
 
-		
-
 		$scope.isStarFilled = false
 		$scope.submitted = false
-
+		
 		targetQ = $scope.targetQ =
 			isQuestionAnswered : false
 
@@ -237,9 +235,15 @@ define ['underscore'], (_)->
 			# reset the chosen answers
 			$scope.answer = ''
 			
+
+
+
 		# ------------- Scope Function ------------- #
 
+
 		$scope.closeModal = ()->
+			
+
 			$scope.$dismiss()
 			
 			$timeout ->
@@ -253,6 +257,13 @@ define ['underscore'], (_)->
 				})
 
 			,100,true
+
+		$scope.closeQuestionModal = ()->
+			
+
+			$scope.$dismiss()
+			
+		
 
 		# ------------------ invoke the scope ------------------ #
 		$scope.$apply()

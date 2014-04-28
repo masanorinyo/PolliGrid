@@ -18,7 +18,7 @@
         }
       }).state('home.login', {
         url: 'login',
-        onEnter: function($state, $modal, $location, Error) {
+        onEnter: function($state, $modal, $stateParams, $location, Error) {
           return $modal.open({
             templateUrl: 'views/modals/authmodal.html',
             controller: "AuthCtrl",
@@ -30,9 +30,27 @@
             return Error.auth = '';
           });
         }
+      }).state('home.loginRedirect', {
+        url: 'login/:id',
+        onEnter: function($state, $modal, $stateParams, $location, Error, User) {
+          if (User.isLoggedIn) {
+            return $location.path('/deepResult/' + $stateParams.id);
+          } else {
+            return $modal.open({
+              templateUrl: 'views/modals/authmodal.html',
+              controller: "AuthCtrl",
+              windowClass: "authModal "
+            }).result.then(function() {
+              return console.log('modal is open');
+            }, function() {
+              $location.path('/');
+              return Error.auth = '';
+            });
+          }
+        }
       }).state('home.signup', {
         url: 'signup',
-        onEnter: function($state, $modal, $location, Error) {
+        onEnter: function($state, $modal, $stateParams, $location, Error) {
           return $modal.open({
             templateUrl: 'views/modals/authmodal.html',
             controller: "AuthCtrl",
@@ -43,6 +61,24 @@
             $location.path('/');
             return Error.auth = '';
           });
+        }
+      }).state('home.signupRedirect', {
+        url: 'signup/:id',
+        onEnter: function($state, $modal, $stateParams, $location, Error, User) {
+          if (User.isLoggedIn) {
+            return $location.path('/deepResult/' + $stateParams.id);
+          } else {
+            return $modal.open({
+              templateUrl: 'views/modals/authmodal.html',
+              controller: "AuthCtrl",
+              windowClass: 'authModal'
+            }).result.then(function() {
+              return console.log('modal is open');
+            }, function() {
+              $location.path('/');
+              return Error.auth = '';
+            });
+          }
         }
       }).state('home.create', {
         url: 'create',
@@ -129,18 +165,12 @@
             return $modal.open({
               templateUrl: 'views/modals/questionModal.html',
               controller: "ListCtrl",
+              backdrop: "static",
               windowClass: "questionModal"
             }).result.then(function() {
               return console.log('modal is open');
             }, function() {
-              $location.path('/');
-              return $timeout(function() {
-                return $state.transitionTo($state.current, $stateParams, {
-                  reload: true,
-                  inherit: false,
-                  notify: true
-                });
-              }, 200, true);
+              return $location.path('/');
             });
           }
         }
