@@ -1,3 +1,50 @@
-<section>
-	{{test}}
+<section class='setting'>
+	<h2 hidden>Setting</h2>
+	<div>
+		<div class="card">
+			<div class="title-header">
+				<h3>Account Setting</h3>
+			</div>
+			<div class="content">
+				<ul>
+					<li>
+						<label for="email" class="gray">E-mail: </label>
+						<input id="email" type="text" class="form-control" value="{{user.email}}" >
+					</li>
+					<li>
+						<label class="gray">Password:</label>
+						<span ng-click="openPassModal()"  class="form-link blue">Change password</span>
+					</li>
+					<li>
+						<label class="gray">Profile Picture: </label>
+						<span href="#" ng-click="openPhotoModal()" class="form-link blue">Change profile picture</span>
+					</li>
+		
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="navi">
+		<div class="btn-group">
+			<button type="button" ng-click="showFavorites()" ng-class="{'active':type=='favorites' || type=='profile' }" class="btn btn-default">
+				Favorites
+			</button>
+			<button type="button" ng-click="showQuestions()" ng-class="{'active':type=='questions' }" class="btn btn-default">
+				My questions
+			</button>
+			<button type="button" ng-click="showAnswers()" ng-class="{'active':type=='answers' }" class="btn btn-default">
+				My answers
+			</button>
+			<button type="button" ng-click="showFilters()" ng-class="{'active':type=='filters' }" class="btn btn-default">
+				Filters
+			</button>
+		</div>
+	</div>
+	<div class="content-questions">
+		<ul class='content-cards'>
+			<li>
+				<div class="card card-large">Test</div>
+			</li>
+		</ul>
+	</div>
 </section>

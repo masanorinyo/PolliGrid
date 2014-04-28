@@ -1,0 +1,22 @@
+<div class="modal-header">	
+	<h3>Change Password</h3>
+	<button type="button" ng-click="closeModal()" class="close"> ×</button>
+</div>
+<div class="modal-body">	
+	<form action="#">
+		<label for="oldPass" class="gray">Old password:</label>
+		<input id="oldPass" type="password" class="form-control">
+		<br>
+		<hr>
+		<label for="newPass" class="gray">New password:</label>
+		<input id="newPass" type="password" class="form-control">
+		<label for="confirm" class="gray">Confirm new password:</label>
+		<input id="confirm" type="password" class="form-control">
+		<br>
+	</form>	
+</div>
+<div class="modal-footer">	
+	<button class="btn btn-primary" ng-click="closeModal()">
+		Done
+	</button>
+</div>

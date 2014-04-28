@@ -6,9 +6,10 @@ define ['angular','services'], (angular) ->
 			$scope.user = User
 
 			$scope.refresh = ()->
+				
+				$location.path('/')
+				
 				$timeout ->
-					$location.path('/')
-
 					# reload the page
 					$state.transitionTo($state.current, $stateParams, {
 						reload: true
@@ -24,7 +25,21 @@ define ['angular','services'], (angular) ->
 
 
 			$scope.logout = ()->
+				
 				User.isLoggedIn = false
+				
+				$location.path('/')
+				
+				$timeout ->
+					
+					# reload the page
+					$state.transitionTo($state.current, $stateParams, {
+						reload: true
+						inherit: false
+						notify: true
+					})
+
+				,100,true
 
 
 		.controller 'ShareCtrl', ($scope, $injector,$modalInstance,$location,$timeout)->
@@ -127,7 +142,7 @@ define ['angular','services'], (angular) ->
 				)
 			)
 
-		.controller 'SettingCtrl', ($scope, $injector,$location,$timeout,$q)->
+		.controller 'SettingCtrl', ($scope,$modal, $injector,$location,$timeout,$q)->
 			require(['controllers/settingctrl'], (settingctrl)->
 				$injector.invoke(
 					settingctrl, this,{
@@ -135,8 +150,10 @@ define ['angular','services'], (angular) ->
 						"$location" 	 		: $location
 						"$timeout" 				: $timeout
 						"$q" 					: $q
+						"$modal" 				: $modal
 					}
 				)
 			)
+
 
 		

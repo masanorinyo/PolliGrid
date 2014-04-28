@@ -4,8 +4,8 @@
       $scope.searchQuestion = '';
       $scope.user = User;
       $scope.refresh = function() {
+        $location.path('/');
         return $timeout(function() {
-          $location.path('/');
           return $state.transitionTo($state.current, $stateParams, {
             reload: true,
             inherit: false,
@@ -17,7 +17,15 @@
         return $scope.searchQuestion = category;
       };
       return $scope.logout = function() {
-        return User.isLoggedIn = false;
+        User.isLoggedIn = false;
+        $location.path('/');
+        return $timeout(function() {
+          return $state.transitionTo($state.current, $stateParams, {
+            reload: true,
+            inherit: false,
+            notify: true
+          });
+        }, 100, true);
       };
     }).controller('ShareCtrl', function($scope, $injector, $modalInstance, $location, $timeout) {
       return require(['controllers/sharectrl'], function(sharectrl) {
@@ -92,13 +100,14 @@
           "$q": $q
         });
       });
-    }).controller('SettingCtrl', function($scope, $injector, $location, $timeout, $q) {
+    }).controller('SettingCtrl', function($scope, $modal, $injector, $location, $timeout, $q) {
       return require(['controllers/settingctrl'], function(settingctrl) {
         return $injector.invoke(settingctrl, this, {
           "$scope": $scope,
           "$location": $location,
           "$timeout": $timeout,
-          "$q": $q
+          "$q": $q,
+          "$modal": $modal
         });
       });
     });

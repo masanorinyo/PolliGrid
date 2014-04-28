@@ -256,7 +256,7 @@ define(
 							templateUrl:'/views/partials/setting.html'
 							controller:'SettingCtrl'
 
-							
+				
 						
 
 					

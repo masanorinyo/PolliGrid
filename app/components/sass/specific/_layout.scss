@@ -120,3 +120,43 @@
 		
 	}//.content-section
 }//.container
+
+.setting{
+	
+	.title-header{
+		padding:3px 10px;
+		color: $gray;
+		border-bottom: 1px solid $slightlyGray;
+
+		h3{
+			font-size: 1.1em;
+		}
+	}	
+
+	.content{
+
+		> ul li{
+			
+			padding:16px;
+			border-bottom: 1px solid $slightlyGray;
+			
+			label{
+				width:100%;
+			}
+		}
+	}
+
+	.navi{
+		
+		position:relative;
+		height:50px;
+		width:100%;
+		margin-top:45px;
+
+		.btn-group{
+			@include absolute-center;
+			height:30px;
+			width: 360px;	
+		}
+	}
+}
