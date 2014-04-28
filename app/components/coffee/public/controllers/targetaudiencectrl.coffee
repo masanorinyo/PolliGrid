@@ -151,14 +151,7 @@ define ['underscore'], (_)->
 
 					checkIfEverythingAnswered()
 
-				.then ()->
-					console.log $scope.isAccessedViaLink
-
-					# if the question is accessed via an external link
-					# close the modal box
-					if $scope.areAllQuestionAnswered && $scope.isAccessedViaLink
-						console.log 'test'
-						$scope.closeModal()
+				
 
 			defer.resolve()
 

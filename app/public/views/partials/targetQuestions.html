@@ -58,12 +58,12 @@
 	</div>
 
     
-	<button ng-click="resetAnswer(question)" class="reset-button bigger btn btn-default">
+	<button ng-hide="isAccessedViaLink" ng-click="resetAnswer(question)" class="reset-button bigger btn btn-default">
 		Reset
 	</button>
 
 
-	<button ui-sref=".deepResult({id:question.id})" class="submit-button bigger btn btn-success">
+	<button ui-sref="home.deepResult({id:question.id})" ng-click="closeModal()" class="submit-button bigger btn btn-success">
 		See deep result
 	</button>
 </div>
