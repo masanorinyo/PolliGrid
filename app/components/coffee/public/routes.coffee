@@ -3,10 +3,11 @@ define(
 
 		'angular'
 		'app'
+		'underscore'
 		
 	]
 
-	(angular,app)->
+	(angular,app,_)->
 		
 		app.config(($stateProvider,$urlRouterProvider)->
 
@@ -36,20 +37,26 @@ define(
 
 				.state 'home.login',
 					url:'login'
-					onEnter:($state,$modal,$stateParams,$location,Error)->
-						$modal.open(
+					onEnter:($state,$modal,$stateParams,$location,Error,User)->
 						
-							templateUrl : 'views/modals/authmodal.html'
-							controller 	: "AuthCtrl"
-							windowClass : "authModal "
-						
-						).result.then ()->
-  						
-  							console.log('modal is open')
-						
-						, ()->
+						if User.isLoggedIn
+
 							$location.path('/')
-							Error.auth = ''
+
+						else 
+							$modal.open(
+							
+								templateUrl : 'views/modals/authmodal.html'
+								controller 	: "AuthCtrl"
+								windowClass : "authModal "
+							
+							).result.then ()->
+	  						
+	  							console.log('modal is open')
+							
+							, ()->
+								$location.path('/')
+								Error.auth = ''
 
 				.state 'home.loginRedirect',
 					url:'login/:id'
@@ -77,30 +84,37 @@ define(
   							
 				.state 'home.signup',
 					url:'signup'
-					onEnter:($state,$modal,$stateParams,$location,Error)->
-						$modal.open(
-							
-							templateUrl : 'views/modals/authmodal.html'
-							controller 	: "AuthCtrl"
-							windowClass : 'authModal'
-						
-						).result.then ()->
-  						
-  							console.log('modal is open')
-						
-						, ()->
+					onEnter:($state,$modal,$stateParams,$location,Error,User)->
+						if User.isLoggedIn
+
 							$location.path('/')
-							Error.auth = ''
+
+						else 
+
+							$modal.open(
+								
+								templateUrl : 'views/modals/authmodal.html'
+								controller 	: "AuthCtrl"
+								windowClass : 'authModal'
+							
+							).result.then ()->
+	  						
+	  							console.log('modal is open')
+							
+							, ()->
+								$location.path('/')
+								Error.auth = ''
 
 				.state 'home.signupRedirect',
 					url:'signup/:id'
 					onEnter:($state,$modal,$stateParams,$location,Error,User)->
 						if User.isLoggedIn
-
-							$location.path '/deepResult/'+$stateParams.id
+							
+							newUrl = '/deepResult/'+$stateParams.id
+							$location.path(newUrl)
 
 						else
-
+							Error.auth = "You need to sign up or login to proceed"
 							$modal.open(
 								
 								templateUrl : 'views/modals/authmodal.html'
@@ -184,8 +198,15 @@ define(
 					url:'deepResult/:id'
 					onEnter:($state,$modal,$timeout,$stateParams,$location,User,Error)->
 						
-						if $stateParams.id is "" 
+						# check to see if the answer is already answered by the user
+						found = _.find User.questionsAnswered,(question)->
+							
+							Number(question.id) == Number($stateParams.id)
 
+						
+						
+						if $stateParams.id is "" 
+							
 							$location.path('/')
 
 						else if !User.isLoggedIn
@@ -195,6 +216,11 @@ define(
 							$timeout ()->
 								$location.path('signup')
 							,300,true
+
+						# if the question has not been answered, redirect back
+						else if !found
+
+							$location.path('/')
 
 						else
 
@@ -209,6 +235,7 @@ define(
 	  							console.log('modal is open')
 							
 							, ()->
+
 								$location.path('/')
 
 
@@ -261,11 +288,15 @@ define(
 							templateUrl :'views/partials/targetQuestions.html'
 							controller:'TargetAudienceCtrl'
 
-				
-						
+					onEnter:($state,$stateParams,$location,User)->
+						if !User.isLoggedIn
+							$location.path('/')
+
+
+				# .state 'home.setting.test',
+				# 	url:"^/test"
 
 					
-
 			$urlRouterProvider.otherwise('/')
 
 		)

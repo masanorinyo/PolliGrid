@@ -63,7 +63,7 @@
           question: "Which one of the following best describes you",
           category: "Lifestyle",
           respondents: [8, 3, 2, 4, 5, 6, 7, 9],
-          alreadyAnswered: true,
+          alreadyAnswered: false,
           numOfFavorites: 1,
           numOfFilters: 2,
           totalResponses: 9,
@@ -74,8 +74,8 @@
           options: [
             {
               title: 'positive',
-              count: 5,
-              answeredBy: [3, 2, 5, 8, 1]
+              count: 4,
+              answeredBy: [3, 2, 5, 8]
             }, {
               title: 'negative',
               count: 4,
@@ -145,12 +145,7 @@
         isLoggedIn: true,
         favorites: [1],
         questionMade: [1],
-        questionsAnswered: [
-          {
-            id: 1,
-            answer: "positive"
-          }
-        ],
+        questionsAnswered: [],
         filterQuestionsAnswered: [
           {
             id: 1,

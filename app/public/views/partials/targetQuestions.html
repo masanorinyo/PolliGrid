@@ -62,13 +62,24 @@
 		Reset
 	</button>
 
+	<!-- This will show up on the setting page -->
+	<button ng-if="isAccessedFromSetting" class="submit-button bigger btn btn-success" >
+		See deep result
+	</button>
+	
+
 	<!-- If the question is accessed via an external link, show this button. This won't refresh the page -->
-	<button ng-if="isAccessedViaLink" ng-click="closeQuestionModal()" ui-sref="home.signupRedirect({id:question.id})" class="submit-button bigger btn btn-success">
+	<button ng-if="isAccessedViaLink && !isAccessedFromSetting && !user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.signupRedirect({id:question.id})" class="submit-button bigger btn btn-success">
+		See deep result
+	</button>
+
+	<!-- when users is not logged in -  -->
+	<button ng-if="isAccessedViaLink && !isAccessedFromSetting && user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.deepResult({id:question.id})" class="submit-button bigger btn btn-success">
 		See deep result
 	</button>
 
 	<!-- This will refresh the page -->
-	<button ng-if="!isAccessedViaLink" ui-sref="home.deepResult({id:question.id})" class="submit-button bigger btn btn-success">
+	<button ng-if="!isAccessedViaLink && !isAccessedFromSetting" ui-sref="home.deepResult({id:question.id})" class="submit-button bigger btn btn-success">
 		See deep result
 	</button>
 </div>

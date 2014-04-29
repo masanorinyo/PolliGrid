@@ -20,12 +20,12 @@ define [], ()->
 	
 			# if there is a second parameter after signup or login
 			if $location.$$path.split('/')[2]
-
+				console.log $location.$$path.split('/')[2]
 				newUrl = "deepResult/"+$stateParams.id
 
 				$timeout ()->
 					$location.path newUrl
-				,100,true
+				,300,true
 
 
 

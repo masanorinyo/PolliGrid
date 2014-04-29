@@ -14,10 +14,11 @@
         User.isLoggedIn = true;
         $scope.$dismiss();
         if ($location.$$path.split('/')[2]) {
+          console.log($location.$$path.split('/')[2]);
           newUrl = "deepResult/" + $stateParams.id;
           return $timeout(function() {
             return $location.path(newUrl);
-          }, 100, true);
+          }, 300, true);
         }
       };
       $scope["switch"] = function(type) {

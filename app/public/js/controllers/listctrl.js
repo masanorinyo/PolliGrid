@@ -42,7 +42,7 @@
       }
       $scope.user = User;
       $scope.isAccessedViaLink = false;
-      if ($stateParams.id) {
+      if ($location.$$path.split('/')[1] === "question") {
         $scope.isAccessedViaLink = true;
         questionId = Number($stateParams.id);
         foundQuestion = _.findWhere(Question, {

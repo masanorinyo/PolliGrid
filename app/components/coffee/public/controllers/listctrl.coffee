@@ -73,7 +73,7 @@ define ['underscore'], (_)->
 		$scope.isAccessedViaLink = false
 		# if the question is accessed via external link
 		# get the url id and find the question with the id
-		if $stateParams.id
+		if $location.$$path.split('/')[1] == "question"
 			
 			$scope.isAccessedViaLink = true
 			

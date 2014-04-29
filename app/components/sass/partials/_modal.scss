@@ -484,10 +484,18 @@
 
 			.chart-pie{
 				width: 90% !important;
+
+				@include at-breakpoint($medium){
+					width: 65% !important;					
+				}
 			}
 
 			.chart-radar,.chart-line{
 				width: 100% !important;
+
+				@include at-breakpoint($medium){
+					width: 75% !important;					
+				}
 			}
 			
 			.noInfo{
@@ -527,6 +535,10 @@
 
 				> canvas{
 					width: 90% !important;
+
+					@include at-breakpoint($medium){
+						width: 60% !important;					
+					}
 				}
 			}
 			

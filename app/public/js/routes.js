@@ -1,5 +1,5 @@
 (function() {
-  define(['angular', 'app'], function(angular, app) {
+  define(['angular', 'app', 'underscore'], function(angular, app, _) {
     return app.config(function($stateProvider, $urlRouterProvider) {
       $stateProvider.state('home', {
         url: "/",
@@ -18,17 +18,21 @@
         }
       }).state('home.login', {
         url: 'login',
-        onEnter: function($state, $modal, $stateParams, $location, Error) {
-          return $modal.open({
-            templateUrl: 'views/modals/authmodal.html',
-            controller: "AuthCtrl",
-            windowClass: "authModal "
-          }).result.then(function() {
-            return console.log('modal is open');
-          }, function() {
-            $location.path('/');
-            return Error.auth = '';
-          });
+        onEnter: function($state, $modal, $stateParams, $location, Error, User) {
+          if (User.isLoggedIn) {
+            return $location.path('/');
+          } else {
+            return $modal.open({
+              templateUrl: 'views/modals/authmodal.html',
+              controller: "AuthCtrl",
+              windowClass: "authModal "
+            }).result.then(function() {
+              return console.log('modal is open');
+            }, function() {
+              $location.path('/');
+              return Error.auth = '';
+            });
+          }
         }
       }).state('home.loginRedirect', {
         url: 'login/:id',
@@ -50,24 +54,31 @@
         }
       }).state('home.signup', {
         url: 'signup',
-        onEnter: function($state, $modal, $stateParams, $location, Error) {
-          return $modal.open({
-            templateUrl: 'views/modals/authmodal.html',
-            controller: "AuthCtrl",
-            windowClass: 'authModal'
-          }).result.then(function() {
-            return console.log('modal is open');
-          }, function() {
-            $location.path('/');
-            return Error.auth = '';
-          });
+        onEnter: function($state, $modal, $stateParams, $location, Error, User) {
+          if (User.isLoggedIn) {
+            return $location.path('/');
+          } else {
+            return $modal.open({
+              templateUrl: 'views/modals/authmodal.html',
+              controller: "AuthCtrl",
+              windowClass: 'authModal'
+            }).result.then(function() {
+              return console.log('modal is open');
+            }, function() {
+              $location.path('/');
+              return Error.auth = '';
+            });
+          }
         }
       }).state('home.signupRedirect', {
         url: 'signup/:id',
         onEnter: function($state, $modal, $stateParams, $location, Error, User) {
+          var newUrl;
           if (User.isLoggedIn) {
-            return $location.path('/deepResult/' + $stateParams.id);
+            newUrl = '/deepResult/' + $stateParams.id;
+            return $location.path(newUrl);
           } else {
+            Error.auth = "You need to sign up or login to proceed";
             return $modal.open({
               templateUrl: 'views/modals/authmodal.html',
               controller: "AuthCtrl",
@@ -131,6 +142,10 @@
       }).state('home.deepResult', {
         url: 'deepResult/:id',
         onEnter: function($state, $modal, $timeout, $stateParams, $location, User, Error) {
+          var found;
+          found = _.find(User.questionsAnswered, function(question) {
+            return Number(question.id) === Number($stateParams.id);
+          });
           if ($stateParams.id === "") {
             return $location.path('/');
           } else if (!User.isLoggedIn) {
@@ -138,6 +153,8 @@
             return $timeout(function() {
               return $location.path('signup');
             }, 300, true);
+          } else if (!found) {
+            return $location.path('/');
           } else {
             return $modal.open({
               templateUrl: 'views/modals/deepResultModal.html',
@@ -184,6 +201,11 @@
           "result@home.setting": {
             templateUrl: 'views/partials/targetQuestions.html',
             controller: 'TargetAudienceCtrl'
+          }
+        },
+        onEnter: function($state, $stateParams, $location, User) {
+          if (!User.isLoggedIn) {
+            return $location.path('/');
           }
         }
       });
