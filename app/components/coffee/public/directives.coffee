@@ -83,4 +83,47 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 						
 				,550,true 
 
-	
+		.directive 'focusMe', ($timeout)->
+
+			restrict : "A"
+			scope:{
+				focusMe : "="
+			}
+			link : (scope,element)->
+				$timeout ->
+					
+					element.bind 'focus', ->	
+						scope.$apply(scope.focusMe = true)
+
+				,300,true
+
+		.directive "reset", ($timeout,$window)->
+			restrict: "A"
+			scope: {
+				reset : "="
+			}
+			link: (scope, element,attr)->
+				
+				w = angular.element($window)
+				w.bind "click", (e)->
+					
+					switch e.target.id
+						when 'categorybox','searchbox',"category-select","order-select"  
+						then scope.$apply(scope.reset = true)
+
+
+						else scope.$apply(scope.reset = false)
+						
+						
+						# scope.$apply(scope.reset = false)
+											
+						
+						# scope.$apply(scope.reset = true)
+			
+				
+
+				
+
+
+
+					

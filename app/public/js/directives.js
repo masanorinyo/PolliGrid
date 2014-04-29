@@ -71,6 +71,42 @@
           }, 550, true);
         }
       };
+    }).directive('focusMe', function($timeout) {
+      return {
+        restrict: "A",
+        scope: {
+          focusMe: "="
+        },
+        link: function(scope, element) {
+          return $timeout(function() {
+            return element.bind('focus', function() {
+              return scope.$apply(scope.focusMe = true);
+            });
+          }, 300, true);
+        }
+      };
+    }).directive("reset", function($timeout, $window) {
+      return {
+        restrict: "A",
+        scope: {
+          reset: "="
+        },
+        link: function(scope, element, attr) {
+          var w;
+          w = angular.element($window);
+          return w.bind("click", function(e) {
+            switch (e.target.id) {
+              case 'categorybox':
+              case 'searchbox':
+              case "category-select":
+              case "order-select":
+                return scope.$apply(scope.reset = true);
+              default:
+                return scope.$apply(scope.reset = false);
+            }
+          });
+        }
+      };
     });
   });
 

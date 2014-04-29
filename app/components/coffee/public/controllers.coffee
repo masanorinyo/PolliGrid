@@ -19,15 +19,24 @@ define ['angular','services'], (angular) ->
 
 				,100,true
 
-			$scope.searchByCategory = (category)->
-
-				$scope.searchQuestion = category
+			
 
 
 			$scope.logout = ()->
 				
-				User.isLoggedIn = false
 				
+				
+				User.id  					 = 0
+				User.name  					 = ''
+				User.email 					 = ''
+				User.password 				 = ''
+				User.profilePic 			 = ""
+				User.isLoggedIn 			 = false
+				User.favorites 				 = []
+				User.questionMade 			 = []
+				User.questionsAnswered 		 = []
+				User.filterQuestionsAnswered = []
+
 				$location.path('/')
 				
 				$timeout ->

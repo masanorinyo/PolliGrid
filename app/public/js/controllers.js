@@ -13,11 +13,17 @@
           });
         }, 100, true);
       };
-      $scope.searchByCategory = function(category) {
-        return $scope.searchQuestion = category;
-      };
       return $scope.logout = function() {
+        User.id = 0;
+        User.name = '';
+        User.email = '';
+        User.password = '';
+        User.profilePic = "";
         User.isLoggedIn = false;
+        User.favorites = [];
+        User.questionMade = [];
+        User.questionsAnswered = [];
+        User.filterQuestionsAnswered = [];
         $location.path('/');
         return $timeout(function() {
           return $state.transitionTo($state.current, $stateParams, {
