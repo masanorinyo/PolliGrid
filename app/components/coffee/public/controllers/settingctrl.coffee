@@ -4,61 +4,88 @@ define ['underscore'], (_)->
 		$scope.type = $stateParams.type
 		$scope.id = $stateParams.id
 		$scope.user = User
+		$scope.isAccessedFromSetting = true
+		
 		
 
+		findQuestion = (target,requiredIds)->
+			# empties questions first
+			questions = []
 
-		# --------------- controller for modal box --------------- #
-		ChangePassCtrl = ($scope)->
-			$scope.closeModal = ->
-				$scope.$dismiss()
+			_.each requiredIds, (requiredId)->
+				foundQuestion = _.findWhere target,{id:requiredId}
+				questions.push(foundQuestion)
 
-		ChangePhotoCtrl = ($scope)->
-			$scope.closeModal = ->
-				$scope.$dismiss()
+			
+			return questions
 
 
 
 		# --------------- Setting Content navi --------------- #
 
-		$scope.showFavorites = ->
+		showFavorites = $scope.showFavorites = ->
 			$scope.type = "favorites"
 			$location.path('setting/'+$scope.id+"/favorites")
 
+			$scope.questions = findQuestion(Question,User.favorites)
 			
-
-		$scope.showQuestions = ->
+		showQuestions = $scope.showQuestions = ->
 			$scope.type = "questions"
 			$location.path('setting/'+$scope.id+"/questions")
 
-		$scope.showAnswers = ->
+			$scope.questions = findQuestion(Question,User.questionMade)
+
+		showAnswers = $scope.showAnswers = ->
 			$scope.type = "answers"
 			$location.path('setting/'+$scope.id+"/answers")
 
-		$scope.showFilters = ->
+			ids = _.pluck User.questionsAnswered,"id"
+			$scope.questions = findQuestion(Question,ids)
+
+			
+
+		showFilters = $scope.showFilters = ->
 			$scope.type = "filters"
 			$location.path('setting/'+$scope.id+"/filters")
 
+			# empty the questions
+			$scope.questions=[]
+			
+			ids = _.pluck User.filterQuestionsAnswered,"id"
+			
+
+			$scope.filters = findQuestion(Filters,ids)
+
+			
+			$scope.answer = []
+			_.each User.filterQuestionsAnswered, (filter,index)->
+				console.log filter.answer
+
+				$scope.answer[index] = filter.answer
 
 
 
 
-		# ----------- modal handler --------------#
 
-		$scope.openPassModal = ->
+		# -------------------------- for initial load --------------------------#
+		do ()->
+			if $scope.type == "favorites" || $scope.type == "profile"
+				console.log 'i am favorite'
+				showFavorites()
 
-			modalInstance = $modal.open(			
-				templateUrl: "views/modals/changePassModal.html"
-				controller : ChangePassCtrl
-			)
+			else if $scope.type == "answers"
+				console.log 'i am answers'
+				showAnswers()
+
+			else if $scope.type == "questions"
+				console.log 'i am questions'
+				showQuestions()
+
+			else 
+				console.log 'i am filter'
+				showFilters()
 
 
-		$scope.openPhotoModal = ->
-			modalInstance = $modal.open(
-				templateUrl:"views/modals/changePhotoModal.html"
-				controller : ChangePhotoCtrl				
-			)
-
-		
 
 
 		# ------------------ invoke the scope ------------------ #

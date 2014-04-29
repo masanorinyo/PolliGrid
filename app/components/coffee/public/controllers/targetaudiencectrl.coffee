@@ -1,9 +1,9 @@
 define ['underscore'], (_)->
-	($scope,$timeout,$q,Question)->
+	($scope,$timeout,$q,Question,User)->
 
 		# ------------------ Utility functions ------------------ #		
 		
-
+		
 
 		# determine the initial filter questions
 		# increment filterNumber until it hits the unanswered filter question
@@ -74,7 +74,6 @@ define ['underscore'], (_)->
 				i++
 
 			
-
 			# if the number of filter questions and 
 			# number of filter questions answered
 			# make allQuestionAnswered true, which show the result section
@@ -98,7 +97,7 @@ define ['underscore'], (_)->
 			# get which question the user already answered to
 			answeredIds = _.pluck $scope.user.filterQuestionsAnswered, 'id'
 
-
+			
 			while i < length
 				
 				questionId = Number($scope.question.targets[i].id)
@@ -134,6 +133,7 @@ define ['underscore'], (_)->
 
 				i++
 
+			
 
 			return $scope.targetChecker
 			
@@ -142,12 +142,15 @@ define ['underscore'], (_)->
 		checkFilterQuestionStatus = (answer)->
 			defer = $q.defer()
 			defer.promise
-				.then ()->
+				.then ->
 					
 					makeTargetChecker(answer)
 					
 				
-				.then ()->
+				.then ->
+					skipThroughFilterQuestions()
+
+				.then ->
 
 					checkIfEverythingAnswered()
 
@@ -209,7 +212,6 @@ define ['underscore'], (_)->
 				# this will get the id of the target audience question.
 				targetQuestionID = question.targets[index].id
 
-				
 
 				# user's answer to the target question
 				answer = 
@@ -227,6 +229,8 @@ define ['underscore'], (_)->
 				# this way, the same filter question won't show up from the next time
 				
 				$scope.user.filterQuestionsAnswered.push(answer)
+
+
 
 				
 				defer = $q.defer()

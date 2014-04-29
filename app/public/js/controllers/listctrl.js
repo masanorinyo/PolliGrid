@@ -29,16 +29,21 @@
         }
       };
       $scope.myChartData = [];
-      $scope.myChartOptions = {
-        animation: true,
-        animationStep: 30,
-        animationEasing: "easeOutQuart"
-      };
+      if ($scope.isAccessedFromSetting !== void 0 || $scope.isAccessedFromSetting) {
+        $scope.myChartOptions = {
+          animation: false
+        };
+      } else {
+        $scope.myChartOptions = {
+          animation: true,
+          animationStep: 30,
+          animationEasing: "easeOutQuart"
+        };
+      }
       $scope.user = User;
       $scope.isAccessedViaLink = false;
       if ($stateParams.id) {
         $scope.isAccessedViaLink = true;
-        console.log($scope.isAccessedViaLink);
         questionId = Number($stateParams.id);
         foundQuestion = _.findWhere(Question, {
           id: questionId

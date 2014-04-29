@@ -155,5 +155,38 @@ define ['angular','services'], (angular) ->
 				)
 			)
 
-
-		
+		.controller 'ChangePassCtrl', ($scope, $injector,$modal,$location,$timeout,$q)->
+			require(['controllers/changepassctrl'], (changepassctrl)->
+				$injector.invoke(
+					changepassctrl, this,{
+						"$scope" 				: $scope
+						"$modal"		 		: $modal
+						"$location" 	 		: $location
+						"$timeout" 				: $timeout
+						"$q" 					: $q
+					}
+				)
+			)
+		.controller 'ChangePhotoCtrl', ($scope, $injector,$modal,$location,$timeout,$q)->
+			require(['controllers/changephotoctrl'], (changephotoctrl)->
+				$injector.invoke(
+					changephotoctrl, this,{
+						"$scope" 				: $scope
+						"$modal"		 		: $modal
+						"$location" 	 		: $location
+						"$timeout" 				: $timeout
+						"$q" 					: $q
+					}
+				)
+			)
+		.controller 'FilterListCtrl', ($scope, $injector,$location,$timeout,$q)->
+			require(['controllers/filterlistctrl'], (filterlistctrl)->
+				$injector.invoke(
+					filterlistctrl, this,{
+						"$scope" 				: $scope
+						"$location" 	 		: $location
+						"$timeout" 				: $timeout
+						"$q" 					: $q
+					}
+				)
+			)

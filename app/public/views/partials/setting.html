@@ -7,15 +7,15 @@
 			</div>
 			<div class="content">
 				<ul>
-					<li>
+					<li class="content-list" >
 						<label for="email" class="gray">E-mail: </label>
 						<input id="email" type="text" class="form-control" value="{{user.email}}" >
 					</li>
-					<li>
+					<li class="content-list"  ng-controller="ChangePassCtrl">
 						<label class="gray">Password:</label>
 						<span ng-click="openPassModal()"  class="form-link blue">Change password</span>
 					</li>
-					<li>
+					<li  class="content-list" ng-controller="ChangePhotoCtrl">
 						<label class="gray">Profile Picture: </label>
 						<span href="#" ng-click="openPhotoModal()" class="form-link blue">Change profile picture</span>
 					</li>
@@ -41,9 +41,98 @@
 		</div>
 	</div>
 	<div class="content-questions">
+		
+
 		<ul class='content-cards'>
-			<li>
-				<div class="card card-large">Test</div>
+			<li  ng-repeat="question in questions" 
+			 ng-controller="ListCtrl">
+
+				<div answered='question' submitted="submitted"  class="card card-large">
+					
+					<!-- should make a directive for this -->
+					<div favorited="question" favorite="favorite" class="favorite-button" ng-click="fillStar(question)">
+						<i ng-show="!favorite" class="glyphicon glyphicon-star-empty"></i>
+						<i ng-show="favorite" class="glyphicon glyphicon-star"></i>
+					</div>
+
+					<div ui-sref=".share({id:question.id})" class="share-button">
+						<i class="glyphicon glyphicon-share"></i>
+					</div>
+
+					<div ng-hide="submitted" class="content">
+						
+						<p class='question'>
+							{{question.question}}
+						</p>
+
+						<!-- Warning message -->
+						<p ng-show="warning" class="animated fadeIn alert alert-danger">
+							Please select something
+						</p>
+
+						<form ng-submit="submitAnswer(answer,question)" id="surveyForm">
+							
+							<ul class="answers">
+								<li ng-hide="targetQ.isQuestionAnswered" class='answer' ng-repeat='option in question.options'>
+									<label class='pointer'>
+										<input ng-model="$parent.answer" type="radio" name="answer" ng-value="option">
+										{{option.title}}
+									</label>
+								</li>
+							</ul>
+							<input type="submit" class="submit-button btn btn-primary btn-sm" value="See result">
+						</form>
+					</div>
+
+					
+					<div ui-view='result' ng-show="submitted" class="animated question-content"></div>
+
+
+					<div class="card-bottom">
+						<ul>
+							<li class='userPhoto'>
+								<a href="#">
+									<img ng-src="{{question.photo}}" alt="{{question.creatorName}}">
+								</a>
+							</li>
+							<li class='category silver'>
+								category: 
+								<span ng-click="searchByCategory(question.category)" class='name gray'>
+									{{question.category}}
+								</span>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</li>
+			<li ng-repeat="filter in filters" ng-controller="FilterListCtrl">
+				<div class="card card-large">
+					<div class="content">
+						<p class='question'>
+							{{filter.question}}
+						</p>
+
+						<!-- Warning message -->
+						<p ng-show="answerChanged" ng-class="{'fadeOut':fadeOut}" class="animated fadeIn alert alert-success">
+							Answer was changed
+						</p>
+
+						<form ng-submit="changeAnswer(answer[$index],filter)" id="surveyForm">
+							
+							<ul class="answers">
+								<li class='answer' ng-repeat='list in filter.lists'>
+									<label class='pointer'>
+
+										<input ng-model="$parent.answer[$parent.$index]" type="radio" name="answer" ng-value="list.option">
+										{{list.option}}
+									</label>
+								</li>
+							</ul>
+							<input type="submit" class="submit-button btn btn-primary btn-sm" value="Change">
+						</form>
+					</div>
+				</div>
 			</li>
 		</ul>
 	</div>

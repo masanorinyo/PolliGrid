@@ -110,6 +110,35 @@
           "$modal": $modal
         });
       });
+    }).controller('ChangePassCtrl', function($scope, $injector, $modal, $location, $timeout, $q) {
+      return require(['controllers/changepassctrl'], function(changepassctrl) {
+        return $injector.invoke(changepassctrl, this, {
+          "$scope": $scope,
+          "$modal": $modal,
+          "$location": $location,
+          "$timeout": $timeout,
+          "$q": $q
+        });
+      });
+    }).controller('ChangePhotoCtrl', function($scope, $injector, $modal, $location, $timeout, $q) {
+      return require(['controllers/changephotoctrl'], function(changephotoctrl) {
+        return $injector.invoke(changephotoctrl, this, {
+          "$scope": $scope,
+          "$modal": $modal,
+          "$location": $location,
+          "$timeout": $timeout,
+          "$q": $q
+        });
+      });
+    }).controller('FilterListCtrl', function($scope, $injector, $location, $timeout, $q) {
+      return require(['controllers/filterlistctrl'], function(filterlistctrl) {
+        return $injector.invoke(filterlistctrl, this, {
+          "$scope": $scope,
+          "$location": $location,
+          "$timeout": $timeout,
+          "$q": $q
+        });
+      });
     });
   });
 

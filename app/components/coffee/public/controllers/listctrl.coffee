@@ -41,16 +41,28 @@ define ['underscore'], (_)->
 		$scope.myChartData = []
 
 	    #chartJS / angles - chart configuration
-		$scope.myChartOptions =  
+		
+		if $scope.isAccessedFromSetting != undefined || $scope.isAccessedFromSetting
+			
+			$scope.myChartOptions =  
 	       
-	        # Boolean - Whether we should animate the chart
-	        animation : true
+		        # Boolean - Whether we should animate the chart
+		        animation : false
 
-	        # Number - Number of animation steps
-	        animationStep : 30
+	        
 
-	        # String - Animation easing effect
-	        animationEasing : "easeOutQuart"
+		else 
+
+			$scope.myChartOptions =  
+	       
+		        # Boolean - Whether we should animate the chart
+		        animation : true
+
+		        # Number - Number of animation steps
+		        animationStep : 30
+
+		        # String - Animation easing effect
+		        animationEasing : "easeOutQuart"
 
 
 
@@ -64,7 +76,7 @@ define ['underscore'], (_)->
 		if $stateParams.id
 			
 			$scope.isAccessedViaLink = true
-			console.log $scope.isAccessedViaLink
+			
 			questionId = Number($stateParams.id)
 			foundQuestion = _.findWhere Question,{id:questionId}
 			$scope.question = foundQuestion	

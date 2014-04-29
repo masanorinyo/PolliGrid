@@ -256,6 +256,11 @@ define(
 							templateUrl:'/views/partials/setting.html'
 							controller:'SettingCtrl'
 
+						"result@home.setting":
+							
+							templateUrl :'views/partials/targetQuestions.html'
+							controller:'TargetAudienceCtrl'
+
 				
 						
 

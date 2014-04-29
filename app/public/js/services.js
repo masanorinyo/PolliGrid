@@ -63,10 +63,10 @@
           question: "Which one of the following best describes you",
           category: "Lifestyle",
           respondents: [8, 3, 2, 4, 5, 6, 7, 9],
-          alreadyAnswered: false,
+          alreadyAnswered: true,
           numOfFavorites: 1,
           numOfFilters: 2,
-          totalResponses: 8,
+          totalResponses: 9,
           created_at: 1398108212271,
           creator: 1,
           creatorName: "Masanori",
@@ -74,8 +74,8 @@
           options: [
             {
               title: 'positive',
-              count: 4,
-              answeredBy: [3, 2, 5, 8]
+              count: 5,
+              answeredBy: [3, 2, 5, 8, 1]
             }, {
               title: 'negative',
               count: 4,
@@ -96,7 +96,7 @@
                   answeredBy: [2, 5]
                 }, {
                   option: "21 ~ 30",
-                  answeredBy: [3, 6, 7]
+                  answeredBy: [3, 6, 7, 1]
                 }, {
                   option: "31 ~ 40",
                   answeredBy: [4, 8]
@@ -143,10 +143,20 @@
         password: 'test',
         profilePic: "/img/users/profile-pic.jpg",
         isLoggedIn: true,
-        favorites: [],
+        favorites: [1],
         questionMade: [1],
-        questionsAnswered: [],
-        filterQuestionsAnswered: []
+        questionsAnswered: [
+          {
+            id: 1,
+            answer: "positive"
+          }
+        ],
+        filterQuestionsAnswered: [
+          {
+            id: 1,
+            answer: "21 ~ 30"
+          }
+        ]
       };
     }).factory('Error', function() {
       var error;

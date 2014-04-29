@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $timeout, $q, Question) {
+    return function($scope, $timeout, $q, Question, User) {
       var checkFilterQuestionStatus, checkIfEverythingAnswered, checkIfQuestionAlaredyAnswered, makeTargetChecker, skipThroughFilterQuestions;
       skipThroughFilterQuestions = function() {
         var i, length, matchedOption;
@@ -76,6 +76,8 @@
         defer = $q.defer();
         defer.promise.then(function() {
           return makeTargetChecker(answer);
+        }).then(function() {
+          return skipThroughFilterQuestions();
         }).then(function() {
           return checkIfEverythingAnswered();
         });
