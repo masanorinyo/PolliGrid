@@ -5,8 +5,8 @@ define ['underscore'], (_)->
 		
 		# ***************  Models *************** #
 		$scope.questions = Question
-
-
+		$scope.order = "Recent"
+		$scope.reverse = false
 		$scope.searchFocused = false
 
 		$scope.searchByCategory = (category)->
@@ -24,8 +24,40 @@ define ['underscore'], (_)->
 
 			$scope.searchFocused = false
 
-		
 
+		$scope.sortBy = (order)->
+			console.log order
+			switch order
+				when "Recent"
+					$scope.orderBy = "created_at"
+					$scope.reverse = true
+					$scope.order = "Recent"
+
+				when "Old"
+					$scope.orderBy = "created_at"
+					$scope.reverse = false
+					$scope.order = "Old"
+
+				when "Most voted"
+					$scope.orderBy = "totalResponses"
+					$scope.reverse = true
+					$scope.order = "Most voted"
+
+				when "Most popular"
+					$scope.orderBy = "numOfFavorites"
+					$scope.reverse = true
+					$scope.order = "Most popular"
+				
+
+			
+
+		$scope.orders = [
+			"Recent"
+			"Old"
+			"Most voted"
+			"Most popular"
+
+		]
 
 		$scope.categories = [
 			"Animal"

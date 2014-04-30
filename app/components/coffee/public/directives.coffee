@@ -114,16 +114,3 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 
 						else scope.$apply(scope.reset = false)
 						
-						
-						# scope.$apply(scope.reset = false)
-											
-						
-						# scope.$apply(scope.reset = true)
-			
-				
-
-				
-
-
-
-					

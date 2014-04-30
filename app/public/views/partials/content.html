@@ -19,10 +19,7 @@
 			<hr class="clear">
 			<div ng-show="showOrder" class="orders">
 				<ul>
-					<li>Recent</li>
-					<li>Old</li>
-					<li>Favorites</li>
-					<li>Most answered</li>
+					<li ng-click="sortBy(order)" ng-repeat="order in orders">{{order}}</li>
 				</ul>
 			</div>
 			<div class="categories">
@@ -35,8 +32,11 @@
 </section>
 <section class='content-section'>
 	<h1 hidden>question</h1>
+	<div class="orderby gray">
+		Order by - {{order}}
+	</div>
 	<ul class='content-cards'>
-		<li  ng-repeat="question in questions | filter:searchQuestion" 
+		<li  ng-repeat="question in questions | filter:searchQuestion | orderBy:orderBy:reverse" 
 		 ng-controller="ListCtrl">
 
 			<div answered='question' submitted="submitted"  class="card card-large">
