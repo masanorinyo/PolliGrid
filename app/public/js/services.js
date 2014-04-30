@@ -184,6 +184,32 @@
             }
           ],
           targets: []
+        }, {
+          id: 4,
+          newOption: "",
+          question: "Which one of the following is you",
+          category: "Technology",
+          respondents: [3, 6, 4, 7, 5, 8],
+          alreadyAnswered: false,
+          numOfFavorites: 0,
+          numOfFilters: 2,
+          totalResponses: 6,
+          created_at: 48108212271,
+          creator: 1,
+          creatorName: "Masanori",
+          photo: "/img/users/profile-pic.jpg",
+          options: [
+            {
+              title: 't',
+              count: 1,
+              answeredBy: [3]
+            }, {
+              title: 'd',
+              count: 5,
+              answeredBy: [4, 6, 7, 5, 8]
+            }
+          ],
+          targets: []
         }
       ];
     }).factory('User', function() {
@@ -209,6 +235,12 @@
       var error;
       return error = {
         auth: ""
+      };
+    }).factory('Setting', function() {
+      var page;
+      return page = {
+        isSetting: false,
+        questionId: null
       };
     });
   });

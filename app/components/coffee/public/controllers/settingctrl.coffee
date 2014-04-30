@@ -1,10 +1,13 @@
 define ['underscore'], (_)->
-	($scope,$location,$modal,$stateParams,$timeout,Question,User,Filters,Error)->
+	($scope,$location,$modal,$stateParams,$timeout,Question,User,Filters,Error,Setting)->
 
 		$scope.type = $stateParams.type
 		$scope.id = $stateParams.id
 		$scope.user = User
 		$scope.isAccessedFromSetting = true
+		
+		# shows which page is on
+		Setting.isSetting = true
 		
 		
 
@@ -66,6 +69,7 @@ define ['underscore'], (_)->
 
 
 		showDeepResult = $scope.showDeepResult = (id)->
+			Setting.questionId = id
 			modalInstance = $modal.open(			
 				templateUrl : 'views/modals/deepResultModal.html'
 				controller 	: "DeepResultCtrl"

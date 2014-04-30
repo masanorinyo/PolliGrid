@@ -1,5 +1,5 @@
 define ['underscore'], (_)->
-	($scope,$modalInstance,$stateParams,$location,$q,$timeout,Question)->
+	($scope,$modalInstance,$stateParams,$location,$q,$timeout,Question,Setting)->
 		
 
 		# ----------------- Utility functions ----------------- #
@@ -159,7 +159,16 @@ define ['underscore'], (_)->
 		# if $stateParams.id.$http(get) -> false -> $location.path('/')
 		# http request
 		# find the question using the url id
-		questionId = Number($stateParams.id)
+
+		if Setting.isSetting
+			questionId = Setting.questionId
+			console.log "Accessed from the setting page"
+		else 
+			questionId = Number($stateParams.id)
+			console.log "Accessed from the main page"
+		
+
+
 		foundQuestion = _.findWhere Question,{id:questionId}
 		$scope.question = foundQuestion	
 		

@@ -1,11 +1,12 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $location, $modal, $stateParams, $timeout, Question, User, Filters, Error) {
+    return function($scope, $location, $modal, $stateParams, $timeout, Question, User, Filters, Error, Setting) {
       var findQuestion, showAnswers, showDeepResult, showFavorites, showFilters, showQuestions;
       $scope.type = $stateParams.type;
       $scope.id = $stateParams.id;
       $scope.user = User;
       $scope.isAccessedFromSetting = true;
+      Setting.isSetting = true;
       findQuestion = function(target, requiredIds) {
         var questions;
         questions = [];
@@ -50,6 +51,7 @@
       };
       showDeepResult = $scope.showDeepResult = function(id) {
         var modalInstance;
+        Setting.questionId = id;
         return modalInstance = $modal.open({
           templateUrl: 'views/modals/deepResultModal.html',
           controller: "DeepResultCtrl",

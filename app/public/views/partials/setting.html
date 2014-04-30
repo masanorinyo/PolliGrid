@@ -42,7 +42,9 @@
 	</div>
 	<div class="content-questions">
 		<ul class='content-cards'>
-			<p class="noContent">Couldn't find anything</p>
+			<p ng-show="!questions.length && type !='filters'" class="noContent">
+				Couldn't find anything
+			</p>
 			<li  ng-repeat="question in questions" 
 			 ng-controller="ListCtrl">
 

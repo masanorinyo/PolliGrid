@@ -113,4 +113,99 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 
 
 						else scope.$apply(scope.reset = false)
-						
+		
+		# .directive "flexGridParent", ()->
+		# 	restrict: "A"
+		# 	link: (scope, element,attr)->
+				
+		# 		# createDivs = ->
+		# 		console.log colWidth = 215
+		# 		console.log element[0].offsetWidth
+		# 		console.log element[0].offsetHeight
+
+		# .directive "flexGridChild", ()->
+		# 	restrict: "A"
+		# 	link: (scope, element,attr)->
+				
+		# 		# createDivs = ->
+		# 		# console.log colWidth = 215
+		# 		console.log element[0].offsetWidth
+		# 		console.log element[0].offsetHeight
+				
+				
+
+				
+
+        
+
+    
+
+        #     var createparentHDivs = function(){
+    
+        #         var x, y; 
+        #         //column width
+        #         var colWidth = 215;
+
+        #         //get parent
+        #         var parent = $('#main-content'); 
+        #         var parentW = $(parent).width();
+        #         var parentH = $(parent).height();
+
+        #         //no. of columns that'll fit
+        #         var noOfCol = Math.floor(parentW/colWidth);
+
+        #         //array to store y position in each column initialize to top margin, 50px
+        #         var colYs = []; 
+        #         for (var i = 0; i < noOfCol; i++) {
+        #             colYs.push(50);
+        #         }
+
+        #         for (var i = 0; i < data.length; i++) {
+        #         //for each column
+        #             for (var j = 0; j < noOfCol && i < data.length; j++, i++) {
+        #                 //calculate x and y positions
+        #                 x = j*colWidth; 
+        #                 y = colYs[j];
+
+        #                 //create a new bit and place it in the correct position
+        #                 var itemDiv = "<div class='grid-item' style='background-color:"
+        #                     + data[i].color + ";"
+        #                     + "left: "
+        #                     + x +"px;"
+        #                     + "top:"
+        #                     + y + "px;"
+        #                     + "width: "
+        #                     + (colWidth - 25) +"px;" 
+        #                     + "height: "
+        #                     + data[i].height+"px;"
+        #                     +"'></div>"
+        #                 parent.append(itemDiv); 
+        #                 colYs[j] += data[i].height + 10; 
+        #             }
+        #         }
+        #     };
+
+        #     $(window).bind("resize", function(){
+        #         //clear the main content
+        #         $("#main-content").html("");
+        #         //recreate grid
+        #         createDivs();
+        #     });
+
+        #     createDivs();
+            
+
+        # });
+
+
+
+
+
+
+
+
+
+
+
+
+

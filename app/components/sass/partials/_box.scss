@@ -96,17 +96,17 @@
 }
 
 
-.content-cards{
+#content-cards{
 	
 	width:100%;
 
 	.card-large{
 		
 		border:1px solid rgb(220,220,220);
-		width:100%;
+		// width:100%;
 		margin:10px auto;
 		display:inline-block;
-		max-width:370px;
+		// max-width:370px;
 		min-height:300px;
 		float:left;
 		

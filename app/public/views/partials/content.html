@@ -35,10 +35,17 @@
 	<div class="orderby gray">
 		Order by - {{order}}
 	</div>
-	<ul class='content-cards'>
-		<p class="noContent">Couldn't find anything</p>
-		<li  ng-repeat="question in questions | filter:searchQuestion | orderBy:orderBy:reverse" 
+	<ul id='content-cards'>
+		
+		<!-- show this when there are no questions -->
+		<p ng-show="!filteredQuestions.length" class="noContent">
+			Couldn't find anything
+		</p>	
+
+		<li  ng-repeat="question in filteredQuestions = (questions | filter:searchQuestion | orderBy:orderBy:reverse)"
 		 ng-controller="ListCtrl">
+			
+			
 			<div answered='question' submitted="submitted"  class="card card-large">
 				<!-- should make a directive for this -->
 				<div favorited="question" favorite="favorite" class="favorite-button" ng-click="fillStar(question)">

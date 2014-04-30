@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modalInstance, $stateParams, $location, $q, $timeout, Question) {
+    return function($scope, $modalInstance, $stateParams, $location, $q, $timeout, Question, Setting) {
       var foundQuestion, getColor, getData, getPercentage, questionId;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
@@ -105,7 +105,13 @@
         showTooltips: false,
         animation: false
       };
-      questionId = Number($stateParams.id);
+      if (Setting.isSetting) {
+        questionId = Setting.questionId;
+        console.log("Accessed from the setting page");
+      } else {
+        questionId = Number($stateParams.id);
+        console.log("Accessed from the main page");
+      }
       foundQuestion = _.findWhere(Question, {
         id: questionId
       });
