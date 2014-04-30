@@ -288,13 +288,9 @@ define(
 							templateUrl :'views/partials/targetQuestions.html'
 							controller:'TargetAudienceCtrl'
 
-					onEnter:($state,$stateParams,$location,User)->
-						if !User.isLoggedIn
-							$location.path('/')
+					
 
 
-				# .state 'home.setting.test',
-				# 	url:"^/test"
 
 					
 			$urlRouterProvider.otherwise('/')

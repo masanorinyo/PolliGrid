@@ -118,10 +118,15 @@
 		
 		margin-top:30px;
 
-		
-
-		
 	}//.content-section
+
+	.noContent{
+		@include absolute-center;
+		font-size:1.3em;
+		width:200px;
+		height:100px;
+	}
+
 }//.container
 
 .setting{
@@ -161,5 +166,9 @@
 			height:30px;
 			width: 360px;	
 		}
+	}
+
+	.noContent{
+		top:80%;
 	}
 }

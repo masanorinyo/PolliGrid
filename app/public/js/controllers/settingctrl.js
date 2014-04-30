@@ -1,7 +1,7 @@
 (function() {
   define(['underscore'], function(_) {
     return function($scope, $location, $modal, $stateParams, $timeout, Question, User, Filters, Error) {
-      var findQuestion, showAnswers, showFavorites, showFilters, showQuestions;
+      var findQuestion, showAnswers, showDeepResult, showFavorites, showFilters, showQuestions;
       $scope.type = $stateParams.type;
       $scope.id = $stateParams.id;
       $scope.user = User;
@@ -48,6 +48,14 @@
           return $scope.answer[index] = filter.answer;
         });
       };
+      showDeepResult = $scope.showDeepResult = function(id) {
+        var modalInstance;
+        return modalInstance = $modal.open({
+          templateUrl: 'views/modals/deepResultModal.html',
+          controller: "DeepResultCtrl",
+          windowClass: "deepResult"
+        });
+      };
       (function() {
         if ($scope.type === "favorites" || $scope.type === "profile") {
           console.log('i am favorite');
@@ -58,7 +66,7 @@
         } else if ($scope.type === "questions") {
           console.log('i am questions');
           return showQuestions();
-        } else {
+        } else if ($scope.type === "filters") {
           console.log('i am filter');
           return showFilters();
         }

@@ -65,6 +65,13 @@ define ['underscore'], (_)->
 
 
 
+		showDeepResult = $scope.showDeepResult = (id)->
+			modalInstance = $modal.open(			
+				templateUrl : 'views/modals/deepResultModal.html'
+				controller 	: "DeepResultCtrl"
+				windowClass : "deepResult"
+			)
+
 
 
 		# -------------------------- for initial load --------------------------#
@@ -81,7 +88,7 @@ define ['underscore'], (_)->
 				console.log 'i am questions'
 				showQuestions()
 
-			else 
+			else if $scope.type == "filters"
 				console.log 'i am filter'
 				showFilters()
 

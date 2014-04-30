@@ -316,10 +316,7 @@
         });
       })();
       $scope.closeModal = function() {
-        $scope.$dismiss();
-        return $timeout(function() {
-          return $location.path('/');
-        }, 500, true);
+        return $scope.$dismiss();
       };
       return $scope.$apply();
     };

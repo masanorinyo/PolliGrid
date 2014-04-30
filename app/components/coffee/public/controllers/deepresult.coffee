@@ -471,9 +471,7 @@ define ['underscore'], (_)->
 
 		$scope.closeModal = ()->
 			$scope.$dismiss()
-			$timeout ->
-				$location.path('/')
-			,500,true
+
 
 
 		# -------------- Invoke Scope --------------#

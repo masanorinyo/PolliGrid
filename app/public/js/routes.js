@@ -202,11 +202,6 @@
             templateUrl: 'views/partials/targetQuestions.html',
             controller: 'TargetAudienceCtrl'
           }
-        },
-        onEnter: function($state, $stateParams, $location, User) {
-          if (!User.isLoggedIn) {
-            return $location.path('/');
-          }
         }
       });
       return $urlRouterProvider.otherwise('/');
