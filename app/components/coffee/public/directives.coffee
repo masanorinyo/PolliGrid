@@ -127,20 +127,24 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 				,300,true
 
 
-		# .directive 'noScopeRepeat', ($compile)->
-			# transclude:true
+		.directive 'noScopeRepeat', ($compile)->
 			link: (scope, elem, attrs)->
 				scope.$watch attrs.items,(items)->
 					if items
+						console.log items
+						template = '
+						<li ng-hide="targetQ.isQuestionAnswered" class=\'answer\'>
+							<label class=\'pointer\'>
+								<input ng-model="answer" type="radio" name="answer" ng-value="#OBJ#">
+								{{#OBJ#.title}}
+							</label>
+						</li>'
 
-						template = '{{ #OBJ#.myValue }}'
 
 						items.forEach (val, key)->
-						newElement = angular.element(
-							template.replace(/#OBJ#/g, attrs.items + '[' + key + ']')
-						)
-						$compile(newElement)(scope);
-						elem.append(newElement);
+							newElement = angular.element(template.replace(/#OBJ#/g, attrs.items + '[' + key + ']'))
+							$compile(newElement)(scope);
+							elem.append(newElement);
 					
 				
 			

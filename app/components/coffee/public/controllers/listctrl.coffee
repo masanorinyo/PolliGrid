@@ -1,6 +1,9 @@
 define ['underscore'], (_)->
 	($scope,$location,$state,$stateParams,$timeout,Question,User,Filters,Error)->
 
+
+		
+
 		# ----------------- Utility functions ----------------- #
 		getColor = ()->
 			'#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
@@ -120,6 +123,10 @@ define ['underscore'], (_)->
 		# this handles user's question answer submission 
 		$scope.submitAnswer = (choice,question)->
 
+			
+			console.log question
+
+
 			if choice is "" or !choice
 			
 				$scope.warning = true
@@ -135,7 +142,8 @@ define ['underscore'], (_)->
 
 				# by adding user id to the question respondents,
 				# users won't have to answer to the question again
-				$scope.question.respondents.push($scope.user.id)
+				console.log question.respondents
+				question.respondents.push($scope.user.id)
 
 				# update the option related data 
 				choice.answeredBy.push($scope.user.id)

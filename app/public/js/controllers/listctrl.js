@@ -71,12 +71,14 @@
       })();
       $scope.submitAnswer = function(choice, question) {
         var answer;
+        console.log(question);
         if (choice === "" || !choice) {
           return $scope.warning = true;
         } else {
           $scope.warning = false;
           $scope.$broadcast('answerSubmitted', 'submitted');
-          $scope.question.respondents.push($scope.user.id);
+          console.log(question.respondents);
+          question.respondents.push($scope.user.id);
           choice.answeredBy.push($scope.user.id);
           choice.count++;
           question.totalResponses++;

@@ -68,14 +68,8 @@
 					</p>
 
 					<form ng-submit="submitAnswer(answer,card)" id="surveyForm">
-						
-						<ul class="answers">
-							<li ng-hide="targetQ.isQuestionAnswered" class='answer' ng-repeat="option in card.options">
-								<label class='pointer'>
-									<input ng-model="$parent.answer" type="radio" name="answer" ng-value="option">
-									{{option.title}}
-								</label>
-							</li>
+
+						<ul no-scope-repeat items="card.options" class="answers">
 						</ul>
 						<input type="submit" class="submit-button btn btn-primary btn-sm" value="See result">
 					</form>

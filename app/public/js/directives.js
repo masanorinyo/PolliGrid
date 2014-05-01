@@ -121,16 +121,22 @@
             scope.getSize.height = elem[0].offsetHeight;
             return scope.getSize.width = elem[0].offsetWidth;
           }, 300, true);
-        },
+        }
+      };
+    }).directive('noScopeRepeat', function($compile) {
+      return {
         link: function(scope, elem, attrs) {
           return scope.$watch(attrs.items, function(items) {
-            var newElement, template;
+            var template;
             if (items) {
-              template = '{{ #OBJ#.myValue }}';
-              items.forEach(function(val, key) {});
-              newElement = angular.element(template.replace(/#OBJ#/g, attrs.items + '[' + key + ']'));
-              $compile(newElement)(scope);
-              return elem.append(newElement);
+              console.log(items);
+              template = '<li ng-hide="targetQ.isQuestionAnswered" class=\'answer\'> <label class=\'pointer\'> <input ng-model="answer" type="radio" name="answer" ng-value="#OBJ#"> {{#OBJ#.title}} </label> </li>';
+              return items.forEach(function(val, key) {
+                var newElement;
+                newElement = angular.element(template.replace(/#OBJ#/g, attrs.items + '[' + key + ']'));
+                $compile(newElement)(scope);
+                return elem.append(newElement);
+              });
             }
           });
         }
