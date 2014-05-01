@@ -46,7 +46,8 @@
         },
         link: function(scope) {
           return $timeout(function() {
-            if (scope.answered.alreadyAnswered) {
+            if (scope.answered && scope.answer !== void 0) {
+              console.log(scope.answered);
               return scope.submitted = true;
             }
           }, 500, true);
@@ -62,9 +63,11 @@
         link: function(scope) {
           return $timeout(function() {
             var favoriteQuestion;
-            favoriteQuestion = _.find(User.favorites, function(id) {
-              return Number(id) === Number(scope.question.id);
-            });
+            if (scope.question !== void 0) {
+              favoriteQuestion = _.find(User.favorites, function(id) {
+                return Number(id) === Number(scope.question.id);
+              });
+            }
             if (favoriteQuestion) {
               return scope.favorite = true;
             }
@@ -103,6 +106,31 @@
                 return scope.$apply(scope.reset = true);
               default:
                 return scope.$apply(scope.reset = false);
+            }
+          });
+        }
+      };
+    }).directive("getSize", function($timeout) {
+      return {
+        restrict: "A",
+        scope: {
+          getSize: "="
+        },
+        link: function(scope, elem) {
+          return $timeout(function() {
+            scope.getSize.height = elem[0].offsetHeight;
+            return scope.getSize.width = elem[0].offsetWidth;
+          }, 300, true);
+        },
+        link: function(scope, elem, attrs) {
+          return scope.$watch(attrs.items, function(items) {
+            var newElement, template;
+            if (items) {
+              template = '{{ #OBJ#.myValue }}';
+              items.forEach(function(val, key) {});
+              newElement = angular.element(template.replace(/#OBJ#/g, attrs.items + '[' + key + ']'));
+              $compile(newElement)(scope);
+              return elem.append(newElement);
             }
           });
         }

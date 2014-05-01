@@ -35,32 +35,31 @@
 	<div class="orderby gray">
 		Order by - {{order}}
 	</div>
-	<ul id='content-cards'>
+	<ul deckgrid source="questions" class="deckgrid" id='content-cards'>
 		
 		<!-- show this when there are no questions -->
-		<p ng-show="!filteredQuestions.length" class="noContent">
+		<!-- <p ng-show="!filteredQuestions.length" class="noContent">
 			Couldn't find anything
-		</p>	
+		</p>	 -->
 
-		<li  ng-repeat="question in filteredQuestions = (questions | filter:searchQuestion | orderBy:orderBy:reverse)"
-		 ng-controller="ListCtrl">
+		<!-- ng-repeat="question in filteredQuestions = (questions | filter:searchQuestion | orderBy:orderBy:reverse)" -->
+		<li  ng-controller="ListCtrl">
 			
-			
-			<div answered='question' submitted="submitted"  class="card card-large">
+			<div answered='card.alreadyAnswered' submitted="submitted"  class="card card-large">
 				<!-- should make a directive for this -->
-				<div favorited="question" favorite="favorite" class="favorite-button" ng-click="fillStar(question)">
+				<div favorited="card" favorite="favorite" class="favorite-button" ng-click="fillStar(card)">
 					<i ng-show="!favorite" class="glyphicon glyphicon-star-empty"></i>
 					<i ng-show="favorite" class="glyphicon glyphicon-star"></i>
 				</div>
 
-				<div ui-sref=".share({id:question.id})" class="share-button">
+				<div ui-sref=".share({id:card.id})" class="share-button">
 					<i class="glyphicon glyphicon-share"></i>
 				</div>
 
 				<div ng-hide="submitted" class="content">
 					
 					<p class='question'>
-						{{question.question}}
+						{{card.question}}
 					</p>
 
 					<!-- Warning message -->
@@ -68,10 +67,10 @@
 						Please select something
 					</p>
 
-					<form ng-submit="submitAnswer(answer,question)" id="surveyForm">
+					<form ng-submit="submitAnswer(answer,card)" id="surveyForm">
 						
 						<ul class="answers">
-							<li ng-hide="targetQ.isQuestionAnswered" class='answer' ng-repeat='option in question.options'>
+							<li ng-hide="targetQ.isQuestionAnswered" class='answer' ng-repeat="option in card.options">
 								<label class='pointer'>
 									<input ng-model="$parent.answer" type="radio" name="answer" ng-value="option">
 									{{option.title}}
@@ -83,20 +82,20 @@
 				</div>
 
 
-				<div ui-view='result' ng-show="submitted" class="animated question-content" ng-class="{back:submitted}"></div>
+				<!-- <div ui-view='result' ng-show="submitted" class="animated question-content" ng-class="{back:submitted}"></div> -->
 
 
 				<div class="card-bottom">
 					<ul>
 						<li class='userPhoto'>
 							<a href="#">
-								<img ng-src="{{question.photo}}" alt="{{question.creatorName}}">
+								<img ng-src="{{card.photo}}" alt="{{card.creatorName}}">
 							</a>
 						</li>
 						<li class='category silver'>
 							category: 
-							<span ng-click="searchByCategory(question.category)" class='name gray'>
-								{{question.category}}
+							<span ng-click="mother.searchByCategory(card.category)" class='name gray'>
+								{{card.category}}
 							</span>
 						</li>
 					</ul>

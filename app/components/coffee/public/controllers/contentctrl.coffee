@@ -19,7 +19,7 @@ define ['underscore'], (_)->
 
 			$scope.searchFocused = false
 
-			
+
 		$scope.updateSearch = ->
 
 			$scope.searchFocused = false
@@ -48,6 +48,12 @@ define ['underscore'], (_)->
 					$scope.reverse = true
 					$scope.order = "Most popular"
 				
+
+		$scope.parentSize = 
+			width  : 0
+			height : 0
+		
+
 
 			
 

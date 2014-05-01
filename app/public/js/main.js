@@ -13,6 +13,7 @@
       "angular-bootstrap": "../vendors/angular-bootstrap/ui-bootstrap-tpls.min",
       "domReady": "../vendors/requirejs-domready/domready",
       "underscore": "../vendors/underscore/underscore",
+      "angular-deckgrid": "../vendors/angular-deckgrid/angular-deckgrid",
       "chart": "../vendors/Chart.js-master/Chart",
       "angles": "../vendors/angles-master/angles"
     },
@@ -43,6 +44,9 @@
         deps: ['angular']
       },
       "angular-bootstrap": {
+        deps: ['angular']
+      },
+      "angular-deckgrid": {
         deps: ['angular']
       },
       "jquery": {

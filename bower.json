@@ -26,6 +26,7 @@
     "requirejs": "~2.1.11",
     "requirejs-domready": "*",
     "underscore": "~1.6.0",
-    "angular-bootstrap": "0.10.0"
+    "angular-bootstrap": "0.10.0",
+    "angular-deckgrid": "~0.4.3"
   }
 }

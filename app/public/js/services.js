@@ -60,7 +60,7 @@
         {
           id: 1,
           newOption: "",
-          question: "Which one of the following best describes you",
+          question: "Which one of the following best describes you best best describes you best describes you best describes you describes you",
           category: "Lifestyle",
           respondents: [8, 3, 2, 4, 5, 6, 7, 9],
           alreadyAnswered: false,
@@ -132,84 +132,6 @@
               ]
             }
           ]
-        }, {
-          id: 2,
-          newOption: "",
-          question: "Which one of the following is the best",
-          category: "Technology",
-          respondents: [3, 6, 4, 7, 5, 8],
-          alreadyAnswered: false,
-          numOfFavorites: 5,
-          numOfFilters: 2,
-          totalResponses: 6,
-          created_at: 1148108212271,
-          creator: 1,
-          creatorName: "Masanori",
-          photo: "/img/users/profile-pic.jpg",
-          options: [
-            {
-              title: 'yo',
-              count: 1,
-              answeredBy: [3]
-            }, {
-              title: 'ok',
-              count: 5,
-              answeredBy: [4, 6, 7, 5, 8]
-            }
-          ],
-          targets: []
-        }, {
-          id: 3,
-          newOption: "",
-          question: "Which one of the following is you",
-          category: "Technology",
-          respondents: [3, 6, 4, 7, 5, 8],
-          alreadyAnswered: false,
-          numOfFavorites: 0,
-          numOfFilters: 2,
-          totalResponses: 6,
-          created_at: 48108212271,
-          creator: 1,
-          creatorName: "Masanori",
-          photo: "/img/users/profile-pic.jpg",
-          options: [
-            {
-              title: 't',
-              count: 1,
-              answeredBy: [3]
-            }, {
-              title: 'd',
-              count: 5,
-              answeredBy: [4, 6, 7, 5, 8]
-            }
-          ],
-          targets: []
-        }, {
-          id: 4,
-          newOption: "",
-          question: "Which one of the following is you",
-          category: "Technology",
-          respondents: [3, 6, 4, 7, 5, 8],
-          alreadyAnswered: false,
-          numOfFavorites: 0,
-          numOfFilters: 2,
-          totalResponses: 6,
-          created_at: 48108212271,
-          creator: 1,
-          creatorName: "Masanori",
-          photo: "/img/users/profile-pic.jpg",
-          options: [
-            {
-              title: 't',
-              count: 1,
-              answeredBy: [3]
-            }, {
-              title: 'd',
-              count: 5,
-              answeredBy: [4, 6, 7, 5, 8]
-            }
-          ],
-          targets: []
         }
       ];
     }).factory('User', function() {

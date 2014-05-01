@@ -36,6 +36,10 @@
             return $scope.order = "Most popular";
         }
       };
+      $scope.parentSize = {
+        width: 0,
+        height: 0
+      };
       $scope.orders = ["Recent", "Old", "Most voted", "Most popular"];
       $scope.categories = ["Animal", "Architecture", "Art", "Cars & Motorcycles", "Celebrities", "Design", "DIY & Crafts", "Education", "Film, Music & Books", "Food & Drink", "Gardening", "Geek", "Hair & Beauty", "Health & Fitness", "History", "Holidays & Events", "Home Decor", "Humor", "Illustration & Posters", "Men's Fashion", "Outdoors", "Photography", "Products", "Quotes", "Science & Nature", "Sports", "Tatoos", "Technology", "Travel", "Weddings", "Women's Fashion", "Other"];
       return $scope.$apply();

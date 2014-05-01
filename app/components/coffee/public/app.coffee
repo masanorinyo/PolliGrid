@@ -8,6 +8,7 @@ define [
 	'angularUiRouter'
 	'angular-bootstrap'
 	'angles'
+	'angular-deckgrid'
 
 ], (angular)->
 		angular.module('myapp',[
@@ -19,4 +20,5 @@ define [
 			'myapp.services'
 			'myapp.filters'
 			'angles'
+			'akoenig.deckgrid'
 		])

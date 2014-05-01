@@ -16,6 +16,7 @@ require.config
 		"angular-bootstrap"		: "../vendors/angular-bootstrap/ui-bootstrap-tpls.min"
 		"domReady" 	 			: "../vendors/requirejs-domready/domready"
 		"underscore" 	 		: "../vendors/underscore/underscore"
+		"angular-deckgrid" 		: "../vendors/angular-deckgrid/angular-deckgrid"
 		
 		# -------------- these are manually installed - no bower components -------------- #
 
@@ -57,6 +58,9 @@ require.config
 		"angular-bootstrap" 	: 
 			deps 		 		: ['angular']
 
+		"angular-deckgrid"		:
+			deps 				: ['angular']
+
 		"jquery" 				: 
 			exports 		 	: '$'
 
@@ -66,7 +70,6 @@ require.config
 		'angles'				:
 			deps 				: ['angular','chart']
 			
-
 
 require(
 
