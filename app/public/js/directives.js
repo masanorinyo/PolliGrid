@@ -46,8 +46,7 @@
         },
         link: function(scope) {
           return $timeout(function() {
-            if (scope.answered && scope.answer !== void 0) {
-              console.log(scope.answered);
+            if (scope.answered) {
               return scope.submitted = true;
             }
           }, 500, true);

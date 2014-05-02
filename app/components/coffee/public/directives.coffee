@@ -53,8 +53,8 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 				
 				$timeout ()->
 					
-					if scope.answered and scope.answer != undefined
-						console.log scope.answered
+					if scope.answered 
+						
 						scope.submitted = true
 					
 				
@@ -127,6 +127,8 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 				,300,true
 
 
+
+		# same as ng-repeat except for these don't create new scopes
 		.directive 'noScopeRepeatForGrid', ($compile,$templateCache)->
 			link: (scope, elem, attrs)->
 				scope.$watch attrs.items,(items)->

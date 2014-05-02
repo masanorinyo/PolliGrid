@@ -118,7 +118,8 @@ define ['underscore'], (_)->
 
 
 			if alreadyAnswered
-
+				
+				$scope.card.alreadyAnswered = true
 				getData()
 
 

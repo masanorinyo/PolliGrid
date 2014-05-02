@@ -128,7 +128,7 @@ define ['angular'], (angular) ->
 					question 			: "Which one of the following best describes you best best describes you best describes you best describes you describes you"
 					category 			: "Lifestyle"
 					respondents 		: [8,3,2,4,5,6,7,9,1]
-					alreadyAnswered 	: true
+					alreadyAnswered 	: false
 					numOfFavorites 		: 1
 					numOfFilters 		: 2
 					totalResponses 		: 9

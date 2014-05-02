@@ -68,6 +68,7 @@
           }
         });
         if (alreadyAnswered) {
+          $scope.card.alreadyAnswered = true;
           return getData();
         }
       })();
