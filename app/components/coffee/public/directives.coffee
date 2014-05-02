@@ -127,18 +127,41 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 				,300,true
 
 
-		.directive 'noScopeRepeat', ($compile)->
+		.directive 'noScopeRepeatForGrid', ($compile,$templateCache)->
 			link: (scope, elem, attrs)->
 				scope.$watch attrs.items,(items)->
 					if items
-						console.log items
-						template = '
-						<li ng-hide="targetQ.isQuestionAnswered" class=\'answer\'>
-							<label class=\'pointer\'>
-								<input ng-model="answer" type="radio" name="answer" ng-value="#OBJ#">
-								{{#OBJ#.title}}
-							</label>
-						</li>'
+						template = $templateCache.get("question.html")
+
+
+						items.forEach (val, key)->
+							newElement = angular.element(template.replace(/#OBJ#/g, attrs.items + '[' + key + ']'))
+							$compile(newElement)(scope);
+							elem.append(newElement);
+
+		.directive 'noScopeRepeatForTargets', ($compile,$templateCache)->
+			link: (scope, elem, attrs)->
+				scope.$watch attrs.items,(items)->
+					if items
+
+						# ng-show=\"$index==filterNumber\"
+						template = $templateCache.get('targetQuestion.html')
+
+
+
+						items.forEach (val, key)->
+							newElement = angular.element(template.replace(/#OBJ#/g, attrs.items + '[' + key + ']'))
+							$compile(newElement)(scope);
+							elem.append(newElement);
+		
+		.directive 'noScopeRepeatForTargetsOptions', ($compile,$templateCache)->
+			link: (scope, elem, attrs)->
+				scope.$watch attrs.items,(items)->
+					if items
+
+						# ng-show=\"$index==filterNumber\"
+						template = $templateCache.get('targetQuestion-options.html')
+
 
 
 						items.forEach (val, key)->
@@ -146,127 +169,6 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 							$compile(newElement)(scope);
 							elem.append(newElement);
 					
-				
-			
-		
-
-		# .directive "grid", ($timeout,$window,Grid)->
-		# 	restrict:"A"
-		# 	link: (scope, element,attr)->
-
-		# 		$timeout ->
-					
-		# 			# number of items added
-		# 			index = Number(scope.$index)
-					
-		# 			# number of questions
-		# 			length = scope.questions.length
-					
-		# 			# grid wrapper height and width
-		# 			parent = scope.parentSize
-					
-		# 			# each item width size
-		# 			colWidth = 360
-		# 			element.css({'width':colWidth+"px"})
-
-		# 			# number of columns depending on the parent wrapper width 
-		# 			# and the colWidth
-		# 			numOfCol= Number(Math.floor(parent.width / colWidth))
-		# 			Grid.numOfItems = numOfCol
-					
-
-		# 			withMargin = colWidth + 10
-		# 			currentColWidth = Number(Grid.numOfItems * withMargin)
-
-		# 			y = 0
-					
-		# 			# make arrays until it points down one row
-		# 			if index < numOfCol
-						
-		# 				Grid.height.push(element[0].offsetHeight+20)
-					
-
-		# 			# from the second row
-		# 			if Grid.numOfLoop < numOfCol * 2 && index >= numOfCol
-
-		# 				y = Grid.height[Grid.num]
-
-		# 				Grid.height[Grid.num] += element[0].offsetHeight + 20
-		# 				Grid.num++
-		# 				Grid.numOfLoop++
-
-		# 			else 
-
-		# 				currentColWidth = 0
-		# 				Grid.num = 0
-		# 				Grid.numOfLoops = numOfCol
-
-
-		# 			# while j <  numOfCol
-		# 			x = currentColWidth
-					
-
-		# 			element.css({'left':x+"px"})
-		# 			element.css({'top':y+"px"})
-					
-					
-
-		# 		,350,true
-		
-
-        
-
-    
-
-        #     var createparentHDivs = function(){
-    
-    
-
-     
-
-        #         //array to store y position in each column initialize to top margin, 50px
-        #         var colYs = []; 
-        #         for (var i = 0; i < noOfCol; i++) {
-        #             colYs.push(50);
-        #         }
-
-            #     for (var i = 0; i < data.length; i++) {
-            #     //for each column
-            #         for (var j = 0; j < noOfCol && i < data.length; j++, i++) {
-            #             //calculate x and y positions
-            #             x = j*colWidth; 
-            #             y = colYs[j];
-
-            #             //create a new bit and place it in the correct position
-            #             var itemDiv = "<div class='grid-item' style='background-color:"
-            #                 + data[i].color + ";"
-            #                 + "left: "
-            #                 + x +"px;"
-            #                 + "top:"
-            #                 + y + "px;"
-            #                 + "width: "
-            #                 + (colWidth - 25) +"px;" 
-            #                 + "height: "
-            #                 + data[i].height+"px;"
-            #                 +"'></div>"
-            #             parent.append(itemDiv); 
-            #             colYs[j] += data[i].height + 10; 
-            #         }
-            #     }
-            # };
-
-            # $(window).bind("resize", function(){
-            #     //clear the main content
-            #     $("#main-content").html("");
-            #     //recreate grid
-            #     createDivs();
-            # });
-
-            # createDivs();
-            
-
-        # });
-
 
 
 

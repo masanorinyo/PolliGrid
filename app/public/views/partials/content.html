@@ -69,14 +69,18 @@
 
 					<form ng-submit="submitAnswer(answer,card)" id="surveyForm">
 
-						<ul no-scope-repeat items="card.options" class="answers">
+						<ul no-scope-repeat-for-grid items="card.options" class="answers">
 						</ul>
 						<input type="submit" class="submit-button btn btn-primary btn-sm" value="See result">
 					</form>
 				</div>
 
-
-				<!-- <div ui-view='result' ng-show="submitted" class="animated question-content" ng-class="{back:submitted}"></div> -->
+				<!-- ng-controller="TargetAudienceCtrl" -->
+				<div  ng-show="submitted" class="question-content" no-scope-repeat-for-targets items="card.targets" >
+				
+					
+					
+				</div>
 
 
 				<div class="card-bottom">

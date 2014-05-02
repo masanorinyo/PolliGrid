@@ -5,6 +5,7 @@ define [
 	'directives'
 	'services'
 	'filters'
+	'template'
 	'angularUiRouter'
 	'angular-bootstrap'
 	'angles'
@@ -19,6 +20,7 @@ define [
 			'myapp.directives'
 			'myapp.services'
 			'myapp.filters'
+			'myapp.template'
 			'angles'
 			'akoenig.deckgrid'
 		])

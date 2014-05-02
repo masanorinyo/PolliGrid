@@ -2,7 +2,7 @@ define ['underscore'], (_)->
 	($scope,$location,$state,$stateParams,$timeout,Question,User,Filters,Error)->
 
 
-		
+
 
 		# ----------------- Utility functions ----------------- #
 		getColor = ()->
@@ -11,7 +11,7 @@ define ['underscore'], (_)->
     	# get data when the page loads up
 		getData = ->
 			$scope.myChartData = []
-			ref = $scope.question.options
+			ref = $scope.card.options
 			i = 0
 			len = ref.length
 
@@ -82,12 +82,12 @@ define ['underscore'], (_)->
 			
 			questionId = Number($stateParams.id)
 			foundQuestion = _.findWhere Question,{id:questionId}
-			$scope.question = foundQuestion	
+			$scope.card = foundQuestion	
 
 
 		else
 
-			$scope.questions = Question
+			$scope.cards = Question
 		
 		$scope.answer = ''
 		
@@ -112,8 +112,10 @@ define ['underscore'], (_)->
 		do ()->
 		
 			alreadyAnswered = _.find _.pluck($scope.user.questionsAnswered,'id'),(id)->
+				
+				if $scope.card != undefined
+					Number($scope.card.id) == Number(id)
 
-				Number($scope.question.id) == Number(id)
 
 			if alreadyAnswered
 
@@ -161,7 +163,8 @@ define ['underscore'], (_)->
 
 				getData()
 
-			
+				console.log User
+				console.log Question
 
 		$scope.fillStar = (question)->
 			
@@ -205,16 +208,16 @@ define ['underscore'], (_)->
 			$scope.submitted = false
 			
 			# decrement the total resonse for the reset
-			$scope.question.totalResponses--
+			$scope.card.totalResponses--
 
 
 			# remove the user's id from the question's respondendents array
-			indexOfRespondents = $scope.question.respondents.indexOf($scope.user.id)	
-			$scope.question.respondents.splice(indexOfRespondents,1)
+			indexOfRespondents = $scope.card.respondents.indexOf($scope.user.id)	
+			$scope.card.respondents.splice(indexOfRespondents,1)
 
 			# -- remove the question id from the user's questionAnswered Array -- #			
 			# 1: get the question id
-			questionId = Number($scope.question.id)
+			questionId = Number($scope.card.id)
 			
 			# 2: extract the IDs from the question already answered array from User
 			answers = _.pluck($scope.user.questionsAnswered,'id')
@@ -228,7 +231,7 @@ define ['underscore'], (_)->
 				Number(answer.id) == Number(foundAnswerId)
 
 			# find the question option, which the user chose for the question
-			foundOption = _.find $scope.question.options,(option)->
+			foundOption = _.find $scope.card.options,(option)->
 				option.title == foundAnswered.answer
 
 			# remove the user's id from the options's answeredBy array

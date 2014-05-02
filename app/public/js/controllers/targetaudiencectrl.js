@@ -11,7 +11,7 @@
           if ($scope.targetChecker[i].isAnswered) {
             matchedOption = null;
             _.each($scope.user.filterQuestionsAnswered, function(answer, index) {
-              matchedOption = _.find($scope.question.targets[i].lists, function(list) {
+              matchedOption = _.find($scope.card.targets[i].lists, function(list) {
                 return list.option === answer.answer;
               });
               if (matchedOption) {
@@ -47,11 +47,11 @@
       makeTargetChecker = function(answer) {
         var answeredIds, foundId, i, length, questionId, target;
         $scope.targetChecker = [];
-        length = $scope.question.targets.length;
+        length = $scope.card.targets.length;
         i = 0;
         answeredIds = _.pluck($scope.user.filterQuestionsAnswered, 'id');
         while (i < length) {
-          questionId = Number($scope.question.targets[i].id);
+          questionId = Number($scope.card.targets[i].id);
           foundId = _.find(answeredIds, function(id) {
             return Number(id) === questionId;
           });
@@ -87,10 +87,10 @@
         var found, isThisQuestionAnswered;
         found = _.pluck($scope.user.questionsAnswered, 'id');
         isThisQuestionAnswered = _.find(found, function(id) {
-          return id === $scope.question.id;
+          return id === $scope.card.id;
         });
         if (isThisQuestionAnswered) {
-          return $scope.question.alreadyAnswered = true;
+          return $scope.card.alreadyAnswered = true;
         }
       };
       $scope.showResult = false;
@@ -125,7 +125,7 @@
           }).then(function() {
             skipThroughFilterQuestions();
             if ($scope.areAllQuestionAnswered) {
-              return $scope.question.alreadyAnswered = true;
+              return $scope.card.alreadyAnswered = true;
             }
           });
           return defer.resolve();
@@ -135,7 +135,7 @@
         $scope.areAllQuestionAnswered = false;
         makeTargetChecker('');
         $scope.showResult = false;
-        $scope.question.alreadyAnswered = false;
+        $scope.card.alreadyAnswered = false;
         return $scope.$emit('resetAnswer', question);
       };
       $scope.$on("showGraph", function(result) {

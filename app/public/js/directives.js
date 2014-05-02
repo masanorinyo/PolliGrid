@@ -123,14 +123,47 @@
           }, 300, true);
         }
       };
-    }).directive('noScopeRepeat', function($compile) {
+    }).directive('noScopeRepeatForGrid', function($compile, $templateCache) {
       return {
         link: function(scope, elem, attrs) {
           return scope.$watch(attrs.items, function(items) {
             var template;
             if (items) {
-              console.log(items);
-              template = '<li ng-hide="targetQ.isQuestionAnswered" class=\'answer\'> <label class=\'pointer\'> <input ng-model="answer" type="radio" name="answer" ng-value="#OBJ#"> {{#OBJ#.title}} </label> </li>';
+              template = $templateCache.get("question.html");
+              return items.forEach(function(val, key) {
+                var newElement;
+                newElement = angular.element(template.replace(/#OBJ#/g, attrs.items + '[' + key + ']'));
+                $compile(newElement)(scope);
+                return elem.append(newElement);
+              });
+            }
+          });
+        }
+      };
+    }).directive('noScopeRepeatForTargets', function($compile, $templateCache) {
+      return {
+        link: function(scope, elem, attrs) {
+          return scope.$watch(attrs.items, function(items) {
+            var template;
+            if (items) {
+              template = $templateCache.get('targetQuestion.html');
+              return items.forEach(function(val, key) {
+                var newElement;
+                newElement = angular.element(template.replace(/#OBJ#/g, attrs.items + '[' + key + ']'));
+                $compile(newElement)(scope);
+                return elem.append(newElement);
+              });
+            }
+          });
+        }
+      };
+    }).directive('noScopeRepeatForTargetsOptions', function($compile, $templateCache) {
+      return {
+        link: function(scope, elem, attrs) {
+          return scope.$watch(attrs.items, function(items) {
+            var template;
+            if (items) {
+              template = $templateCache.get('targetQuestion-options.html');
               return items.forEach(function(val, key) {
                 var newElement;
                 newElement = angular.element(template.replace(/#OBJ#/g, attrs.items + '[' + key + ']'));

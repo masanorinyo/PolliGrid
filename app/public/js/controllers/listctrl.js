@@ -8,7 +8,7 @@
       getData = function() {
         var color, count, data, i, len, obj, ref, title;
         $scope.myChartData = [];
-        ref = $scope.question.options;
+        ref = $scope.card.options;
         i = 0;
         len = ref.length;
         while (i < len) {
@@ -48,9 +48,9 @@
         foundQuestion = _.findWhere(Question, {
           id: questionId
         });
-        $scope.question = foundQuestion;
+        $scope.card = foundQuestion;
       } else {
-        $scope.questions = Question;
+        $scope.cards = Question;
       }
       $scope.answer = '';
       $scope.isStarFilled = false;
@@ -63,7 +63,9 @@
       (function() {
         var alreadyAnswered;
         alreadyAnswered = _.find(_.pluck($scope.user.questionsAnswered, 'id'), function(id) {
-          return Number($scope.question.id) === Number(id);
+          if ($scope.card !== void 0) {
+            return Number($scope.card.id) === Number(id);
+          }
         });
         if (alreadyAnswered) {
           return getData();
@@ -88,7 +90,9 @@
           };
           $scope.user.questionsAnswered.push(answer);
           $scope.submitted = true;
-          return getData();
+          getData();
+          console.log(User);
+          return console.log(Question);
         }
       };
       $scope.fillStar = function(question) {
@@ -116,10 +120,10 @@
         console.trace();
         console.count("Reset was called:");
         $scope.submitted = false;
-        $scope.question.totalResponses--;
-        indexOfRespondents = $scope.question.respondents.indexOf($scope.user.id);
-        $scope.question.respondents.splice(indexOfRespondents, 1);
-        questionId = Number($scope.question.id);
+        $scope.card.totalResponses--;
+        indexOfRespondents = $scope.card.respondents.indexOf($scope.user.id);
+        $scope.card.respondents.splice(indexOfRespondents, 1);
+        questionId = Number($scope.card.id);
         answers = _.pluck($scope.user.questionsAnswered, 'id');
         foundAnswerId = _.find(answers, function(id) {
           return Number(id) === Number(questionId);
@@ -127,7 +131,7 @@
         foundAnswered = _.find($scope.user.questionsAnswered, function(answer) {
           return Number(answer.id) === Number(foundAnswerId);
         });
-        foundOption = _.find($scope.question.options, function(option) {
+        foundOption = _.find($scope.card.options, function(option) {
           return option.title === foundAnswered.answer;
         });
         optionIndex = foundOption.answeredBy.indexOf($scope.user.id);

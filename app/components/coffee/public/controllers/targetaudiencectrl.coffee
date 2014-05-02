@@ -29,7 +29,7 @@ define ['underscore'], (_)->
 					_.each $scope.user.filterQuestionsAnswered,(answer,index)->
 						
 						# if any of the answered question matched, store the object into the variable 
-						matchedOption = _.find $scope.question.targets[i].lists,(list)->
+						matchedOption = _.find $scope.card.targets[i].lists,(list)->
 							list.option == answer.answer
 					
 						# if the variable contains the matched object
@@ -91,7 +91,7 @@ define ['underscore'], (_)->
 			
 			
 			# get how many filter questions the question has
-			length = $scope.question.targets.length
+			length = $scope.card.targets.length
 			i=0
 
 			# get which question the user already answered to
@@ -100,7 +100,7 @@ define ['underscore'], (_)->
 			
 			while i < length
 				
-				questionId = Number($scope.question.targets[i].id)
+				questionId = Number($scope.card.targets[i].id)
 
 				# find out if the question has filter questions, which
 				# the user already answered to
@@ -165,11 +165,11 @@ define ['underscore'], (_)->
 			found = _.pluck $scope.user.questionsAnswered,'id'
 
 			isThisQuestionAnswered = _.find found, (id)->
-				id == $scope.question.id
+				id == $scope.card.id
 
 			if isThisQuestionAnswered
 				
-				$scope.question.alreadyAnswered = true		
+				$scope.card.alreadyAnswered = true		
 
 
 		# ------------------ Scope variables ------------------ #
@@ -252,7 +252,7 @@ define ['underscore'], (_)->
 
 							# by making this true, the question will show result from the next time
 							# without answering.
-							$scope.question.alreadyAnswered = true
+							$scope.card.alreadyAnswered = true
 
 
 
@@ -274,7 +274,7 @@ define ['underscore'], (_)->
 			#cancels out everything
 			$scope.showResult = false
 
-			$scope.question.alreadyAnswered = false
+			$scope.card.alreadyAnswered = false
 			
 
 			# send the information to the upper scopes
