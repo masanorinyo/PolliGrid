@@ -57,7 +57,8 @@ module.exports = function(grunt){
 		coffeelint: {
 		
 			app: [
-				'app/components/coffee/**/{,*/}*.coffee'
+				'app/public/components/coffee/**/{,*/}*.coffee',
+				'app/server/components/coffee/**/{,*/}*.coffee'
 			]
 		
 		},
@@ -77,7 +78,7 @@ module.exports = function(grunt){
 			frontDest: {
 				files: [{
 					expand: true,
-					cwd: 'app/components/coffee/public',
+					cwd: 'app/public/components/coffee',
 					src: ['{,*/}*.coffee'],
 					dest: 'app/public/js',
 					rename: function(dest, src) {
@@ -90,7 +91,7 @@ module.exports = function(grunt){
 			backDest:{
 				files: [{
 					expand: true,
-					cwd: 'app/components/coffee/server',
+					cwd: 'app/server/components/coffee',
 					src: ['{,*/}{,*/}*.coffee'],
 					dest: 'app/server',
 					rename: function(dest, src) {
@@ -187,7 +188,7 @@ module.exports = function(grunt){
 				files:[
 					
 					//for public
-					'app/components/coffee/public/{,*/}*.coffee',
+					'app/public/components/coffee/{,*/}*.coffee',
 					
 					
 				
@@ -207,7 +208,7 @@ module.exports = function(grunt){
 				files:[
 				
 					// for server
-					'app/components/coffee/server/{,*/}{,*/}*.coffee'
+					'app/server/components/coffee/{,*/}{,*/}*.coffee'
 
 				],
 
@@ -235,7 +236,7 @@ module.exports = function(grunt){
 
 			sass:{
 				
-				files:['app/components/sass/{,*/}*.scss'],
+				files:['app/public/components/sass/{,*/}*.scss'],
 				tasks:['compass:dev'],
 				
 			},

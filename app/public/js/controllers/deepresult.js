@@ -84,7 +84,7 @@
       $scope.showMessageBox = false;
       $scope.pieChartOptions = {
         animationEasing: "easeOutQuart",
-        animation: false
+        animation: true
       };
       $scope.radarChartOptions = {
         scaleShowLabels: true,

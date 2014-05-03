@@ -145,6 +145,15 @@
           "$q": $q
         });
       });
+    }).controller('TargetListCtrl', function($scope, $injector, $location, $timeout, $q) {
+      return require(['controllers/targetlistctrl'], function(targetlistctrl) {
+        return $injector.invoke(targetlistctrl, this, {
+          "$scope": $scope,
+          "$location": $location,
+          "$timeout": $timeout,
+          "$q": $q
+        });
+      });
     });
   });
 

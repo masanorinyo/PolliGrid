@@ -1,4 +1,4 @@
-define ['angular','controllers','underscore'], (angular,controllers,_) ->
+define ['angular','controllers','underscore','jquery'], (angular,controllers,_,$) ->
 	angular.module('myapp.directives', ['myapp.controllers','myapp.services'])
 
 		.directive 'newFilter',()->
@@ -151,10 +151,32 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 
 
 
+
 						items.forEach (val, key)->
-							newElement = angular.element(template.replace(/#OBJ#/g, attrs.items + '[' + key + ']'))
-							$compile(newElement)(scope);
-							elem.append(newElement);
+							# key will play a role of index
+							starting = "<div class=\"content animated fadeInLeft\" ng-show=\""+key+"==filterNumber\">"
+							closing = "	<form ng-controller=\"TargetListCtrl\" ng-submit=\"submitTarget(card,targetAnswer,"+key+")\">
+											{{index}}
+											<ul no-scope-repeat-for-targets-options items=\"#OBJ#.lists\" class=\"answers\"></ul>
+											<input type=\"submit\" class=\"submit-button btn btn-primary btn-sm\" value=\"Next\">
+										</form>
+									</div>"
+
+
+
+							newTemplate = starting.concat(template,closing)
+
+							console.log newTemplate
+							newElement = angular.element(newTemplate.replace(/#OBJ#/g, attrs.items + '[' + key + ']'))
+							
+							$compile(newElement)(scope)
+							elem.append(newElement)
+
+							
+
+							
+							
+							
 		
 		.directive 'noScopeRepeatForTargetsOptions', ($compile,$templateCache)->
 			link: (scope, elem, attrs)->
@@ -168,18 +190,26 @@ define ['angular','controllers','underscore'], (angular,controllers,_) ->
 
 						items.forEach (val, key)->
 							newElement = angular.element(template.replace(/#OBJ#/g, attrs.items + '[' + key + ']'))
-							$compile(newElement)(scope);
-							elem.append(newElement);
+							$compile(newElement)(scope)
+							elem.append(newElement)
+
+
+
+		.directive 'noScopeRepeatForCounts', ($compile,$templateCache)->
+			link: (scope, elem, attrs)->
+				scope.$watch attrs.items,(items)->
+					if items
+
+						# ng-show=\"$index==filterNumber\"
+						template = $templateCache.get('result.html')
+
+
+
+						items.forEach (val, key)->
+							newElement = angular.element(template.replace(/#OBJ#/g, attrs.items + '[' + key + ']'))
+							$compile(newElement)(scope)
+							elem.append(newElement)
 					
-
-
-
-
-
-
-
-
-
 
 
 

@@ -199,3 +199,14 @@ define ['angular','services'], (angular) ->
 					}
 				)
 			)
+		.controller 'TargetListCtrl', ($scope, $injector,$location,$timeout,$q)->
+			require(['controllers/targetlistctrl'], (targetlistctrl)->
+				$injector.invoke(
+					targetlistctrl, this,{
+						"$scope" 				: $scope
+						"$location" 	 		: $location
+						"$timeout" 				: $timeout
+						"$q" 					: $q
+					}
+				)
+			)

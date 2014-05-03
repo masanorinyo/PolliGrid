@@ -76,7 +76,67 @@
 				</div>
 
 
-				<div ng-controller="TargetAudienceCtrl" ng-show="submitted" class="question-content" no-scope-repeat-for-targets items="card.targets" ></div>
+				<div ng-controller="TargetAudienceCtrl" ng-show="submitted" class="question-content">
+					<div class="content animated fadeInLeft" no-scope-repeat-for-targets items="card.targets"></div>
+					<div class="content animated fadeInLeft" ng-show="areAllQuestionAnswered">	
+						<h4 class="gray result-label">
+							Result:
+						</h4>
+						
+						<p class="question gray">
+							{{card.question}}
+						</p>
+
+						<hr>
+
+						<ul class="answers">
+							<li class="blue">	
+								Total count: 
+								<span class="badge">
+									{{card.totalResponses}}
+								</span>
+							
+							</li>
+							<div no-scope-repeat-for-counts items="card.options">
+								
+							</div>
+						</ul>
+					 	
+						<div class="canvas-wrapper">
+							<canvas ng-show="areAllQuestionAnswered"  piechart options="myChartOptions" class="chart-main" data="myChartData" width="320" height="320"></canvas>
+						</div>
+
+					    
+						<button ng-hide="isAccessedViaLink" ng-click="resetAnswer(card)" class="reset-button bigger btn btn-default">
+							Reset
+						</button>
+
+						<!-- This will show up on the setting page -->
+						<!-- ui-sref=\"home.anotherDeep({id:card.id})\" -->
+						<button ng-show="isAccessedFromSetting"  ng-click="showDeepResult(card.id)" class="submit-button bigger btn btn-success">
+							See deep result
+						</button>
+						
+
+						<!-- If the question is accessed via an external link, show this button. This won't refresh the page -->
+						<button ng-show="isAccessedViaLink && !isAccessedFromSetting && !user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.signupRedirect({id:card.id})" class="submit-button bigger btn btn-success">
+							See deep result
+						</button>
+
+						<!-- when users is not logged in -  -->
+						<button ng-show="isAccessedViaLink && !isAccessedFromSetting && user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.deepResult({id:card.id})" class="submit-button bigger btn btn-success">
+							See deep result
+						</button>
+						
+						
+
+						<!-- This will refresh the page -->
+						<button ng-show="!isAccessedViaLink && !isAccessedFromSetting" ui-sref="home.deepResult({id:card.id})" class="submit-button bigger btn btn-success">
+							See deep result
+						</button>
+					</div>
+					
+				</div>
 
 
 				<div class="card-bottom">

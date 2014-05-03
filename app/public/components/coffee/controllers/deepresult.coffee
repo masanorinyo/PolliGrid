@@ -122,7 +122,7 @@ define ['underscore'], (_)->
 		# ------------- graph configuration ------------- #
 		$scope.pieChartOptions = 
 			animationEasing : "easeOutQuart"
-			animation:false
+			animation:true
 
 		$scope.radarChartOptions = 
 			scaleShowLabels 	: true
