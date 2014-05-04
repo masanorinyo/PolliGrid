@@ -25,6 +25,14 @@
 		top:0;
 		bottom:0;
 
+		@include at-breakpoint($medium){
+			right:50px;
+		}
+
+		@include at-breakpoint($large){
+			right:100px;
+		}
+
 		img{
 			height: 70%;
 			@include absolute-center;
@@ -82,19 +90,51 @@
 	}//ul
 }//header
 
-.container{
+.contain{
 	margin-top:90px;
 	padding-bottom:100px;
-	
+	width:400px;
+	margin-right: auto;
+	margin-left: auto;
+	padding-left: 15px;
+	padding-right: 15px;
+
+	@include at-breakpoint($medium){
+		width:770px;
+	}
+
+	@include at-breakpoint($large){
+		width:1135px;
+	}
+
 	.utility-section{
 		
 		overflow: auto;
+		margin: auto;
+		width:98%;
+
+		@include at-breakpoint($medium){
+			width: 460px;	
+		}
+
+		@include at-breakpoint($large){
+			width: 550px;
+		}
 
 		.create{
-			width:25%;
+			width:70px;
 			float:left;
 			text-align:center;
 			color:darken($lightgray,10);
+
+			@include at-breakpoint($medium){
+				width:100px;
+			}
+			
+			@include at-breakpoint($large){
+				width:130px;
+			}
+			
 
 			span{
 				font-size:0.9em;
@@ -106,8 +146,16 @@
 		}//create
 
 		.search{
-			width:72%;
+			width:280px;
 			float:right;
+
+			@include at-breakpoint($medium){
+				width:350px;
+			}
+			
+			@include at-breakpoint($large){
+				width:400px;
+			}
 
 			.input-group-addon{
 				background-color:white;
@@ -118,6 +166,12 @@
 	.content-section{
 		
 		margin-top:30px;
+
+		.orderby{
+			/*text-align:center;*/
+			margin-left:30px;
+		}
+
 
 	}//.content-section
 
@@ -132,6 +186,17 @@
 
 .setting{
 	
+	margin: auto;
+
+	@include at-breakpoint($medium){
+		width:500px;
+	}
+
+	@include at-breakpoint($large){
+		width:600px;
+	}
+
+
 	.title-header{
 		padding:3px 10px;
 		color: $gray;
@@ -158,6 +223,9 @@
 	.surveyForm{
 		overflow:auto;
 	}
+
+
+
 
 	.navi{
 		
