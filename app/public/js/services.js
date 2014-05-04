@@ -207,6 +207,156 @@
               ]
             }
           ]
+        }, {
+          id: 3,
+          newOption: "",
+          question: "Which one of the following girls is the hottest?",
+          category: "Beauty",
+          respondents: [8, 3, 2, 4, 5, 6, 7],
+          alreadyAnswered: false,
+          numOfFavorites: 1,
+          numOfFilters: 2,
+          totalResponses: 7,
+          created_at: 1398108212,
+          creator: 1,
+          creatorName: "Masanori",
+          photo: "/img/users/profile-pic.jpg",
+          options: [
+            {
+              title: 'Angelica',
+              count: 4,
+              answeredBy: [3, 2, 5, 8]
+            }, {
+              title: 'Boooze',
+              count: 3,
+              answeredBy: [4, 6, 7]
+            }
+          ],
+          targets: [
+            {
+              id: 1,
+              title: "Age",
+              question: "How old are you?",
+              lists: [
+                {
+                  option: "~ 10",
+                  answeredBy: []
+                }, {
+                  option: "11 ~ 20",
+                  answeredBy: [2, 5]
+                }, {
+                  option: "21 ~ 30",
+                  answeredBy: [3, 6, 7]
+                }, {
+                  option: "31 ~ 40",
+                  answeredBy: [4, 8]
+                }, {
+                  option: "41 ~ 50",
+                  answeredBy: []
+                }, {
+                  option: "51 ~ 60",
+                  answeredBy: []
+                }, {
+                  option: "61 ~ ",
+                  answeredBy: []
+                }
+              ]
+            }, {
+              id: 2,
+              title: "Ethnicity",
+              question: "What is your ethnicity?",
+              lists: [
+                {
+                  option: "Asian",
+                  answeredBy: [7]
+                }, {
+                  option: "Hispanic",
+                  answeredBy: [2]
+                }, {
+                  option: "Caucasian",
+                  answeredBy: [3, 6, 8]
+                }, {
+                  option: "African-American",
+                  answeredBy: [4, 5]
+                }
+              ]
+            }
+          ]
+        }, {
+          id: 4,
+          newOption: "",
+          question: "Which one of the following food is the best?",
+          category: "Lifestyle",
+          respondents: [8, 3, 2, 6, 7],
+          alreadyAnswered: false,
+          numOfFavorites: 1,
+          numOfFilters: 2,
+          totalResponses: 5,
+          created_at: 1398108212,
+          creator: 1,
+          creatorName: "Masanori",
+          photo: "/img/users/profile-pic.jpg",
+          options: [
+            {
+              title: 'Noodle',
+              count: 3,
+              answeredBy: [3, 2, 8]
+            }, {
+              title: 'Kimchi',
+              count: 2,
+              answeredBy: [6, 7]
+            }
+          ],
+          targets: [
+            {
+              id: 1,
+              title: "Age",
+              question: "How old are you?",
+              lists: [
+                {
+                  option: "~ 10",
+                  answeredBy: []
+                }, {
+                  option: "11 ~ 20",
+                  answeredBy: [2]
+                }, {
+                  option: "21 ~ 30",
+                  answeredBy: [3, 6, 7]
+                }, {
+                  option: "31 ~ 40",
+                  answeredBy: [8]
+                }, {
+                  option: "41 ~ 50",
+                  answeredBy: []
+                }, {
+                  option: "51 ~ 60",
+                  answeredBy: []
+                }, {
+                  option: "61 ~ ",
+                  answeredBy: []
+                }
+              ]
+            }, {
+              id: 2,
+              title: "Ethnicity",
+              question: "What is your ethnicity?",
+              lists: [
+                {
+                  option: "Asian",
+                  answeredBy: [7]
+                }, {
+                  option: "Hispanic",
+                  answeredBy: [2]
+                }, {
+                  option: "Caucasian",
+                  answeredBy: [3, 6, 8]
+                }, {
+                  option: "African-American",
+                  answeredBy: []
+                }
+              ]
+            }
+          ]
         }
       ];
     }).factory('User', function() {
