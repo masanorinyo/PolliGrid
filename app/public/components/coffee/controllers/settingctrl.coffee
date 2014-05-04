@@ -6,6 +6,7 @@ define ['underscore'], (_)->
 		$scope.user = User
 		$scope.isAccessedFromSetting = true
 		
+		
 		# shows which page is on
 		Setting.isSetting = true
 		
@@ -77,23 +78,33 @@ define ['underscore'], (_)->
 			)
 
 
+		$scope.openShareModal = (id)->
+			Setting.questionId = id
+			Setting.section = "setting/"+$scope.id+"/"+$scope.type
+			modalInstance 	= $modal.open(			
+				templateUrl : 'views/modals/shareModal.html'
+				controller 	: "ShareCtrl"
+				windowClass : "shareModal"
+			)			
+
+
 
 		# -------------------------- for initial load --------------------------#
 		do ()->
 			if $scope.type == "favorites" || $scope.type == "profile"
-				console.log 'i am favorite'
+				
 				showFavorites()
 
 			else if $scope.type == "answers"
-				console.log 'i am answers'
+				
 				showAnswers()
 
 			else if $scope.type == "questions"
-				console.log 'i am questions'
+				
 				showQuestions()
 
 			else if $scope.type == "filters"
-				console.log 'i am filter'
+				
 				showFilters()
 
 

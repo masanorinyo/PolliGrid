@@ -382,7 +382,8 @@
       var page;
       return page = {
         isSetting: false,
-        questionId: null
+        questionId: null,
+        section: null
       };
     });
   });

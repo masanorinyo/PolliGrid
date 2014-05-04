@@ -42,13 +42,13 @@
 	</div>
 	<div class="content-questions">
 		<ul class='content-cards'>
-			<p ng-show="!questions.length && type !='filters'" class="noContent">
+			<p ng-show="!questions.length" class="noContent">
 				Couldn't find anything
 			</p>
 			<li  ng-repeat="question in questions" 
 			 ng-controller="ListCtrl">
 
-				<div answered='question' submitted="submitted"  class="card card-large">
+				<div answered='question.alreadyAnswered' submitted="submitted"  class="card card-large">
 					
 					<!-- should make a directive for this -->
 					<div favorited="question" favorite="favorite" class="favorite-button" ng-click="fillStar(question)">
@@ -56,7 +56,7 @@
 						<i ng-show="favorite" class="glyphicon glyphicon-star"></i>
 					</div>
 
-					<div ui-sref=".share({id:question.id})" class="share-button">
+					<div ng-click="openShareModal(question.id)" class="share-button">
 						<i class="glyphicon glyphicon-share"></i>
 					</div>
 
@@ -71,7 +71,7 @@
 							Please select something
 						</p>
 
-						<form ng-submit="submitAnswer(answer,question)" id="surveyForm">
+						<form ng-submit="submitAnswer(answer,question)" class="surveyForm">
 							
 							<ul class="answers">
 								<li ng-hide="targetQ.isQuestionAnswered" class='answer' ng-repeat='option in question.options'>
@@ -119,7 +119,7 @@
 							Answer was changed
 						</p>
 
-						<form ng-submit="changeAnswer(answer[$index],filter)" id="surveyForm">
+						<form ng-submit="changeAnswer(answer[$index],filter)" class="surveyForm">
 							
 							<ul class="answers">
 								<li class='answer' ng-repeat='list in filter.lists'>

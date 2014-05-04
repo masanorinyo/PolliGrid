@@ -246,8 +246,19 @@ define(
 	  							console.log('modal is open')
 							
 							, ()->
-
+								
 								$location.path('/')
+
+								$timeout ->	
+									# reload the page
+									$state.transitionTo($state.current, $stateParams, {
+										reload: true
+										inherit: true
+										notify: true
+									})
+
+								,200,true
+								
 
 
 				.state 'home.question',
@@ -298,6 +309,7 @@ define(
 							
 							templateUrl :'views/partials/targetQuestions.html'
 							controller:'TargetAudienceCtrl'
+
 
 					
 

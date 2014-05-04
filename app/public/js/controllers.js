@@ -101,14 +101,15 @@
           "$q": $q
         });
       });
-    }).controller('DeepResultCtrl', function($scope, $injector, $modalInstance, $location, $timeout, $q) {
+    }).controller('DeepResultCtrl', function($scope, $injector, $modalInstance, $location, $timeout, $q, $state) {
       return require(['controllers/deepresult'], function(deepresult) {
         return $injector.invoke(deepresult, this, {
           "$scope": $scope,
           "$modalInstance": $modalInstance,
           "$location": $location,
           "$timeout": $timeout,
-          "$q": $q
+          "$q": $q,
+          "$state": $state
         });
       });
     }).controller('SettingCtrl', function($scope, $modal, $injector, $location, $timeout, $q) {

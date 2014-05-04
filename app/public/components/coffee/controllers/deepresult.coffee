@@ -1,5 +1,5 @@
 define ['underscore'], (_)->
-	($scope,$modalInstance,$stateParams,$location,$q,$timeout,Question,Setting)->
+	($scope,$modalInstance,$stateParams,$location,$q,$timeout,Question,Setting,$state)->
 		
 
 		# ----------------- Utility functions ----------------- #
@@ -479,8 +479,18 @@ define ['underscore'], (_)->
 		# ------------- Scope Function ------------- #
 
 		$scope.closeModal = ()->
+
 			$scope.$dismiss()
 
+			$timeout ->	
+				# reload the page
+				$state.transitionTo($state.current, $stateParams, {
+					reload: true
+					inherit: true
+					notify: true
+				})
+
+			,200,true
 
 
 		# -------------- Invoke Scope --------------#

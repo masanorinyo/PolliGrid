@@ -146,7 +146,7 @@ define ['angular','services'], (angular) ->
 				)
 			)
 
-		.controller 'DeepResultCtrl', ($scope, $injector,$modalInstance,$location,$timeout,$q)->
+		.controller 'DeepResultCtrl', ($scope, $injector,$modalInstance,$location,$timeout,$q,$state)->
 			require(['controllers/deepresult'], (deepresult)->
 				$injector.invoke(
 					deepresult, this,{
@@ -155,6 +155,7 @@ define ['angular','services'], (angular) ->
 						"$location" 	 		: $location
 						"$timeout" 				: $timeout
 						"$q" 					: $q
+						"$state" 				: $state
 					}
 				)
 			)

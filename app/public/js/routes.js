@@ -166,7 +166,14 @@
             }).result.then(function() {
               return console.log('modal is open');
             }, function() {
-              return $location.path('/');
+              $location.path('/');
+              return $timeout(function() {
+                return $state.transitionTo($state.current, $stateParams, {
+                  reload: true,
+                  inherit: true,
+                  notify: true
+                });
+              }, 200, true);
             });
           }
         }

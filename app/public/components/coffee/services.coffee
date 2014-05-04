@@ -367,6 +367,7 @@ define ['angular'], (angular) ->
 			page = 
 				isSetting 	: false
 				questionId	: null
+				section 	: null
 
 		# .factory 'Grid', ()->
 		# 	grid = 

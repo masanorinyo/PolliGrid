@@ -10,16 +10,6 @@
 		<li ng-controller="ListCtrl">
 			<div answered='answered' submitted="submitted"  class="card card-large">
 				
-				<!-- should make a directive for this -->
-				<div favorited="question" favorite="favorite" class="favorite-button" ng-click="fillStar(question)">
-					<i ng-show="!favorite" class="glyphicon glyphicon-star-empty"></i>
-					<i ng-show="favorite" class="glyphicon glyphicon-star"></i>
-				</div>
-	
-				<div ui-sref=".share({id:question.id})" class="share-button">
-					<i class="glyphicon glyphicon-share"></i>
-				</div>
-	
 				<div ng-hide="submitted" class="content">
 					
 					<p class='question'>

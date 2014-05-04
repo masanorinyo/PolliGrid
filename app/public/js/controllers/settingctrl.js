@@ -58,18 +58,24 @@
           windowClass: "deepResult"
         });
       };
+      $scope.openShareModal = function(id) {
+        var modalInstance;
+        Setting.questionId = id;
+        Setting.section = "setting/" + $scope.id + "/" + $scope.type;
+        return modalInstance = $modal.open({
+          templateUrl: 'views/modals/shareModal.html',
+          controller: "ShareCtrl",
+          windowClass: "shareModal"
+        });
+      };
       (function() {
         if ($scope.type === "favorites" || $scope.type === "profile") {
-          console.log('i am favorite');
           return showFavorites();
         } else if ($scope.type === "answers") {
-          console.log('i am answers');
           return showAnswers();
         } else if ($scope.type === "questions") {
-          console.log('i am questions');
           return showQuestions();
         } else if ($scope.type === "filters") {
-          console.log('i am filter');
           return showFilters();
         }
       })();

@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modalInstance, $stateParams, $location, $q, $timeout, Question, Setting) {
+    return function($scope, $modalInstance, $stateParams, $location, $q, $timeout, Question, Setting, $state) {
       var foundQuestion, getColor, getData, getPercentage, questionId;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
@@ -316,7 +316,14 @@
         });
       })();
       $scope.closeModal = function() {
-        return $scope.$dismiss();
+        $scope.$dismiss();
+        return $timeout(function() {
+          return $state.transitionTo($state.current, $stateParams, {
+            reload: true,
+            inherit: true,
+            notify: true
+          });
+        }, 200, true);
       };
       return $scope.$apply();
     };
