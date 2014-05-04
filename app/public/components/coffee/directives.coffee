@@ -152,6 +152,9 @@ define ['angular','controllers','underscore','jquery'], (angular,controllers,_,$
 
 
 
+
+
+
 						items.forEach (val, key)->
 							# key will play a role of index
 							starting = "<div class=\"content animated fadeInLeft\" ng-show=\""+key+"==filterNumber\">"
@@ -166,7 +169,7 @@ define ['angular','controllers','underscore','jquery'], (angular,controllers,_,$
 
 							newTemplate = starting.concat(template,closing)
 
-							console.log newTemplate
+							
 							newElement = angular.element(newTemplate.replace(/#OBJ#/g, attrs.items + '[' + key + ']'))
 							
 							$compile(newElement)(scope)

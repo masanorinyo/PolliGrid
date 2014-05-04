@@ -162,10 +162,10 @@ define ['underscore'], (_)->
 
 		if Setting.isSetting
 			questionId = Setting.questionId
-			console.log "Accessed from the setting page"
+			
 		else 
 			questionId = Number($stateParams.id)
-			console.log "Accessed from the main page"
+			
 		
 
 
@@ -284,7 +284,7 @@ define ['underscore'], (_)->
 				
 				# if the filter is empty, remove it
 				if sameIdFound.respondents.length == 0
-					console.log 'NO RESPONDENTS'
+					
 					filters = _.without filters,_.findWhere filters,{id:target.id}
 					
 			
@@ -342,7 +342,7 @@ define ['underscore'], (_)->
 						
 						sumOfFilteredData += obj.count
 
-					console.log "Number of filters added : "+sumOfFilteredData
+					
 
 					_.each $scope.filterGroup.answers, (obj)->
 
@@ -351,7 +351,7 @@ define ['underscore'], (_)->
 						
 						if isNaN(parseFloat(percentage))
 							percentage = 0
-							console.log percentage
+							
 						
 						filteredDataForDonut = [
 							
@@ -371,7 +371,7 @@ define ['underscore'], (_)->
 
 						$scope.donutDataFiltered.push(filteredDataForDonut)
 
-						console.log $scope.donutDataFiltered
+						
 
 				
 

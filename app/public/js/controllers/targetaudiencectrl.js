@@ -18,6 +18,9 @@
         var answeredIds, foundId, i, length, questionId, target;
         $scope.targetChecker = [];
         if ($scope.card !== void 0) {
+          if ($scope.question) {
+            $scope.card = $scope.question;
+          }
           length = $scope.card.targets.length;
           i = 0;
           answeredIds = _.pluck($scope.user.filterQuestionsAnswered, 'id');
@@ -42,8 +45,6 @@
             $scope.targetChecker.push(target);
             i++;
           }
-          console.count("makeTargetChecker was called :");
-          console.log($scope.targetChecker);
           return $scope.targetChecker;
         }
       };
@@ -84,11 +85,10 @@
           }
           i++;
         }
+        console.count("Checker was called for");
+        console.log("filterNumber");
+        console.log($scope.filterNumber);
         if (numOfAnswers === length) {
-          console.log("numOfAnswers");
-          console.log(numOfAnswers);
-          console.log("length ");
-          console.log(length);
           $scope.areAllQuestionAnswered = true;
           return $scope.filterNumber = -1;
         }
@@ -97,6 +97,8 @@
       $scope.areAllQuestionAnswered = false;
       $scope.filterNumber = 0;
       $scope.targetChecker = [];
+      console.count('test');
+      console.log(this);
       (function() {
         return checkFilterQuestionStatus('');
       })();
@@ -121,7 +123,6 @@
             return checkFilterQuestionStatus(answer);
           }).then(function() {
             skipThroughFilterQuestions();
-            console.log($scope.areAllQuestionAnswered);
             if ($scope.areAllQuestionAnswered) {
               return $scope.card.alreadyAnswered = true;
             }

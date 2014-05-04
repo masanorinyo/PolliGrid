@@ -69,7 +69,7 @@ define ['angular'], (angular) ->
 					
 					options 			: [
 							title : 'positive'
-							count : 4
+							count : 5
 							answeredBy :[3,2,5,8]
 						,
 							title : 'negative'
@@ -89,7 +89,7 @@ define ['angular'], (angular) ->
 									answeredBy 	: [2,5]
 								,
 									option 		: "21 ~ 30"
-									answeredBy 	: [3,6,7,1]
+									answeredBy 	: [3,6,7]
 								,
 									option 		: "31 ~ 40"
 									answeredBy 	: [4,8]
@@ -120,32 +120,33 @@ define ['angular'], (angular) ->
 									option 		: "African-American"
 									answeredBy 	: [4,5]
 							]
+						
 						
 					]
 				,
 					id 					: 2
 					newOption 			: ""
-					question 			: "Which one of the following best describes you best best describes you best describes you best describes you describes you"
-					category 			: "Lifestyle"
-					respondents 		: [8,3,2,4,5,6,7,9,1]
+					question 			: "Which one of the technologies is the best?"
+					category 			: "Technology"
+					respondents 		: [8,3,2,4,5,6,7]
 					alreadyAnswered 	: false
 					numOfFavorites 		: 1
 					numOfFilters 		: 2
-					totalResponses 		: 9
-					created_at			: 1398108212271
+					totalResponses 		: 7
+					created_at			: 1398108212
 					creator 			: 1
 					creatorName 		: "Masanori"
 					photo				: "/img/users/profile-pic.jpg"
 
 					
 					options 			: [
-							title : 'positive'
-							count : 5
-							answeredBy :[3,2,5,8,1]
-						,
-							title : 'negative'
+							title : 'Node'
 							count : 4
-							answeredBy :[4,6,7,9]
+							answeredBy :[3,2,5,8]
+						,
+							title : 'PHP'
+							count : 3
+							answeredBy :[4,6,7]
 					]
 					targets 			: [
 
@@ -154,13 +155,13 @@ define ['angular'], (angular) ->
 							question 		: "How old are you?"
 							lists:[
 									option 		: "~ 10"
-									answeredBy 	: [9]
+									answeredBy 	: []
 								,
 									option 		: "11 ~ 20"
 									answeredBy 	: [2,5]
 								,
 									option 		: "21 ~ 30"
-									answeredBy 	: [3,6,7,1]
+									answeredBy 	: [3,6,7]
 								,
 									option 		: "31 ~ 40"
 									answeredBy 	: [4,8]
@@ -180,7 +181,7 @@ define ['angular'], (angular) ->
 							question 		: "What is your ethnicity?"
 							lists:[
 									option 		: "Asian"
-									answeredBy 	: [7,9]
+									answeredBy 	: [7]
 								,
 									option 		: "Hispanic"
 									answeredBy 	: [2]
@@ -193,432 +194,7 @@ define ['angular'], (angular) ->
 							]
 						
 					]
-				,
-					id 					: 3
-					newOption 			: ""
-					question 			: "Which one of the following best describes you best best describes you best describes you best describes you describes you"
-					category 			: "Lifestyle"
-					respondents 		: [8,3,2,4,5,6,7,9,1]
-					alreadyAnswered 	: false
-					numOfFavorites 		: 1
-					numOfFilters 		: 2
-					totalResponses 		: 9
-					created_at			: 1398108212271
-					creator 			: 1
-					creatorName 		: "Masanori"
-					photo				: "/img/users/profile-pic.jpg"
-
-					
-					options 			: [
-							title : 'positive'
-							count : 5
-							answeredBy :[3,2,5,8,1]
-						,
-							title : 'negative'
-							count : 4
-							answeredBy :[4,6,7,9]
-					]
-					targets 			: [
-
-							id 				: 1
-							title 			: "Age"
-							question 		: "How old are you?"
-							lists:[
-									option 		: "~ 10"
-									answeredBy 	: [9]
-								,
-									option 		: "11 ~ 20"
-									answeredBy 	: [2,5]
-								,
-									option 		: "21 ~ 30"
-									answeredBy 	: [3,6,7,1]
-								,
-									option 		: "31 ~ 40"
-									answeredBy 	: [4,8]
-								,
-									option 		: "41 ~ 50"
-									answeredBy	: []
-								,
-									option 		: "51 ~ 60"
-									answeredBy 	: []
-								,
-									option 		: "61 ~ "
-									answeredBy	: []
-							]
-						,
-							id 				: 2
-							title 			: "Ethnicity"
-							question 		: "What is your ethnicity?"
-							lists:[
-									option 		: "Asian"
-									answeredBy 	: [7,9]
-								,
-									option 		: "Hispanic"
-									answeredBy 	: [2]
-								,
-									option 		: "Caucasian"
-									answeredBy 	: [3,6,8]
-								,
-									option 		: "African-American"
-									answeredBy 	: [4,5]
-							]
-						
-					]
-				,
-					id 					: 4
-					newOption 			: ""
-					question 			: "Which one of the following best describes you best best describes you best describes you best describes you describes you"
-					category 			: "Lifestyle"
-					respondents 		: [8,3,2,4,5,6,7,9,1]
-					alreadyAnswered 	: false
-					numOfFavorites 		: 1
-					numOfFilters 		: 2
-					totalResponses 		: 9
-					created_at			: 1398108212271
-					creator 			: 1
-					creatorName 		: "Masanori"
-					photo				: "/img/users/profile-pic.jpg"
-
-					
-					options 			: [
-							title : 'positive'
-							count : 5
-							answeredBy :[3,2,5,8,1]
-						,
-							title : 'negative'
-							count : 4
-							answeredBy :[4,6,7,9]
-					]
-					targets 			: [
-
-							id 				: 1
-							title 			: "Age"
-							question 		: "How old are you?"
-							lists:[
-									option 		: "~ 10"
-									answeredBy 	: [9]
-								,
-									option 		: "11 ~ 20"
-									answeredBy 	: [2,5]
-								,
-									option 		: "21 ~ 30"
-									answeredBy 	: [3,6,7,1]
-								,
-									option 		: "31 ~ 40"
-									answeredBy 	: [4,8]
-								,
-									option 		: "41 ~ 50"
-									answeredBy	: []
-								,
-									option 		: "51 ~ 60"
-									answeredBy 	: []
-								,
-									option 		: "61 ~ "
-									answeredBy	: []
-							]
-						,
-							id 				: 2
-							title 			: "Ethnicity"
-							question 		: "What is your ethnicity?"
-							lists:[
-									option 		: "Asian"
-									answeredBy 	: [7,9]
-								,
-									option 		: "Hispanic"
-									answeredBy 	: [2]
-								,
-									option 		: "Caucasian"
-									answeredBy 	: [3,6,8]
-								,
-									option 		: "African-American"
-									answeredBy 	: [4,5]
-							]
-						
-					]
-				,
-					id 					: 5
-					newOption 			: ""
-					question 			: "Which one of the following best describes you best best describes you best describes you best describes you describes you"
-					category 			: "Lifestyle"
-					respondents 		: [8,3,2,4,5,6,7,9,1]
-					alreadyAnswered 	: false
-					numOfFavorites 		: 1
-					numOfFilters 		: 2
-					totalResponses 		: 9
-					created_at			: 1398108212271
-					creator 			: 1
-					creatorName 		: "Masanori"
-					photo				: "/img/users/profile-pic.jpg"
-
-					
-					options 			: [
-							title : 'positive'
-							count : 5
-							answeredBy :[3,2,5,8,1]
-						,
-							title : 'negative'
-							count : 4
-							answeredBy :[4,6,7,9]
-					]
-					targets 			: [
-
-							id 				: 1
-							title 			: "Age"
-							question 		: "How old are you?"
-							lists:[
-									option 		: "~ 10"
-									answeredBy 	: [9]
-								,
-									option 		: "11 ~ 20"
-									answeredBy 	: [2,5]
-								,
-									option 		: "21 ~ 30"
-									answeredBy 	: [3,6,7,1]
-								,
-									option 		: "31 ~ 40"
-									answeredBy 	: [4,8]
-								,
-									option 		: "41 ~ 50"
-									answeredBy	: []
-								,
-									option 		: "51 ~ 60"
-									answeredBy 	: []
-								,
-									option 		: "61 ~ "
-									answeredBy	: []
-							]
-						,
-							id 				: 2
-							title 			: "Ethnicity"
-							question 		: "What is your ethnicity?"
-							lists:[
-									option 		: "Asian"
-									answeredBy 	: [7,9]
-								,
-									option 		: "Hispanic"
-									answeredBy 	: [2]
-								,
-									option 		: "Caucasian"
-									answeredBy 	: [3,6,8]
-								,
-									option 		: "African-American"
-									answeredBy 	: [4,5]
-							]
-						
-					]
-				,
-					id 					: 6
-					newOption 			: ""
-					question 			: "Which one of the following best describes you best best describes you best describes you best describes you describes you"
-					category 			: "Lifestyle"
-					respondents 		: [8,3,2,4,5,6,7,9,1]
-					alreadyAnswered 	: false
-					numOfFavorites 		: 1
-					numOfFilters 		: 2
-					totalResponses 		: 9
-					created_at			: 1398108212271
-					creator 			: 1
-					creatorName 		: "Masanori"
-					photo				: "/img/users/profile-pic.jpg"
-
-					
-					options 			: [
-							title : 'positive'
-							count : 5
-							answeredBy :[3,2,5,8,1]
-						,
-							title : 'negative'
-							count : 4
-							answeredBy :[4,6,7,9]
-					]
-					targets 			: [
-
-							id 				: 1
-							title 			: "Age"
-							question 		: "How old are you?"
-							lists:[
-									option 		: "~ 10"
-									answeredBy 	: [9]
-								,
-									option 		: "11 ~ 20"
-									answeredBy 	: [2,5]
-								,
-									option 		: "21 ~ 30"
-									answeredBy 	: [3,6,7,1]
-								,
-									option 		: "31 ~ 40"
-									answeredBy 	: [4,8]
-								,
-									option 		: "41 ~ 50"
-									answeredBy	: []
-								,
-									option 		: "51 ~ 60"
-									answeredBy 	: []
-								,
-									option 		: "61 ~ "
-									answeredBy	: []
-							]
-						,
-							id 				: 2
-							title 			: "Ethnicity"
-							question 		: "What is your ethnicity?"
-							lists:[
-									option 		: "Asian"
-									answeredBy 	: [7,9]
-								,
-									option 		: "Hispanic"
-									answeredBy 	: [2]
-								,
-									option 		: "Caucasian"
-									answeredBy 	: [3,6,8]
-								,
-									option 		: "African-American"
-									answeredBy 	: [4,5]
-							]
-						
-					]
-				,
-					id 					: 7
-					newOption 			: ""
-					question 			: "Which one of the following best describes you best best describes you best describes you best describes you describes you"
-					category 			: "Lifestyle"
-					respondents 		: [8,3,2,4,5,6,7,9,1]
-					alreadyAnswered 	: false
-					numOfFavorites 		: 1
-					numOfFilters 		: 2
-					totalResponses 		: 9
-					created_at			: 1398108212271
-					creator 			: 1
-					creatorName 		: "Masanori"
-					photo				: "/img/users/profile-pic.jpg"
-
-					
-					options 			: [
-							title : 'positive'
-							count : 5
-							answeredBy :[3,2,5,8,1]
-						,
-							title : 'negative'
-							count : 4
-							answeredBy :[4,6,7,9]
-					]
-					targets 			: [
-
-							id 				: 1
-							title 			: "Age"
-							question 		: "How old are you?"
-							lists:[
-									option 		: "~ 10"
-									answeredBy 	: [9]
-								,
-									option 		: "11 ~ 20"
-									answeredBy 	: [2,5]
-								,
-									option 		: "21 ~ 30"
-									answeredBy 	: [3,6,7,1]
-								,
-									option 		: "31 ~ 40"
-									answeredBy 	: [4,8]
-								,
-									option 		: "41 ~ 50"
-									answeredBy	: []
-								,
-									option 		: "51 ~ 60"
-									answeredBy 	: []
-								,
-									option 		: "61 ~ "
-									answeredBy	: []
-							]
-						,
-							id 				: 2
-							title 			: "Ethnicity"
-							question 		: "What is your ethnicity?"
-							lists:[
-									option 		: "Asian"
-									answeredBy 	: [7,9]
-								,
-									option 		: "Hispanic"
-									answeredBy 	: [2]
-								,
-									option 		: "Caucasian"
-									answeredBy 	: [3,6,8]
-								,
-									option 		: "African-American"
-									answeredBy 	: [4,5]
-							]
-						
-					]
-				,
-					id 					: 8
-					newOption 			: ""
-					question 			: "Which one of the following best describes you best best describes you best describes you best describes you describes you"
-					category 			: "Lifestyle"
-					respondents 		: [8,3,2,4,5,6,7,9,1]
-					alreadyAnswered 	: false
-					numOfFavorites 		: 1
-					numOfFilters 		: 2
-					totalResponses 		: 9
-					created_at			: 1398108212271
-					creator 			: 1
-					creatorName 		: "Masanori"
-					photo				: "/img/users/profile-pic.jpg"
-
-					
-					options 			: [
-							title : 'positive'
-							count : 5
-							answeredBy :[3,2,5,8,1]
-						,
-							title : 'negative'
-							count : 4
-							answeredBy :[4,6,7,9]
-					]
-					targets 			: [
-
-							id 				: 1
-							title 			: "Age"
-							question 		: "How old are you?"
-							lists:[
-									option 		: "~ 10"
-									answeredBy 	: [9]
-								,
-									option 		: "11 ~ 20"
-									answeredBy 	: [2,5]
-								,
-									option 		: "21 ~ 30"
-									answeredBy 	: [3,6,7,1]
-								,
-									option 		: "31 ~ 40"
-									answeredBy 	: [4,8]
-								,
-									option 		: "41 ~ 50"
-									answeredBy	: []
-								,
-									option 		: "51 ~ 60"
-									answeredBy 	: []
-								,
-									option 		: "61 ~ "
-									answeredBy	: []
-							]
-						,
-							id 				: 2
-							title 			: "Ethnicity"
-							question 		: "What is your ethnicity?"
-							lists:[
-									option 		: "Asian"
-									answeredBy 	: [7,9]
-								,
-									option 		: "Hispanic"
-									answeredBy 	: [2]
-								,
-									option 		: "Caucasian"
-									answeredBy 	: [3,6,8]
-								,
-									option 		: "African-American"
-									answeredBy 	: [4,5]
-							]
-						
-					]
+				
 			]
 		.factory 'User', ()->
 			user = 
@@ -632,8 +208,8 @@ define ['angular'], (angular) ->
 				favorites 				: [1]
 				questionMade 			: [1]
 				questionsAnswered 		: [
-						id 		: 2
-						answer 	: "positive"
+						# id 		: 2
+						# answer 	: "positive"
 				]
 				filterQuestionsAnswered : [
 						# id 		: 1

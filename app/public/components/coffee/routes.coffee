@@ -256,7 +256,7 @@ define(
 							$location.path('/')
 
 						else
-
+							
 							$modal.open(
 							
 								templateUrl : 'views/modals/questionModal.html'

@@ -21,6 +21,11 @@ define ['underscore'], (_)->
 			
 			# get how many filter questions the question has
 			if $scope.card != undefined
+
+				if $scope.question
+					$scope.card = $scope.question
+
+
 			
 				length = $scope.card.targets.length
 				i=0
@@ -28,6 +33,8 @@ define ['underscore'], (_)->
 
 				# get which question the user already answered to
 				answeredIds = _.pluck $scope.user.filterQuestionsAnswered, 'id'
+
+
 
 			if length 						
 				while i < length
@@ -65,10 +72,8 @@ define ['underscore'], (_)->
 
 					i++
 
-				console.count "makeTargetChecker was called :"
-				console.log $scope.targetChecker
 				
-
+				
 				return $scope.targetChecker
 
 		# determine the initial filter questions
@@ -81,6 +86,8 @@ define ['underscore'], (_)->
 			length = $scope.targetChecker.length
 			i = 0
 			
+
+
 			# keep skipping the filter question until it hits 
 			# the question which has not been answered.
 			while i < length
@@ -124,12 +131,11 @@ define ['underscore'], (_)->
 				
 
 		# check if all of the filter question is answered
-		checkIfEverythingAnswered = ()->
+		checkIfEverythingAnswered = ->
 			
 			length = $scope.targetChecker.length
 			i=0
 			numOfAnswers = 0
-
 
 
 			while i < length
@@ -141,20 +147,22 @@ define ['underscore'], (_)->
 				i++
 
 
-			
+			console.count "Checker was called for"
+			console.log "filterNumber"
+			console.log $scope.filterNumber
+				
 			
 			# if the number of filter questions and 
 			# number of filter questions answered
 			# make allQuestionAnswered true, which show the result section
 			if numOfAnswers == length
 
-				console.log "numOfAnswers"
-				console.log numOfAnswers
-				console.log "length "
-				console.log length 
 
 				$scope.areAllQuestionAnswered = true
 				$scope.filterNumber = -1
+
+			
+
 				
 
 		
@@ -193,11 +201,13 @@ define ['underscore'], (_)->
 		
 
 		# inital loading - to show results of the questions users already answered
+		console.count 'test'
+		console.log this
 		do ()->
 
 			checkFilterQuestionStatus('')
 			# checkIfQuestionAlaredyAnswered()
-			#skipThroughFilterQuestions()
+			# skipThroughFilterQuestions()
 			
 
 		# ------------------ Scope funcitons ------------------ #
@@ -245,7 +255,7 @@ define ['underscore'], (_)->
 						# skip the filter question which is already answered
 						skipThroughFilterQuestions()
 							
-						console.log $scope.areAllQuestionAnswered
+						
 
 						# if everything is answered, show result
 						if $scope.areAllQuestionAnswered

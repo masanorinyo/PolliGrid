@@ -27,6 +27,8 @@
           $scope.myChartData.push(data);
           i++;
         }
+        console.log("$scope.myChartData");
+        console.log($scope.myChartData);
       };
       $scope.myChartData = [];
       if ($scope.isAccessedFromSetting !== void 0 || $scope.isAccessedFromSetting) {
@@ -48,7 +50,10 @@
         foundQuestion = _.findWhere(Question, {
           id: questionId
         });
-        $scope.card = foundQuestion;
+        $scope.question = foundQuestion;
+        $scope.answered = _.find(foundQuestion.respondents, function(id) {
+          return id === User.id;
+        });
       } else {
         $scope.cards = Question;
       }
@@ -62,6 +67,9 @@
       $scope.favorite = false;
       (function() {
         var alreadyAnswered;
+        if ($scope.question) {
+          $scope.card = $scope.question;
+        }
         alreadyAnswered = _.find(_.pluck($scope.user.questionsAnswered, 'id'), function(id) {
           if ($scope.card !== void 0) {
             return Number($scope.card.id) === Number(id);
@@ -74,13 +82,11 @@
       })();
       $scope.submitAnswer = function(choice, question) {
         var answer;
-        console.log(question);
         if (choice === "" || !choice) {
           return $scope.warning = true;
         } else {
           $scope.warning = false;
           $scope.$broadcast('answerSubmitted', 'submitted');
-          console.log(question.respondents);
           question.respondents.push($scope.user.id);
           choice.answeredBy.push($scope.user.id);
           choice.count++;
@@ -91,9 +97,7 @@
           };
           $scope.user.questionsAnswered.push(answer);
           $scope.submitted = true;
-          getData();
-          console.log(User);
-          return console.log(Question);
+          return getData();
         }
       };
       $scope.fillStar = function(question) {
@@ -102,18 +106,16 @@
           $scope.favorite = !$scope.favorite;
           if ($scope.favorite) {
             $scope.user.favorites.push(question.id);
-            question.numOfFavorites++;
+            return question.numOfFavorites++;
           } else {
             index = $scope.user.favorites.indexOf(question.id);
             $scope.user.favorites.splice(index, 1);
-            question.numOfFavorites--;
+            return question.numOfFavorites--;
           }
         } else {
           Error.auth = "Please sign up to proceed";
-          console.log(Error.auth);
-          $location.path('/signup');
+          return $location.path('/signup');
         }
-        return console.log(User);
       };
       $scope.$on('resetAnswer', function(question) {
         var answers, foundAnswerId, foundAnswered, foundOption, index, indexOfRespondents, optionIndex;

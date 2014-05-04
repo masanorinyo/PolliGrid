@@ -107,10 +107,8 @@
       };
       if (Setting.isSetting) {
         questionId = Setting.questionId;
-        console.log("Accessed from the setting page");
       } else {
         questionId = Number($stateParams.id);
-        console.log("Accessed from the main page");
       }
       foundQuestion = _.findWhere(Question, {
         id: questionId
@@ -180,7 +178,6 @@
           });
           sameIdFound.respondents = _.difference(sameIdFound.respondents, answer.answeredBy);
           if (sameIdFound.respondents.length === 0) {
-            console.log('NO RESPONDENTS');
             filters = _.without(filters, _.findWhere(filters, {
               id: target.id
             }));
@@ -222,13 +219,11 @@
           _.each($scope.filterGroup.answers, function(obj) {
             return sumOfFilteredData += obj.count;
           });
-          console.log("Number of filters added : " + sumOfFilteredData);
           return _.each($scope.filterGroup.answers, function(obj) {
             var filteredDataForDonut, percentage;
             percentage = parseInt(getPercentage(obj.count, sumOfFilteredData));
             if (isNaN(parseFloat(percentage))) {
               percentage = 0;
-              console.log(percentage);
             }
             filteredDataForDonut = [
               {
@@ -241,8 +236,7 @@
                 color: "rgb(235,235,235)"
               }
             ];
-            $scope.donutDataFiltered.push(filteredDataForDonut);
-            return console.log($scope.donutDataFiltered);
+            return $scope.donutDataFiltered.push(filteredDataForDonut);
           });
         });
         return defer.resolve();

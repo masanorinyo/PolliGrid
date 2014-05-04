@@ -31,6 +31,9 @@ define ['underscore'], (_)->
 
 				$scope.myChartData.push data
 				i++
+
+			console.log "$scope.myChartData"	
+			console.log $scope.myChartData
 			return
 
 
@@ -82,8 +85,15 @@ define ['underscore'], (_)->
 			
 			questionId = Number($stateParams.id)
 			foundQuestion = _.findWhere Question,{id:questionId}
-			$scope.card = foundQuestion	
+			$scope.question = foundQuestion	
 
+			$scope.answered = _.find foundQuestion.respondents,(id)->
+				id == User.id
+			
+
+
+
+			
 
 		else
 
@@ -111,6 +121,10 @@ define ['underscore'], (_)->
 		
 		do ()->
 		
+			if $scope.question
+				$scope.card = $scope.question
+
+
 			alreadyAnswered = _.find _.pluck($scope.user.questionsAnswered,'id'),(id)->
 				
 				if $scope.card != undefined
@@ -123,11 +137,12 @@ define ['underscore'], (_)->
 				getData()
 
 
+
 		# this handles user's question answer submission 
 		$scope.submitAnswer = (choice,question)->
 
 			
-			console.log question
+			
 
 
 			if choice is "" or !choice
@@ -145,7 +160,7 @@ define ['underscore'], (_)->
 
 				# by adding user id to the question respondents,
 				# users won't have to answer to the question again
-				console.log question.respondents
+				
 				question.respondents.push($scope.user.id)
 
 				# update the option related data 
@@ -164,8 +179,7 @@ define ['underscore'], (_)->
 
 				getData()
 
-				console.log User
-				console.log Question
+				
 
 		$scope.fillStar = (question)->
 			
@@ -188,10 +202,10 @@ define ['underscore'], (_)->
 			else 
 
 				Error.auth = "Please sign up to proceed"
-				console.log Error.auth
+				
 				$location.path('/signup')
 				
-			console.log User
+			
 			
 		# ------------------ IO listeners ------------------ #
 			
@@ -287,7 +301,7 @@ define ['underscore'], (_)->
 
 			$scope.$dismiss()
 			
-		
+				
 
 		# ------------------ invoke the scope ------------------ #
 		$scope.$apply()
