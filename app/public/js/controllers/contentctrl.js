@@ -1,10 +1,11 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, Question, $window) {
+    return function($scope, Question, $window, $stateParams, $timeout, $state) {
       $scope.questions = Question;
       $scope.order = "Recent";
       $scope.reverse = false;
       $scope.searchFocused = false;
+      $scope.filteredQuestions = [];
       $scope.searchByCategory = function(category) {
         return $scope.searchQuestion = category;
       };
@@ -16,26 +17,39 @@
         return $scope.searchFocused = false;
       };
       $scope.sortBy = function(order) {
-        console.log(order);
-        switch (order) {
-          case "Recent":
-            $scope.orderBy = "created_at";
-            $scope.reverse = true;
-            return $scope.order = "Recent";
-          case "Old":
-            $scope.orderBy = "created_at";
-            $scope.reverse = false;
-            return $scope.order = "Old";
-          case "Most voted":
-            $scope.orderBy = "totalResponses";
-            $scope.reverse = true;
-            return $scope.order = "Most voted";
-          case "Most popular":
-            $scope.orderBy = "numOfFavorites";
-            $scope.reverse = true;
-            return $scope.order = "Most popular";
-        }
+        $scope.questions = [];
+        console.log(Question);
+        return $timeout(function() {
+          switch (order) {
+            case "Recent":
+              $scope.order = "Recent";
+              return Question = _.sortBy(Question, function(object) {
+                return -object.created_at;
+              });
+            case "Old":
+              $scope.order = "Old";
+              return Question = _.sortBy(Question, function(object) {
+                return object.created_at;
+              });
+            case "Most voted":
+              $scope.order = "Most voted";
+              return Question = _.sortBy(Question, function(object) {
+                return -object.totalResponses;
+              });
+            case "Most popular":
+              $scope.order = "Most popular";
+              return Question = _.sortBy(Question, function(object) {
+                return -object.numOfFavorites;
+              });
+          }
+        }, 100, true);
       };
+      $scope.changeInQuestions = function() {
+        return Question;
+      };
+      $scope.$watch($scope.changeInQuestions, function(newVal) {
+        return $scope.questions = newVal;
+      });
       $scope.parentSize = {
         width: 0,
         height: 0

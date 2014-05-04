@@ -27,8 +27,6 @@
           $scope.myChartData.push(data);
           i++;
         }
-        console.log("$scope.myChartData");
-        console.log($scope.myChartData);
       };
       $scope.myChartData = [];
       if ($scope.isAccessedFromSetting !== void 0 || $scope.isAccessedFromSetting) {
@@ -121,7 +119,6 @@
         var answers, foundAnswerId, foundAnswered, foundOption, index, indexOfRespondents, optionIndex;
         console.clear();
         console.trace();
-        console.count("Reset was called:");
         $scope.submitted = false;
         $scope.card.totalResponses--;
         indexOfRespondents = $scope.card.respondents.indexOf($scope.user.id);
@@ -154,7 +151,7 @@
           $location.path('/');
           return $state.transitionTo($state.current, $stateParams, {
             reload: true,
-            inherit: false,
+            inherit: true,
             notify: true
           });
         }, 100, true);

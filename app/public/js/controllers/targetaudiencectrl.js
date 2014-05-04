@@ -85,9 +85,6 @@
           }
           i++;
         }
-        console.count("Checker was called for");
-        console.log("filterNumber");
-        console.log($scope.filterNumber);
         if (numOfAnswers === length) {
           $scope.areAllQuestionAnswered = true;
           return $scope.filterNumber = -1;
@@ -97,8 +94,6 @@
       $scope.areAllQuestionAnswered = false;
       $scope.filterNumber = 0;
       $scope.targetChecker = [];
-      console.count('test');
-      console.log(this);
       (function() {
         return checkFilterQuestionStatus('');
       })();

@@ -51,13 +51,15 @@
           "$timeout": $timeout
         });
       });
-    }).controller('CreateCtrl', function($scope, $injector, $modalInstance, $location, $timeout) {
+    }).controller('CreateCtrl', function($scope, $injector, $modalInstance, $location, $timeout, $state, $stateParams) {
       return require(['controllers/createctrl'], function(createctrl) {
         return $injector.invoke(createctrl, this, {
           "$scope": $scope,
           "$modalInstance": $modalInstance,
           "$location": $location,
-          "$timeout": $timeout
+          "$timeout": $timeout,
+          "$state": $state,
+          "$stateParams": $stateParams
         });
       });
     }).controller('FilterCtrl', function($scope, $injector, $timeout) {
@@ -74,10 +76,13 @@
           "$timeout": $timeout
         });
       });
-    }).controller('ContentCtrl', function($scope, $injector) {
+    }).controller('ContentCtrl', function($scope, $injector, $stateParams, $timeout, $state) {
       return require(['controllers/contentctrl'], function(contentctrl) {
         return $injector.invoke(contentctrl, this, {
-          "$scope": $scope
+          "$scope": $scope,
+          "$stateParams": $stateParams,
+          "$timeout": $timeout,
+          "$state": $state
         });
       });
     }).controller('ListCtrl', function($scope, $q, $location, $injector) {

@@ -9,7 +9,6 @@
       };
       $scope.openPhotoModal = function() {
         var modalInstance;
-        console.log('test');
         return modalInstance = $modal.open({
           templateUrl: "views/modals/changePhotoModal.html",
           controller: ChangePhotoCtrl

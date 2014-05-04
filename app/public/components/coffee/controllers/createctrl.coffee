@@ -1,5 +1,5 @@
 define ['underscore'], ( _ )->
-	($scope,$modalInstance,$location,$timeout,Filters,Question,User)->
+	($scope,$modalInstance,$location,$timeout,Filters,Question,User,$state,$stateParams)->
 		
 		# --------------------- Functions for utility --------------------- #
 		
@@ -74,10 +74,21 @@ define ['underscore'], ( _ )->
 		
 		$scope.closeModal = ()->
 
+			
 			$scope.$dismiss()
+			$location.path('/')
 
 			$timeout ->
-				$location.path('/')
+				
+				
+				# reload the page
+				$state.transitionTo($state.current, $stateParams, {
+					reload: true
+					inherit: true
+					notify: true
+				})
+
+			,500,true
 
 		
 		# -- for create question section --#
@@ -204,9 +215,8 @@ define ['underscore'], ( _ )->
 			newQuestion.creator = User.id
 
 
+			Question.unshift(newQuestion)
 
-
-			questions.unshift(newQuestion)
 			utility.isQuestionCreated 		= false
 			utility.isQuestionCompleted 	= true			
 

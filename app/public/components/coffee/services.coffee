@@ -58,10 +58,10 @@ define ['angular'], (angular) ->
 					category 			: "Lifestyle"
 					respondents 		: [8,3,2,4,5,6,7,9]
 					alreadyAnswered 	: false
-					numOfFavorites 		: 1
+					numOfFavorites 		: 4
 					numOfFilters 		: 2
 					totalResponses 		: 8
-					created_at			: 1398108212271
+					created_at			: 1398108220
 					creator 			: 1
 					creatorName 		: "Masanori"
 					photo				: "/img/users/profile-pic.jpg"
@@ -130,7 +130,7 @@ define ['angular'], (angular) ->
 					category 			: "Technology"
 					respondents 		: [8,3,2,4,5,6,7]
 					alreadyAnswered 	: false
-					numOfFavorites 		: 1
+					numOfFavorites 		: 3
 					numOfFilters 		: 2
 					totalResponses 		: 7
 					created_at			: 1398108212
@@ -201,7 +201,7 @@ define ['angular'], (angular) ->
 					category 			: "Beauty"
 					respondents 		: [8,3,2,4,5,6,7]
 					alreadyAnswered 	: false
-					numOfFavorites 		: 1
+					numOfFavorites 		: 2
 					numOfFilters 		: 2
 					totalResponses 		: 7
 					created_at			: 1398108212
@@ -270,11 +270,11 @@ define ['angular'], (angular) ->
 					newOption 			: ""
 					question 			: "Which one of the following food is the best?"
 					category 			: "Lifestyle"
-					respondents 		: [8,3,2,6,7]
+					respondents 		: [8,3,2,6,7,9,10,11,12,13]
 					alreadyAnswered 	: false
 					numOfFavorites 		: 1
 					numOfFilters 		: 2
-					totalResponses 		: 5
+					totalResponses 		: 10
 					created_at			: 1398108212
 					creator 			: 1
 					creatorName 		: "Masanori"
@@ -348,7 +348,7 @@ define ['angular'], (angular) ->
 				password 				: 'test'
 				profilePic 				: "/img/users/profile-pic.jpg"
 				isLoggedIn 				: true
-				favorites 				: [1]
+				favorites 				: []
 				questionMade 			: [1]
 				questionsAnswered 		: [
 						# id 		: 2

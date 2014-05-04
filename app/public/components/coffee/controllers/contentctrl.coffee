@@ -1,13 +1,16 @@
 define ['underscore'], (_)->
-	($scope,Question,$window)->
+	($scope,Question,$window,$stateParams,$timeout,$state)->
 
 		# ----------------- Scope functions and variables ----------------- #
 		
 		# ***************  Models *************** #
+		
 		$scope.questions = Question
+
 		$scope.order = "Recent"
 		$scope.reverse = false
 		$scope.searchFocused = false
+		$scope.filteredQuestions = []
 
 		$scope.searchByCategory = (category)->
 
@@ -26,36 +29,45 @@ define ['underscore'], (_)->
 
 
 		$scope.sortBy = (order)->
-			console.log order
-			switch order
-				when "Recent"
-					$scope.orderBy = "created_at"
-					$scope.reverse = true
-					$scope.order = "Recent"
+			$scope.questions = []
 
-				when "Old"
-					$scope.orderBy = "created_at"
-					$scope.reverse = false
-					$scope.order = "Old"
+			console.log Question
 
-				when "Most voted"
-					$scope.orderBy = "totalResponses"
-					$scope.reverse = true
-					$scope.order = "Most voted"
+			$timeout ->
+				switch order
+					when "Recent"
+						$scope.order = "Recent"
+						Question = _.sortBy Question,(object)-> -object.created_at
+						
+						
+					when "Old"
+						$scope.order = "Old"
+						Question = _.sortBy Question,(object)-> object.created_at
+						
 
-				when "Most popular"
-					$scope.orderBy = "numOfFavorites"
-					$scope.reverse = true
-					$scope.order = "Most popular"
-				
+					when "Most voted"
+						$scope.order = "Most voted"
+						Question= _.sortBy Question,(object)-> -object.totalResponses
+						
+
+					when "Most popular"
+						$scope.order = "Most popular"
+						Question = _.sortBy Question,(object)-> -object.numOfFavorites
+						
+
+			,100,true
+
+		$scope.changeInQuestions = ->
+			return Question	
+
+		$scope.$watch $scope.changeInQuestions, (newVal)->
+			
+			$scope.questions = newVal	
 
 		$scope.parentSize = 
 			width  : 0
 			height : 0
 		
-
-
-			
 
 		$scope.orders = [
 			"Recent"

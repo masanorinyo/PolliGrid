@@ -35,14 +35,13 @@
 	<div class="orderby gray">
 		Order by - {{order}}
 	</div>
+
+	<div ng-show="!filteredQuestions.length" class="noContent">
+		Couldn't find anything
+	</div>
+	
 	<ul deckgrid source="questions" class="deckgrid content-cards">
 		
-		<!-- show this when there are no questions -->
-		<!-- <p ng-show="!filteredQuestions.length" class="noContent">
-			Couldn't find anything
-		</p>	 -->
-
-		<!-- ng-repeat="question in filteredQuestions = (questions | filter:searchQuestion | orderBy:orderBy:reverse)" -->
 		<li  ng-controller="ListCtrl">
 			
 			<div answered='card.alreadyAnswered' submitted="submitted"  class="card card-large">

@@ -100,7 +100,7 @@
             templateUrl: 'views/partials/shareQuestion.html'
           }
         },
-        onEnter: function($state, $modal, $location, $timeout, User, Error) {
+        onEnter: function($state, $modal, $location, $stateParams, $timeout, User, Error) {
           if (!User.isLoggedIn) {
             Error.auth = 'Please sign up to proceed';
             return $timeout(function() {
@@ -114,7 +114,14 @@
             }).result.then(function() {
               return console.log('modal is open');
             }, function() {
-              return $location.path('/');
+              $location.path('/');
+              return $timeout(function() {
+                return $state.transitionTo($state.current, $stateParams, {
+                  reload: true,
+                  inherit: true,
+                  notify: true
+                });
+              }, 200, true);
             });
           }
         }

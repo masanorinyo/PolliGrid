@@ -146,7 +146,7 @@ define(
 
 							templateUrl:'views/partials/shareQuestion.html'
 
-					onEnter:($state,$modal,$location,$timeout,User,Error)->
+					onEnter:($state,$modal,$location,$stateParams,$timeout,User,Error)->
 						if !User.isLoggedIn
 							
 							Error.auth = 'Please sign up to proceed'
@@ -169,7 +169,18 @@ define(
 	  							console.log('modal is open')
 							
 							, ()->
+								
 								$location.path('/')
+
+								$timeout ->	
+									# reload the page
+									$state.transitionTo($state.current, $stateParams, {
+										reload: true
+										inherit: true
+										notify: true
+									})
+
+								,200,true
 
 				.state 'home.share',
 					url:'share/:id'
@@ -256,7 +267,7 @@ define(
 							$location.path('/')
 
 						else
-							
+
 							$modal.open(
 							
 								templateUrl : 'views/modals/questionModal.html'

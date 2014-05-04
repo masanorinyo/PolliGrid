@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User) {
+    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User, $state, $stateParams) {
       var findSameOption, message, newQuestion, questions, targets, utility;
       findSameOption = function(item) {
         if (item.title === newQuestion.newOption) {
@@ -46,9 +46,14 @@
       };
       $scope.closeModal = function() {
         $scope.$dismiss();
+        $location.path('/');
         return $timeout(function() {
-          return $location.path('/');
-        });
+          return $state.transitionTo($state.current, $stateParams, {
+            reload: true,
+            inherit: true,
+            notify: true
+          });
+        }, 500, true);
       };
       $scope.createOption = function(option) {
         var newlyCreatedOption, sameOptionFound;
@@ -117,7 +122,7 @@
         newQuestion.creatorName = User.profilePic;
         newQuestion.id = Math.random();
         newQuestion.creator = User.id;
-        questions.unshift(newQuestion);
+        Question.unshift(newQuestion);
         utility.isQuestionCreated = false;
         return utility.isQuestionCompleted = true;
       };

@@ -14,7 +14,7 @@ define ['underscore'], (_)->
 
 
 		$scope.openPhotoModal = ->
-			console.log 'test'
+			
 			modalInstance = $modal.open(
 				templateUrl:"views/modals/changePhotoModal.html"
 				controller : ChangePhotoCtrl				

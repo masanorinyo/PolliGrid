@@ -32,8 +32,7 @@ define ['underscore'], (_)->
 				$scope.myChartData.push data
 				i++
 
-			console.log "$scope.myChartData"	
-			console.log $scope.myChartData
+			
 			return
 
 
@@ -89,7 +88,7 @@ define ['underscore'], (_)->
 
 			$scope.answered = _.find foundQuestion.respondents,(id)->
 				id == User.id
-			
+
 
 
 
@@ -205,7 +204,7 @@ define ['underscore'], (_)->
 				
 				$location.path('/signup')
 				
-			
+		
 			
 		# ------------------ IO listeners ------------------ #
 			
@@ -213,7 +212,7 @@ define ['underscore'], (_)->
 		$scope.$on 'resetAnswer',(question)->
 			console.clear()
 			console.trace()
-			console.count "Reset was called:"
+			
 
 			
 			
@@ -290,7 +289,7 @@ define ['underscore'], (_)->
 				# reload the page
 				$state.transitionTo($state.current, $stateParams, {
 					reload: true
-					inherit: false
+					inherit: true
 					notify: true
 				})
 

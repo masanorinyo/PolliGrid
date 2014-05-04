@@ -145,11 +145,6 @@ define ['underscore'], (_)->
 					numOfAnswers++ 
 					
 				i++
-
-
-			console.count "Checker was called for"
-			console.log "filterNumber"
-			console.log $scope.filterNumber
 				
 			
 			# if the number of filter questions and 
@@ -201,8 +196,7 @@ define ['underscore'], (_)->
 		
 
 		# inital loading - to show results of the questions users already answered
-		console.count 'test'
-		console.log this
+		
 		do ()->
 
 			checkFilterQuestionStatus('')
