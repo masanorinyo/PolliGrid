@@ -27,6 +27,7 @@
     "requirejs-domready": "*",
     "underscore": "~1.6.0",
     "angular-bootstrap": "0.10.0",
-    "angular-deckgrid": "~0.4.3"
+    "angular-deckgrid": "~0.4.3",
+    "ngInfiniteScroll": "~1.1.0"
   }
 }

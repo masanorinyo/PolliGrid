@@ -16,7 +16,9 @@ require.config
 		"angular-bootstrap"		: "../vendors/angular-bootstrap/ui-bootstrap-tpls.min"
 		"domReady" 	 			: "../vendors/requirejs-domready/domready"
 		"underscore" 	 		: "../vendors/underscore/underscore"
-		"angular-deckgrid" 		: "../vendors/angular-deckgrid/angular-deckgrid"
+		"ngInfiniteScroll" 		: "../vendors/ngInfiniteScroll/build/ng-infinite-scroll"
+
+
 		
 		# -------------- these are manually installed - no bower components -------------- #
 
@@ -26,7 +28,9 @@ require.config
 
 		# -- this angles script is tweeked - added $timeout function --#
 		"angles" 				: "../vendors/angles-master/angles"
-		
+
+		# at the 58th line
+		"angular-deckgrid" 		: "../vendors/angular-deckgrid/angular-deckgrid"
 		
 	shim:
 		
@@ -61,26 +65,31 @@ require.config
 		"angular-deckgrid"		:
 			deps 				: ['angular']
 
+		'angles'				:
+			deps 				: ['angular','chart']
+
 		"jquery" 				: 
 			exports 		 	: '$'
 
 		"underscore" 			:
 			exports 			: '_'
 
-		'angles'				:
-			deps 				: ['angular','chart']
+		"ngInfiniteScroll" 		:
+			deps 				: ['jquery','angular']
+
 			
 
 require(
 
-	[		
+	[	
+		'jquery'
 		'angular'
 		'app'
 		'routes'
 		'domReady'
 	]
 
-	(angular,app,routes,domReady)->
+	(jquery,angular,app,routes,domReady)->
 		
 		domReady ->
 			

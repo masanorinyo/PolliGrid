@@ -76,13 +76,14 @@
           "$timeout": $timeout
         });
       });
-    }).controller('ContentCtrl', function($scope, $injector, $stateParams, $timeout, $state) {
+    }).controller('ContentCtrl', function($scope, $injector, $stateParams, $timeout, $state, $q) {
       return require(['controllers/contentctrl'], function(contentctrl) {
         return $injector.invoke(contentctrl, this, {
           "$scope": $scope,
           "$stateParams": $stateParams,
           "$timeout": $timeout,
-          "$state": $state
+          "$state": $state,
+          "$q": $q
         });
       });
     }).controller('ListCtrl', function($scope, $q, $location, $injector) {

@@ -13,9 +13,10 @@
       "angular-bootstrap": "../vendors/angular-bootstrap/ui-bootstrap-tpls.min",
       "domReady": "../vendors/requirejs-domready/domready",
       "underscore": "../vendors/underscore/underscore",
-      "angular-deckgrid": "../vendors/angular-deckgrid/angular-deckgrid",
+      "ngInfiniteScroll": "../vendors/ngInfiniteScroll/build/ng-infinite-scroll",
       "chart": "../vendors/Chart.js-master/Chart",
-      "angles": "../vendors/angles-master/angles"
+      "angles": "../vendors/angles-master/angles",
+      "angular-deckgrid": "../vendors/angular-deckgrid/angular-deckgrid"
     },
     shim: {
       "angular": {
@@ -49,19 +50,22 @@
       "angular-deckgrid": {
         deps: ['angular']
       },
+      'angles': {
+        deps: ['angular', 'chart']
+      },
       "jquery": {
         exports: '$'
       },
       "underscore": {
         exports: '_'
       },
-      'angles': {
-        deps: ['angular', 'chart']
+      "ngInfiniteScroll": {
+        deps: ['jquery', 'angular']
       }
     }
   });
 
-  require(['angular', 'app', 'routes', 'domReady'], function(angular, app, routes, domReady) {
+  require(['jquery', 'angular', 'app', 'routes', 'domReady'], function(jquery, angular, app, routes, domReady) {
     return domReady(function() {
       return angular.bootstrap(document, ['myapp']);
     });

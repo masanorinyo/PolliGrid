@@ -10,6 +10,7 @@ define [
 	'angular-bootstrap'
 	'angles'
 	'angular-deckgrid'
+	'ngInfiniteScroll'
 
 ], (angular)->
 		angular.module('myapp',[
@@ -23,4 +24,5 @@ define [
 			'myapp.template'
 			'angles'
 			'akoenig.deckgrid'
+			'infinite-scroll'
 		])

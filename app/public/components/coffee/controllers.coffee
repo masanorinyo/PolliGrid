@@ -5,6 +5,9 @@ define ['angular','services'], (angular) ->
 			$scope.searchQuestion = ''
 			$scope.user = User
 
+			
+
+
 			$scope.refresh = ()->
 				
 				$location.path('/')
@@ -112,7 +115,7 @@ define ['angular','services'], (angular) ->
 				)
 			)
 
-		.controller 'ContentCtrl', ($scope, $injector,$stateParams,$timeout,$state)->
+		.controller 'ContentCtrl', ($scope, $injector,$stateParams,$timeout,$state,$q)->
 			require(['controllers/contentctrl'], (contentctrl)->
 				$injector.invoke(
 					contentctrl, this,{
@@ -120,6 +123,7 @@ define ['angular','services'], (angular) ->
 						"$stateParams":$stateParams
 						"$timeout":$timeout
 						"$state":$state
+						"$q"	:$q
 					}
 				)
 			)

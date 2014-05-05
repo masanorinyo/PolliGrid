@@ -127,6 +127,28 @@ define ['angular','controllers','underscore','jquery'], (angular,controllers,_,$
 				,300,true
 
 
+		# .directive "infiniteScroll",($window,$q,$timeout)->
+		# 	restrict: "A"
+		# 	link: (scope,element,attrs)->
+				
+		# 		scrolling = false
+		# 		angular.element($window).bind 'scroll', ->
+		# 			console.log element[0].offsetHeight
+		# 			console.log $window.scrollY+500
+		# 			if !scrolling and $window.scrollY > $window.innerHeight
+		# 				scrolling = true
+
+
+
+		# 				scope.$apply(attrs.infiniteScroll)
+            
+                
+            
+            
+						
+
+					
+
 
 		# same as ng-repeat except for these don't create new scopes
 		.directive 'noScopeRepeatForGrid', ($compile,$templateCache)->

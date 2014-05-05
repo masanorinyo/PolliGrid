@@ -30,7 +30,10 @@
 		</div>
      </div>
 </section>
-<section class='content-section'>
+
+<!-- infinite-scroll="downloadMoreContents()" -->
+<section infinite-scroll="downloadMoreContents()"  class='content-section'>
+
 	<h1 hidden>question</h1>
 	<div class="orderby gray">
 		Order by - {{order}}
@@ -40,7 +43,7 @@
 		Couldn't find anything
 	</div>
 	
-	<ul deckgrid source="questions" class="deckgrid content-cards">
+	<ul  deckgrid source="questions" class="deckgrid content-cards" >
 		
 		<li  ng-controller="ListCtrl">
 			
@@ -160,7 +163,7 @@
 	</ul>
 
 	<!-- should make a directive for this -->
-	<div id="loader">
+	<div ng-show="showLoader" id="loader">
 		<div class="loaderWrapper">
 			<img src="/img/utility/loader.gif" alt="loading">
 		</div>
