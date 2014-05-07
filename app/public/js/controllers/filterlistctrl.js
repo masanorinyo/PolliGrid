@@ -6,7 +6,7 @@
       $scope.changeAnswer = function(answer, filter) {
         var answeredFilter;
         answeredFilter = _.findWhere(User.filterQuestionsAnswered, {
-          id: filter.id
+          id: filter._id
         });
         answeredFilter.answer = answer;
         $scope.answerChanged = true;

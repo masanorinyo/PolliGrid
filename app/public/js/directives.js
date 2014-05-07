@@ -27,9 +27,9 @@
         link: function(scope, elem) {
           return $timeout(function() {
             var addedFilter, targetIds;
-            targetIds = _.pluck(scope.question.targets, 'id');
+            targetIds = _.pluck(scope.question.targets, '_id');
             addedFilter = _.find(targetIds, function(id) {
-              return Number(id) === Number(scope.target.id);
+              return id === scope.target._id;
             });
             if (addedFilter) {
               return scope.filterAdded = true;
@@ -64,7 +64,7 @@
             var favoriteQuestion;
             if (scope.question !== void 0) {
               favoriteQuestion = _.find(User.favorites, function(id) {
-                return Number(id) === Number(scope.question.id);
+                return id === scope.question._id;
               });
             }
             if (favoriteQuestion) {

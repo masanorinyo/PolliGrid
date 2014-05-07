@@ -1,15 +1,26 @@
 # ------------------------ modules  ------------------------ #
 
 express           = require('express')
+session           = require('express-session')
+MongoStore        = require('connect-mongo')(session)
 path              = require('path')
 routes            = require('./routes')
+contents          = require('./routes/contents')
+auth              = require('./routes/auth')
 bodyParser        = require('body-parser')
 favicon           = require('static-favicon')
 methodOverride    = require('method-override')
 morgan            = require('morgan')
-session           = require('express-sessions')
+passport          = require('passport')
 cookieParser      = require('cookie-parser') 
 
+
+# ------------------------ server config ------------------------ #
+
+argv              = require('optimist').argv
+repl              = require('repl')
+db                = require('./config/database')
+prompt            = repl.start({ prompt:'whichone>'})
 
 # ------------------------ express setting ------------------------ #
 
@@ -32,7 +43,7 @@ app.use(express.static(path.join(__dirname, '../public')))
 
 # hale to favicon #
       
-app.use(favicon())
+app.use(favicon(__dirname + '/../public/img/favicon.ico'))
 
 
 # pull info from html #
@@ -41,14 +52,26 @@ app.use(bodyParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
 
+# cookie & session management #
+app.use(cookieParser())
+app.use(session( 
+            secret : "$noOnecanGetThisSecretBesidesZhengdianZhan",
+            key    : "express.sid"
+            cookie : {
+                  path        : '/'
+                  httpOnly    : true
+                  maxAge      : new Date(Date.now()+(60000*60*24*365))
+            }
+            store  : new MongoStore({mongoose_connection:db}) 
+      )
+)
+
+# passport initial configuration
+app.use(passport.initialize())
+app.use(passport.session())
 
 # simulate DELETE and PUT #
 app.use(methodOverride())
-
-
-# cookie & session management #
-app.use(cookieParser())
-# app.use(express.session())
 
 
 # -------------- development only - flirts with grunt --------------#
@@ -76,7 +99,32 @@ if 'development' is env
 
 # ------------------------ express router ------------------------ #
 
-app.get '/', routes.index
+app.route '/'
+      .get routes.index
+
+app.route '/api/question'
+      .get contents.loadQuestions
+      .post contents.makeQuestion
+
+app.route '/api/findById/:id'
+      .get contents.findById
+
+app.route '/api/findByTerm/:searchTerm/:orderBy/:reversed/:offset'
+      .get contents.findByTerm
+
+app.route '/api/findByCategory/:category'
+      .get contents.findByCategory
+
+app.route '/api/filter'
+      .get contents.loadFilters
+      .post contents.makeFilter
+
+app.route '/api/filter/:searchTerm'
+      .get contents.loadFilters
+
+
+app.route '/api/auth'
+      .get auth.index
 
 
 # ------------------------ server setup ------------------------ #

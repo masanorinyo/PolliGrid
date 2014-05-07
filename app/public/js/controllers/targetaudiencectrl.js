@@ -23,22 +23,23 @@
           }
           length = $scope.card.targets.length;
           i = 0;
-          answeredIds = _.pluck($scope.user.filterQuestionsAnswered, 'id');
+          answeredIds = _.pluck($scope.user.filterQuestionsAnswered, '_id');
+          console.log(answeredIds);
         }
         if (length) {
           while (i < length) {
-            questionId = Number($scope.card.targets[i].id);
+            questionId = $scope.card.targets[i]._id;
             foundId = _.find(answeredIds, function(id) {
-              return Number(id) === questionId;
+              return id === questionId;
             });
             if (foundId) {
               target = {
-                id: foundId,
+                _id: foundId,
                 isAnswered: true
               };
             } else {
               target = {
-                id: questionId,
+                _id: questionId,
                 isAnswered: false
               };
             }
@@ -53,6 +54,8 @@
         $scope.filterNumber = 0;
         length = $scope.targetChecker.length;
         i = 0;
+        console.log("$scope.targetChecker");
+        console.log($scope.targetChecker);
         while (i < length) {
           if ($scope.targetChecker[i].isAnswered) {
             matchedOption = null;
@@ -61,8 +64,8 @@
                 return list.option === answer.answer;
               });
               if (matchedOption) {
-                if (!_.contains(matchedOption.answeredBy, $scope.user.id)) {
-                  return matchedOption.answeredBy.push($scope.user.id);
+                if (!_.contains(matchedOption.answeredBy, $scope.user._id)) {
+                  return matchedOption.answeredBy.push($scope.user._id);
                 }
               }
             });
@@ -103,16 +106,20 @@
           return $scope.warning = true;
         } else {
           $scope.warning = false;
-          targetQuestionID = question.targets[index].id;
+          targetQuestionID = question.targets[index]._id;
           answer = {
-            id: targetQuestionID,
+            _id: targetQuestionID,
             answer: targetAnswer
           };
           answeredOption = _.findWhere(question.targets[index].lists, {
             option: targetAnswer
           });
-          answeredOption.answeredBy.push($scope.user.id);
+          answeredOption.answeredBy.push($scope.user._id);
           $scope.user.filterQuestionsAnswered.push(answer);
+          console.log("answeredOption");
+          console.log(answeredOption);
+          console.log("answer");
+          console.log(answer);
           defer = $q.defer();
           defer.promise.then(function() {
             return checkFilterQuestionStatus(answer);

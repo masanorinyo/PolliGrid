@@ -84,7 +84,7 @@
       $scope.showMessageBox = false;
       $scope.pieChartOptions = {
         animationEasing: "easeOutQuart",
-        animation: false
+        animation: true
       };
       $scope.radarChartOptions = {
         scaleShowLabels: true,
@@ -108,12 +108,13 @@
       if (Setting.isSetting) {
         questionId = Setting.questionId;
       } else {
-        questionId = Number($stateParams.id);
+        questionId = $stateParams.id;
       }
-      foundQuestion = _.findWhere(Question, {
-        id: questionId
+      console.log(questionId);
+      _.findWhere(Question, {
+        _id: questionId
       });
-      $scope.question = foundQuestion;
+      foundQuestion = $scope.question = foundQuestion;
       $scope.chartType = "pie";
       $scope.filterAdded = false;
       $scope.filterAdded = 'Add to filter';
@@ -151,11 +152,11 @@
           answer.filterBtn = "Remove filter";
           target.numOfAdded += answer.numOfResponses;
           filter = {
-            id: target.id,
+            _id: target._id,
             respondents: answer.answeredBy
           };
           sameIdFound = _.findWhere(filters, {
-            id: target.id
+            _id: target._id
           });
           if (sameIdFound) {
             sameIdFound.respondents = _.union(sameIdFound.respondents, answer.answeredBy);
@@ -174,12 +175,12 @@
           answer.filterBtn = "Add to filter";
           target.numOfAdded -= answer.numOfResponses;
           sameIdFound = _.findWhere(filters, {
-            id: target.id
+            _id: target._id
           });
           sameIdFound.respondents = _.difference(sameIdFound.respondents, answer.answeredBy);
           if (sameIdFound.respondents.length === 0) {
             filters = _.without(filters, _.findWhere(filters, {
-              id: target.id
+              _id: target._id
             }));
           }
         }
@@ -264,7 +265,7 @@
         });
         while (i < length) {
           targets = [];
-          targetId = $scope.question.targets[i].id;
+          targetId = $scope.question.targets[i]._id;
           targetTitle = $scope.question.targets[i].title;
           _.each($scope.question.targets[i].lists, function(num) {
             var optionData;
@@ -278,7 +279,7 @@
             return targets.push(optionData);
           });
           data = {
-            id: targetId,
+            _id: targetId,
             title: targetTitle,
             numOfAdded: 0,
             lists: targets

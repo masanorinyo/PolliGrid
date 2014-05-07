@@ -43,7 +43,7 @@ define ['underscore'], (_)->
 			$scope.type = "answers"
 			$location.path('setting/'+$scope.id+"/answers")
 
-			ids = _.pluck User.questionsAnswered,"id"
+			ids = _.pluck User.questionsAnswered,"_id"
 			$scope.questions = findQuestion(Question,ids)
 
 			
@@ -55,7 +55,7 @@ define ['underscore'], (_)->
 			# empty the questions
 			$scope.questions=[]
 			
-			ids = _.pluck User.filterQuestionsAnswered,"id"
+			ids = _.pluck User.filterQuestionsAnswered,"_id"
 			
 
 			$scope.filters = findQuestion(Filters,ids)

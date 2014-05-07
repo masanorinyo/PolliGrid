@@ -32,26 +32,27 @@ define ['underscore'], (_)->
 
 
 				# get which question the user already answered to
-				answeredIds = _.pluck $scope.user.filterQuestionsAnswered, 'id'
+				answeredIds = _.pluck $scope.user.filterQuestionsAnswered, '_id'
 
+				console.log answeredIds
 
 
 			if length 						
 				while i < length
 					
-					questionId = Number($scope.card.targets[i].id)
+					questionId = $scope.card.targets[i]._id
 
 					# find out if the question has filter questions, which
 					# the user already answered to
 					foundId = _.find answeredIds, (id)->
-						Number(id) == questionId
+						id == questionId
 
 					# if found, then this filter question won't show up
 					if foundId
 						
 						#this will be used to show if the user already answered to the filter question	
 						target  =
-							id 			: foundId
+							_id 		: foundId
 							isAnswered 	: true
 
 
@@ -62,7 +63,7 @@ define ['underscore'], (_)->
 
 						#this will be used to show if the user already answered to the filter question	
 						target  =
-							id 			: questionId
+							_id 		: questionId
 							isAnswered 	: false
 
 
@@ -86,7 +87,8 @@ define ['underscore'], (_)->
 			length = $scope.targetChecker.length
 			i = 0
 			
-
+			console.log "$scope.targetChecker"
+			console.log $scope.targetChecker
 
 			# keep skipping the filter question until it hits 
 			# the question which has not been answered.
@@ -109,9 +111,9 @@ define ['underscore'], (_)->
 						if matchedOption
 						
 							# and if the variable contains the user id
-							if !_.contains(matchedOption.answeredBy,$scope.user.id)
+							if !_.contains(matchedOption.answeredBy,$scope.user._id)
 							
-								matchedOption.answeredBy.push($scope.user.id)
+								matchedOption.answeredBy.push($scope.user._id)
 
 		
 
@@ -216,25 +218,34 @@ define ['underscore'], (_)->
 
 			else
 
+
 				# remove the warniing popup since the user selected something
 				$scope.warning = false
 
 				# this will get the id of the target audience question.
-				targetQuestionID = question.targets[index].id
+				targetQuestionID = question.targets[index]._id
 
 				# user's answer to the target question
 				answer = 
-					id 		: targetQuestionID
+					_id 		: targetQuestionID
 					answer 	: targetAnswer
 				
+
+
 				# find the answered option
 				answeredOption = _.findWhere question.targets[index].lists,{option:targetAnswer}				
-				answeredOption.answeredBy.push($scope.user.id)
+				answeredOption.answeredBy.push($scope.user._id)
 
 				# add the answered filter question to the user's filterQuestionsAnswered collection
 				# this way, the same filter question won't show up from the next time
 				
 				$scope.user.filterQuestionsAnswered.push(answer)
+
+				console.log "answeredOption"
+				console.log answeredOption
+				
+				console.log "answer"
+				console.log answer
 
 				
 				defer = $q.defer()

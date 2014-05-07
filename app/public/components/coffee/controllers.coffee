@@ -29,7 +29,7 @@ define ['angular','services'], (angular) ->
 				
 				
 				
-				User.id  					 = 0
+				User._id  					 = 0
 				User.name  					 = ''
 				User.email 					 = ''
 				User.password 				 = ''

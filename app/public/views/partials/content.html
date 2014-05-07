@@ -10,6 +10,10 @@
 				<i class="glyphicon glyphicon-search"></i>
 			</span>
 		</div>
+
+		<!-- change it to "clicking orderby -> opens orderby box" -->
+		<!-- change it to "clicking category -> opens orderby box" -->
+
 		<div ng-if="searchFocused" id="categorybox" class="popover-searchbox">
 			<i class="fa fa-sort-up"></i>
 			<p class="title ">
@@ -30,13 +34,14 @@
 		</div>
      </div>
 </section>
-
-<!-- infinite-scroll="downloadMoreContents()" -->
-<section infinite-scroll="downloadMoreContents()"  class='content-section'>
+<section infinite-scroll="downloadMoreContents()" infinite-scroll-disabled="isContentsLoaded" class='content-section'>
 
 	<h1 hidden>question</h1>
-	<div class="orderby gray">
-		Order by - {{order}}
+	<div class="orderby gray pull-left">
+		Order by - <span class="blue">{{order}} </span>
+	</div>
+	<div class="orderby gray pull-left">
+		Category - <span class="blue">{{category}}</span>
 	</div>
 
 	<div ng-show="!filteredQuestions.length" class="noContent">
@@ -54,7 +59,7 @@
 					<i ng-show="favorite" class="glyphicon glyphicon-star"></i>
 				</div>
 
-				<div ui-sref=".share({id:card.id})" class="share-button">
+				<div ui-sref=".share({id:card._id})" class="share-button">
 					<i class="glyphicon glyphicon-share"></i>
 				</div>
 
@@ -71,7 +76,7 @@
 
 					<form ng-submit="submitAnswer(answer,card)" class="surveyForm">
 
-						<ul no-scope-repeat-for-grid items="card.options" class="answers">
+						<ul no-scope-repeat-for-grid items="card.option" class="answers">
 						</ul>
 						<input type="submit" class="submit-button btn btn-primary btn-sm" value="See result">
 					</form>
@@ -99,7 +104,7 @@
 								</span>
 							
 							</li>
-							<div no-scope-repeat-for-counts items="card.options">
+							<div no-scope-repeat-for-counts items="card.option">
 								
 							</div>
 						</ul>
@@ -115,25 +120,25 @@
 
 						<!-- This will show up on the setting page -->
 						<!-- ui-sref=\"home.anotherDeep({id:card.id})\" -->
-						<button ng-show="isAccessedFromSetting"  ng-click="showDeepResult(card.id)" class="submit-button bigger btn btn-success">
+						<button ng-show="isAccessedFromSetting"  ng-click="showDeepResult(card._id)" class="submit-button bigger btn btn-success">
 							See deep result
 						</button>
 						
 
 						<!-- If the question is accessed via an external link, show this button. This won't refresh the page -->
-						<button ng-show="isAccessedViaLink && !isAccessedFromSetting && !user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.signupRedirect({id:card.id})" class="submit-button bigger btn btn-success">
+						<button ng-show="isAccessedViaLink && !isAccessedFromSetting && !user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.signupRedirect({id:card._id})" class="submit-button bigger btn btn-success">
 							See deep result
 						</button>
 
 						<!-- when users is not logged in -  -->
-						<button ng-show="isAccessedViaLink && !isAccessedFromSetting && user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.deepResult({id:card.id})" class="submit-button bigger btn btn-success">
+						<button ng-show="isAccessedViaLink && !isAccessedFromSetting && user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.deepResult({id:card._id})" class="submit-button bigger btn btn-success">
 							See deep result
 						</button>
 						
 						
 
 						<!-- This will refresh the page -->
-						<button ng-show="!isAccessedViaLink && !isAccessedFromSetting" ui-sref="home.deepResult({id:card.id})" class="submit-button bigger btn btn-success">
+						<button ng-show="!isAccessedViaLink && !isAccessedFromSetting" ui-sref="home.deepResult({id:card._id})" class="submit-button bigger btn btn-success">
 							See deep result
 						</button>
 					</div>

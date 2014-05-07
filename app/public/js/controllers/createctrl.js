@@ -1,7 +1,7 @@
 (function() {
   define(['underscore'], function(_) {
     return function($scope, $modalInstance, $location, $timeout, Filters, Question, User, $state, $stateParams) {
-      var findSameOption, message, newQuestion, questions, targets, utility;
+      var findSameOption, message, newQuestion, targets, utility;
       findSameOption = function(item) {
         if (item.title === newQuestion.newOption) {
           return true;
@@ -9,7 +9,6 @@
           return false;
         }
       };
-      questions = $scope.questions = Question;
       targets = $scope.targets = Filters;
       newQuestion = $scope.question = {
         newOption: "",
@@ -22,7 +21,7 @@
         totalResponses: 0,
         alreadyAnswered: false,
         created_at: Date,
-        options: [],
+        option: [],
         targets: [],
         creator: null,
         photo: ""
@@ -120,8 +119,7 @@
         newQuestion.created_at = new Date().getTime();
         newQuestion.photo = User.profilePic;
         newQuestion.creatorName = User.profilePic;
-        newQuestion.id = Math.random();
-        newQuestion.creator = User.id;
+        newQuestion.creator = User._id;
         Question.unshift(newQuestion);
         utility.isQuestionCreated = false;
         return utility.isQuestionCompleted = true;

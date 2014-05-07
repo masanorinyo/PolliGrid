@@ -54,7 +54,6 @@
           filterUtil.isNotFilledOut = false;
           clone_newFilter = angular.copy(newFilter);
           clone_newFilter.created_at = new Date().getTime();
-          clone_newFilter.id = Math.random();
           $scope.targets.unshift(clone_newFilter);
           newFilter.title = "";
           newFilter.question = "";

@@ -5,7 +5,10 @@ define ['underscore'], (_)->
 		
 		# ***************  Models *************** #
 		
-		$scope.questions = Question
+		$scope.questions = Question.get()
+		console.log $scope.questions
+
+
 
 		$scope.order = "Recent"
 		# $scope.reverse = false
@@ -13,7 +16,9 @@ define ['underscore'], (_)->
 		$scope.filteredQuestions = []
 
 		$scope.showLoader = false
-		
+
+		$scope.isContentsLoaded = true
+		$scope.category = "All"
 
 		download = ->
 			object = 
@@ -32,7 +37,7 @@ define ['underscore'], (_)->
 				photo				: "/img/users/profile-pic.jpg"
 
 				
-				options 			: [
+				option 			: [
 						title : 'positive'
 						count : 5
 						answeredBy :[3,2,5,8]
@@ -113,7 +118,7 @@ define ['underscore'], (_)->
 
 		$scope.putCategory = (category)->
 
-			$scope.searchQuestion = category
+			$scope.category = category
 
 			$scope.searchFocused = false
 

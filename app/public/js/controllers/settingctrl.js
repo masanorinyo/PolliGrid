@@ -33,7 +33,7 @@
         var ids;
         $scope.type = "answers";
         $location.path('setting/' + $scope.id + "/answers");
-        ids = _.pluck(User.questionsAnswered, "id");
+        ids = _.pluck(User.questionsAnswered, "_id");
         return $scope.questions = findQuestion(Question, ids);
       };
       showFilters = $scope.showFilters = function() {
@@ -41,7 +41,7 @@
         $scope.type = "filters";
         $location.path('setting/' + $scope.id + "/filters");
         $scope.questions = [];
-        ids = _.pluck(User.filterQuestionsAnswered, "id");
+        ids = _.pluck(User.filterQuestionsAnswered, "_id");
         $scope.filters = findQuestion(Filters, ids);
         $scope.answer = [];
         return _.each(User.filterQuestionsAnswered, function(filter, index) {

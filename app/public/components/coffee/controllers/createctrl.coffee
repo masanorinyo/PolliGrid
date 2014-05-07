@@ -12,7 +12,7 @@ define ['underscore'], ( _ )->
 		
 		# ***************  models *************** #
 
-		questions = $scope.questions = Question
+
 		targets = $scope.targets = Filters
 
 		newQuestion = $scope.question = 
@@ -26,7 +26,7 @@ define ['underscore'], ( _ )->
 			totalResponses 		: 0
 			alreadyAnswered 	: false
 			created_at 			: Date
-			options 			: []
+			option				: []
 			targets 			: []
 			creator 			: null
 			photo				: ""
@@ -208,11 +208,13 @@ define ['underscore'], ( _ )->
 			newQuestion.creatorName = User.profilePic
 
 
-			# development purpose -> once connected with MongoDB
-			# this will be removed because MongoDB will do this task
-			newQuestion.id = Math.random()
+			# # development purpose -> once connected with MongoDB
+			# # this will be removed because MongoDB will do this task
+			
 
-			newQuestion.creator = User.id
+			newQuestion.creator = User._id
+
+
 
 
 			Question.unshift(newQuestion)

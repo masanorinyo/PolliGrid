@@ -122,7 +122,7 @@ define ['underscore'], (_)->
 		# ------------- graph configuration ------------- #
 		$scope.pieChartOptions = 
 			animationEasing : "easeOutQuart"
-			animation:false
+			animation:true
 
 		$scope.radarChartOptions = 
 			scaleShowLabels 	: true
@@ -164,12 +164,15 @@ define ['underscore'], (_)->
 			questionId = Setting.questionId
 			
 		else 
-			questionId = Number($stateParams.id)
+			questionId = $stateParams.id
 			
-		
+		console.log questionId
 
 
-		foundQuestion = _.findWhere Question,{id:questionId}
+		# find the question from the server
+		_.findWhere Question,{_id:questionId}
+
+		foundQuestion = 
 		$scope.question = foundQuestion	
 		
 		$scope.chartType = "pie"
@@ -237,11 +240,11 @@ define ['underscore'], (_)->
 				# number of filtered respondents
 				
 				filter = 
-					id 			: target.id
+					_id 			: target._id
 					respondents : answer.answeredBy
 						
 
-				sameIdFound = _.findWhere filters, {id:target.id}
+				sameIdFound = _.findWhere filters, {_id:target._id}
 
 				if sameIdFound
 					
@@ -276,7 +279,7 @@ define ['underscore'], (_)->
 
 				# find the filter group with the same id
 				# if any, then remove it from the group
-				sameIdFound = _.findWhere filters, {id:target.id}
+				sameIdFound = _.findWhere filters, {_id:target._id}
 
 				
 				sameIdFound.respondents = _.difference sameIdFound.respondents,answer.answeredBy
@@ -285,7 +288,7 @@ define ['underscore'], (_)->
 				# if the filter is empty, remove it
 				if sameIdFound.respondents.length == 0
 					
-					filters = _.without filters,_.findWhere filters,{id:target.id}
+					filters = _.without filters,_.findWhere filters,{_id:target._id}
 					
 			
 
@@ -418,7 +421,7 @@ define ['underscore'], (_)->
 			# create filter array
 			while i < length
 				targets = []
-				targetId 	= $scope.question.targets[i].id
+				targetId 	= $scope.question.targets[i]._id
 				targetTitle = $scope.question.targets[i].title
 
 				_.each $scope.question.targets[i].lists,(num)->
@@ -434,7 +437,7 @@ define ['underscore'], (_)->
 					targets.push(optionData)
 
 				data = 
-					id  		: targetId
+					_id  		: targetId
 					title 		: targetTitle
 					numOfAdded 	: 0
 					lists 		: targets

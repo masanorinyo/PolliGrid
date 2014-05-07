@@ -8,7 +8,7 @@ define ['underscore'], (_)->
 		$scope.answerChanged = false
 		$scope.changeAnswer = (answer,filter)->
 			
-			answeredFilter = _.findWhere User.filterQuestionsAnswered,{id:filter.id}
+			answeredFilter = _.findWhere User.filterQuestionsAnswered,{id:filter._id}
 			
 			answeredFilter.answer = answer
 

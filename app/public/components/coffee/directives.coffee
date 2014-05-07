@@ -31,10 +31,10 @@ define ['angular','controllers','underscore','jquery'], (angular,controllers,_,$
 					
 					# if the target question is already added to the question
 					# change the button looks
-					targetIds = _.pluck scope.question.targets,'id'
+					targetIds = _.pluck scope.question.targets,'_id'
 									
 					addedFilter = _.find targetIds, (id)->
-						Number(id) == Number(scope.target.id)
+						id == scope.target._id
 
 					if addedFilter
 						scope.filterAdded = true
@@ -76,7 +76,7 @@ define ['angular','controllers','underscore','jquery'], (angular,controllers,_,$
 					
 					if scope.question != undefined
 						favoriteQuestion = _.find User.favorites, (id)->
-							Number(id) == Number(scope.question.id)
+							id == scope.question._id
 
 					if favoriteQuestion
 						scope.favorite = true

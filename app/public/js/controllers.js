@@ -14,7 +14,7 @@
         }, 100, true);
       };
       return $scope.logout = function() {
-        User.id = 0;
+        User._id = 0;
         User.name = '';
         User.email = '';
         User.password = '';

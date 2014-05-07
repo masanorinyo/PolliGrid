@@ -2,11 +2,14 @@
   define(['underscore'], function(_) {
     return function($scope, Question, $window, $stateParams, $q, $timeout, $state) {
       var download;
-      $scope.questions = Question;
+      $scope.questions = Question.get();
+      console.log($scope.questions);
       $scope.order = "Recent";
       $scope.searchFocused = false;
       $scope.filteredQuestions = [];
       $scope.showLoader = false;
+      $scope.isContentsLoaded = true;
+      $scope.category = "All";
       download = function() {
         var object;
         object = {
@@ -23,7 +26,7 @@
           creator: 1,
           creatorName: "Masanori",
           photo: "/img/users/profile-pic.jpg",
-          options: [
+          option: [
             {
               title: 'positive',
               count: 5,
@@ -102,7 +105,7 @@
         return $scope.searchQuestion = category;
       };
       $scope.putCategory = function(category) {
-        $scope.searchQuestion = category;
+        $scope.category = category;
         return $scope.searchFocused = false;
       };
       $scope.updateSearch = function() {

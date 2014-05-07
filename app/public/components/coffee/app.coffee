@@ -7,11 +7,11 @@ define [
 	'filters'
 	'template'
 	'angularUiRouter'
+	'angularResource'
 	'angular-bootstrap'
 	'angles'
 	'angular-deckgrid'
 	'ngInfiniteScroll'
-
 ], (angular)->
 		angular.module('myapp',[
 

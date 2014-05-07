@@ -11,7 +11,7 @@ define ['underscore'], (_)->
     	# get data when the page loads up
 		getData = ->
 			$scope.myChartData = []
-			ref = $scope.card.options
+			ref = $scope.card.option
 			i = 0
 			len = ref.length
 
@@ -61,7 +61,7 @@ define ['underscore'], (_)->
 			$scope.myChartOptions =  
 	       
 		        # Boolean - Whether we should animate the chart
-		        animation : true
+		        animation : false
 
 		        # Number - Number of animation steps
 		        animationStep : 30
@@ -82,12 +82,12 @@ define ['underscore'], (_)->
 			
 			$scope.isAccessedViaLink = true
 			
-			questionId = Number($stateParams.id)
+			questionId = $stateParams.id
 			foundQuestion = _.findWhere Question,{id:questionId}
 			$scope.question = foundQuestion	
 
 			$scope.answered = _.find foundQuestion.respondents,(id)->
-				id == User.id
+				id == User._id
 
 
 
@@ -96,7 +96,8 @@ define ['underscore'], (_)->
 
 		else
 
-			$scope.cards = Question
+			$scope.cards = Question.get()
+
 		
 		$scope.answer = ''
 		
@@ -124,10 +125,10 @@ define ['underscore'], (_)->
 				$scope.card = $scope.question
 
 
-			alreadyAnswered = _.find _.pluck($scope.user.questionsAnswered,'id'),(id)->
+			alreadyAnswered = _.find _.pluck($scope.user.questionsAnswered,'_id'),(id)->
 				
 				if $scope.card != undefined
-					Number($scope.card.id) == Number(id)
+					$scope.card._id == id
 
 
 			if alreadyAnswered
@@ -139,9 +140,6 @@ define ['underscore'], (_)->
 
 		# this handles user's question answer submission 
 		$scope.submitAnswer = (choice,question)->
-
-			
-			
 
 
 			if choice is "" or !choice
@@ -160,16 +158,18 @@ define ['underscore'], (_)->
 				# by adding user id to the question respondents,
 				# users won't have to answer to the question again
 				
-				question.respondents.push($scope.user.id)
+				question.respondents.push($scope.user._id)
 
 				# update the option related data 
-				choice.answeredBy.push($scope.user.id)
+				choice.answeredBy.push($scope.user._id)
 				choice.count++
 				question.totalResponses++
 				
 				answer = 
-					id 		: question.id
+					_id 		: question._id
 					answer 	: choice.title
+
+				console.log answer
 
 				# add the answer to user's database
 				$scope.user.questionsAnswered.push(answer)
@@ -188,13 +188,13 @@ define ['underscore'], (_)->
 
 				if $scope.favorite
 
-					$scope.user.favorites.push(question.id)
+					$scope.user.favorites.push(question._id)
 					question.numOfFavorites++
 
 				else
 
 					# attach it to the question
-					index = $scope.user.favorites.indexOf(question.id)	
+					index = $scope.user.favorites.indexOf(question._id)	
 					$scope.user.favorites.splice(index,1)
 					question.numOfFavorites--
 
@@ -226,30 +226,30 @@ define ['underscore'], (_)->
 
 
 			# remove the user's id from the question's respondendents array
-			indexOfRespondents = $scope.card.respondents.indexOf($scope.user.id)	
+			indexOfRespondents = $scope.card.respondents.indexOf($scope.user._id)	
 			$scope.card.respondents.splice(indexOfRespondents,1)
 
 			# -- remove the question id from the user's questionAnswered Array -- #			
 			# 1: get the question id
-			questionId = Number($scope.card.id)
+			questionId = $scope.card._id
 			
 			# 2: extract the IDs from the question already answered array from User
-			answers = _.pluck($scope.user.questionsAnswered,'id')
+			answers = _.pluck($scope.user.questionsAnswered,'_id')
 			
 
 			# 3: compare the extracted IDs with the question ID# 3
 			foundAnswerId = _.find answers,(id)->		
-					Number(id) == Number(questionId)
+					id == questionId
 			# 4: find which option the user chose for the question
 			foundAnswered = _.find $scope.user.questionsAnswered, (answer)->
-				Number(answer.id) == Number(foundAnswerId)
+				answer._id == foundAnswerId
 
 			# find the question option, which the user chose for the question
-			foundOption = _.find $scope.card.options,(option)->
+			foundOption = _.find $scope.card.option,(option)->
 				option.title == foundAnswered.answer
 
 			# remove the user's id from the options's answeredBy array
-			optionIndex = foundOption.answeredBy.indexOf($scope.user.id)
+			optionIndex = foundOption.answeredBy.indexOf($scope.user._id)
 			foundOption.answeredBy.splice(optionIndex,1)
 			
 
@@ -263,7 +263,7 @@ define ['underscore'], (_)->
 			# remove the question id from the user's array
 			_.find $scope.user.questionsAnswered,(answer)->
 				
-				if Number(answer.id) == Number(questionId)
+				if answer._id == questionId
 					
 					$scope.user.questionsAnswered.splice(index,1)
 				

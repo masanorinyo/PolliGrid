@@ -147,7 +147,7 @@
         onEnter: function($state, $modal, $timeout, $stateParams, $location, User, Error) {
           var found;
           found = _.find(User.questionsAnswered, function(question) {
-            return Number(question.id) === Number($stateParams.id);
+            return question._id === $stateParams.id;
           });
           if ($stateParams.id === "") {
             return $location.path('/');

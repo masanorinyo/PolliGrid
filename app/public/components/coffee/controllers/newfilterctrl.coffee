@@ -82,7 +82,7 @@ define ['underscore'], ( _ )->
 
 				# development purpose -> once connected with MongoDB
 				# this will be removed because MongoDB will do this task
-				clone_newFilter.id = Math.random()
+				# clone_newFilter.id = Math.random()
 
 				# add it to the filter list
 				$scope.targets.unshift(clone_newFilter)

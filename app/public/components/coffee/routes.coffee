@@ -212,8 +212,9 @@ define(
 						# check to see if the answer is already answered by the user
 						found = _.find User.questionsAnswered,(question)->
 							
-							Number(question.id) == Number($stateParams.id)
+							question._id == $stateParams.id
 
+						
 						
 						
 						if $stateParams.id is "" 
