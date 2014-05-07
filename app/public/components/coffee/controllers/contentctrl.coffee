@@ -6,9 +6,6 @@ define ['underscore'], (_)->
 		# ***************  Models *************** #
 		
 		$scope.questions = Question.get()
-		console.log $scope.questions
-
-
 
 		$scope.order = "Recent"
 		# $scope.reverse = false

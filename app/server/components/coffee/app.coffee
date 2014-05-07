@@ -99,8 +99,12 @@ if 'development' is env
 
 # ------------------------ express router ------------------------ #
 
+# overall
+
 app.route '/'
       .get routes.index
+
+# question related
 
 app.route '/api/question'
       .get contents.loadQuestions
@@ -115,13 +119,16 @@ app.route '/api/findByTerm/:searchTerm/:orderBy/:reversed/:offset'
 app.route '/api/findByCategory/:category'
       .get contents.findByCategory
 
-app.route '/api/filter'
+# filter related
+
+app.route '/api/filter/:offset'
       .get contents.loadFilters
       .post contents.makeFilter
 
-app.route '/api/filter/:searchTerm'
+app.route '/api/findByTerm/:searchTerm'
       .get contents.loadFilters
 
+# user related
 
 app.route '/api/auth'
       .get auth.index

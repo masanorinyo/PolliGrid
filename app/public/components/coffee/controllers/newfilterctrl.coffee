@@ -1,5 +1,5 @@
 define ['underscore'], ( _ )->
-	($scope,$timeout,Filters,Question)->
+	($scope,$timeout,$q,Filters,Question)->
 		
 		# --------------------- utility functions --------------- #
 		
@@ -80,12 +80,30 @@ define ['underscore'], ( _ )->
 				clone_newFilter = angular.copy(newFilter)
 				clone_newFilter.created_at = new Date().getTime()
 
-				# development purpose -> once connected with MongoDB
-				# this will be removed because MongoDB will do this task
-				# clone_newFilter.id = Math.random()
 
-				# add it to the filter list
-				$scope.targets.unshift(clone_newFilter)
+				$scope.targets = []
+
+				defer = $q.defer()
+
+
+				defer.promise
+					
+					# Save the newly created filter into database
+					.then -> Filters.save(clone_newFilter)
+					
+					# and retrieve it from it.
+					# .then -> 
+					# 	$timeout ->
+					# 		$scope.targets = Filters.get(offset:0)
+					# 	,300,true
+
+					.then -> 
+						console.log "$scope.targets"
+						console.log $scope.targets
+
+				defer.resolve()
+						
+				
 				
 				
 				#clean up after submitting the data					

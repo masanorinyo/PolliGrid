@@ -8,9 +8,9 @@ define ['underscore'], ( _ )->
 		#this will add a filter to the question
 		$scope.addFilter = (target)->
 			
-			console.log $scope.question
 
 			foundSameTarget = false
+			
 			
 
 			$scope.filterAdded = !$scope.filterAdded
@@ -21,11 +21,12 @@ define ['underscore'], ( _ )->
 				_.isEqual(item,target)
 
 			)
+			
 
 			if _.isUndefined(foundSameTarget) or !foundSameTarget
 				
 				# attach it to the question
-				$scope.question.targets.push(target)				
+				$scope.question.targets.push(target)
 
 			else
 				

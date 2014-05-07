@@ -4,7 +4,6 @@
       $scope.filterAdded = false;
       $scope.addFilter = function(target) {
         var foundSameTarget, index;
-        console.log($scope.question);
         foundSameTarget = false;
         $scope.filterAdded = !$scope.filterAdded;
         foundSameTarget = _.find($scope.question.targets, function(item) {

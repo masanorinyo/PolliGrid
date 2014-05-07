@@ -3,7 +3,6 @@
     return function($scope, Question, $window, $stateParams, $q, $timeout, $state) {
       var download;
       $scope.questions = Question.get();
-      console.log($scope.questions);
       $scope.order = "Recent";
       $scope.searchFocused = false;
       $scope.filteredQuestions = [];

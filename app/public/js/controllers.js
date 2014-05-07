@@ -69,11 +69,12 @@
           "$timeout": $timeout
         });
       });
-    }).controller('NewFilterCtrl', function($scope, $injector, $timeout) {
+    }).controller('NewFilterCtrl', function($scope, $injector, $timeout, $q) {
       return require(['controllers/newfilterctrl'], function(newfilterctrl) {
         return $injector.invoke(newfilterctrl, this, {
           "$scope": $scope,
-          "$timeout": $timeout
+          "$timeout": $timeout,
+          "$q": $q
         });
       });
     }).controller('ContentCtrl', function($scope, $injector, $stateParams, $timeout, $state, $q) {

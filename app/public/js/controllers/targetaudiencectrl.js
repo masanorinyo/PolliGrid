@@ -24,7 +24,6 @@
           length = $scope.card.targets.length;
           i = 0;
           answeredIds = _.pluck($scope.user.filterQuestionsAnswered, '_id');
-          console.log(answeredIds);
         }
         if (length) {
           while (i < length) {
@@ -54,8 +53,6 @@
         $scope.filterNumber = 0;
         length = $scope.targetChecker.length;
         i = 0;
-        console.log("$scope.targetChecker");
-        console.log($scope.targetChecker);
         while (i < length) {
           if ($scope.targetChecker[i].isAnswered) {
             matchedOption = null;
@@ -111,15 +108,13 @@
             _id: targetQuestionID,
             answer: targetAnswer
           };
+          console.log(answer);
+          console.log($scope.filterNumber);
           answeredOption = _.findWhere(question.targets[index].lists, {
             option: targetAnswer
           });
           answeredOption.answeredBy.push($scope.user._id);
           $scope.user.filterQuestionsAnswered.push(answer);
-          console.log("answeredOption");
-          console.log(answeredOption);
-          console.log("answer");
-          console.log(answer);
           defer = $q.defer();
           defer.promise.then(function() {
             return checkFilterQuestionStatus(answer);

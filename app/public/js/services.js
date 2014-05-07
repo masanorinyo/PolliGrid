@@ -1,33 +1,27 @@
 (function() {
   define(['angular'], function(angular) {
     return angular.module('myapp.services', ['ngResource']).factory('Filters', function($resource) {
-      return $resource("/api/filter", {
-        id: "@id"
+      return $resource("/api/filter/:offset", {
+        offset: "@offset"
       }, {
         "save": {
-          method: "POST"
+          method: "POST",
+          params: {
+            offset: "0"
+          }
         },
         "get": {
-          method: "GET"
-        },
-        "query": {
           method: "GET",
           isArray: true
         }
       });
     }).factory('Question', function($resource) {
-      return $resource("/api/question", {
-        id: "@id"
-      }, {
+      return $resource("/api/question", {}, {
         "save": {
           method: "POST"
         },
         "get": {
           method: "GET",
-          isArray: true
-        },
-        "query": {
-          'method': "GET",
           isArray: true
         }
       });
@@ -56,6 +50,12 @@
         isSetting: false,
         questionId: null,
         section: null
+      };
+    }).factory('Page', function() {
+      var page;
+      return page = {
+        questionPage: 0,
+        filterPage: 0
       };
     });
   });

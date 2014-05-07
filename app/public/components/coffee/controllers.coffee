@@ -105,12 +105,13 @@ define ['angular','services'], (angular) ->
 				)
 			)
 
-		.controller 'NewFilterCtrl', ($scope,$injector,$timeout)->
+		.controller 'NewFilterCtrl', ($scope,$injector,$timeout,$q)->
 			require(['controllers/newfilterctrl'], (newfilterctrl)->
 				$injector.invoke(
 					newfilterctrl, this,{
 						"$scope" 				: $scope
 						"$timeout" 				: $timeout
+						"$q" 					: $q
 					}
 				)
 			)

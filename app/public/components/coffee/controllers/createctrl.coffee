@@ -1,5 +1,5 @@
 define ['underscore'], ( _ )->
-	($scope,$modalInstance,$location,$timeout,Filters,Question,User,$state,$stateParams)->
+	($scope,$modalInstance,$location,$timeout,Filters,Question,User,Page,$state,$stateParams)->
 		
 		# --------------------- Functions for utility --------------------- #
 		
@@ -13,7 +13,7 @@ define ['underscore'], ( _ )->
 		# ***************  models *************** #
 
 
-		targets = $scope.targets = Filters
+		targets = $scope.targets = Filters.get({offset:Page.filterPage})
 
 		newQuestion = $scope.question = 
 			newOption 			: ""
@@ -93,13 +93,12 @@ define ['underscore'], ( _ )->
 		
 		# -- for create question section --#
 		
-		#this will create options
+		#this will create option
 		$scope.createOption	= (option)->
 
 
 			# check to see if the same option is present
-			sameOptionFound = _.find(newQuestion.options,findSameOption)
-			
+			sameOptionFound = _.find(newQuestion.option,findSameOption)
 			
 			# check if newly created option is empty and the same option is found
 			if option is "" or !option
@@ -118,7 +117,9 @@ define ['underscore'], ( _ )->
 					count 		: 0
 					answeredBy 	: []
 
-				newQuestion.options.push(newlyCreatedOption)
+
+
+				newQuestion.option.push(newlyCreatedOption)
 				utility.isOptionAdded = true
 				utility.isSameOptionFound = false 
 				
@@ -130,10 +131,10 @@ define ['underscore'], ( _ )->
 			# clears out the input
 			newQuestion.newOption = ''
 
-		# this will remove options 
+		# this will remove option
 		$scope.removeOption = (index)->
 
-			newQuestion.options.splice(index,1)
+			newQuestion.option.splice(index,1)
 			
 			
 			
@@ -160,8 +161,8 @@ define ['underscore'], ( _ )->
 				message.questionNotFound = "Please finish making a question"
 			
 
-			# whether more than 2 options are chosen or not
-			if _.size(newQuestion.options) >= 2
+			# whether more than 2 option are chosen or not
+			if _.size(newQuestion.option) >= 2
 								
 				utility.areOptionsEnough = true	
 				message.optionsNotEnough = ""
@@ -206,18 +207,12 @@ define ['underscore'], ( _ )->
 
 			newQuestion.photo = User.profilePic
 			newQuestion.creatorName = User.profilePic
-
-
-			# # development purpose -> once connected with MongoDB
-			# # this will be removed because MongoDB will do this task
-			
-
 			newQuestion.creator = User._id
 
 
+			# $scope.question.unshift(newQuestion)
+			Question.save(newQuestion)
 
-
-			Question.unshift(newQuestion)
 
 			utility.isQuestionCreated 		= false
 			utility.isQuestionCompleted 	= true			

@@ -91,7 +91,7 @@
 	</div>
 	
 	<ul class='list-group'>
-		<li ng-repeat="option in question.options" class='animated fadeInLeft list-group-item'>
+		<li ng-repeat="option in question.option" class='animated fadeInLeft list-group-item'>
 			option {{$index+1}}: 
 			<span class="option">{{option.title}}</span>
 			<i ng-click="removeOption($index)" class="glyphicon glyphicon-remove pointer"></i>

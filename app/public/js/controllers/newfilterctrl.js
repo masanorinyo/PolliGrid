@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $timeout, Filters, Question) {
+    return function($scope, $timeout, $q, Filters, Question) {
       var filterUtil, findSameOption, newFilter;
       findSameOption = function(item) {
         if (item === filterUtil.newList) {
@@ -39,7 +39,7 @@
         }
       };
       $scope.submitNewFilter = function(newFilter) {
-        var clone_newFilter, enoughOptions;
+        var clone_newFilter, defer, enoughOptions;
         enoughOptions = false;
         if (_.size(newFilter.lists) >= 2) {
           enoughOptions = true;
@@ -54,7 +54,15 @@
           filterUtil.isNotFilledOut = false;
           clone_newFilter = angular.copy(newFilter);
           clone_newFilter.created_at = new Date().getTime();
-          $scope.targets.unshift(clone_newFilter);
+          $scope.targets = [];
+          defer = $q.defer();
+          defer.promise.then(function() {
+            return Filters.save(clone_newFilter);
+          }).then(function() {
+            console.log("$scope.targets");
+            return console.log($scope.targets);
+          });
+          defer.resolve();
           newFilter.title = "";
           newFilter.question = "";
           newFilter.lists = [];

@@ -15,7 +15,7 @@ exports.loadQuestions = (req,res)->
 	callback = (err,questions)->
 		questionsMap = []
 		questions.forEach (q)->
-			questionsMap.push(q)
+			questionsMap.unshift(q)
 		res.json(questionsMap)
 
 	questions = Question.find({}).limit(6).exec(callback)
@@ -89,20 +89,21 @@ exports.findByCategory = (req,res)->
 		.exec(callback)
 	
 
-
-
 exports.loadFilters = (req,res)->
+	
 	callback = (err,filters)->
 		filterMap = []
 		filters.forEach (filter)->
-			filterMap.push(filter)
+			filterMap.unshift(filter)
 		res.json(filterMap)
 
 	offset = req.params.offset
 
+
 	filters = Filter.find({}).limit(6).skip(offset).exec(callback)
 
 exports.makeFilter = (req,res)->
+	
 	newFilter = new Filter(req.body)
 
 	newFilter.save (error,filter)->

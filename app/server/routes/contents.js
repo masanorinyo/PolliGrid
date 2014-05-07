@@ -11,7 +11,7 @@
       var questionsMap;
       questionsMap = [];
       questions.forEach(function(q) {
-        return questionsMap.push(q);
+        return questionsMap.unshift(q);
       });
       return res.json(questionsMap);
     };
@@ -85,7 +85,7 @@
       var filterMap;
       filterMap = [];
       filters.forEach(function(filter) {
-        return filterMap.push(filter);
+        return filterMap.unshift(filter);
       });
       return res.json(filterMap);
     };

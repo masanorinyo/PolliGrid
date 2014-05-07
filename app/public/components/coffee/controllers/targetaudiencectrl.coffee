@@ -34,7 +34,6 @@ define ['underscore'], (_)->
 				# get which question the user already answered to
 				answeredIds = _.pluck $scope.user.filterQuestionsAnswered, '_id'
 
-				console.log answeredIds
 
 
 			if length 						
@@ -87,8 +86,6 @@ define ['underscore'], (_)->
 			length = $scope.targetChecker.length
 			i = 0
 			
-			console.log "$scope.targetChecker"
-			console.log $scope.targetChecker
 
 			# keep skipping the filter question until it hits 
 			# the question which has not been answered.
@@ -230,7 +227,8 @@ define ['underscore'], (_)->
 					_id 		: targetQuestionID
 					answer 	: targetAnswer
 				
-
+				console.log answer
+				console.log $scope.filterNumber
 
 				# find the answered option
 				answeredOption = _.findWhere question.targets[index].lists,{option:targetAnswer}				
@@ -241,11 +239,7 @@ define ['underscore'], (_)->
 				
 				$scope.user.filterQuestionsAnswered.push(answer)
 
-				console.log "answeredOption"
-				console.log answeredOption
 				
-				console.log "answer"
-				console.log answer
 
 				
 				defer = $q.defer()

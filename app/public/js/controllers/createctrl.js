@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User, $state, $stateParams) {
+    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams) {
       var findSameOption, message, newQuestion, targets, utility;
       findSameOption = function(item) {
         if (item.title === newQuestion.newOption) {
@@ -9,7 +9,9 @@
           return false;
         }
       };
-      targets = $scope.targets = Filters;
+      targets = $scope.targets = Filters.get({
+        offset: Page.filterPage
+      });
       newQuestion = $scope.question = {
         newOption: "",
         question: "",
@@ -56,7 +58,7 @@
       };
       $scope.createOption = function(option) {
         var newlyCreatedOption, sameOptionFound;
-        sameOptionFound = _.find(newQuestion.options, findSameOption);
+        sameOptionFound = _.find(newQuestion.option, findSameOption);
         if (option === "" || !option) {
           return false;
         } else if (sameOptionFound) {
@@ -67,7 +69,7 @@
             count: 0,
             answeredBy: []
           };
-          newQuestion.options.push(newlyCreatedOption);
+          newQuestion.option.push(newlyCreatedOption);
           utility.isOptionAdded = true;
           utility.isSameOptionFound = false;
           $timeout(function() {
@@ -77,7 +79,7 @@
         return newQuestion.newOption = '';
       };
       $scope.removeOption = function(index) {
-        return newQuestion.options.splice(index, 1);
+        return newQuestion.option.splice(index, 1);
       };
       $scope.openCreateFilterBox = function() {
         return utility.readyToMakeNewFilter = !utility.readyToMakeNewFilter;
@@ -92,7 +94,7 @@
           utility.isQuestionFound = false;
           message.questionNotFound = "Please finish making a question";
         }
-        if (_.size(newQuestion.options) >= 2) {
+        if (_.size(newQuestion.option) >= 2) {
           utility.areOptionsEnough = true;
           message.optionsNotEnough = "";
         } else {
@@ -120,7 +122,7 @@
         newQuestion.photo = User.profilePic;
         newQuestion.creatorName = User.profilePic;
         newQuestion.creator = User._id;
-        Question.unshift(newQuestion);
+        Question.save(newQuestion);
         utility.isQuestionCreated = false;
         return utility.isQuestionCompleted = true;
       };
