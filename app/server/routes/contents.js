@@ -25,7 +25,7 @@
       if (error) {
         return console.log(error);
       } else {
-        return console.dir(newQuestion);
+        return res.send(newQuestion);
       }
     });
   };
@@ -100,7 +100,7 @@
       if (error) {
         return console.log(error);
       } else {
-        return console.dir(filter);
+        return res.send(filter);
       }
     });
   };

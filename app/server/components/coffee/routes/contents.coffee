@@ -32,7 +32,7 @@ exports.makeQuestion = (req,res)->
 		if error 
 			console.log error 
 		else
-			console.dir newQuestion
+			res.send newQuestion
 	
 # find a question by id
 exports.findById = (req,res)->
@@ -110,5 +110,5 @@ exports.makeFilter = (req,res)->
 		if error 
 			console.log error 
 		else
-			console.dir filter
+			res.send filter
 	

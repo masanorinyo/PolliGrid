@@ -81,30 +81,22 @@ define ['underscore'], ( _ )->
 				clone_newFilter.created_at = new Date().getTime()
 
 
-				$scope.targets = []
-
 				defer = $q.defer()
 
-
+				newlySavedFilter = null
 				defer.promise
 					
 					# Save the newly created filter into database
-					.then -> Filters.save(clone_newFilter)
-					
-					# and retrieve it from it.
-					# .then -> 
-					# 	$timeout ->
-					# 		$scope.targets = Filters.get(offset:0)
-					# 	,300,true
-
 					.then -> 
-						console.log "$scope.targets"
-						console.log $scope.targets
+						newlySavedFilter = Filters.save(clone_newFilter)
+										
+					# and retrieve it from it.
+					.then -> 
+						$scope.targets.unshift(newlySavedFilter)
+						
 
 				defer.resolve()
-						
-				
-				
+										
 				
 				#clean up after submitting the data					
 				newFilter.title 			= ""
