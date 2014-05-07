@@ -1,5 +1,5 @@
 define ['underscore'], ( _ )->
-	($scope,$modalInstance,$location,$timeout,Filters,Question,User,Page,$state,$stateParams)->
+	($scope,$modalInstance,$location,$timeout,Filters,Question,User,Page,$state,$stateParams,$q)->
 		
 		# --------------------- Functions for utility --------------------- #
 		
@@ -39,6 +39,10 @@ define ['underscore'], ( _ )->
 		# If true, this will show the details of a filter
 		$scope.showDetails 		= false
 
+		# if true, infinite scroll will be disabled
+		$scope.outOfFilters = false
+
+		$scope.loadData = "Load more data"
 
 		# warning messages
 		message = $scope.message = 
@@ -70,6 +74,36 @@ define ['underscore'], ( _ )->
 
 		# *************** functions *************** #
 		
+		$scope.downloadFilters = ()->
+			
+			$scope.loadData = "...Loading data"
+			Page.filterPage += 6			
+			
+			Filters.get({offset:Page.filterPage}).$promise
+				.then (data)-> 
+					
+					newlyDownloaded = data
+					
+					if newlyDownloaded.length == 0 or _.isUndefined(newlyDownloaded)
+						
+						$scope.loadData = "No more data"
+					else 
+						
+						newlyDownloaded.forEach (val,key)->
+							
+							$scope.targets.push(val)
+						
+						$scope.loadData = "Load more data"
+					
+			
+			
+			
+			
+
+			
+
+
+
 		# -- applies to all modal sections --#
 		
 		$scope.closeModal = ()->

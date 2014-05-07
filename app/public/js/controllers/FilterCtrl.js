@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $timeout, Filters, Question, User) {
+    return function($scope, $timeout, Filters, Page, Question, User) {
       $scope.filterAdded = false;
       $scope.addFilter = function(target) {
         var foundSameTarget, index;

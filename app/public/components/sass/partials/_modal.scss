@@ -1,554 +1,447 @@
 //-------------------- modal utility (used by extending) --------------------//
 
 //remove bootstrap default animation effect
-.removeAnimation{
-	
-	-webkit-transform: translate(0, 0%)!important;
-	-ms-transform: translate(0, 0%)!important;
-	-moz--transform: translate(0, 0%)!important;
-	-o--transform: translate(0, 0%)!important;
-	transform: translate(0, 0%)!important;
+.removeAnimation {
+    -webkit-transform: translate(0, 0%) !important;
+    -ms-transform: translate(0, 0%) !important;
+    -moz--transform: translate(0, 0%) !important;
+    -o--transform: translate(0, 0%) !important;
+    transform: translate(0, 0%) !important;
+}
 
-}//.removeAnimation
+//.removeAnimation
 
 //modal sizes
-.small-modal{
+.small-modal {
+    //overwrite the bootstrap style
+    @include force-center;
+    width: 20em !important;
+    height: 30em;
+}
 
-	//overwrite the bootstrap style
-	@include force-center;	
-	width:20em!important;
-	height:30em;
+//.small-modal
 
-}//.small-modal
+.medium-modal {
+    //overwrite the bootstrap style
+    @include force-center;
+    width: 80% !important;
+    max-width: 500px;
+    height: 80%;
+}
 
+//.small-modal
 
-.medium-modal{
+.large-modal {
+    //overwrite the bootstrap style
+    @include force-center;
+    width: 90% !important;
+    max-width: 500px;
+    height: 95%;
+}
 
-	//overwrite the bootstrap style
-	@include force-center;
-	width:80%!important;
-	max-width:500px;
-	height:80%;
-
-}//.small-modal
-
-.large-modal{
-	
-	//overwrite the bootstrap style
-	@include force-center;
-	width:90%!important;
-	max-width:500px;
-	height: 95%;
-	
-
-	
-}//.large-modal
-
+//.large-modal
 
 //-------------------- applied for all modals --------------------//
 
+.modal-dialog .close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    z-index: 10;
+}
 
-.modal-dialog .close{
-
-	position: absolute;
-	right: 20px;
-	top: 10px;
-	z-index:10;
-
-}//.modal-dialog .close
-
+//.modal-dialog .close
 
 //-------------------- partials --------------------//
-.share-box{
-	
-	.modal-body{
-		
-		overflow:auto;
-		height:500px;
-	}
+.share-box {
+    .modal-body {
+        overflow: auto;
+        height: 500px;
+    }
+    .social-accounts .btn {
+        width: 100%;
+        margin: 0.5em auto;
+    }
+    //.cosial-accounts .btn
+    .link-box {
+        border: 1px solid rgb(220, 220, 220);
+        .header {
+            font-size: 1em;
+            padding: 1px 0 0 0.2em;
+            color: rgb(130, 140, 140);
+            background-color: rgb(240, 240, 240);
+            border-bottom: 1px solid rgb(230, 230, 230);
+        }
+        //header
+        .link-creator {
+            width: 100%;
+            min-height: 6.5em;
+            padding: 1em;
+            overflow: auto;
+            background-color: rgb(250, 250, 250);
+            position: relative;
+            #link {
+                word-wrap: break-word;
+                font-size: 0.8em;
+                color: rgb(100, 150, 200);
+                margin-bottom: 1em;
+            }
+            //#link
+       
+        }
+        //link-creator
+   
+    }
+    //link-box
+}
 
-	.social-accounts .btn{
-		width: 100%;
-		margin: 0.5em auto;
-	}//.cosial-accounts .btn
-	
+//share-box
 
+.modal-header h3 {
+    margin: auto;
+    font-size: 1.2em;
+    color: $blue;
+}
 
-	.link-box{
+//modal-header
 
-		border:1px solid rgb(220,220,220);
-		
-		.header{
-			font-size: 1em;
-			padding: 1px 0 0 0.2em;
-			color: rgb(130,140,140);
-			background-color: rgb(240,240,240);
-			border-bottom: 1px solid rgb(230,230,230);
-		}//header
+.modal-body {
+    overflow: auto;
+}
 
-		.link-creator{
-			width: 100%;
-			min-height: 6.5em;
-			padding:1em;
-			overflow:auto;
-			background-color: rgb(250,250,250);
-			position:relative;
-
-			#link{
-				word-wrap:break-word; 
-				font-size: 0.8em;
-				color: rgb(100,150,200);
-				margin-bottom:1em;
-			}//#link
-		}//link-creator
-	}//link-box
-}//share-box
-
-.modal-header h3{
-	margin:auto;
-	font-size:1.2em;
-	color:$blue;
-}//modal-header
-
-
-.modal-body{
-	
-	overflow:auto;
-
-}//modal-body
+//modal-body
 
 //-------------------- modals --------------------//
 //**** auth-modal ***//
 
-.shareModal{
-	.modal-dialog{
-		
-		@extend .medium-modal;
-	
-	}//.modal-dialog
-}//.shareModal
+.shareModal {
+    .modal-dialog {
+        @extend .medium-modal;
+    }
+    //.modal-dialog
+}
 
+//.shareModal
 
-.authModal{
+.authModal {
+    .modal-dialog {
+        @extend .medium-modal;
+    }
+    //.modal-dialog
+    .account-form {
+        padding: 2em 1em;
+        .title-wrapper {
+            position: relative;
+            width: 100%;
+            height: 2em;
+            .title {
+                @include absolute-center;
+                text-align: center;
+                width: 50%;
+                font-size: 1.2em;
+            }
+            //.title
+       
+        }
+        //.title-wrapper
+        .social-box {
+            height: 10em;
+            .social-accounts {
+                margin: 1em;
+                a {
+                    width: 100%;
+                    margin-bottom: 0.5em;
+                }
+                //a
+           
+            }
+            //.social-accounts
+       
+        }
+        //.social-box
+        .local-box {
+            width: 85%;
+            margin: auto;
+            .title {
+                font-size: 1em;
+            }
+            //.title
+            label {
+                font-size: 0.8em;
+                color: rgb(150, 150, 150);
+            }
+            //label
+       
+        }
+        //.local-box
+        .reverse {
+            font-size: 0.8em;
+            text-align: center;
+        }
+    }
+    //.account-form
+}
 
-	.modal-dialog{
-		
-		@extend .medium-modal;
-	
-	}//.modal-dialog
-	
-	.account-form{
-		
-		padding:2em 1em;
-		
-		.title-wrapper{
-			
-			position:relative;
-			width:100%;
-			height:2em;
-
-			.title{
-				
-				@include absolute-center;
-				text-align: center;
-				width: 50%;
-				font-size: 1.2em;
-			
-			}//.title
-		}//.title-wrapper
-
-		.social-box{
-			
-			height:10em;
-
-			.social-accounts{
-				
-				margin:1em;
-
-				a{
-				
-					width: 100%;
-					margin-bottom: 0.5em;
-				
-				}//a
-			}//.social-accounts
-		}//.social-box
-
-		.local-box{
-			
-			width: 85%;
-			margin: auto;
-
-			.title{
-				
-				font-size: 1em;
-			
-			}//.title
-
-			label{
-				
-				font-size: 0.8em;
-				color: rgb(150,150,150)
-			
-			}//label
-		}//.local-box
-
-		.reverse{
-			font-size: 0.8em;
-			text-align: center;
-		}
-	}//.account-form
-}//.authModal
+//.authModal
 
 //**** create-modal ***//
-.createModal{
-
-	
-	.modal-dialog{
-		
-		@extend .removeAnimation;		
-		@extend .large-modal;
-		
-	}
-
-	.modal-body{
-		
-		overflow:auto;
-		height:500px;
-		
-		
-		
-		
-		label{
-			color:lighten($lightgray,10);
-			font-size:0.9em;
-			margin-left:5px;
-		}
-
-		.icon-wrapper{
-			position: relative;
-			height:50px;
-
-			> i {
-				
-				@include absolute-center;
-				width: 20px;
-				height: 20px;
-				color:lighten($lightgray,10);
-			}
-		}
-
-		.well{
-			margin-top:5px;
-			.semi-title{
-			
-				color:$gray;
-			
-			}
-			color:$blue;
-		}
-
-		.target-audience, .create-question{
-			.list-group{
-			
-				color: rgb(170,170,170);
-				font-size: 0.9em;
-				
-				.option{
-					color:$blue;
-					font-size:1em;
-				}
-
-				.glyphicon{
-
-					@include absolute-center($right:20px,$left:auto);
-					font-size:1.1em;
-					height: 10px;
-					width: 10px;
-					
-					&:hover{
-						color:$red;
-					}
-				}
-			}
-		}
-
-
-	
-		.target-audience{
-			
-			.utility-wrapper{
-			
-				overflow:auto;
-				
-				.form-control{
-					width:75%;
-				}
-			}
-
-			.newFilterCreator{
-				@include border-radius(10px);
-				padding:10px;
-				overflow: auto;
-
-				label{
-					color:white;
-				}
-			}
-		}
-
-		
-	}
-
-	.modal-footer{
-		margin-top:2px;
-	}
-	
+.createModal {
+    .modal-dialog {
+        @extend .removeAnimation;
+        @extend .large-modal;
+    }
+    .modal-body {
+        overflow: auto;
+        height: 500px;
+        label {
+            color: lighten($lightgray, 10);
+            font-size: 0.9em;
+            margin-left: 5px;
+        }
+        .icon-wrapper {
+            position: relative;
+            height: 50px;
+            > i {
+                @include absolute-center;
+                width: 20px;
+                height: 20px;
+                color: lighten($lightgray, 10);
+            }
+        }
+        .well {
+            margin-top: 5px;
+            .semi-title {
+                color: $gray;
+            }
+            color: $blue;
+        }
+        .target-audience, .create-question {
+            .list-group {
+                color: rgb(170, 170, 170);
+                font-size: 0.9em;
+                .option {
+                    color: $blue;
+                    font-size: 1em;
+                }
+                .glyphicon {
+                    @include absolute-center($right: 20px, $left: auto);
+                    font-size: 1.1em;
+                    height: 10px;
+                    width: 10px;
+                    &:hover {
+                        color: $red;
+                    }
+                }
+            }
+            .btn-loading {
+                width: 100%;
+            }
+        }
+        .target-audience {
+            .utility-wrapper {
+                overflow: auto;
+                .form-control {
+                    width: 75%;
+                }
+            }
+            .newFilterCreator {
+                @include border-radius(10px);
+                padding: 10px;
+                overflow: auto;
+                label {
+                    color: white;
+                }
+            }
+        }
+    }
+    .modal-footer {
+        margin-top: 2px;
+    }
 }
 
-.graphs{
-	height:410px;
-	width:95%;
-	
-
-	> canvas{
+.graphs {
+    height: 410px;
+    width: 95%;
+    > canvas {
         max-width: 400px;
         height: auto !important;
-		@include absolute-center;
-	}
+        @include absolute-center;
+    }
 }
 
-.switch{
-	@include absolute-center($top:auto,$bottom:auto);
-	bottom: -40px;
-	width: 240px;
+.switch {
+    @include absolute-center($top: auto, $bottom: auto);
+    bottom: -40px;
+    width: 240px;
 }
 
-.deepResult{
-	
-	.modal-dialog{
-		
-		@extend .removeAnimation;		
-		@extend .large-modal;
-		
-	}
-
-	.modal-body{
-		
-		overflow:auto;
-		height:500px;
-		
-		hr{
-			margin-top:50px;
-		}
-		
-	}
-
-	.modal-header{
-		position: relative;
-
-		.btn-comment{
-			position: absolute;
-			right: 53px;
-			top: 0;
-			bottom: 0;
-			margin: auto;
-			height: 29px;
-		}
-	}
-
-	
-	.question-name{
-		color:rgb(50,50,80);
-	}
-	
-
-
-	.sub-title{
-		width:100px;
-		text-align: center;
-		right: 0;
-		left: 0;
-		margin: 0 auto 10px;
-		@include border-radius(25px);
-	}
-
-	.respondents{
-		
-		list-style-type:circle;
-		
-		.respondent{
-			width: 80%;
-			margin-left: 15px;
-		}
-	}
-
-
-	.panel-heading{
-		
-		padding:0;
-		color:rgb(120,120,120);
-
-		.accordion-header{
-		
-			padding:10px 15px;
-			cursor:pointer;
-			
-			.filter-name{
-				color: rgb(150,150,150);
-				text-decoration: none;
-			}
-		}
-	}
-	.list-group-item{
-		.option-content{
-			width: 56%;
-			margin-left: 27px;
-		}
-
-		.btn-list{
-			position: absolute;
-			right: 9px;
-			top: 0;
-			bottom: 0;
-			margin: auto;
-			height: 28px;
-		}
-
-		.box-count.pull-left {
-			width: 35px;
-			height: 100%;
-			border-right: 1px solid rgb(221,221,221);
-			@include absolute-center($right:auto);
-			
-			.number {
-				@include absolute-center;
-				word-break: break-all;
-				height: 14px;
-				width: 35px;
-				font-size: 0.8em;
-				text-align: center;
-				
-				&.blue-badge{
-					background-color:lighten($lightblue,10);
-					width: 80%;
-					color: white;
-					@include border-radius(100px);
-				}
-			}
-
-		}
-	}
-
-
-	.filter-wrapper{
-		position: relative;
-		width: 95%;
-		margin: auto;
-
-		.question{
-			font-size:1em;
-		}
-
-		.well{
-			width:49%;
-			display:inline-block;
-		}
-	}
-
-	.chart{
-		position:relative;
-		
-		.legends{
-			@include absolute-center($top:60px,$bottom:auto,$left:45px,$right:auto);
-			width: 100px;
-
-			.toCenter{
-				@include absolute-center($top:auto,$bottom:auto);
-				margin:auto;
-				width:52px;
-			}
-
-			// needs to be the same color with the related graphs
-			.overall{
-				background-color:rgba(180,180,180,1);
-			}
-
-			.filter{
-				background-color:rgba(151,187,205,1);
-			}
-		}
-
-		.graphs{
-			@extend .graphs;
-
-			.chart-pie{
-				width: 90% !important;
-
-				@include at-breakpoint($medium){
-					width: 65% !important;					
-				}
-			}
-
-			.chart-radar,.chart-line{
-				width: 100% !important;
-
-				@include at-breakpoint($medium){
-					width: 75% !important;					
-				}
-			}
-			
-			.noInfo{
-				@include absolute-center;
-				height: 20%;
-				text-align: center;
-				font-size: 2.2em;
-			}
-
-		}
-
-		.button-charts{
-			@extend .switch;
-			bottom: 33px;
-		}
-	}
-
-	.chart-percentage{
-		
-		
-		.list-chart{
-
-			position:relative;
-			
-			.chart-title{
-				font-size:1.2em;
-				text-align: center;
-				margin-bottom: 30px;
-			}
-			
-
-			.graphs{
-				
-				@extend .graphs;
-				height:345px;
-				margin:20px auto 75px;
-
-				> canvas{
-					width: 90% !important;
-
-					@include at-breakpoint($medium){
-						width: 60% !important;					
-					}
-				}
-			}
-			
-			.button-switch{
-				@extend .switch;
-				width:140px;
-				bottom:0;
-			}
-		}
-	}
+.deepResult {
+    .modal-dialog {
+        @extend .removeAnimation;
+        @extend .large-modal;
+    }
+    .modal-body {
+        overflow: auto;
+        height: 500px;
+        hr {
+            margin-top: 50px;
+        }
+    }
+    .modal-header {
+        position: relative;
+        .btn-comment {
+            position: absolute;
+            right: 53px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            height: 29px;
+        }
+    }
+    .question-name {
+        color: rgb(50, 50, 80);
+    }
+    .sub-title {
+        width: 100px;
+        text-align: center;
+        right: 0;
+        left: 0;
+        margin: 0 auto 10px;
+        @include border-radius(25px);
+    }
+    .respondents {
+        list-style-type: circle;
+        .respondent {
+            width: 80%;
+            margin-left: 15px;
+        }
+    }
+    .panel-heading {
+        padding: 0;
+        color: rgb(120, 120, 120);
+        .accordion-header {
+            padding: 10px 15px;
+            cursor: pointer;
+            .filter-name {
+                color: rgb(150, 150, 150);
+                text-decoration: none;
+            }
+        }
+    }
+    .list-group-item {
+        .option-content {
+            width: 56%;
+            margin-left: 27px;
+        }
+        .btn-list {
+            position: absolute;
+            right: 9px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            height: 28px;
+        }
+        .box-count.pull-left {
+            width: 35px;
+            height: 100%;
+            border-right: 1px solid rgb(221, 221, 221);
+            @include absolute-center($right: auto);
+            .number {
+                @include absolute-center;
+                word-break: break-all;
+                height: 14px;
+                width: 35px;
+                font-size: 0.8em;
+                text-align: center;
+                &.blue-badge {
+                    background-color: lighten($lightblue, 10);
+                    width: 80%;
+                    color: white;
+                    @include border-radius(100px);
+                }
+            }
+        }
+    }
+    .filter-wrapper {
+        position: relative;
+        width: 95%;
+        margin: auto;
+        .question {
+            font-size: 1em;
+        }
+        .well {
+            width: 49%;
+            display: inline-block;
+        }
+    }
+    .chart {
+        position: relative;
+        .legends {
+            @include absolute-center($top: 60px, $bottom: auto, $left: 45px, $right: auto);
+            width: 100px;
+            .toCenter {
+                @include absolute-center($top: auto, $bottom: auto);
+                margin: auto;
+                width: 52px;
+            }
+            // needs to be the same color with the related graphs
+            .overall {
+                background-color: rgba(180, 180, 180, 1);
+            }
+            .filter {
+                background-color: rgba(151, 187, 205, 1);
+            }
+        }
+        .graphs {
+            @extend .graphs;
+            .chart-pie {
+                width: 90% !important;
+                @include at-breakpoint($medium) {
+                    width: 65% !important;
+                }
+            }
+            .chart-radar,.chart-line {
+                width: 100% !important;
+                @include at-breakpoint($medium) {
+                    width: 75% !important;
+                }
+            }
+            .noInfo {
+                @include absolute-center;
+                height: 20%;
+                text-align: center;
+                font-size: 2.2em;
+            }
+        }
+        .button-charts {
+            @extend .switch;
+            bottom: 33px;
+        }
+    }
+    .chart-percentage {
+        .list-chart {
+            position: relative;
+            .chart-title {
+                font-size: 1.2em;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .graphs {
+                @extend .graphs;
+                height: 345px;
+                margin: 20px auto 75px;
+                > canvas {
+                    width: 90% !important;
+                    @include at-breakpoint($medium) {
+                        width: 60% !important;
+                    }
+                }
+            }
+            .button-switch {
+                @extend .switch;
+                width: 140px;
+                bottom: 0;
+            }
+        }
+    }
 }
-
-

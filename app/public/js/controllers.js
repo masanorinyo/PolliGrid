@@ -51,7 +51,7 @@
           "$timeout": $timeout
         });
       });
-    }).controller('CreateCtrl', function($scope, $injector, $modalInstance, $location, $timeout, $state, $stateParams) {
+    }).controller('CreateCtrl', function($scope, $injector, $modalInstance, $location, $timeout, $state, $stateParams, $q) {
       return require(['controllers/createctrl'], function(createctrl) {
         return $injector.invoke(createctrl, this, {
           "$scope": $scope,
@@ -59,7 +59,8 @@
           "$location": $location,
           "$timeout": $timeout,
           "$state": $state,
-          "$stateParams": $stateParams
+          "$stateParams": $stateParams,
+          "$q": $q
         });
       });
     }).controller('FilterCtrl', function($scope, $injector, $timeout) {

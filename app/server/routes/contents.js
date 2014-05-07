@@ -87,7 +87,8 @@
       filters.forEach(function(filter) {
         return filterMap.unshift(filter);
       });
-      return res.json(filterMap);
+      console.log(filterMap);
+      return res.send(filterMap);
     };
     offset = req.params.offset;
     return filters = Filter.find({}).limit(6).skip(offset).exec(callback);

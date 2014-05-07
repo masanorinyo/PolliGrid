@@ -78,7 +78,7 @@ define ['angular','services'], (angular) ->
 				)
 			)
 
-		.controller 'CreateCtrl', ($scope, $injector,$modalInstance,$location,$timeout,$state,$stateParams)->
+		.controller 'CreateCtrl', ($scope, $injector,$modalInstance,$location,$timeout,$state,$stateParams,$q)->
 			require(['controllers/createctrl'], (createctrl)->
 				$injector.invoke(
 					createctrl, this,{
@@ -87,7 +87,8 @@ define ['angular','services'], (angular) ->
 						"$location" 	 		: $location
 						"$timeout" 				: $timeout
 						"$state" 				: $state
-						"$stateParams" 				: $stateParams
+						"$stateParams" 			: $stateParams
+						"$q"					: $q
 
 						
 					}

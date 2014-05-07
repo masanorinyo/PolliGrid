@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams) {
+    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams, $q) {
       var findSameOption, message, newQuestion, targets, utility;
       findSameOption = function(item) {
         if (item.title === newQuestion.newOption) {
@@ -29,6 +29,8 @@
         photo: ""
       };
       $scope.showDetails = false;
+      $scope.outOfFilters = false;
+      $scope.loadData = "Load more data";
       message = $scope.message = {
         questionNotFound: "",
         optionsNotEnough: "",
@@ -44,6 +46,24 @@
         isCreatingQuestion: true,
         isQuestionCreated: false,
         isQuestionCompleted: false
+      };
+      $scope.downloadFilters = function() {
+        $scope.loadData = "...Loading data";
+        Page.filterPage += 6;
+        return Filters.get({
+          offset: Page.filterPage
+        }).$promise.then(function(data) {
+          var newlyDownloaded;
+          newlyDownloaded = data;
+          if (newlyDownloaded.length === 0 || _.isUndefined(newlyDownloaded)) {
+            return $scope.loadData = "No more data";
+          } else {
+            newlyDownloaded.forEach(function(val, key) {
+              return $scope.targets.push(val);
+            });
+            return $scope.loadData = "Load more data";
+          }
+        });
       };
       $scope.closeModal = function() {
         $scope.$dismiss();

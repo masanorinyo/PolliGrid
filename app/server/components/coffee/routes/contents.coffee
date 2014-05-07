@@ -93,12 +93,15 @@ exports.loadFilters = (req,res)->
 	
 	callback = (err,filters)->
 		filterMap = []
+		
 		filters.forEach (filter)->
 			filterMap.unshift(filter)
-		res.json(filterMap)
+		
+		console.log filterMap
+		res.send(filterMap)
+
 
 	offset = req.params.offset
-
 
 	filters = Filter.find({}).limit(6).skip(offset).exec(callback)
 

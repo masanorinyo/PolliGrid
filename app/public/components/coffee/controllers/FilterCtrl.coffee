@@ -1,9 +1,10 @@
 define ['underscore'], ( _ )->
-	($scope,$timeout,Filters,Question,User)->
+	($scope,$timeout,Filters,Page,Question,User)->
 		
 		# -- for target audience section --#
 
 		$scope.filterAdded = false
+		
 
 		#this will add a filter to the question
 		$scope.addFilter = (target)->
@@ -33,7 +34,8 @@ define ['underscore'], ( _ )->
 				# if found with the question, then remove it.				
 				index = $scope.question.targets.indexOf(target)	
 				$scope.question.targets.splice(index,1)
-			
+		
+
 
 		
 		# --- invoke the scope --- #

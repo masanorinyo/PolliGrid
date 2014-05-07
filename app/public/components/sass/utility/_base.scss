@@ -1,68 +1,65 @@
 canvas {
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-
-body,html{
-	height:100%;
-	width:100%;
-	font-size:1.2em;
-	line-height:160%;
-	
-	background-color:rgb(233,233,233)!important;
-	background: url(http://subtlepatterns.com/patterns/scribble_light.png);
+body,html {
+    height: 100%;
+    width: 100%;
+    font-size: 1.2em;
+    line-height: 160%;
+    background-color: rgb(233, 233, 233) !important;
+    background: url(http://subtlepatterns.com/patterns/scribble_light.png);
 }
 
 // header default setting //
-#{headings()}{
-	
-	font-weight:normal;
-
-}//all headings
-
-h2{
-
-	font-size:1.3em;
-
-}//h2
-
-h3{
-
-	font-size:1.2em;
-
-}//h3
-
-
-// link tag default setting //
-a{
-	
-	text-decoration:none;
-	&:hover{
-		color:$cyan;
-
-	}//hover
-}//a
-
-// list default setting //
-li{
-	
-	text-align:left;
-
-}//li
-
-// small default setting //
-small,.small{
-	
-	font-size:0.8em;
-	color:$Gray;
-
-}//small
-
-
-.border-top{
-	border-top:1px solid rgb(200,200,200)
+#{headings()} {
+    font-weight: normal;
 }
 
-.form-link{
-	cursor: pointer;
+//all headings
+
+h2 {
+    font-size: 1.3em;
+}
+
+//h2
+
+h3 {
+    font-size: 1.2em;
+}
+
+//h3
+
+// link tag default setting //
+a {
+    text-decoration: none;
+    &:hover {
+        color: $cyan;
+    }
+    //hover
+}
+
+//a
+
+// list default setting //
+li {
+    text-align: left;
+}
+
+//li
+
+// small default setting //
+small,.small {
+    font-size: 0.8em;
+    color: $Gray;
+}
+
+//small
+
+.border-top {
+    border-top: 1px solid rgb(200, 200, 200);
+}
+
+.form-link {
+    cursor: pointer;
 }
