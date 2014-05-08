@@ -94,6 +94,12 @@
     return filters = Filter.find({}).limit(6).skip(offset).exec(callback);
   };
 
+  exports.loadSpecificFilters = function(req, res) {
+    var term;
+    term = req.params.searchTerm;
+    return console.log(term);
+  };
+
   exports.makeFilter = function(req, res) {
     var newFilter;
     newFilter = new Filter(req.body);

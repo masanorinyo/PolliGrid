@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams, $q, Debounce) {
+    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams, $q, Debounce, FilterSearch) {
       var findSameOption, message, newQuestion, targets, utility;
       findSameOption = function(item) {
         if (item.title === newQuestion.newOption) {
@@ -31,7 +31,6 @@
       $scope.showDetails = false;
       $scope.outOfFilters = false;
       $scope.loadData = "Load more data";
-      $scope.searchText = '';
       message = $scope.message = {
         questionNotFound: "",
         optionsNotEnough: "",
@@ -66,8 +65,11 @@
           }
         });
       };
+      $scope.searchText = '';
       $scope.searching = function() {
-        return console.log('test');
+        return FilterSearch.get({
+          searchTerm: $scope.searchText
+        });
       };
       $scope.searchFilter = Debounce($scope.searching, 333, false);
       $scope.closeModal = function() {

@@ -105,6 +105,13 @@ exports.loadFilters = (req,res)->
 
 	filters = Filter.find({}).limit(6).skip(offset).exec(callback)
 
+exports.loadSpecificFilters = (req,res)->
+	term = req.params.searchTerm
+
+	console.log term
+	
+	
+
 exports.makeFilter = (req,res)->
 	
 	newFilter = new Filter(req.body)

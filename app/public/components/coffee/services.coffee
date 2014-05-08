@@ -21,7 +21,7 @@ define ['angular'], (angular) ->
 		.factory 'FilterSearch', ($resource)->
 			
 			$resource(
-				"/api/findByTerm/:searchTerm"
+				"/api/findFilterByTerm/:searchTerm"
 				{searchTerm:"@searchTerm"}
 				{
 					"get":

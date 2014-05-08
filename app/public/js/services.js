@@ -16,7 +16,7 @@
         }
       });
     }).factory('FilterSearch', function($resource) {
-      return $resource("/api/findByTerm/:searchTerm", {
+      return $resource("/api/findFilterByTerm/:searchTerm", {
         searchTerm: "@searchTerm"
       }, {
         "get": {

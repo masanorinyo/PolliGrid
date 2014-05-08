@@ -113,7 +113,7 @@ app.route '/api/question'
 app.route '/api/findById/:id'
       .get contents.findById
 
-app.route '/api/findByTerm/:searchTerm/:orderBy/:reversed/:offset'
+app.route '/api/findQuestionByTerm/:searchTerm/:orderBy/:reversed/:offset'
       .get contents.findByTerm
 
 app.route '/api/findByCategory/:category'
@@ -125,8 +125,8 @@ app.route '/api/filter/:offset'
       .get contents.loadFilters
       .post contents.makeFilter
 
-app.route '/api/findByTerm/:searchTerm'
-      .get contents.loadFilters
+app.route '/api/findFilterByTerm/:searchTerm'
+      .get contents.loadSpecificFilters
 
 # user related
 
