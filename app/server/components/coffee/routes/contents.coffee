@@ -91,25 +91,36 @@ exports.findByCategory = (req,res)->
 
 exports.loadFilters = (req,res)->
 	
+
+
+
 	callback = (err,filters)->
 		filterMap = []
 		
 		filters.forEach (filter)->
 			filterMap.unshift(filter)
-		
-		console.log filterMap
 		res.send(filterMap)
 
-
+	term = req.params.searchTerm
 	offset = req.params.offset
 
-	filters = Filter.find({}).limit(6).skip(offset).exec(callback)
+	if term is "all" then term = ""		
 
-exports.loadSpecificFilters = (req,res)->
-	term = req.params.searchTerm
+	filters = Filter
+		.find(
+			{
+				$or:[
+			 		"title":new RegExp(term, 'i')
+		 		,
+		 			"question":new RegExp(term,'i')
+		 					
+		 		]
+			}
+		)
+		.limit(6)
+		.skip(offset)
+		.exec(callback)
 
-	console.log term
-	
 	
 
 exports.makeFilter = (req,res)->

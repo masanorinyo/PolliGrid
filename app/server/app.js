@@ -99,9 +99,7 @@
 
   app.route('/api/findByCategory/:category').get(contents.findByCategory);
 
-  app.route('/api/filter/:offset').get(contents.loadFilters).post(contents.makeFilter);
-
-  app.route('/api/findFilterByTerm/:searchTerm').get(contents.loadSpecificFilters);
+  app.route('/api/filter/:searchTerm/:offset').get(contents.loadFilters).post(contents.makeFilter);
 
   app.route('/api/auth').get(auth.index);
 

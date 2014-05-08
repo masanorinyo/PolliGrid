@@ -121,14 +121,10 @@ app.route '/api/findByCategory/:category'
 
 # filter related
 
-app.route '/api/filter/:offset'
+app.route '/api/filter/:searchTerm/:offset'
       .get contents.loadFilters
       .post contents.makeFilter
 
-app.route '/api/findFilterByTerm/:searchTerm'
-      .get contents.loadSpecificFilters
-
-# user related
 
 app.route '/api/auth'
       .get auth.index

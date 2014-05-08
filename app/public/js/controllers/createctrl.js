@@ -1,7 +1,7 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams, $q, Debounce, FilterSearch) {
-      var findSameOption, message, newQuestion, targets, utility;
+    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams, $q, Debounce) {
+      var changeInSearchText, findSameOption, message, newQuestion, utility;
       findSameOption = function(item) {
         if (item.title === newQuestion.newOption) {
           return true;
@@ -9,7 +9,10 @@
           return false;
         }
       };
-      targets = $scope.targets = Filters.get({
+      $scope.searchText = "";
+      $scope.searchTerm = "all";
+      $scope.targets = Filters.get({
+        searchTerm: $scope.searchTerm,
         offset: Page.filterPage
       });
       newQuestion = $scope.question = {
@@ -47,10 +50,21 @@
         isQuestionCreated: false,
         isQuestionCompleted: false
       };
+      changeInSearchText = function() {
+        return $scope.searchText;
+      };
+      $scope.$watch(changeInSearchText, function() {
+        if ($scope.searchText === "") {
+          return $scope.searchTerm = "all";
+        } else {
+          return $scope.searchTerm = $scope.searchText;
+        }
+      });
       $scope.downloadFilters = function() {
         $scope.loadData = "...Loading data";
         Page.filterPage += 6;
         return Filters.get({
+          searchTerm: $scope.searchTerm,
           offset: Page.filterPage
         }).$promise.then(function(data) {
           var newlyDownloaded;
@@ -65,11 +79,12 @@
           }
         });
       };
-      $scope.searchText = '';
       $scope.searching = function() {
-        return FilterSearch.get({
-          searchTerm: $scope.searchText
-        });
+        Page.filterPage = 0;
+        return console.log($scope.targets = Filters.get({
+          searchTerm: $scope.searchTerm,
+          offset: Page.filterPage
+        }));
       };
       $scope.searchFilter = Debounce($scope.searching, 333, false);
       $scope.closeModal = function() {

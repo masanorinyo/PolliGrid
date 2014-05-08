@@ -1,24 +1,17 @@
 (function() {
   define(['angular'], function(angular) {
     return angular.module('myapp.services', ['ngResource']).factory('Filters', function($resource) {
-      return $resource("/api/filter/:offset", {
-        offset: "@offset"
+      return $resource("/api/filter/:searchTerm/:offset", {
+        offset: "@offset",
+        searchTerm: "@searchTerm"
       }, {
         "save": {
           method: "POST",
           params: {
-            offset: "0"
+            offset: "0",
+            searchTerm: "new"
           }
         },
-        "get": {
-          method: "GET",
-          isArray: true
-        }
-      });
-    }).factory('FilterSearch', function($resource) {
-      return $resource("/api/findFilterByTerm/:searchTerm", {
-        searchTerm: "@searchTerm"
-      }, {
         "get": {
           method: "GET",
           isArray: true

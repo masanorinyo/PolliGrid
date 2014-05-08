@@ -1,5 +1,5 @@
 define ['underscore'], ( _ )->
-	($scope,$modalInstance,$location,$timeout,Filters,Question,User,Page,$state,$stateParams,$q,Debounce,FilterSearch)->
+	($scope,$modalInstance,$location,$timeout,Filters,Question,User,Page,$state,$stateParams,$q,Debounce)->
 		
 		# --------------------- Functions for utility --------------------- #
 		
@@ -12,8 +12,16 @@ define ['underscore'], ( _ )->
 		
 		# ***************  models *************** #
 
+		$scope.searchText = ""
+		$scope.searchTerm = "all"
+		
 
-		targets = $scope.targets = Filters.get({offset:Page.filterPage})
+		$scope.targets = Filters.get(
+			{
+				searchTerm:$scope.searchTerm
+				offset:Page.filterPage
+			}
+		)
 
 		newQuestion = $scope.question = 
 			newOption 			: ""
@@ -74,13 +82,32 @@ define ['underscore'], ( _ )->
 		
 
 		# *************** functions *************** #
-		
+		changeInSearchText = ()->
+			$scope.searchText
+
+		$scope.$watch changeInSearchText, ()->
+			
+			if $scope.searchText is ""
+				
+				$scope.searchTerm = "all"
+			
+			else 
+			
+				$scope.searchTerm = $scope.searchText
+
+
+
 		$scope.downloadFilters = ()->
 			
 			$scope.loadData = "...Loading data"
 			Page.filterPage += 6			
 			
-			Filters.get({offset:Page.filterPage}).$promise
+			Filters.get(
+				{
+					searchTerm:$scope.searchTerm
+					offset:Page.filterPage
+				}
+			).$promise
 				.then (data)-> 
 					
 					newlyDownloaded = data
@@ -96,11 +123,18 @@ define ['underscore'], ( _ )->
 						
 						$scope.loadData = "Load more data"
 		
-		$scope.searchText = ''
+		
 
 		$scope.searching = ->
-			# $scope.targets = 
-			FilterSearch.get({searchTerm:$scope.searchText})
+
+			Page.filterPage = 0
+			
+			console.log $scope.targets = Filters.get(
+				{
+					searchTerm:$scope.searchTerm
+					offset:Page.filterPage
+				}
+			)
 
 		$scope.searchFilter = Debounce($scope.searching, 333, false);
 			

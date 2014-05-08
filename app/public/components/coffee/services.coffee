@@ -2,13 +2,17 @@ define ['angular'], (angular) ->
 	angular.module('myapp.services', ['ngResource'])
 		.factory 'Filters', ($resource)->
 			$resource(
-				"/api/filter/:offset"
-				{offset : "@offset"}
+				"/api/filter/:searchTerm/:offset"
+				{
+					offset 		: "@offset"
+					searchTerm 	: "@searchTerm"
+				}
 				{
 					"save":
 						method:"POST"
 						params:
 							offset:"0"
+							searchTerm:"new"
 						
 					
 					"get":
@@ -18,17 +22,17 @@ define ['angular'], (angular) ->
 				}
 			)
 
-		.factory 'FilterSearch', ($resource)->
+		# .factory 'FilterSearch', ($resource)->
 			
-			$resource(
-				"/api/findFilterByTerm/:searchTerm"
-				{searchTerm:"@searchTerm"}
-				{
-					"get":
-						method:"GET"
-						isArray:true
-				}
-			)
+		# 	$resource(
+		# 		"/api/findFilterByTerm/:searchTerm"
+		# 		{searchTerm:"@searchTerm"}
+		# 		{
+		# 			"get":
+		# 				method:"GET"
+		# 				isArray:true
+		# 		}
+		# 	)
 				
 		.factory 'Question', ($resource)->
 			$resource(

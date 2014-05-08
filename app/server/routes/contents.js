@@ -80,24 +80,29 @@
   };
 
   exports.loadFilters = function(req, res) {
-    var callback, filters, offset;
+    var callback, filters, offset, term;
     callback = function(err, filters) {
       var filterMap;
       filterMap = [];
       filters.forEach(function(filter) {
         return filterMap.unshift(filter);
       });
-      console.log(filterMap);
       return res.send(filterMap);
     };
-    offset = req.params.offset;
-    return filters = Filter.find({}).limit(6).skip(offset).exec(callback);
-  };
-
-  exports.loadSpecificFilters = function(req, res) {
-    var term;
     term = req.params.searchTerm;
-    return console.log(term);
+    offset = req.params.offset;
+    if (term === "all") {
+      term = "";
+    }
+    return filters = Filter.find({
+      $or: [
+        {
+          "title": new RegExp(term, 'i')
+        }, {
+          "question": new RegExp(term, 'i')
+        }
+      ]
+    }).limit(6).skip(offset).exec(callback);
   };
 
   exports.makeFilter = function(req, res) {
