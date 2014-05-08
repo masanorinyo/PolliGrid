@@ -1,5 +1,5 @@
 define ['underscore'], ( _ )->
-	($scope,$modalInstance,$location,$timeout,Filters,Question,User,Page,$state,$stateParams,$q)->
+	($scope,$modalInstance,$location,$timeout,Filters,Question,User,Page,$state,$stateParams,$q,Debounce)->
 		
 		# --------------------- Functions for utility --------------------- #
 		
@@ -43,6 +43,8 @@ define ['underscore'], ( _ )->
 		$scope.outOfFilters = false
 
 		$scope.loadData = "Load more data"
+
+		$scope.searchText = ''
 
 		# warning messages
 		message = $scope.message = 
@@ -94,15 +96,29 @@ define ['underscore'], ( _ )->
 							$scope.targets.push(val)
 						
 						$scope.loadData = "Load more data"
-					
 			
+
+		$scope.searching = ->
+			console.log 'test'
+
+		$scope.searchFilter = Debounce($scope.searching, 333, false);
+			
+			
+  
+  
+  
+
+
+
+
 			
 			
 			
 
 			
+			
 
-
+		
 
 		# -- applies to all modal sections --#
 		

@@ -5,6 +5,7 @@ define ['underscore'], (_)->
 		
 		# ***************  Models *************** #
 		
+
 		$scope.questions = Question.get()
 
 		$scope.order = "Recent"
@@ -204,8 +205,6 @@ define ['underscore'], (_)->
 			"Women's Fashion"
 			"Other"
 		]
-
-
 
 
 		# ***************  Variables *************** #

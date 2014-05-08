@@ -15,6 +15,15 @@
           isArray: true
         }
       });
+    }).factory('FilterSearch', function($resource) {
+      return $resource("/api/findByTerm/:searchTerm", {
+        searchTerm: "@searchTerm"
+      }, {
+        "get": {
+          method: "GET",
+          isArray: true
+        }
+      });
     }).factory('Question', function($resource) {
       return $resource("/api/question", {}, {
         "save": {
@@ -56,6 +65,35 @@
       return page = {
         questionPage: 0,
         filterPage: 0
+      };
+    }).factory("Debounce", function($timeout, $q) {
+      var debounce;
+      return debounce = function(func, wait, immediate) {
+        var deferred, timeout;
+        timeout = void 0;
+        deferred = $q.defer();
+        return function() {
+          var args, callNow, context, later;
+          context = this;
+          args = arguments;
+          later = function() {
+            timeout = null;
+            if (!immediate) {
+              deferred.resolve(func.apply(context, args));
+              deferred = $q.defer();
+            }
+          };
+          callNow = immediate && !timeout;
+          if (timeout) {
+            $timeout.cancel(timeout);
+          }
+          timeout = $timeout(later, wait);
+          if (callNow) {
+            deferred.resolve(func.apply(context, args));
+            deferred = $q.defer();
+          }
+          return deferred.promise;
+        };
       };
     });
   });

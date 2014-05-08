@@ -3,7 +3,7 @@
 		search filters or create your own:
 	</label>
 	<div class="utility-wrapper">
-		<input ng-model="search" type="text" placeholder="Filter responses by ..." name="search" class="pull-left search form-control" >
+		<input ng-model="searchText" ng-change="searchFilter()" type="text" placeholder="Filter responses by ..." name="search" class="pull-left search form-control" >
 		<button ng-click="openCreateFilterBox()" class="pull-right btn btn-default">
 			Create
 		</button>
@@ -19,7 +19,7 @@
 		<p class="hiddenMessage">
 			No filters were found
 		</p>
-		<li ng-repeat="target in targets | filter:search" class="card card-small" ng-controller="FilterCtrl" >
+		<li ng-repeat="target in targets" class="card card-small" ng-controller="FilterCtrl" >
 			<div class="title-wrapper">
 				<!-- stop-event -->
 				<div button-ok="question" target="target" filter-added="filterAdded" ng-click="addFilter(target)" ng-class="{'bg-blue':filterAdded}" class='icon-wrapper pull-left'>
