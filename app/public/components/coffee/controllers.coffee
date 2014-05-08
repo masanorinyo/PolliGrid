@@ -2,10 +2,9 @@ define ['angular','services'], (angular) ->
 	angular.module('myapp.controllers', ['myapp.services'])
 		
 		.controller 'WhichOneCtrl', ($sce,$scope,$location,$stateParams,$timeout,$state,User)->
-			$scope.searchQuestion = ''
-			$scope.user = User
-
 			
+			$scope.user = User
+			$scope.searchQuestion = ''
 
 
 			$scope.refresh = ()->
@@ -21,8 +20,6 @@ define ['angular','services'], (angular) ->
 					})
 
 				,100,true
-
-			
 
 
 			$scope.logout = ()->

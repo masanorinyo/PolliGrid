@@ -100,9 +100,6 @@
         });
         return defer.resolve();
       };
-      $scope.searchByCategory = function(category) {
-        return $scope.searchQuestion = category;
-      };
       $scope.putCategory = function(category) {
         $scope.category = category;
         return $scope.searchFocused = false;

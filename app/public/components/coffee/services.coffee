@@ -86,6 +86,7 @@ define ['angular'], (angular) ->
 				questionPage 	: 0
 				filterPage 		: 0
 
+
 		# Create an AngularJS service called debounce
 		.factory "Debounce", ($timeout, $q) ->
     

@@ -87,28 +87,6 @@
           }, 300, true);
         }
       };
-    }).directive("reset", function($timeout, $window) {
-      return {
-        restrict: "A",
-        scope: {
-          reset: "="
-        },
-        link: function(scope, element, attr) {
-          var w;
-          w = angular.element($window);
-          return w.bind("click", function(e) {
-            switch (e.target.id) {
-              case 'categorybox':
-              case 'searchbox':
-              case "category-select":
-              case "order-select":
-                return scope.$apply(scope.reset = true);
-              default:
-                return scope.$apply(scope.reset = false);
-            }
-          });
-        }
-      };
     }).directive("getSize", function($timeout) {
       return {
         restrict: "A",

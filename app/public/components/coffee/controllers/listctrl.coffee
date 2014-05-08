@@ -42,6 +42,7 @@ define ['underscore'], (_)->
 	
 		# ***************  ChartJS configuration *************** #
 		
+
 		# chart data #
 		$scope.myChartData = []
 

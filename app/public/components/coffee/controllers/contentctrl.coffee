@@ -107,13 +107,6 @@ define ['underscore'], (_)->
 
 			defer.resolve()
 
-			
-
-
-		$scope.searchByCategory = (category)->
-
-				$scope.searchQuestion = category
-
 		$scope.putCategory = (category)->
 
 			$scope.category = category

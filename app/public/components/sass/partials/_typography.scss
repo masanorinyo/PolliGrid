@@ -7,11 +7,10 @@ $normal: "Helvetca";
 
 .header-title{
 	@include absolute-center($left:1em);
-	@include single-text-shadow;
-	font-size:0.8em;
+	font-size:0.7em;
 	left:10px;
-	height:50%;
-	color:$slightlyGray;
+	height:48%;
+	color:lighten($blue,10);
 
 	&:hover{
 		text-decoration:none;

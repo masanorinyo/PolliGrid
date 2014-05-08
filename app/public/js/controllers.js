@@ -1,8 +1,8 @@
 (function() {
   define(['angular', 'services'], function(angular) {
     return angular.module('myapp.controllers', ['myapp.services']).controller('WhichOneCtrl', function($sce, $scope, $location, $stateParams, $timeout, $state, User) {
-      $scope.searchQuestion = '';
       $scope.user = User;
+      $scope.searchQuestion = '';
       $scope.refresh = function() {
         $location.path('/');
         return $timeout(function() {

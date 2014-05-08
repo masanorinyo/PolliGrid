@@ -1,53 +1,17 @@
-<section class="utility-section">
-	<h1 hidden>search</h1>
-	<a href="#" ui-sref=".create" class='btn btn-default create'>
-		Create
-	</a>
-     <div reset="searchFocused">
-		<div  class="input-group search">
-			<input id="searchbox" ng-change="updateSearch()" focus-me="searchFocused" ng-model="searchQuestion" type="text" placeholder="Search..."class="form-control">
-			<span class="input-group-addon">
-				<i class="glyphicon glyphicon-search"></i>
-			</span>
-		</div>
-
-		<!-- change it to "clicking orderby -> opens orderby box" -->
-		<!-- change it to "clicking category -> opens orderby box" -->
-
-		<div ng-if="searchFocused" id="categorybox" class="popover-searchbox">
-			<i class="fa fa-sort-up"></i>
-			<p class="title ">
-				<span id="category-select" ng-click="showOrder=false" ng-class="{'selected':!showOrder}" class="pointer pull-left">Categories </span>
-				<span id="order-select" ng-click="showOrder=true" ng-class="{'selected':showOrder}" class="pointer pull-right">Order by</span>
-			</p>
-			<hr class="clear">
-			<div ng-show="showOrder" class="orders">
-				<ul>
-					<li ng-click="sortBy(order)" ng-repeat="order in orders">{{order}}</li>
-				</ul>
-			</div>
-			<div class="categories">
-				<ul>
-					<li ng-click="putCategory(category)" ng-hide="showOrder" ng-repeat="category in categories">{{category}}</li>
-				</ul>
-			</div>
-		</div>
-     </div>
+<section class="container-utility">
+	<div class="btn btn-default pull-left order">
+		Order by - <span class="blue">{{order}} </span>
+	</div>
+	<div class="btn btn-default pull-right category">
+		Category - <span class="blue">{{category}}</span>
+	</div>
 </section>
 <section infinite-scroll="downloadMoreContents()" infinite-scroll-disabled="isContentsLoaded" class='content-section'>
 
 	<h1 hidden>question</h1>
-	<div class="orderby gray pull-left">
-		Order by - <span class="blue">{{order}} </span>
-	</div>
-	<div class="orderby gray pull-left">
-		Category - <span class="blue">{{category}}</span>
-	</div>
-
 	<div ng-show="!filteredQuestions.length" class="noContent">
 		Couldn't find anything
 	</div>
-	
 	<ul  deckgrid source="questions" class="deckgrid content-cards" >
 		
 		<li  ng-controller="ListCtrl">

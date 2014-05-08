@@ -6,15 +6,132 @@
 	position:fixed;
 	top:0;
 	z-index:100;
-	background-color:$blue;
+	background-color:$header-color;
 	
+	.search{
+		
+		@include box-shadow(rgb(180, 180, 180) 0px 1px 1px 0px);
+		display: none;
+		position: absolute;
+		top:4em;
+		height:4em;
+		width:100%;
+		background-color:$header-color;
+		z-index:100;
+
+		@include at-breakpoint($medium){
+			
+			@include box-shadow(initial);
+			display:block;
+			top:auto;
+			height:auto;
+			width:auto;
+			background-color:initial;
+			left:235px;
+			width:35%;
+			height:100%;
+		}
+
+		@include at-breakpoint($large){
+			left:255px;
+		}
+
+		.form-control{
+			width:94%;
+			right:0;
+			left:0;
+			margin:14px auto;
+		}
+		
+		.header-utility{
+		
+			display: none;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			height: 29px;
+			right:-80px;
+
+			> .order{
+				margin-right:3px;
+			}
+
+			@include at-breakpoint($medium){
+				display: block;
+
+			}
+			
+			@include at-breakpoint($large){
+				
+			}
+			
+		}//header-utility
+
+	}
+
+
+
 	.header-wrapper{
 		@include absolute-center;
 		width:85%;
 		height:100%;
-		
+
+		.btn-search{
+
+			@include absolute-center($right:auto);
+			height: 40px;
+			width: 35px;
+			color:$gray;
+
+			@include at-breakpoint($medium){
+				display:none;
+			}
+
+			&:hover{
+				color:$lightblue;	
+			}
+
+			.glyphicon-search{
+				@include absolute-center;
+				font-size: 1.5em;
+				width: 20px;
+				height: 20px;			
+			}
+
+		}
+
 		.header-title{
 			width:160px;
+
+			@include at-breakpoint($medium){
+
+				right:auto;
+		
+			}
+		}
+
+		.create{
+			font-size: 3em;
+			@include absolute-center($left:auto,$right:37px);
+			width: 30px;
+			height: 100%;
+			text-align: center;
+			font-weight: bold;
+			text-decoration: none;
+			color: $gray;
+			line-height:normal;
+			
+			&:hover{
+				color:$lightblue;
+			}
+
+			@include at-breakpoint($medium){
+				right:90px;
+			}
+			@include at-breakpoint($large){
+				right:130px;
+			}
 		}
 
 	}
@@ -91,7 +208,7 @@
 }//header
 
 .contain{
-	margin-top:90px;
+	margin-top:70px;
 	padding-bottom:100px;
 	width:400px;
 	margin-right: auto;
@@ -107,73 +224,25 @@
 		width:1135px;
 	}
 
-	.utility-section{
+	.container-utility{
 		
-		overflow: auto;
-		margin: auto;
-		width:98%;
+		display:block;
+
+		> .btn{
+			width:47%;
+		}
+
+		.category{
+			margin-right:5px;
+		}
 
 		@include at-breakpoint($medium){
-			width: 460px;	
+			display: none;
 		}
 
-		@include at-breakpoint($large){
-			width: 550px;
-		}
-
-		.create{
-			width:70px;
-			float:left;
-			text-align:center;
-			color:darken($lightgray,10);
-
-			@include at-breakpoint($medium){
-				width:100px;
-			}
-			
-			@include at-breakpoint($large){
-				width:130px;
-			}
-			
-
-			span{
-				font-size:0.9em;
-			}
-
-			&:hover{
-				color:$darkblue;
-			}//hover
-		}//create
-
-		.search{
-			width:280px;
-			float:right;
-
-			@include at-breakpoint($medium){
-				width:350px;
-			}
-			
-			@include at-breakpoint($large){
-				width:400px;
-			}
-
-			.input-group-addon{
-				background-color:white;
-			}
-		}//search
-	}//utility-section
-
-	.content-section{
 		
-		margin-top:30px;
+	}//container-utility
 
-		.orderby{
-			/*text-align:center;*/
-			margin-left:30px;
-		}
-
-
-	}//.content-section
 
 	.noContent{
 		@include absolute-center;

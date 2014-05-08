@@ -1,11 +1,26 @@
 <header class='main-header'>
-	
+	<div ng-class="{'toggleShow':toggleSearchBox}" class="search">
+		<input id="searchbox"   ng-model="$parent.searchQuestion" placeholder="Search..." ng-change="updateSearch()" class="form-control">
+		<div class="header-utility">
+			<div class="btn btn-default order">
+				<i class="fa fa-filter"></i>
+			</div>
+			<div class="btn btn-default category">
+				<i class="fa fa-archive"></i>
+			</div>
+		</div>
+    </div>
 	<div class="header-wrapper">
+		<span class="pointer btn-search" ng-click="toggleSearchBox = !toggleSearchBox ">
+			<i class="glyphicon glyphicon-search"></i>
+		</span>
 		<h1 ng-click="refresh()">
 			<a class='header-title' href="#">
 				Which one</a>
 		</h1>
-		
+		<a href="#" ui-sref=".create" class='create'>
+			+
+		</a>
 		<div ng-if="user.isLoggedIn" class="profile pull-right dropdown">
 		    <a href="#" class="dropdown-toggle">
 		      <img ng-src="{{user.profilePic}}" alt="{{user.name}}" class="img-circle">
