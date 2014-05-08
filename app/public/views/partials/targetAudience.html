@@ -3,7 +3,8 @@
 		search filters or create your own:
 	</label>
 	<div class="utility-wrapper">
-		<input ng-model="$parent.$parent.searchText" ng-change="searchFilter()" type="text" placeholder="Filter responses by ..." name="search" class="pull-left search form-control" >
+		<input ng-model="$parent.$parent.searchText" ng-change="searchFilter()" type="text" placeholder="Filter responses by ..." name="search" class="pull-left search form-control" typeahead="filter for filter in getFilterTitles($viewValue)" typeahead-loading="loadingFilter">
+		<i ng-show="loadingFilter" class="glyphicon glyphicon-refresh"></i>
 		<button ng-click="openCreateFilterBox()" class="pull-right btn btn-default">
 			Create
 		</button>

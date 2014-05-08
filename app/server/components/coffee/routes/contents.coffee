@@ -92,8 +92,6 @@ exports.findByCategory = (req,res)->
 exports.loadFilters = (req,res)->
 	
 
-
-
 	callback = (err,filters)->
 		filterMap = []
 		
@@ -121,7 +119,30 @@ exports.loadFilters = (req,res)->
 		.skip(offset)
 		.exec(callback)
 
-	
+exports.getFilterTitle = (req,res)->
+
+
+	callback = (err,filters)->
+		filterMap = []
+		
+		filters.forEach (filter)->
+			filterMap.unshift(filter)
+		res.send(filterMap)
+
+
+
+	term = req.params.term
+
+	Filter.find(
+		{
+			"title":new RegExp(term, 'i')
+		 }
+	)
+	.limit(6)
+	.exec(callback)
+
+
+
 
 exports.makeFilter = (req,res)->
 	

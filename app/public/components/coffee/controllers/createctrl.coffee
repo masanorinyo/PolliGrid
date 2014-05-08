@@ -1,5 +1,5 @@
 define ['underscore'], ( _ )->
-	($scope,$modalInstance,$location,$timeout,Filters,Question,User,Page,$state,$stateParams,$q,Debounce)->
+	($scope,$modalInstance,$location,$timeout,Filters,Question,User,Page,$state,$stateParams,$q,Debounce,FilterTypeHead)->
 		
 		# --------------------- Functions for utility --------------------- #
 		
@@ -96,6 +96,25 @@ define ['underscore'], ( _ )->
 				$scope.searchTerm = $scope.searchText
 
 
+		$scope.getFilterTitles = (term)->
+			
+			FilterTypeHead.get(
+				{
+					term:term
+				}
+			).$promise
+				.then (data)->
+
+					titles = []
+					data.forEach (val,key)->
+						console.log val.title
+						titles.push(val.title)
+
+					console.log titles
+
+					return titles
+
+
 
 		$scope.downloadFilters = ()->
 			
@@ -129,7 +148,7 @@ define ['underscore'], ( _ )->
 
 			Page.filterPage = 0
 			
-			console.log $scope.targets = Filters.get(
+			$scope.targets = Filters.get(
 				{
 					searchTerm:$scope.searchTerm
 					offset:Page.filterPage

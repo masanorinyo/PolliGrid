@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams, $q, Debounce) {
+    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams, $q, Debounce, FilterTypeHead) {
       var changeInSearchText, findSameOption, message, newQuestion, utility;
       findSameOption = function(item) {
         if (item.title === newQuestion.newOption) {
@@ -60,6 +60,20 @@
           return $scope.searchTerm = $scope.searchText;
         }
       });
+      $scope.getFilterTitles = function(term) {
+        return FilterTypeHead.get({
+          term: term
+        }).$promise.then(function(data) {
+          var titles;
+          titles = [];
+          data.forEach(function(val, key) {
+            console.log(val.title);
+            return titles.push(val.title);
+          });
+          console.log(titles);
+          return titles;
+        });
+      };
       $scope.downloadFilters = function() {
         $scope.loadData = "...Loading data";
         Page.filterPage += 6;
@@ -81,10 +95,10 @@
       };
       $scope.searching = function() {
         Page.filterPage = 0;
-        return console.log($scope.targets = Filters.get({
+        return $scope.targets = Filters.get({
           searchTerm: $scope.searchTerm,
           offset: Page.filterPage
-        }));
+        });
       };
       $scope.searchFilter = Debounce($scope.searching, 333, false);
       $scope.closeModal = function() {

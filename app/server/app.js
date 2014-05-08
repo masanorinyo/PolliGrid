@@ -101,6 +101,8 @@
 
   app.route('/api/filter/:searchTerm/:offset').get(contents.loadFilters).post(contents.makeFilter);
 
+  app.route('/api/getFilterTitle/:term').get(contents.getFilterTitle);
+
   app.route('/api/auth').get(auth.index);
 
   app.listen(port, function() {

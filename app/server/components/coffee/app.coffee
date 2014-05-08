@@ -125,6 +125,11 @@ app.route '/api/filter/:searchTerm/:offset'
       .get contents.loadFilters
       .post contents.makeFilter
 
+# returns typehead data
+app.route '/api/getFilterTitle/:term'
+      .get contents.getFilterTitle
+
+# user related
 
 app.route '/api/auth'
       .get auth.index

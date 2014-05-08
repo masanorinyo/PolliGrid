@@ -22,17 +22,18 @@ define ['angular'], (angular) ->
 				}
 			)
 
-		# .factory 'FilterSearch', ($resource)->
-			
-		# 	$resource(
-		# 		"/api/findFilterByTerm/:searchTerm"
-		# 		{searchTerm:"@searchTerm"}
-		# 		{
-		# 			"get":
-		# 				method:"GET"
-		# 				isArray:true
-		# 		}
-		# 	)
+		.factory 'FilterTypeHead', ($resource)->
+			$resource(
+				"/api/getFilterTitle/:term"
+				{
+					term:"@term"
+				}
+				{
+					"get":
+						method:"GET"
+						isArray:true
+				}
+			)
 				
 		.factory 'Question', ($resource)->
 			$resource(

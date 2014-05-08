@@ -105,6 +105,22 @@
     }).limit(6).skip(offset).exec(callback);
   };
 
+  exports.getFilterTitle = function(req, res) {
+    var callback, term;
+    callback = function(err, filters) {
+      var filterMap;
+      filterMap = [];
+      filters.forEach(function(filter) {
+        return filterMap.unshift(filter);
+      });
+      return res.send(filterMap);
+    };
+    term = req.params.term;
+    return Filter.find({
+      "title": new RegExp(term, 'i')
+    }).limit(6).exec(callback);
+  };
+
   exports.makeFilter = function(req, res) {
     var newFilter;
     newFilter = new Filter(req.body);

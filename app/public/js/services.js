@@ -17,6 +17,15 @@
           isArray: true
         }
       });
+    }).factory('FilterTypeHead', function($resource) {
+      return $resource("/api/getFilterTitle/:term", {
+        term: "@term"
+      }, {
+        "get": {
+          method: "GET",
+          isArray: true
+        }
+      });
     }).factory('Question', function($resource) {
       return $resource("/api/question", {}, {
         "save": {
