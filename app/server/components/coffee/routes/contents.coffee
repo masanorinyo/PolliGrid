@@ -102,8 +102,6 @@ exports.loadFilters = (req,res)->
 	term = escapeChar(unescape(req.params.searchTerm))
 	offset = req.params.offset
 
-	console.log term
-
 	if term is "all" then term = ""		
 
 	filters = Filter
@@ -133,7 +131,7 @@ exports.getFilterTitle = (req,res)->
 
 
 
-	term = req.params.term
+	term = escapeChar(unescape(req.params.term))
 
 	Filter.find(
 		{

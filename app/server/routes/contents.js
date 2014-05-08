@@ -95,7 +95,6 @@
     };
     term = escapeChar(unescape(req.params.searchTerm));
     offset = req.params.offset;
-    console.log(term);
     if (term === "all") {
       term = "";
     }
@@ -120,7 +119,7 @@
       });
       return res.send(filterMap);
     };
-    term = req.params.term;
+    term = escapeChar(unescape(req.params.term));
     return Filter.find({
       "title": new RegExp(term, 'i')
     }).limit(6).exec(callback);
