@@ -100,7 +100,7 @@ define ['underscore'], ( _ )->
 			
 			FilterTypeHead.get(
 				{
-					term:term
+					term:escape(term)
 				}
 			).$promise
 				.then (data)->
@@ -109,8 +109,6 @@ define ['underscore'], ( _ )->
 					data.forEach (val,key)->
 						console.log val.title
 						titles.push(val.title)
-
-					console.log titles
 
 					return titles
 
@@ -142,15 +140,18 @@ define ['underscore'], ( _ )->
 						
 						$scope.loadData = "Load more data"
 		
-		
+		$scope.selectedTypehead = ($item)->
+			
+			$scope.searchTerm = $item
+			$scope.searching()
 
 		$scope.searching = ->
-
+			
 			Page.filterPage = 0
 			
 			$scope.targets = Filters.get(
 				{
-					searchTerm:$scope.searchTerm
+					searchTerm:escape($scope.searchTerm)
 					offset:Page.filterPage
 				}
 			)

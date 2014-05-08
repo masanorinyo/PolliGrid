@@ -4,7 +4,8 @@ Filter 		= 	require('../models/targetQuestion');
 
 
 # ----------------- utility functions ----------------- #
-
+escapeChar = (regex)->
+	regex.replace(/([()[{*+.$^\\|?])/g, '\\$1')
 
 
 # ----------------- exports routing functions ----------------- #
@@ -90,7 +91,6 @@ exports.findByCategory = (req,res)->
 	
 
 exports.loadFilters = (req,res)->
-	
 
 	callback = (err,filters)->
 		filterMap = []
@@ -99,8 +99,10 @@ exports.loadFilters = (req,res)->
 			filterMap.unshift(filter)
 		res.send(filterMap)
 
-	term = req.params.searchTerm
+	term = escapeChar(unescape(req.params.searchTerm))
 	offset = req.params.offset
+
+	console.log term
 
 	if term is "all" then term = ""		
 

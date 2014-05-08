@@ -1,9 +1,13 @@
 (function() {
-  var Filter, Question;
+  var Filter, Question, escapeChar;
 
   Question = require('../models/question');
 
   Filter = require('../models/targetQuestion');
+
+  escapeChar = function(regex) {
+    return regex.replace(/([()[{*+.$^\\|?])/g, '\\$1');
+  };
 
   exports.loadQuestions = function(req, res) {
     var callback, questions;
@@ -89,8 +93,9 @@
       });
       return res.send(filterMap);
     };
-    term = req.params.searchTerm;
+    term = escapeChar(unescape(req.params.searchTerm));
     offset = req.params.offset;
+    console.log(term);
     if (term === "all") {
       term = "";
     }

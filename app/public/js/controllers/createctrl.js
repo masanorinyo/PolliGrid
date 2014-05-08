@@ -62,7 +62,7 @@
       });
       $scope.getFilterTitles = function(term) {
         return FilterTypeHead.get({
-          term: term
+          term: escape(term)
         }).$promise.then(function(data) {
           var titles;
           titles = [];
@@ -70,7 +70,6 @@
             console.log(val.title);
             return titles.push(val.title);
           });
-          console.log(titles);
           return titles;
         });
       };
@@ -93,10 +92,14 @@
           }
         });
       };
+      $scope.selectedTypehead = function($item) {
+        $scope.searchTerm = $item;
+        return $scope.searching();
+      };
       $scope.searching = function() {
         Page.filterPage = 0;
         return $scope.targets = Filters.get({
-          searchTerm: $scope.searchTerm,
+          searchTerm: escape($scope.searchTerm),
           offset: Page.filterPage
         });
       };

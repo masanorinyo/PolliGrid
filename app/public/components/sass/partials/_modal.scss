@@ -248,11 +248,6 @@
                     left: 0 !important;
                     width: 75% !important;
                 }
-                > .glyphicon-refresh {
-                    position: absolute;
-                    top: 70px;
-                    left: 35%;
-                }
             }
             .newFilterCreator {
                 @include border-radius(10px);
