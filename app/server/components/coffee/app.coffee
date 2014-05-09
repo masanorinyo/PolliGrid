@@ -112,7 +112,6 @@ app.route '/'
 
 # returns user related contents
 app.route '/api/question'
-      .get contents.loadQuestions
       .post contents.makeQuestion
 
 # returns specific contents
@@ -124,8 +123,8 @@ app.route '/api/findQuestions/:searchTerm/:category/:order/:offset'
       .get contents.findQuestions
 
 # returns typehead data
-# app.route '/api/getQuestionTitle/:term'
-#       .get contents.getQuestionTitle
+app.route '/api/getQuestionTitle/:term'
+      .get contents.getQuestionTitle
 
 #################################################
 # -------------- Filter handlers -------------- #

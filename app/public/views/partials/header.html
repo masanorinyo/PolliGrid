@@ -1,6 +1,6 @@
 <header class='main-header'>
 	<div ng-class="{'toggleShow':$parent.toggleSearchBox}" class="search">
-		<input id="searchbox"  type="text" ng-model="$parent.searchQuestion" placeholder="Search..." ng-change="updateSearch()" class="form-control">
+		<input id="searchbox"  type="text" ng-model="$parent.searchQuestion" placeholder="Search..." ng-change="updateSearch()" class="form-control" typeahead="term for term in getPartOfQuestion($viewValue)" typeahead-on-select='selectedTypehead($item)'>
 		<div class="header-utility">
 			<div class="btn btn-default order" ng-class="{'active':orderBox}" id="order-toggler" toggle order="orderBox" category="categoryBox" ng-click="orderBox = !orderBox">
 				<i id="order-icon" class="fa fa-filter"></i>

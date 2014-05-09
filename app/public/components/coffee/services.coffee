@@ -46,6 +46,19 @@ define ['angular'], (angular) ->
 				}
 			)
 
+		.factory 'QuestionTypeHead', ($resource)->
+			$resource(
+				"/api/getQuestionTitle/:term"
+				{
+					term:"@term"
+				}
+				{
+					"get":
+						method:"GET"
+						isArray:true
+				}
+			)
+
 		.factory 'FindQuestions', ($resource)->
 			$resource(
 				"/api/findQuestions/:searchTerm/:category/:order/:offset"
@@ -111,7 +124,6 @@ define ['angular'], (angular) ->
 
 		.factory 'Search', ()->
 			search = 
-				searchWord 	: ""
 				category 	: "All"
 				
 

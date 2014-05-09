@@ -1,5 +1,5 @@
 define ["underscore"], (_)->
-	($scope,$location,$q,$stateParams,$timeout,$state,User,Page,FindQuestions,Debounce,Search)->
+	($scope,$location,$q,$stateParams,$timeout,$state,User,Page,FindQuestions,Debounce,Search,QuestionTypeHead)->
 
 
 		# --------------- Util functions --------------- #					
@@ -115,6 +115,31 @@ define ["underscore"], (_)->
 				})
 
 			,100,true
+
+
+		# type head
+		$scope.selectedTypehead = ($item)->
+			
+			$scope.searchQuestion = $item
+			searchSpecificQuestions()
+
+		$scope.getPartOfQuestion = (term)->
+			
+			QuestionTypeHead.get(
+				{
+					term:escape(term)
+				}
+			).$promise
+				.then (data)->
+
+					questions = []
+					data.forEach (val,key)->
+						
+						questions.push(val.question)
+
+					return questions
+
+
 
 
 		# Contents handler #			

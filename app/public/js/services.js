@@ -32,6 +32,15 @@
           method: "POST"
         }
       });
+    }).factory('QuestionTypeHead', function($resource) {
+      return $resource("/api/getQuestionTitle/:term", {
+        term: "@term"
+      }, {
+        "get": {
+          method: "GET",
+          isArray: true
+        }
+      });
     }).factory('FindQuestions', function($resource) {
       return $resource("/api/findQuestions/:searchTerm/:category/:order/:offset", {
         searchTerm: "@searchTerm",
@@ -89,7 +98,6 @@
     }).factory('Search', function() {
       var search;
       return search = {
-        searchWord: "",
         category: "All"
       };
     }).factory("Debounce", function($timeout, $q) {

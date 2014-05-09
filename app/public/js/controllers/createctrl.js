@@ -73,6 +73,10 @@
           return titles;
         });
       };
+      $scope.selectedTypehead = function($item) {
+        $scope.searchTerm = $item;
+        return $scope.searching();
+      };
       $scope.downloadFilters = function() {
         $scope.loadData = "...Loading data";
         Page.filterPage += 6;
@@ -91,10 +95,6 @@
             return $scope.loadData = "Load more data";
           }
         });
-      };
-      $scope.selectedTypehead = function($item) {
-        $scope.searchTerm = $item;
-        return $scope.searching();
       };
       $scope.searching = function() {
         Page.filterPage = 0;

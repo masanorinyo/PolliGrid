@@ -26,19 +26,6 @@ exports.makeQuestion = (req,res)->
 			res.send newQuestion
 
 
-
-# get all the questions
-exports.loadQuestions = (req,res)->
-	
-	callback = (err,questions)->
-		questionsMap = []
-		questions.forEach (q)->
-			questionsMap.unshift(q)
-		res.json(questionsMap)
-
-	questions = Question.find({}).limit(6).exec(callback)
-		
-
 # find a question by id
 exports.findById = (req,res)->
 	
@@ -56,10 +43,10 @@ exports.findQuestions = (req,res)->
 		else 
 			res.json data
 		
-	console.log term = decodeURI(req.params.searchTerm)
-	console.log category = decodeURI(req.params.category)
-	console.log order = decodeURI(req.params.order)
-	console.log offset = req.params.offset
+	term = decodeURI(req.params.searchTerm)
+	category = decodeURI(req.params.category)
+	order = decodeURI(req.params.order)
+	offset = req.params.offset
 
 
 	if term is "All" then term = ""
@@ -134,20 +121,26 @@ exports.findQuestions = (req,res)->
 	
 
 
-# exports.findByCategory = (req,res)->
-
-# 	callback = (err,data)->
-# 		if err 
-# 			res.send err 
-# 		else 
-# 			res.json data
-
-# 	category = req.params.category
+exports.getQuestionTitle = (req,res)->
 	
-# 	foundQuestion = Question
-# 		.where('category')
-# 		.equals(category)
-# 		.exec(callback)
+	callback = (err,questions)->
+		
+		questionMap = []
+		
+		questions.forEach (question)->
+			questionMap.unshift(question)
+		res.send(questionMap)
+
+
+	term = escapeChar(unescape(req.params.term))
+
+	Question.find(
+		{
+			"question":new RegExp(term, 'i')
+		 }
+	)
+	.limit(6)
+	.exec(callback)
 	
 #################################################
 # -------------- filter handlers -------------- #

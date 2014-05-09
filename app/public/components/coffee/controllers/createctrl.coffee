@@ -112,6 +112,10 @@ define ['underscore'], ( _ )->
 
 					return titles
 
+		$scope.selectedTypehead = ($item)->
+			
+			$scope.searchTerm = $item
+			$scope.searching()
 
 
 		$scope.downloadFilters = ()->
@@ -140,10 +144,7 @@ define ['underscore'], ( _ )->
 						
 						$scope.loadData = "Load more data"
 		
-		$scope.selectedTypehead = ($item)->
-			
-			$scope.searchTerm = $item
-			$scope.searching()
+		
 
 		$scope.searching = ->
 			

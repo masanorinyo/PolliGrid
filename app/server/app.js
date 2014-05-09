@@ -91,11 +91,13 @@
 
   app.route('/').get(routes.index);
 
-  app.route('/api/question').get(contents.loadQuestions).post(contents.makeQuestion);
+  app.route('/api/question').post(contents.makeQuestion);
 
   app.route('/api/findById/:id').get(contents.findById);
 
   app.route('/api/findQuestions/:searchTerm/:category/:order/:offset').get(contents.findQuestions);
+
+  app.route('/api/getQuestionTitle/:term').get(contents.getQuestionTitle);
 
   app.route('/api/filter/:searchTerm/:order/:offset').get(contents.loadFilters).post(contents.makeFilter);
 

@@ -21,19 +21,6 @@
     });
   };
 
-  exports.loadQuestions = function(req, res) {
-    var callback, questions;
-    callback = function(err, questions) {
-      var questionsMap;
-      questionsMap = [];
-      questions.forEach(function(q) {
-        return questionsMap.unshift(q);
-      });
-      return res.json(questionsMap);
-    };
-    return questions = Question.find({}).limit(6).exec(callback);
-  };
-
   exports.findById = function(req, res) {
     var foundQuestion, id;
     id = req.params.id;
@@ -49,10 +36,10 @@
         return res.json(data);
       }
     };
-    console.log(term = decodeURI(req.params.searchTerm));
-    console.log(category = decodeURI(req.params.category));
-    console.log(order = decodeURI(req.params.order));
-    console.log(offset = req.params.offset);
+    term = decodeURI(req.params.searchTerm);
+    category = decodeURI(req.params.category);
+    order = decodeURI(req.params.order);
+    offset = req.params.offset;
     if (term === "All") {
       term = "";
     }
@@ -125,6 +112,22 @@
           "numOfFavorites": -1
         }).limit(6).skip(offset).exec(callback);
     }
+  };
+
+  exports.getQuestionTitle = function(req, res) {
+    var callback, term;
+    callback = function(err, questions) {
+      var questionMap;
+      questionMap = [];
+      questions.forEach(function(question) {
+        return questionMap.unshift(question);
+      });
+      return res.send(questionMap);
+    };
+    term = escapeChar(unescape(req.params.term));
+    return Question.find({
+      "question": new RegExp(term, 'i')
+    }).limit(6).exec(callback);
   };
 
   exports.loadFilters = function(req, res) {

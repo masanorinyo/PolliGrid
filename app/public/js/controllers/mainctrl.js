@@ -1,6 +1,6 @@
 (function() {
   define(["underscore"], function(_) {
-    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search) {
+    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search, QuestionTypeHead) {
       var capitaliseFirstLetter, searchSpecificQuestions;
       capitaliseFirstLetter = function(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -46,6 +46,22 @@
             notify: true
           });
         }, 100, true);
+      };
+      $scope.selectedTypehead = function($item) {
+        $scope.searchQuestion = $item;
+        return searchSpecificQuestions();
+      };
+      $scope.getPartOfQuestion = function(term) {
+        return QuestionTypeHead.get({
+          term: escape(term)
+        }).$promise.then(function(data) {
+          var questions;
+          questions = [];
+          data.forEach(function(val, key) {
+            return questions.push(val.question);
+          });
+          return questions;
+        });
       };
       $scope.changeOrder = function(value) {
         var defer;
