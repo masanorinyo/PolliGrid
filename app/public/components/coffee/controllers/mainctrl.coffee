@@ -1,11 +1,23 @@
 define ["underscore"], (_)->
-	($scope,$location,$q,$stateParams,$timeout,$state,User,Page,FindQuestions,Debounce)->
+	($scope,$location,$q,$stateParams,$timeout,$state,User,Page,FindQuestions,Debounce,Search)->
+
+
+		# --------------- Util functions --------------- #					
+		capitaliseFirstLetter = (string)->
+			string.charAt(0).toUpperCase() + string.slice(1);
 		
+		# --------------- Models --------------- #					
+
+		$scope.user = User
+		# get the questions when the page loads up
+		$scope.questions = FindQuestions.default()
+
 		# --------------- Variables --------------- #			
 		
-		$scope.user = User
+		
 		$scope.searchQuestion = ''
 		$scope.searchTerm = 'All'
+
 
 		$scope.toggleSearchBox = false
 		$scope.orderBox = false
@@ -62,6 +74,7 @@ define ["underscore"], (_)->
 				"Most popular"
 			]
 
+
 		# ----------- utility functions ----------- #
 
 		searchSpecificQuestions = ->
@@ -85,17 +98,8 @@ define ["underscore"], (_)->
 
 
 
-		# get the questions when the page loads up
 		
 
-		$scope.questions = FindQuestions.get(
-			{
-				searchTerm 	: encodeURI($scope.searchTerm)
-				category 	: encodeURI($scope.category)
-				order 		: encodeURI($scope.order)
-				offset 		: Page.questionPage
-			}
-		)
 
 		# --------------- scope functions --------------- #
 		$scope.refresh = ()->
@@ -136,16 +140,17 @@ define ["underscore"], (_)->
 
 
 		$scope.searchingQuestions = -> searchSpecificQuestions()
-			
+		
 
 		# delays typing event
 		$scope.updateSearch = Debounce($scope.searchingQuestions, 333, false);
+		
+		
+		$scope.$on 'category-changed',(category)->
 			
-			
+			$scope.changeCategory(capitaliseFirstLetter(Search.category))
 
-
-
-
+		
 		$scope.logout = ()->
 			
 			User._id  					 = 0

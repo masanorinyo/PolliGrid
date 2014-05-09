@@ -1,5 +1,5 @@
 define ['underscore'], (_)->
-	($scope,$location,$state,$stateParams,$timeout,Question,User,Filters,Error)->
+	($scope,$location,$state,$stateParams,$timeout,FindQuestions,User,Filters,Error,Search)->
 
 
 
@@ -36,7 +36,10 @@ define ['underscore'], (_)->
 			return
 
 
-		
+		$scope.searchByCategory = (category)->
+			Search.category = category
+			$scope.$emit "category-changed", category
+
 
 		# ----------------- Scope functions and variables ----------------- #
 	
@@ -97,7 +100,7 @@ define ['underscore'], (_)->
 
 		else
 
-			$scope.cards = Question.get()
+			$scope.cards = FindQuestions.default()
 
 		
 		$scope.answer = ''

@@ -43,10 +43,6 @@ define ['angular'], (angular) ->
 					"save":
 						method:"POST"
 					
-					"get":
-						method:"GET"
-						isArray:true
-					
 				}
 			)
 
@@ -63,6 +59,15 @@ define ['angular'], (angular) ->
 
 					"get":
 						method:"GET"
+						isArray:true
+
+					"default":
+						method:"GET"
+						params:
+							searchTerm 	: "All"
+							category 	: "All"
+							order 		: "Recent"
+							offset 		: 0
 						isArray:true
 					
 				}
@@ -103,6 +108,12 @@ define ['angular'], (angular) ->
 			page = 
 				questionPage 	: 0
 				filterPage 		: 0
+
+		.factory 'Search', ()->
+			search = 
+				searchWord 	: ""
+				category 	: "All"
+				
 
 
 		# Create an AngularJS service called debounce

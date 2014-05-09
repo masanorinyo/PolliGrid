@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $location, $state, $stateParams, $timeout, Question, User, Filters, Error) {
+    return function($scope, $location, $state, $stateParams, $timeout, FindQuestions, User, Filters, Error, Search) {
       var foundQuestion, getColor, getData, questionId, targetQ;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
@@ -28,6 +28,10 @@
           i++;
         }
       };
+      $scope.searchByCategory = function(category) {
+        Search.category = category;
+        return $scope.$emit("category-changed", category);
+      };
       $scope.myChartData = [];
       if ($scope.isAccessedFromSetting !== void 0 || $scope.isAccessedFromSetting) {
         $scope.myChartOptions = {
@@ -53,7 +57,7 @@
           return id === User._id;
         });
       } else {
-        $scope.cards = Question.get();
+        $scope.cards = FindQuestions["default"]();
       }
       $scope.answer = '';
       $scope.isStarFilled = false;

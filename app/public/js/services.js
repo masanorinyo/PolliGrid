@@ -30,10 +30,6 @@
       return $resource("/api/question", {}, {
         "save": {
           method: "POST"
-        },
-        "get": {
-          method: "GET",
-          isArray: true
         }
       });
     }).factory('FindQuestions', function($resource) {
@@ -45,6 +41,16 @@
       }, {
         "get": {
           method: "GET",
+          isArray: true
+        },
+        "default": {
+          method: "GET",
+          params: {
+            searchTerm: "All",
+            category: "All",
+            order: "Recent",
+            offset: 0
+          },
           isArray: true
         }
       });
@@ -79,6 +85,12 @@
       return page = {
         questionPage: 0,
         filterPage: 0
+      };
+    }).factory('Search', function() {
+      var search;
+      return search = {
+        searchWord: "",
+        category: "All"
       };
     }).factory("Debounce", function($timeout, $q) {
       var debounce;

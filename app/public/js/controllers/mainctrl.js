@@ -1,8 +1,12 @@
 (function() {
   define(["underscore"], function(_) {
-    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce) {
-      var searchSpecificQuestions;
+    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search) {
+      var capitaliseFirstLetter, searchSpecificQuestions;
+      capitaliseFirstLetter = function(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      };
       $scope.user = User;
+      $scope.questions = FindQuestions["default"]();
       $scope.searchQuestion = '';
       $scope.searchTerm = 'All';
       $scope.toggleSearchBox = false;
@@ -33,12 +37,6 @@
           offset: Page.questionPage
         });
       };
-      $scope.questions = FindQuestions.get({
-        searchTerm: encodeURI($scope.searchTerm),
-        category: encodeURI($scope.category),
-        order: encodeURI($scope.order),
-        offset: Page.questionPage
-      });
       $scope.refresh = function() {
         $location.path('/');
         return $timeout(function() {
@@ -73,6 +71,9 @@
         return searchSpecificQuestions();
       };
       $scope.updateSearch = Debounce($scope.searchingQuestions, 333, false);
+      $scope.$on('category-changed', function(category) {
+        return $scope.changeCategory(capitaliseFirstLetter(Search.category));
+      });
       $scope.logout = function() {
         User._id = 0;
         User.name = '';
