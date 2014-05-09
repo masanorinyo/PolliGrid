@@ -97,22 +97,29 @@ define ['angular','controllers','underscore','jquery'], (angular,controllers,_,$
 
 				,300,true
 
-		# .directive "reset", ($timeout,$window)->
-		# 	restrict: "A"
-		# 	scope: {
-		# 		reset : "="
-		# 	}
-		# 	link: (scope, element,attr)->
+		.directive "toggle", ($timeout,$window)->
+			restrict: "A"
+			scope: {
+				order : "="
+				category : "="
+			}
+			link: (scope, element,attr)->
 				
-		# 		w = angular.element($window)
-		# 		w.bind "click", (e)->
+				w = angular.element($window)
+				w.bind "click", (e)->
 					
-		# 			switch e.target.id
-		# 				when 'categorybox','searchbox',"category-select","order-select"  
-		# 				then scope.$apply(scope.reset = true)
+					if e.target.id == "order-toggler" || e.target.id == "order-icon"
+						
+						scope.$apply(scope.category = false)
 
-
-		# 				else scope.$apply(scope.reset = false)
+					else if e.target.id == "category-toggler" || e.target.id == "category-icon"
+						
+						scope.$apply(scope.order = false)
+					
+					else
+					
+						scope.$apply(scope.order = false)
+						scope.$apply(scope.category = false)
 			
 		.directive "getSize", ($timeout)->
 			restrict:"A"

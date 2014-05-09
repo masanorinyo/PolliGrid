@@ -24,7 +24,7 @@ html(lang="en").no-js
 		
 		div( ui-view="header")
 
-		div.contain
+		div(ng-class="{'push-up':toggleSearchBox}").contain
 			
 			div(ui-view="content")
 		

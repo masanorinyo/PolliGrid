@@ -1,19 +1,36 @@
 <header class='main-header'>
-	<div ng-class="{'toggleShow':toggleSearchBox}" class="search">
-		<input id="searchbox"   ng-model="$parent.searchQuestion" placeholder="Search..." ng-change="updateSearch()" class="form-control">
+	<div ng-class="{'toggleShow':$parent.toggleSearchBox}" class="search">
+		<input id="searchbox"  type="text" ng-model="$parent.searchQuestion" placeholder="Search..." ng-change="updateSearch()" class="form-control">
 		<div class="header-utility">
-			<div class="btn btn-default order">
-				<i class="fa fa-filter"></i>
+			<div class="btn btn-default order" ng-class="{'active':orderBox}" id="order-toggler" toggle order="orderBox" category="categoryBox" ng-click="orderBox = !orderBox">
+				<i id="order-icon" class="fa fa-filter"></i>
 			</div>
-			<div class="btn btn-default category">
-				<i class="fa fa-archive"></i>
+			<div ng-show="orderBox" class="pop-box order">
+				<i class="fa fa-caret-up"></i>
+				<div class='sub-title'>Choose an order</div>
+				<ul class="pop-box-lists" >
+					<li ng-repeat="order in options.orders">{{order}}</li>
+				</ul>
+			</div>
+
+			<div class="btn btn-default category" ng-class="{'active':categoryBox}" id="category-toggler" toggle order="orderBox" category="categoryBox" ng-click="categoryBox = !categoryBox">
+				<i id="category-icon" class="fa fa-archive"></i>
+			</div>
+			<div ng-show="categoryBox" class="pop-box category">
+				<i class="fa fa-caret-up"></i>
+				<div class='sub-title'>Choose a category</div>
+				<ul class="pop-box-lists">
+					<li ng-repeat="category in options.categories">{{category}}</li>
+				</ul>
 			</div>
 		</div>
     </div>
 	<div class="header-wrapper">
-		<span class="pointer btn-search" ng-click="toggleSearchBox = !toggleSearchBox ">
+		
+		<span class="pointer btn-search" ng-click="$parent.toggleSearchBox = !$parent.toggleSearchBox ">
 			<i class="glyphicon glyphicon-search"></i>
 		</span>
+
 		<h1 ng-click="refresh()">
 			<a class='header-title' href="#">
 				Which one</a>
@@ -35,7 +52,7 @@
 		</div>
 
 		
-		<ul ng-if="!user.isLoggedIn">
+		<ul class="user-profile" ng-if="!user.isLoggedIn">
 			
 			<div class="btn-auth btn btn-default" ui-sref=".signup">
 				<i  class="fa fa-user"></i>

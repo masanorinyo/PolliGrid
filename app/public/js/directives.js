@@ -87,6 +87,28 @@
           }, 300, true);
         }
       };
+    }).directive("toggle", function($timeout, $window) {
+      return {
+        restrict: "A",
+        scope: {
+          order: "=",
+          category: "="
+        },
+        link: function(scope, element, attr) {
+          var w;
+          w = angular.element($window);
+          return w.bind("click", function(e) {
+            if (e.target.id === "order-toggler" || e.target.id === "order-icon") {
+              return scope.$apply(scope.category = false);
+            } else if (e.target.id === "category-toggler" || e.target.id === "category-icon") {
+              return scope.$apply(scope.order = false);
+            } else {
+              scope.$apply(scope.order = false);
+              return scope.$apply(scope.category = false);
+            }
+          });
+        }
+      };
     }).directive("getSize", function($timeout) {
       return {
         restrict: "A",

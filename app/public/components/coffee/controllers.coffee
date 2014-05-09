@@ -5,8 +5,10 @@ define ['angular','services'], (angular) ->
 			
 			$scope.user = User
 			$scope.searchQuestion = ''
-
-
+			$scope.toggleSearchBox = false
+			$scope.orderBox = false
+			$scope.categoryBox = false
+			
 			$scope.refresh = ()->
 				
 				$location.path('/')
@@ -20,6 +22,68 @@ define ['angular','services'], (angular) ->
 					})
 
 				,100,true
+
+			$scope.changeOrder = (value)->
+				
+				console.log value
+				console.log $scope.searchQuestion
+
+			$scope.changeCategory = (value)->
+				
+				console.log value
+				console.log $scope.searchQuestion
+
+			$scope.parentSize = 
+				width  : 0
+				height : 0
+			
+			# default option
+			$scope.category = "All"
+			$scope.order = "Recent"
+
+			$scope.options = 
+				categories : [
+					"All"
+					"Animal"
+					"Architecture"
+					"Art"
+					"Cars & Motorcycles"
+					"Celebrities"
+					"Design"
+					"DIY & Crafts"
+					"Education"
+					"Film, Music & Books"
+					"Food & Drink"
+					"Gardening"
+					"Geek"
+					"Hair & Beauty"
+					"Health & Fitness"
+					"History"
+					"Holidays & Events"
+					"Home Decor"
+					"Humor"
+					"Illustration & Posters"
+					"Men's Fashion"
+					"Outdoors"
+					"Photography"
+					"Products"
+					"Quotes"
+					"Science & Nature"
+					"Sports"
+					"Tatoos"
+					"Technology"
+					"Travel"
+					"Weddings"
+					"Women's Fashion"
+					"Other"
+				]
+
+				orders : [
+					"Recent"
+					"Old"
+					"Most voted"
+					"Most popular"
+				]
 
 
 			$scope.logout = ()->
