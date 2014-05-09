@@ -45,7 +45,12 @@
 		
 		.dropdown-menu{
 			width: 94%;
-			overflow: hidden
+
+			a{
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
 		}
 
 		.header-utility{
