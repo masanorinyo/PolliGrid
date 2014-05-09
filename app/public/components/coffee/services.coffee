@@ -126,6 +126,11 @@ define ['angular'], (angular) ->
 		.factory 'Search', ()->
 			search = 
 				category 	: "All"
+
+		.factory 'NewQuestion', ()->
+			question = 
+				question 	: ""
+
 				
 
 

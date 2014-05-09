@@ -1,5 +1,5 @@
 define ["underscore"], (_)->
-	($scope,$location,$q,$stateParams,$timeout,$state,User,Page,FindQuestions,Debounce,Search,QuestionTypeHead)->
+	($scope,$location,$q,$stateParams,$timeout,$state,User,Page,FindQuestions,Debounce,Search,QuestionTypeHead,NewQuestion)->
 
 
 		# --------------- Util functions --------------- #					
@@ -52,6 +52,7 @@ define ["underscore"], (_)->
 				"Home Decor"
 				"Humor"
 				"Illustration & Posters"
+				"Lifestyle"
 				"Men's Fashion"
 				"Outdoors"
 				"Photography"
@@ -166,6 +167,7 @@ define ["underscore"], (_)->
 
 
 		$scope.searchingQuestions = -> searchSpecificQuestions()
+			
 		
 
 		# delays typing event
@@ -175,6 +177,13 @@ define ["underscore"], (_)->
 		$scope.$on 'category-changed',(category)->
 			
 			$scope.changeCategory(capitaliseFirstLetter(Search.category))
+
+
+		console.log $scope.questions
+
+		$scope.$on 'newQuestionAdded',(value)->
+			
+			$scope.questions.unshift(NewQuestion.question)
 
 		
 		$scope.logout = ()->

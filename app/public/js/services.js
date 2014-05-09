@@ -101,6 +101,11 @@
       return search = {
         category: "All"
       };
+    }).factory('NewQuestion', function() {
+      var question;
+      return question = {
+        question: ""
+      };
     }).factory("Debounce", function($timeout, $q) {
       var debounce;
       return debounce = function(func, wait, immediate) {

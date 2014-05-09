@@ -131,7 +131,7 @@ app.route '/api/getQuestionTitle/:term/:category'
 #################################################
 
 # get filters
-app.route '/api/filter/:searchTerm/:order/:offset'
+app.route '/api/filter/:searchTerm/:offset'
       .get contents.loadFilters
       .post contents.makeFilter
 

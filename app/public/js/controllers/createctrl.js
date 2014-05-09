@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams, $q, Debounce, FilterTypeHead) {
+    return function($rootScope, $scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams, $q, Debounce, FilterTypeHead, NewQuestion) {
       var changeInSearchText, findSameOption, message, newQuestion, utility;
       findSameOption = function(item) {
         if (item.title === newQuestion.newOption) {
@@ -175,15 +175,24 @@
         }
       };
       $scope.completeQuestion = function() {
+        var defer;
         newQuestion.question = "Which one ".concat(newQuestion.question);
         newQuestion.numOfFilters = _.size(newQuestion.targets);
         newQuestion.created_at = new Date().getTime();
         newQuestion.photo = User.profilePic;
         newQuestion.creatorName = User.profilePic;
         newQuestion.creator = User._id;
-        Question.save(newQuestion);
-        utility.isQuestionCreated = false;
-        return utility.isQuestionCompleted = true;
+        defer = $q.defer();
+        defer.promise.then(function() {
+          return NewQuestion.question = newQuestion;
+        }).then(function() {
+          return $rootScope.$broadcast('newQuestionAdded', newQuestion);
+        }).then(function() {
+          Question.save(newQuestion);
+          utility.isQuestionCreated = false;
+          return utility.isQuestionCompleted = true;
+        });
+        return defer.resolve();
       };
       $scope.backToCreateQuestion = function() {
         utility.isCreatingQuestion = true;

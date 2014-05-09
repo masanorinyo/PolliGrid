@@ -1,5 +1,5 @@
 define ['underscore'], ( _ )->
-	($scope,$modalInstance,$location,$timeout,Filters,Question,User,Page,$state,$stateParams,$q,Debounce,FilterTypeHead)->
+	($rootScope,$scope,$modalInstance,$location,$timeout,Filters,Question,User,Page,$state,$stateParams,$q,Debounce,FilterTypeHead,NewQuestion)->
 		
 		# --------------------- Functions for utility --------------------- #
 		
@@ -301,13 +301,22 @@ define ['underscore'], ( _ )->
 			newQuestion.creatorName = User.profilePic
 			newQuestion.creator = User._id
 
+			
+			defer = $q.defer()
+			defer.promise
+				.then -> NewQuestion.question = newQuestion
+				.then -> $rootScope.$broadcast 'newQuestionAdded',newQuestion
+				.then ->
+					Question.save(newQuestion)
+					
+					utility.isQuestionCreated 		= false
+					utility.isQuestionCompleted 	= true			
 
-			# $scope.question.unshift(newQuestion)
-			Question.save(newQuestion)
+			defer.resolve()
 
-
-			utility.isQuestionCreated 		= false
-			utility.isQuestionCompleted 	= true			
+			
+			
+			
 
 
 		# -- actions taken by back buttons --#
