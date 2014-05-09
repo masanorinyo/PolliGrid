@@ -36,7 +36,7 @@
           isArray: true
         }
       });
-    }).factory('findQuestions', function($resource) {
+    }).factory('FindQuestions', function($resource) {
       return $resource("/api/findQuestions/:searchTerm/:category/:order/:offset", {
         searchTerm: "@searchTerm",
         category: "@category",

@@ -56,14 +56,14 @@ exports.findQuestions = (req,res)->
 		else 
 			res.json data
 		
-	term = decodeURI(req.params.searchTerm)
-	category = decodeURI(req.params.category)
-	order = decodeURI(req.params.order)
-	offset = req.params.offset
+	console.log term = decodeURI(req.params.searchTerm)
+	console.log category = decodeURI(req.params.category)
+	console.log order = decodeURI(req.params.order)
+	console.log offset = req.params.offset
 
 
-	if term is "all" then term = ""
-	if category is "all" then category = ""
+	if term is "All" then term = ""
+	if category is "All" then category = ""
 
 
 	switch order

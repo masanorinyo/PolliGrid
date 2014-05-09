@@ -50,7 +50,7 @@ define ['angular'], (angular) ->
 				}
 			)
 
-		.factory 'findQuestions', ($resource)->
+		.factory 'FindQuestions', ($resource)->
 			$resource(
 				"/api/findQuestions/:searchTerm/:category/:order/:offset"
 				{

@@ -49,14 +49,14 @@
         return res.json(data);
       }
     };
-    term = decodeURI(req.params.searchTerm);
-    category = decodeURI(req.params.category);
-    order = decodeURI(req.params.order);
-    offset = req.params.offset;
-    if (term === "all") {
+    console.log(term = decodeURI(req.params.searchTerm));
+    console.log(category = decodeURI(req.params.category));
+    console.log(order = decodeURI(req.params.order));
+    console.log(offset = req.params.offset);
+    if (term === "All") {
       term = "";
     }
-    if (category === "all") {
+    if (category === "All") {
       category = "";
     }
     switch (order) {

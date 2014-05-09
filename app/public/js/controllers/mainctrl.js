@@ -1,9 +1,9 @@
 (function() {
   define(["underscore"], function(_) {
-    return function($scope, $location, $stateParams, $timeout, $state, User, Page, Question, findQuestions) {
-      $scope.questions = Question.get();
+    return function($scope, $location, $stateParams, $timeout, $state, User, Page, Question, FindQuestions) {
       $scope.user = User;
       $scope.searchQuestion = '';
+      $scope.searchTerm = 'All';
       $scope.toggleSearchBox = false;
       $scope.orderBox = false;
       $scope.categoryBox = false;
@@ -17,6 +17,12 @@
         categories: ["All", "Animal", "Architecture", "Art", "Cars & Motorcycles", "Celebrities", "Design", "DIY & Crafts", "Education", "Film, Music & Books", "Food & Drink", "Gardening", "Geek", "Hair & Beauty", "Health & Fitness", "History", "Holidays & Events", "Home Decor", "Humor", "Illustration & Posters", "Men's Fashion", "Outdoors", "Photography", "Products", "Quotes", "Science & Nature", "Sports", "Tatoos", "Technology", "Travel", "Weddings", "Women's Fashion", "Other"],
         orders: ["Recent", "Old", "Most voted", "Most popular"]
       };
+      $scope.questions = FindQuestions.get({
+        searchTerm: encodeURI($scope.searchTerm),
+        category: encodeURI($scope.category),
+        order: encodeURI($scope.order),
+        offset: Page.questionPage
+      });
       $scope.refresh = function() {
         $location.path('/');
         return $timeout(function() {
@@ -40,10 +46,18 @@
         return Page.questionPage;
       };
       $scope.updateSearch = function() {
-        $scope.order;
-        encodeURI($scope.category);
-        encodeURI($scope.searchQuestion);
-        return Page.questionPage;
+        Page.questionPage = 0;
+        if ($scope.searchQuestion === "") {
+          $scope.searchTerm = "All";
+        } else {
+          $scope.searchTerm = $scope.searchQuestion;
+        }
+        return $scope.questions = FindQuestions.get({
+          searchTerm: encodeURI($scope.searchTerm),
+          category: encodeURI($scope.category),
+          order: encodeURI($scope.order),
+          offset: Page.questionPage
+        });
       };
       $scope.logout = function() {
         User._id = 0;

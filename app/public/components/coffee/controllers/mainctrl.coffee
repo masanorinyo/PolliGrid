@@ -1,11 +1,12 @@
 define ["underscore"], (_)->
-	($scope,$location,$stateParams,$timeout,$state,User,Page,Question,findQuestions)->
+	($scope,$location,$stateParams,$timeout,$state,User,Page,Question,FindQuestions)->
 		
 		# --------------- Variables --------------- #			
 		
-		$scope.questions = Question.get()
 		$scope.user = User
 		$scope.searchQuestion = ''
+		$scope.searchTerm = 'All'
+
 		$scope.toggleSearchBox = false
 		$scope.orderBox = false
 		$scope.categoryBox = false
@@ -61,6 +62,21 @@ define ["underscore"], (_)->
 				"Most popular"
 			]
 
+
+
+
+		# get the questions when the page loads up
+		
+
+		$scope.questions = FindQuestions.get(
+			{
+				searchTerm 	: encodeURI($scope.searchTerm)
+				category 	: encodeURI($scope.category)
+				order 		: encodeURI($scope.order)
+				offset 		: Page.questionPage
+			}
+		)
+
 		# --------------- scope functions --------------- #
 		$scope.refresh = ()->
 			
@@ -94,10 +110,22 @@ define ["underscore"], (_)->
 
 
 		$scope.updateSearch = ()->
-			$scope.order
-			encodeURI($scope.category)
-			encodeURI($scope.searchQuestion)
-			Page.questionPage
+			
+			Page.questionPage = 0
+			
+			if $scope.searchQuestion is ""
+				$scope.searchTerm = "All"
+			else
+				$scope.searchTerm = $scope.searchQuestion
+
+			$scope.questions = FindQuestions.get(
+				{
+					searchTerm 	: encodeURI($scope.searchTerm)
+					category 	: encodeURI($scope.category)
+					order 		: encodeURI($scope.order)
+					offset 		: Page.questionPage
+				}
+			)
 
 
 
