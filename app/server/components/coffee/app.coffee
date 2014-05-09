@@ -123,7 +123,7 @@ app.route '/api/findQuestions/:searchTerm/:category/:order/:offset'
       .get contents.findQuestions
 
 # returns typehead data
-app.route '/api/getQuestionTitle/:term'
+app.route '/api/getQuestionTitle/:term/:category'
       .get contents.getQuestionTitle
 
 #################################################

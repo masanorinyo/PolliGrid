@@ -115,7 +115,7 @@
   };
 
   exports.getQuestionTitle = function(req, res) {
-    var callback, term;
+    var callback, category, term;
     callback = function(err, questions) {
       var questionMap;
       questionMap = [];
@@ -125,9 +125,23 @@
       return res.send(questionMap);
     };
     term = escapeChar(unescape(req.params.term));
+    category = escapeChar(unescape(req.params.category));
+    if (category === "All") {
+      category = "";
+    }
     return Question.find({
-      "question": new RegExp(term, 'i')
-    }).limit(6).exec(callback);
+      $or: [
+        {
+          "question": new RegExp(term, 'i')
+        }, {
+          "option": {
+            $elemMatch: {
+              "title": new RegExp(term, 'i')
+            }
+          }
+        }
+      ]
+    }).where("category").equals(new RegExp(category, 'i')).limit(6).exec(callback);
   };
 
   exports.loadFilters = function(req, res) {

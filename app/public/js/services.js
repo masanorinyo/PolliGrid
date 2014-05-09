@@ -33,8 +33,9 @@
         }
       });
     }).factory('QuestionTypeHead', function($resource) {
-      return $resource("/api/getQuestionTitle/:term", {
-        term: "@term"
+      return $resource("/api/getQuestionTitle/:term/:category", {
+        term: "@term",
+        category: "@category"
       }, {
         "get": {
           method: "GET",

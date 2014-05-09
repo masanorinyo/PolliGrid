@@ -78,7 +78,7 @@ define ["underscore"], (_)->
 		# ----------- utility functions ----------- #
 
 		searchSpecificQuestions = ->
-			console.count "called"
+			
 
 			Page.questionPage = 0
 			
@@ -124,10 +124,11 @@ define ["underscore"], (_)->
 			searchSpecificQuestions()
 
 		$scope.getPartOfQuestion = (term)->
-			
+			console.log $scope.category
 			QuestionTypeHead.get(
 				{
 					term:escape(term)
+					category:escape($scope.category)
 				}
 			).$promise
 				.then (data)->

@@ -133,12 +133,20 @@ exports.getQuestionTitle = (req,res)->
 
 
 	term = escapeChar(unescape(req.params.term))
+	category = escapeChar(unescape(req.params.category))
+
+	if category is "All" then category = ""
 
 	Question.find(
-		{
-			"question":new RegExp(term, 'i')
-		 }
+		$or:[
+ 				"question":new RegExp(term, 'i')
+				,
+					"option":
+						$elemMatch:
+							"title":new RegExp(term,'i')
+			]
 	)
+	.where("category").equals(new RegExp(category, 'i'))
 	.limit(6)
 	.exec(callback)
 	

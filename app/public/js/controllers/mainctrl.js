@@ -23,7 +23,6 @@
         orders: ["Recent", "Old", "Most voted", "Most popular"]
       };
       searchSpecificQuestions = function() {
-        console.count("called");
         Page.questionPage = 0;
         if ($scope.searchQuestion === "") {
           $scope.searchTerm = "All";
@@ -52,8 +51,10 @@
         return searchSpecificQuestions();
       };
       $scope.getPartOfQuestion = function(term) {
+        console.log($scope.category);
         return QuestionTypeHead.get({
-          term: escape(term)
+          term: escape(term),
+          category: escape($scope.category)
         }).$promise.then(function(data) {
           var questions;
           questions = [];

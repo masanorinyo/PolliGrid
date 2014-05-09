@@ -48,9 +48,10 @@ define ['angular'], (angular) ->
 
 		.factory 'QuestionTypeHead', ($resource)->
 			$resource(
-				"/api/getQuestionTitle/:term"
+				"/api/getQuestionTitle/:term/:category"
 				{
 					term:"@term"
+					category:"@category"
 				}
 				{
 					"get":
