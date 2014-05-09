@@ -7,6 +7,8 @@
       };
       $scope.user = User;
       $scope.questions = FindQuestions["default"]();
+      $scope.showLoader = false;
+      $scope.anyContentsLeft = false;
       $scope.searchQuestion = '';
       $scope.searchTerm = 'All';
       $scope.toggleSearchBox = false;
@@ -23,17 +25,25 @@
         orders: ["Recent", "Old", "Most voted", "Most popular"]
       };
       searchSpecificQuestions = function() {
-        Page.questionPage = 0;
         if ($scope.searchQuestion === "") {
           $scope.searchTerm = "All";
         } else {
           $scope.searchTerm = $scope.searchQuestion;
         }
-        return $scope.questions = FindQuestions.get({
+        return FindQuestions.get({
           searchTerm: encodeURI($scope.searchTerm),
           category: encodeURI($scope.category),
           order: encodeURI($scope.order),
           offset: Page.questionPage
+        }).$promise.then(function(data) {
+          if (!data.length) {
+            $scope.showLoader = false;
+            return $scope.anyContentsLeft = true;
+          } else {
+            return data.forEach(function(val, key) {
+              return $scope.questions.push(val);
+            });
+          }
         });
       };
       $scope.refresh = function() {
@@ -47,11 +57,12 @@
         }, 100, true);
       };
       $scope.selectedTypehead = function($item) {
+        Page.questionPage = 0;
+        $scope.questions = [];
         $scope.searchQuestion = $item;
         return searchSpecificQuestions();
       };
       $scope.getPartOfQuestion = function(term) {
-        console.log($scope.category);
         return QuestionTypeHead.get({
           term: escape(term),
           category: escape($scope.category)
@@ -68,6 +79,10 @@
         var defer;
         defer = $q.defer();
         defer.promise.then(function() {
+          $scope.anyContentsLeft = false;
+          Page.questionPage = 0;
+          return $scope.questions = [];
+        }).then(function() {
           return $scope.order = value;
         }).then(function() {
           return searchSpecificQuestions();
@@ -78,6 +93,10 @@
         var defer;
         defer = $q.defer();
         defer.promise.then(function() {
+          $scope.anyContentsLeft = false;
+          Page.questionPage = 0;
+          return $scope.questions = [];
+        }).then(function() {
           return $scope.category = value;
         }).then(function() {
           return searchSpecificQuestions();
@@ -85,15 +104,30 @@
         return defer.resolve();
       };
       $scope.searchingQuestions = function() {
+        $scope.anyContentsLeft = false;
+        Page.questionPage = 0;
+        $scope.questions = [];
         return searchSpecificQuestions();
       };
-      $scope.updateSearch = Debounce($scope.searchingQuestions, 333, false);
+      $scope.updateSearch = Debounce($scope.searchingQuestions, 500, false);
       $scope.$on('category-changed', function(category) {
         return $scope.changeCategory(capitaliseFirstLetter(Search.category));
       });
-      console.log($scope.questions);
       $scope.$on('newQuestionAdded', function(value) {
         return $scope.questions.unshift(NewQuestion.question);
+      });
+      $scope.$on('downloadMoreQuestions', function(value) {
+        var callback, defer;
+        Page.questionPage += 6;
+        $scope.showLoader = true;
+        callback = function() {
+          return $scope.showLoader = false;
+        };
+        defer = $q.defer();
+        defer.promise.then(function() {
+          return searchSpecificQuestions();
+        });
+        return defer.resolve(callback);
       });
       $scope.logout = function() {
         User._id = 0;

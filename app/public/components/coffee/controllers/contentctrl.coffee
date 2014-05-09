@@ -8,23 +8,11 @@ define ['underscore'], (_)->
 
 		$scope.filteredQuestions = []
 
-		$scope.showLoader = false
-
-		$scope.isContentsLoaded = true
 
 		
 		$scope.downloadMoreContents = ()->
-			$scope.showLoader = true
-			defer = $q.defer()
-			defer.promise
-				
-				.then -> download()
-				
-				.then -> 
-					$scope.showLoader = false
-
-
-			defer.resolve()
+			
+			$scope.$emit 'downloadMoreQuestions',"question"
 
 		
 

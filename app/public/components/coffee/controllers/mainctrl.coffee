@@ -14,6 +14,9 @@ define ["underscore"], (_)->
 
 		# --------------- Variables --------------- #			
 		
+		$scope.showLoader = false
+
+		$scope.anyContentsLeft = false
 		
 		$scope.searchQuestion = ''
 		$scope.searchTerm = 'All'
@@ -79,25 +82,30 @@ define ["underscore"], (_)->
 		# ----------- utility functions ----------- #
 
 		searchSpecificQuestions = ->
-			
-
-			Page.questionPage = 0
-			
+						
 			if $scope.searchQuestion is ""
 				$scope.searchTerm = "All"
 			else
 				$scope.searchTerm = $scope.searchQuestion
 
-			$scope.questions = FindQuestions.get(
+			FindQuestions.get(
 				{
 					searchTerm 	: encodeURI($scope.searchTerm)
 					category 	: encodeURI($scope.category)
 					order 		: encodeURI($scope.order)
 					offset 		: Page.questionPage
 				}
-			)
+			).$promise
+				.then (data)->
 
+					if !data.length
+						$scope.showLoader = false
+						$scope.anyContentsLeft = true
 
+					else 
+						data.forEach (val,key)->
+						
+							$scope.questions.push(val)
 
 		
 
@@ -120,12 +128,13 @@ define ["underscore"], (_)->
 
 		# type head
 		$scope.selectedTypehead = ($item)->
-			
+			Page.questionPage = 0
+			$scope.questions = []
 			$scope.searchQuestion = $item
 			searchSpecificQuestions()
 
 		$scope.getPartOfQuestion = (term)->
-			console.log $scope.category
+			
 			QuestionTypeHead.get(
 				{
 					term:escape(term)
@@ -149,8 +158,17 @@ define ["underscore"], (_)->
 			
 			defer = $q.defer()
 			defer.promise
+				
+				.then -> 
+				
+					$scope.anyContentsLeft = false
+					Page.questionPage = 0
+					$scope.questions = []
+				
 				.then -> $scope.order = value
+				
 				.then -> searchSpecificQuestions()
+			
 			defer.resolve()
 			
 			
@@ -160,18 +178,30 @@ define ["underscore"], (_)->
 			
 			defer = $q.defer()
 			defer.promise
+
+				.then -> 
+					$scope.anyContentsLeft = false
+					Page.questionPage = 0
+					$scope.questions = []
+
 				.then -> $scope.category = value
+
 				.then -> searchSpecificQuestions()
+
 			defer.resolve()
 
 
 
-		$scope.searchingQuestions = -> searchSpecificQuestions()
+		$scope.searchingQuestions = -> 
+			$scope.anyContentsLeft = false
+			Page.questionPage = 0
+			$scope.questions = []
+			searchSpecificQuestions()
 			
 		
 
 		# delays typing event
-		$scope.updateSearch = Debounce($scope.searchingQuestions, 333, false);
+		$scope.updateSearch = Debounce($scope.searchingQuestions, 500, false);
 		
 		
 		$scope.$on 'category-changed',(category)->
@@ -179,11 +209,29 @@ define ["underscore"], (_)->
 			$scope.changeCategory(capitaliseFirstLetter(Search.category))
 
 
-		console.log $scope.questions
+		
 
 		$scope.$on 'newQuestionAdded',(value)->
 			
 			$scope.questions.unshift(NewQuestion.question)
+
+
+		$scope.$on 'downloadMoreQuestions',(value)->
+			Page.questionPage += 6
+			$scope.showLoader = true
+			
+			callback = -> 
+				$scope.showLoader = false
+
+
+
+			defer = $q.defer()
+			defer.promise
+				
+				.then -> searchSpecificQuestions()
+
+			defer.resolve(callback)
+
 
 		
 		$scope.logout = ()->

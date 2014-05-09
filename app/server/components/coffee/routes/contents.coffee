@@ -43,9 +43,9 @@ exports.findQuestions = (req,res)->
 		else 
 			res.json data
 		
-	term = decodeURI(req.params.searchTerm)
-	category = decodeURI(req.params.category)
-	order = decodeURI(req.params.order)
+	term = escapeChar(unescape(req.params.searchTerm))
+	category = escapeChar(unescape(req.params.category))
+	order = escapeChar(unescape(req.params.order))
 	offset = req.params.offset
 
 

@@ -39,7 +39,7 @@
 
 
 
-<section infinite-scroll="downloadMoreContents()" infinite-scroll-disabled="isContentsLoaded" class='content-section'>
+<section infinite-scroll="downloadMoreContents()" infinite-scroll-disabled="anyContentsLeft" class='content-section'>
 
 	<h1 hidden>question</h1>
 	<div ng-show="!questions.length" class="noContent">
@@ -169,5 +169,8 @@
 		<div class="loaderWrapper">
 			<img src="/img/utility/loader.gif" alt="loading">
 		</div>
+	</div>
+	<div ng-show="anyContentsLeft && questions.length" class="outOfContent">
+		<p>No more questions</p>
 	</div>
 </section>
