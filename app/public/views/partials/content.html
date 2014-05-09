@@ -2,9 +2,8 @@
 	
 	<div class="order pull-left">
 		<label for="order">
-			Order by:
+			Order by: 
 		</label>
-		<br>
 		<div class="styled-select">
 			<select id="order" ng-change="changeOrder(order)" ng-model="order" ng-options="order for order in options.orders"></select>
 			<i class="fa fa-chevron-down"></i>
@@ -13,16 +12,33 @@
 	
 	<div class="category pull-right">
 		<label for="category">
-			Category:
+			Category: 
 		</label>
-		<br>
 		<div class="styled-select">
 			<select id="category" ng-change="changeCategory(category)" ng-model="category" ng-options="category for category in options.categories"></select>
 			<i class="fa fa-chevron-down"></i>
 		</div>
 	</div>
+
+	<div class="content-organizer">
+		<ul class="pull-right">
+			<li>
+				<label>Order by:</label>
+				<span class="selected blue"> {{order}}</span>
+			</li>
+			<li>
+				<label>Category:</label>
+				<span class="selected blue"> {{category}}</span>
+			</li>
+		</ul>
+		
+		
+	</div>
 	
 </section>
+
+
+
 <section infinite-scroll="downloadMoreContents()" infinite-scroll-disabled="isContentsLoaded" class='content-section'>
 
 	<h1 hidden>question</h1>

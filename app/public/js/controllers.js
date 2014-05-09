@@ -17,11 +17,11 @@
         }, 100, true);
       };
       $scope.changeOrder = function(value) {
-        console.log(value);
+        $scope.order = value;
         return console.log($scope.searchQuestion);
       };
       $scope.changeCategory = function(value) {
-        console.log(value);
+        $scope.category = value;
         return console.log($scope.searchQuestion);
       };
       $scope.parentSize = {

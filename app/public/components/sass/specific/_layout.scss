@@ -230,6 +230,10 @@
 			
 			width:47%;
 
+			@include at-breakpoint($medium){
+				display: none;
+			}
+
 
 			label{
 				font-size:0.8em;
@@ -274,8 +278,32 @@
 			margin-right:5px;
 		}
 
-		@include at-breakpoint($medium){
-			display: none;
+		.content-organizer{
+			display:none;
+
+			@include at-breakpoint($medium){
+				display:block;
+			}
+			ul{
+				
+				margin:5px 0 0;
+				
+				li{
+					display:inline-block;
+					margin-right:30px;
+
+					&:nth-child(2){
+						margin-right:40px;
+					}
+
+					label{
+						color:$gray;
+						font-size:0.9em;
+						font-weight: normal;
+					}
+				}	
+			}
+			
 		}
 
 		

@@ -8,7 +8,7 @@ define ['angular','services'], (angular) ->
 			$scope.toggleSearchBox = false
 			$scope.orderBox = false
 			$scope.categoryBox = false
-			
+
 			$scope.refresh = ()->
 				
 				$location.path('/')
@@ -25,13 +25,15 @@ define ['angular','services'], (angular) ->
 
 			$scope.changeOrder = (value)->
 				
-				console.log value
+				$scope.order = value
 				console.log $scope.searchQuestion
 
 			$scope.changeCategory = (value)->
 				
-				console.log value
+				$scope.category = value
 				console.log $scope.searchQuestion
+
+
 
 			$scope.parentSize = 
 				width  : 0

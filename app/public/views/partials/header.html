@@ -7,9 +7,10 @@
 			</div>
 			<div ng-show="orderBox" class="pop-box order">
 				<i class="fa fa-caret-up"></i>
-				<div class='sub-title'>Choose an order</div>
+				<div class='sub-title'>Currently selected order:</div>
+				<div class='selected'><span>{{order}}</span></div>
 				<ul class="pop-box-lists" >
-					<li ng-repeat="order in options.orders">{{order}}</li>
+					<li ng-click="changeOrder(order)" ng-repeat="order in options.orders">{{order}}</li>
 				</ul>
 			</div>
 
@@ -18,9 +19,10 @@
 			</div>
 			<div ng-show="categoryBox" class="pop-box category">
 				<i class="fa fa-caret-up"></i>
-				<div class='sub-title'>Choose a category</div>
+				<div class='sub-title'>Currently selected category:</div>
+				<div class='selected'><span>{{category}}</span></div>
 				<ul class="pop-box-lists">
-					<li ng-repeat="category in options.categories">{{category}}</li>
+					<li ng-click="changeCategory(category)" ng-repeat="category in options.categories">{{category}}</li>
 				</ul>
 			</div>
 		</div>

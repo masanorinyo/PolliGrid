@@ -219,7 +219,7 @@
         font-size:3em;
         width:20px;
         height:19px;
-        color:$gray;
+        color:$darkblue;
         line-height: 25px;
     }
 
@@ -228,22 +228,43 @@
         width:100%;
         padding:5px;
         text-align: center;
-        background-color:$gray;
+        font-size:0.8em;
+        background-color:$darkblue;
         cursor: default;
-        color:white;
+        color:rgb(200,200,200);
+    }
+
+    .selected{
+        width:100%;
+        padding:25px 15px;
+        background-color:$darkblue;
+        position:relative;
+
+        >span{
+            
+            @include absolute-center;
+            @include border-radius(20px);
+            background-color:$cyan;
+            text-align: center;
+            color:white;
+            width:80%;
+            height:71%;
+            line-height: 33px;
+        }
+        
     }
 
     .pop-box-lists{
         width:100%;
         height:300px;
-        overflow: auto;
+        overflow: auto;        
                 
         li{
             
             padding:15px;
-            background-color:$darkblue;
             color:white;
             cursor: pointer;
+            background-color:$darkblue;
 
             &:hover{
                 background-color:$lightblue;
