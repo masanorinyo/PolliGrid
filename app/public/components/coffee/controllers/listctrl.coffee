@@ -38,6 +38,7 @@ define ['underscore'], (_)->
 
 		$scope.searchByCategory = (category)->
 			Search.category = category
+			
 			$scope.$emit "category-changed", category
 
 

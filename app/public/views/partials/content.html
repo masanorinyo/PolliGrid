@@ -82,7 +82,7 @@
 
 				<div ng-controller="TargetAudienceCtrl" ng-show="submitted" class="question-content">
 					<div class="content animated fadeInLeft" no-scope-repeat-for-targets items="card.targets"></div>
-					<div class="content animated fadeInLeft" ng-show="areAllQuestionAnswered">	
+					<div class="page-chart content animated fadeInLeft" ng-class="{'toggleShow':areAllQuestionAnswered}">	
 						<h4 class="gray result-label">
 							Result:
 						</h4>
