@@ -1,5 +1,5 @@
 define ["underscore"], (_)->
-	($scope,$location,$stateParams,$timeout,$state,User,Page,Question,FindQuestions)->
+	($scope,$location,$q,$stateParams,$timeout,$state,User,Page,FindQuestions,Debounce)->
 		
 		# --------------- Variables --------------- #			
 		
@@ -62,6 +62,26 @@ define ["underscore"], (_)->
 				"Most popular"
 			]
 
+		# ----------- utility functions ----------- #
+
+		searchSpecificQuestions = ->
+			console.count "called"
+
+			Page.questionPage = 0
+			
+			if $scope.searchQuestion is ""
+				$scope.searchTerm = "All"
+			else
+				$scope.searchTerm = $scope.searchQuestion
+
+			$scope.questions = FindQuestions.get(
+				{
+					searchTerm 	: encodeURI($scope.searchTerm)
+					category 	: encodeURI($scope.category)
+					order 		: encodeURI($scope.order)
+					offset 		: Page.questionPage
+				}
+			)
 
 
 
@@ -96,36 +116,32 @@ define ["underscore"], (_)->
 		# Contents handler #			
 		$scope.changeOrder = (value)->
 			
-			$scope.order = encodeURI(value)
-			encodeURI($scope.searchQuestion)
-			encodeURI($scope.category)
-			Page.questionPage
+			defer = $q.defer()
+			defer.promise
+				.then -> $scope.order = value
+				.then -> searchSpecificQuestions()
+			defer.resolve()
+			
+			
+			
 
 		$scope.changeCategory = (value)->
 			
-			$scope.category = encodeURI(value)
-			encodeURI($scope.searchQuestion)
-			encodeURI($scope.order)
-			Page.questionPage
+			defer = $q.defer()
+			defer.promise
+				.then -> $scope.category = value
+				.then -> searchSpecificQuestions()
+			defer.resolve()
 
 
-		$scope.updateSearch = ()->
+
+		$scope.searchingQuestions = -> searchSpecificQuestions()
 			
-			Page.questionPage = 0
-			
-			if $scope.searchQuestion is ""
-				$scope.searchTerm = "All"
-			else
-				$scope.searchTerm = $scope.searchQuestion
 
-			$scope.questions = FindQuestions.get(
-				{
-					searchTerm 	: encodeURI($scope.searchTerm)
-					category 	: encodeURI($scope.category)
-					order 		: encodeURI($scope.order)
-					offset 		: Page.questionPage
-				}
-			)
+		# delays typing event
+		$scope.updateSearch = Debounce($scope.searchingQuestions, 333, false);
+			
+			
 
 
 
