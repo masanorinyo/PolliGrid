@@ -1,59 +1,14 @@
 (function() {
   define(['angular', 'services'], function(angular) {
-    return angular.module('myapp.controllers', ['myapp.services']).controller('WhichOneCtrl', function($sce, $scope, $location, $stateParams, $timeout, $state, User) {
-      $scope.user = User;
-      $scope.searchQuestion = '';
-      $scope.toggleSearchBox = false;
-      $scope.orderBox = false;
-      $scope.categoryBox = false;
-      $scope.refresh = function() {
-        $location.path('/');
-        return $timeout(function() {
-          return $state.transitionTo($state.current, $stateParams, {
-            reload: true,
-            inherit: false,
-            notify: true
-          });
-        }, 100, true);
-      };
-      $scope.changeOrder = function(value) {
-        $scope.order = value;
-        return console.log($scope.searchQuestion);
-      };
-      $scope.changeCategory = function(value) {
-        $scope.category = value;
-        return console.log($scope.searchQuestion);
-      };
-      $scope.parentSize = {
-        width: 0,
-        height: 0
-      };
-      $scope.category = "All";
-      $scope.order = "Recent";
-      $scope.options = {
-        categories: ["All", "Animal", "Architecture", "Art", "Cars & Motorcycles", "Celebrities", "Design", "DIY & Crafts", "Education", "Film, Music & Books", "Food & Drink", "Gardening", "Geek", "Hair & Beauty", "Health & Fitness", "History", "Holidays & Events", "Home Decor", "Humor", "Illustration & Posters", "Men's Fashion", "Outdoors", "Photography", "Products", "Quotes", "Science & Nature", "Sports", "Tatoos", "Technology", "Travel", "Weddings", "Women's Fashion", "Other"],
-        orders: ["Recent", "Old", "Most voted", "Most popular"]
-      };
-      return $scope.logout = function() {
-        User._id = 0;
-        User.name = '';
-        User.email = '';
-        User.password = '';
-        User.profilePic = "";
-        User.isLoggedIn = false;
-        User.favorites = [];
-        User.questionMade = [];
-        User.questionsAnswered = [];
-        User.filterQuestionsAnswered = [];
-        $location.path('/');
-        return $timeout(function() {
-          return $state.transitionTo($state.current, $stateParams, {
-            reload: true,
-            inherit: false,
-            notify: true
-          });
-        }, 100, true);
-      };
+    return angular.module('myapp.controllers', ['myapp.services']).controller('MainCtrl', function($scope, $injector, $location, $stateParams, $timeout, $state) {
+      return require(['controllers/mainctrl'], function(mainctrl) {
+        return $injector.invoke(mainctrl, this, {
+          "$scope": $scope,
+          "$location": $location,
+          "$stateParams": $stateParams,
+          "$timeout": $timeout
+        });
+      });
     }).controller('ShareCtrl', function($scope, $injector, $modalInstance, $location, $timeout) {
       return require(['controllers/sharectrl'], function(sharectrl) {
         return $injector.invoke(sharectrl, this, {

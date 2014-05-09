@@ -17,7 +17,7 @@ require.config
 		"domReady" 	 			: "../vendors/requirejs-domready/domready"
 		"underscore" 	 		: "../vendors/underscore/underscore"
 		"ngInfiniteScroll" 		: "../vendors/ngInfiniteScroll/build/ng-infinite-scroll"
-
+		# "offline" 				: "../vendors/offline/offline.min"
 
 		
 		# -------------- these are manually installed - no bower components -------------- #

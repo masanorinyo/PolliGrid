@@ -95,11 +95,9 @@
 
   app.route('/api/findById/:id').get(contents.findById);
 
-  app.route('/api/findQuestionByTerm/:searchTerm/:orderBy/:reversed/:offset').get(contents.findByTerm);
+  app.route('/api/findQuestions/:searchTerm/:category/:order/:offset').get(contents.findQuestions);
 
-  app.route('/api/findByCategory/:category').get(contents.findByCategory);
-
-  app.route('/api/filter/:searchTerm/:offset').get(contents.loadFilters).post(contents.makeFilter);
+  app.route('/api/filter/:searchTerm/:order/:offset').get(contents.loadFilters).post(contents.makeFilter);
 
   app.route('/api/getFilterTitle/:term').get(contents.getFilterTitle);
 

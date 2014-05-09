@@ -10,6 +10,23 @@ escapeChar = (regex)->
 
 # ----------------- exports routing functions ----------------- #
 
+#################################################
+# -------------- Question handlers -------------- #
+#################################################
+
+# make a question
+exports.makeQuestion = (req,res)->
+	
+	newQuestion = new Question(req.body)
+
+	newQuestion.save (error,newQuestion)->
+		if error 
+			console.log error 
+		else
+			res.send newQuestion
+
+
+
 # get all the questions
 exports.loadQuestions = (req,res)->
 	
@@ -22,19 +39,6 @@ exports.loadQuestions = (req,res)->
 	questions = Question.find({}).limit(6).exec(callback)
 		
 
-	
-		
-# make a question
-exports.makeQuestion = (req,res)->
-	
-	newQuestion = new Question(req.body)
-
-	newQuestion.save (error,newQuestion)->
-		if error 
-			console.log error 
-		else
-			res.send newQuestion
-	
 # find a question by id
 exports.findById = (req,res)->
 	
@@ -42,54 +46,114 @@ exports.findById = (req,res)->
 	
 	foundQuestion = Question.findById(id).exec(callback)
 
+
 # find questions by search term
-exports.findByTerm = (req,res)->
+exports.findQuestions = (req,res)->
 
 	callback = (err,data)->
 		if err 
 			res.send err 
 		else 
 			res.json data
-
-	
-	term = req.params.searchTerm
-	orderBy = req.params.orderBy
-	reversed = req.params.reversed
+		
+	term = decodeURI(req.params.searchTerm)
+	category = decodeURI(req.params.category)
+	order = decodeURI(req.params.order)
 	offset = req.params.offset
 
 
+	if term is "all" then term = ""
+	if category is "all" then category = ""
 
-	Question
-		.find(
-			 $or:[
-			 		"question":new RegExp(term, 'i')
-		 		,
-		 			"option":
-		 				$elemMatch:
-		 					"title":new RegExp(term,'i')
-		 	]
-		)
-		.sort({orderBy: reversed})
-		.limit(2)
-		.skip(offset)
-		.exec(callback)
 
-exports.findByCategory = (req,res)->
+	switch order
+		when "Recent"
+		
+			Question.find(
+				$or:[
+		 				"question":new RegExp(term, 'i')
+	 				,
+	 					"option":
+	 						$elemMatch:
+	 							"title":new RegExp(term,'i')
+	 			]
+			)
+			.where("category").equals(new RegExp(category, 'i'))
+			.sort("created_at":-1)
+			.limit(6)
+			.skip(offset)
+			.exec(callback)
 
-	callback = (err,data)->
-		if err 
-			res.send err 
-		else 
-			res.json data
+		when "Old"
+			Question.find(
+				$or:[
+		 				"question":new RegExp(term, 'i')
+	 				,
+	 					"option":
+	 						$elemMatch:
+	 							"title":new RegExp(term,'i')
+	 			]
+			)
+			.where("category").equals(new RegExp(category, 'i'))
+			.sort("created_at":1)
+			.limit(6)
+			.skip(offset)
+			.exec(callback)
 
-	category = req.params.category
+		when "Most voted"
+			Question.find(
+				$or:[
+		 				"question":new RegExp(term, 'i')
+	 				,
+	 					"option":
+	 						$elemMatch:
+	 							"title":new RegExp(term,'i')
+	 			]
+			)
+			.where("category").equals(new RegExp(category, 'i'))
+			.sort("totalResponses":-1)
+			.limit(6)
+			.skip(offset)
+			.exec(callback)
+
+		when "Most popular"
+			Question.find(
+				$or:[
+		 				"question":new RegExp(term, 'i')
+	 				,
+	 					"option":
+	 						$elemMatch:
+	 							"title":new RegExp(term,'i')
+	 			]
+			)
+			.where("category").equals(new RegExp(category, 'i'))
+			.sort("numOfFavorites":-1)
+			.limit(6)
+			.skip(offset)
+			.exec(callback)
 	
-	foundQuestion = Question
-		.where('category')
-		.equals(category)
-		.exec(callback)
-	
 
+
+# exports.findByCategory = (req,res)->
+
+# 	callback = (err,data)->
+# 		if err 
+# 			res.send err 
+# 		else 
+# 			res.json data
+
+# 	category = req.params.category
+	
+# 	foundQuestion = Question
+# 		.where('category')
+# 		.equals(category)
+# 		.exec(callback)
+	
+#################################################
+# -------------- filter handlers -------------- #
+#################################################
+
+# load filters 
 exports.loadFilters = (req,res)->
 
 	callback = (err,filters)->
@@ -102,7 +166,7 @@ exports.loadFilters = (req,res)->
 	term = escapeChar(unescape(req.params.searchTerm))
 	offset = req.params.offset
 
-	if term is "all" then term = ""		
+	if term is "all" then term = ""	
 
 	filters = Filter
 		.find(
@@ -119,6 +183,7 @@ exports.loadFilters = (req,res)->
 		.skip(offset)
 		.exec(callback)
 
+# load titles for headtypes
 exports.getFilterTitle = (req,res)->
 
 
@@ -142,8 +207,7 @@ exports.getFilterTitle = (req,res)->
 	.exec(callback)
 
 
-
-
+# make filters
 exports.makeFilter = (req,res)->
 	
 	newFilter = new Filter(req.body)

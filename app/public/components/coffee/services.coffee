@@ -50,6 +50,24 @@ define ['angular'], (angular) ->
 				}
 			)
 
+		.factory 'findQuestions', ($resource)->
+			$resource(
+				"/api/findQuestions/:searchTerm/:category/:order/:offset"
+				{
+					searchTerm 	: "@searchTerm"
+					category 	: "@category"
+					order 		: "@order"
+					offset 		: "@offset"
+				}
+				{
+
+					"get":
+						method:"GET"
+						isArray:true
+					
+				}
+			)
+
 	
 		.factory 'User', ()->
 			user = 

@@ -9,6 +9,18 @@
     return regex.replace(/([()[{*+.$^\\|?])/g, '\\$1');
   };
 
+  exports.makeQuestion = function(req, res) {
+    var newQuestion;
+    newQuestion = new Question(req.body);
+    return newQuestion.save(function(error, newQuestion) {
+      if (error) {
+        return console.log(error);
+      } else {
+        return res.send(newQuestion);
+      }
+    });
+  };
+
   exports.loadQuestions = function(req, res) {
     var callback, questions;
     callback = function(err, questions) {
@@ -22,26 +34,14 @@
     return questions = Question.find({}).limit(6).exec(callback);
   };
 
-  exports.makeQuestion = function(req, res) {
-    var newQuestion;
-    newQuestion = new Question(req.body);
-    return newQuestion.save(function(error, newQuestion) {
-      if (error) {
-        return console.log(error);
-      } else {
-        return res.send(newQuestion);
-      }
-    });
-  };
-
   exports.findById = function(req, res) {
     var foundQuestion, id;
     id = req.params.id;
     return foundQuestion = Question.findById(id).exec(callback);
   };
 
-  exports.findByTerm = function(req, res) {
-    var callback, offset, orderBy, reversed, term;
+  exports.findQuestions = function(req, res) {
+    var callback, category, offset, order, term;
     callback = function(err, data) {
       if (err) {
         return res.send(err);
@@ -49,38 +49,82 @@
         return res.json(data);
       }
     };
-    term = req.params.searchTerm;
-    orderBy = req.params.orderBy;
-    reversed = req.params.reversed;
+    term = decodeURI(req.params.searchTerm);
+    category = decodeURI(req.params.category);
+    order = decodeURI(req.params.order);
     offset = req.params.offset;
-    return Question.find({
-      $or: [
-        {
-          "question": new RegExp(term, 'i')
-        }, {
-          "option": {
-            $elemMatch: {
-              "title": new RegExp(term, 'i')
+    if (term === "all") {
+      term = "";
+    }
+    if (category === "all") {
+      category = "";
+    }
+    switch (order) {
+      case "Recent":
+        return Question.find({
+          $or: [
+            {
+              "question": new RegExp(term, 'i')
+            }, {
+              "option": {
+                $elemMatch: {
+                  "title": new RegExp(term, 'i')
+                }
+              }
             }
-          }
-        }
-      ]
-    }).sort({
-      orderBy: reversed
-    }).limit(2).skip(offset).exec(callback);
-  };
-
-  exports.findByCategory = function(req, res) {
-    var callback, category, foundQuestion;
-    callback = function(err, data) {
-      if (err) {
-        return res.send(err);
-      } else {
-        return res.json(data);
-      }
-    };
-    category = req.params.category;
-    return foundQuestion = Question.where('category').equals(category).exec(callback);
+          ]
+        }).where("category").equals(new RegExp(category, 'i')).sort({
+          "created_at": -1
+        }).limit(6).skip(offset).exec(callback);
+      case "Old":
+        return Question.find({
+          $or: [
+            {
+              "question": new RegExp(term, 'i')
+            }, {
+              "option": {
+                $elemMatch: {
+                  "title": new RegExp(term, 'i')
+                }
+              }
+            }
+          ]
+        }).where("category").equals(new RegExp(category, 'i')).sort({
+          "created_at": 1
+        }).limit(6).skip(offset).exec(callback);
+      case "Most voted":
+        return Question.find({
+          $or: [
+            {
+              "question": new RegExp(term, 'i')
+            }, {
+              "option": {
+                $elemMatch: {
+                  "title": new RegExp(term, 'i')
+                }
+              }
+            }
+          ]
+        }).where("category").equals(new RegExp(category, 'i')).sort({
+          "totalResponses": -1
+        }).limit(6).skip(offset).exec(callback);
+      case "Most popular":
+        return Question.find({
+          $or: [
+            {
+              "question": new RegExp(term, 'i')
+            }, {
+              "option": {
+                $elemMatch: {
+                  "title": new RegExp(term, 'i')
+                }
+              }
+            }
+          ]
+        }).where("category").equals(new RegExp(category, 'i')).sort({
+          "numOfFavorites": -1
+        }).limit(6).skip(offset).exec(callback);
+    }
   };
 
   exports.loadFilters = function(req, res) {

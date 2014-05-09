@@ -1,121 +1,18 @@
 define ['angular','services'], (angular) ->
 	angular.module('myapp.controllers', ['myapp.services'])
 		
-		.controller 'WhichOneCtrl', ($sce,$scope,$location,$stateParams,$timeout,$state,User)->
+		.controller 'MainCtrl', ($scope,$injector,$location,$stateParams,$timeout,$state)->
+			require(['controllers/mainctrl'], (mainctrl)->
+				$injector.invoke(
+					mainctrl, this,{
+						"$scope" 				: $scope
+						"$location" 	 		: $location
+						"$stateParams" 			: $stateParams
+						"$timeout" 				: $timeout
+					}
+				)
+			)
 			
-			$scope.user = User
-			$scope.searchQuestion = ''
-			$scope.toggleSearchBox = false
-			$scope.orderBox = false
-			$scope.categoryBox = false
-
-			$scope.refresh = ()->
-				
-				$location.path('/')
-				
-				$timeout ->
-					# reload the page
-					$state.transitionTo($state.current, $stateParams, {
-						reload: true
-						inherit: false
-						notify: true
-					})
-
-				,100,true
-
-			$scope.changeOrder = (value)->
-				
-				$scope.order = value
-				console.log $scope.searchQuestion
-
-			$scope.changeCategory = (value)->
-				
-				$scope.category = value
-				console.log $scope.searchQuestion
-
-
-
-			$scope.parentSize = 
-				width  : 0
-				height : 0
-			
-			# default option
-			$scope.category = "All"
-			$scope.order = "Recent"
-
-			$scope.options = 
-				categories : [
-					"All"
-					"Animal"
-					"Architecture"
-					"Art"
-					"Cars & Motorcycles"
-					"Celebrities"
-					"Design"
-					"DIY & Crafts"
-					"Education"
-					"Film, Music & Books"
-					"Food & Drink"
-					"Gardening"
-					"Geek"
-					"Hair & Beauty"
-					"Health & Fitness"
-					"History"
-					"Holidays & Events"
-					"Home Decor"
-					"Humor"
-					"Illustration & Posters"
-					"Men's Fashion"
-					"Outdoors"
-					"Photography"
-					"Products"
-					"Quotes"
-					"Science & Nature"
-					"Sports"
-					"Tatoos"
-					"Technology"
-					"Travel"
-					"Weddings"
-					"Women's Fashion"
-					"Other"
-				]
-
-				orders : [
-					"Recent"
-					"Old"
-					"Most voted"
-					"Most popular"
-				]
-
-
-			$scope.logout = ()->
-				
-				
-				
-				User._id  					 = 0
-				User.name  					 = ''
-				User.email 					 = ''
-				User.password 				 = ''
-				User.profilePic 			 = ""
-				User.isLoggedIn 			 = false
-				User.favorites 				 = []
-				User.questionMade 			 = []
-				User.questionsAnswered 		 = []
-				User.filterQuestionsAnswered = []
-
-				$location.path('/')
-				
-				$timeout ->
-					
-					# reload the page
-					$state.transitionTo($state.current, $stateParams, {
-						reload: true
-						inherit: false
-						notify: true
-					})
-
-				,100,true
-
 
 		.controller 'ShareCtrl', ($scope, $injector,$modalInstance,$location,$timeout)->
 			require(['controllers/sharectrl'], (sharectrl)->

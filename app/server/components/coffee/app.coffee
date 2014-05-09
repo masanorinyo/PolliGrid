@@ -99,29 +99,40 @@ if 'development' is env
 
 # ------------------------ express router ------------------------ #
 
-# overall
+#################################################
+# ----------------- Overall ------------------- #
+#################################################
 
 app.route '/'
       .get routes.index
 
-# question related
+#################################################
+# -------------- Question handlers ------------ #
+#################################################
 
+# returns user related contents
 app.route '/api/question'
       .get contents.loadQuestions
       .post contents.makeQuestion
 
+# returns specific contents
 app.route '/api/findById/:id'
       .get contents.findById
 
-app.route '/api/findQuestionByTerm/:searchTerm/:orderBy/:reversed/:offset'
-      .get contents.findByTerm
+# returns contents
+app.route '/api/findQuestions/:searchTerm/:category/:order/:offset'
+      .get contents.findQuestions
 
-app.route '/api/findByCategory/:category'
-      .get contents.findByCategory
+# returns typehead data
+# app.route '/api/getQuestionTitle/:term'
+#       .get contents.getQuestionTitle
 
-# filter related
+#################################################
+# -------------- Filter handlers -------------- #
+#################################################
 
-app.route '/api/filter/:searchTerm/:offset'
+# get filters
+app.route '/api/filter/:searchTerm/:order/:offset'
       .get contents.loadFilters
       .post contents.makeFilter
 
@@ -129,7 +140,9 @@ app.route '/api/filter/:searchTerm/:offset'
 app.route '/api/getFilterTitle/:term'
       .get contents.getFilterTitle
 
-# user related
+#################################################
+# -------------- User handlers ---------------- #
+#################################################
 
 app.route '/api/auth'
       .get auth.index

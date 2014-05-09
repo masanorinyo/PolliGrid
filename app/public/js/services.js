@@ -36,6 +36,18 @@
           isArray: true
         }
       });
+    }).factory('findQuestions', function($resource) {
+      return $resource("/api/findQuestions/:searchTerm/:category/:order/:offset", {
+        searchTerm: "@searchTerm",
+        category: "@category",
+        order: "@order",
+        offset: "@offset"
+      }, {
+        "get": {
+          method: "GET",
+          isArray: true
+        }
+      });
     }).factory('User', function() {
       var user;
       return user = {
