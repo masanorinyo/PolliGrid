@@ -213,7 +213,9 @@
           sumOfFilteredData = 0;
           $scope.donutDataFiltered = [];
           _.each($scope.filterGroup.answers, function(obj) {
-            return sumOfFilteredData += obj.count;
+            sumOfFilteredData += obj.count;
+            console.log("sumOfFilteredData");
+            return console.log(sumOfFilteredData);
           });
           return _.each($scope.filterGroup.answers, function(obj) {
             var filteredDataForDonut, percentage;
@@ -317,6 +319,8 @@
                 color: "rgb(235,235,235)"
               }
             ];
+            console.log(overallDataForDonut);
+            console.log(filteredDataForDonut);
             $scope.donutDataOverall.push(overallDataForDonut);
             return $scope.donutDataFiltered.push(filteredDataForDonut);
           });

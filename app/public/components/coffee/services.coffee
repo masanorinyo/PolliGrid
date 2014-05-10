@@ -125,7 +125,7 @@ define ['angular'], (angular) ->
 		.factory 'User', ()->
 			user = 
 				
-				_id  					: 1
+				_id  					: 5
 				name  					: 'Masanori'
 				email 					: 'masanorinyo@gmail.com'
 				password 				: 'test'
@@ -134,8 +134,8 @@ define ['angular'], (angular) ->
 				favorites 				: []
 				questionMade 			: [1]
 				questionsAnswered 		: [
-						_id 		: "536d57ccd22f0c4e4b0bf6ea"
-						answer 		: "Kindergarden"
+						# _id 		: "536d57ccd22f0c4e4b0bf6ea"
+						# answer 		: "Kindergarden"
 				]
 				filterQuestionsAnswered : [
 						# id 		: 1

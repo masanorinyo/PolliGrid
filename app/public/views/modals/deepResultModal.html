@@ -162,8 +162,9 @@
 					<div class="graphs">
 						<canvas ng-hide="isFiltered" doughnutchart options="donutOption" class="chart-main" data="donutDataOverall[$index]" width="300" height="300"></canvas>
 						<canvas ng-show="isFiltered"  doughnutchart options="donutOption" class="chart-main" data="donutDataFiltered[$index]" width="300" height="300"></canvas>
+						
 					</div>
-					<div ng-if="question.targets.length" class="button-switch btn-group">
+					<div ng-show="question.targets.length" class="button-switch btn-group">
 						<button ng-click="isFiltered=!isFiltered" class='btn btn-sm btn-default' ng-class="{'active':!isFiltered}">Overall</button>
 						<button ng-click="isFiltered=!isFiltered" class='btn btn-sm btn-default' ng-class="{'active':isFiltered}">Filtered</button>
 					</div>

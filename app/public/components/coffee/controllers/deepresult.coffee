@@ -331,7 +331,8 @@ define ['underscore'], (_)->
 						
 						sumOfFilteredData += obj.count
 
-					
+						console.log "sumOfFilteredData"
+						console.log sumOfFilteredData
 
 					_.each $scope.filterGroup.answers, (obj)->
 
@@ -355,8 +356,6 @@ define ['underscore'], (_)->
 							
 						]
 
-						
-						
 
 						$scope.donutDataFiltered.push(filteredDataForDonut)
 
@@ -474,6 +473,9 @@ define ['underscore'], (_)->
 								color: "rgb(235,235,235)"
 						]
 
+
+						console.log overallDataForDonut
+						console.log filteredDataForDonut
 
 						$scope.donutDataOverall.push(overallDataForDonut) 
 						$scope.donutDataFiltered.push(filteredDataForDonut) 

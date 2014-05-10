@@ -102,7 +102,7 @@
     }).factory('User', function() {
       var user;
       return user = {
-        _id: 1,
+        _id: 5,
         name: 'Masanori',
         email: 'masanorinyo@gmail.com',
         password: 'test',
@@ -110,12 +110,7 @@
         isLoggedIn: true,
         favorites: [],
         questionMade: [1],
-        questionsAnswered: [
-          {
-            _id: "536d57ccd22f0c4e4b0bf6ea",
-            answer: "Kindergarden"
-          }
-        ],
+        questionsAnswered: [],
         filterQuestionsAnswered: []
       };
     }).factory('Error', function() {
