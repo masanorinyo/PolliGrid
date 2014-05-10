@@ -49,9 +49,34 @@ define ['angular'], (angular) ->
 						method : "POST"
 						params :
 							id : 0
+				}
+			)
 
-					"update" :
-						method :"PUT"
+		.factory 'UpdateQuestion',($resource)->
+			$resource(
+				"/api/updateQuestion/:questionId/:userId/:title/:filterId/:index/:task"
+				{
+					questionId 	: "@questionId"
+					userId 		: "@userId"
+					title 		: "@title"
+					filterId 	: "@filterId"
+					index 		: "@index"
+				}
+				{
+					"updateQuestion":
+						method 		: "PUT"
+						params 		:
+							task 	: "update"
+					
+					"updateFilters" :
+						method 		: "PUT"
+						params 		:
+							task  	: "update"
+
+					"removeAnswer"  : 
+						method 		: "PUT"
+						params 		:
+							task  	: "remove"
 				}
 			)
 

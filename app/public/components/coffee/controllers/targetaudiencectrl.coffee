@@ -1,5 +1,5 @@
 define ['underscore'], (_)->
-	($scope,$timeout,$q,Question,User)->
+	($scope,$timeout,$q,Question,User,UpdateQuestion)->
 
 		# ------------------ Utility functions ------------------ #		
 		
@@ -224,15 +224,23 @@ define ['underscore'], (_)->
 
 				# user's answer to the target question
 				answer = 
-					_id 		: targetQuestionID
+					_id 	: targetQuestionID
 					answer 	: targetAnswer
 				
-				console.log answer
-				console.log $scope.filterNumber
+				# get the index of options of the target question
+				target = _.find question.targets[index].lists, (obj)-> obj.option == targetAnswer
+				targetAnswerIndex = _.indexOf(question.targets[index].lists,target)
+				
 
 				# find the answered option
-				answeredOption = _.findWhere question.targets[index].lists,{option:targetAnswer}				
-				answeredOption.answeredBy.push($scope.user._id)
+				console.log UpdateQuestion.updateFilters(
+					questionId 	: question._id
+					userId 		: $scope.user._id
+					title 		: "0"
+					filterId 	: question.targets[index]._id
+					index 		: targetAnswerIndex
+				)
+
 
 				# add the answered filter question to the user's filterQuestionsAnswered collection
 				# this way, the same filter question won't show up from the next time

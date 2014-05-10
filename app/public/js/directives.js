@@ -149,7 +149,7 @@
               return items.forEach(function(val, key) {
                 var closing, newElement, newTemplate, starting;
                 starting = "<div class=\"content animated fadeInLeft\" ng-show=\"" + key + "==filterNumber\">";
-                closing = "	<form ng-controller=\"TargetListCtrl\" ng-submit=\"submitTarget(card,targetAnswer," + key + ")\"> {{index}} <ul no-scope-repeat-for-targets-options items=\"#OBJ#.lists\" class=\"answers\"></ul> <input type=\"submit\" class=\"submit-button btn btn-primary btn-sm\" value=\"Next\"> </form> </div>";
+                closing = "	<form ng-controller=\"TargetListCtrl\" ng-submit=\"submitTarget(card,targetAnswer," + key + ")\"> <ul no-scope-repeat-for-targets-options items=\"#OBJ#.lists\" class=\"answers\"></ul> <input type=\"submit\" class=\"submit-button btn btn-primary btn-sm\" value=\"Next\"> </form> </div>";
                 newTemplate = starting.concat(template, closing);
                 newElement = angular.element(newTemplate.replace(/#OBJ#/g, attrs.items + '[' + key + ']'));
                 $compile(newElement)(scope);

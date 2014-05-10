@@ -164,7 +164,6 @@ define ['angular','controllers','underscore','jquery'], (angular,controllers,_,$
 							# key will play a role of index
 							starting = "<div class=\"content animated fadeInLeft\" ng-show=\""+key+"==filterNumber\">"
 							closing = "	<form ng-controller=\"TargetListCtrl\" ng-submit=\"submitTarget(card,targetAnswer,"+key+")\">
-											{{index}}
 											<ul no-scope-repeat-for-targets-options items=\"#OBJ#.lists\" class=\"answers\"></ul>
 											<input type=\"submit\" class=\"submit-button btn btn-primary btn-sm\" value=\"Next\">
 										</form>

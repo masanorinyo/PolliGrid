@@ -38,9 +38,33 @@
           params: {
             id: 0
           }
+        }
+      });
+    }).factory('UpdateQuestion', function($resource) {
+      return $resource("/api/updateQuestion/:questionId/:userId/:title/:filterId/:index/:task", {
+        questionId: "@questionId",
+        userId: "@userId",
+        title: "@title",
+        filterId: "@filterId",
+        index: "@index"
+      }, {
+        "updateQuestion": {
+          method: "PUT",
+          params: {
+            task: "update"
+          }
         },
-        "update": {
-          method: "PUT"
+        "updateFilters": {
+          method: "PUT",
+          params: {
+            task: "update"
+          }
+        },
+        "removeAnswer": {
+          method: "PUT",
+          params: {
+            task: "remove"
+          }
         }
       });
     }).factory('QuestionTypeHead', function($resource) {

@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $location, $state, $stateParams, $timeout, FindQuestions, User, Filters, Error, Search) {
+    return function($scope, $location, $state, $stateParams, $timeout, FindQuestions, User, Filters, Error, Search, UpdateQuestion) {
       var foundQuestion, getColor, getData, questionId, targetQ;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
@@ -89,8 +89,14 @@
         } else {
           $scope.warning = false;
           $scope.$broadcast('answerSubmitted', 'submitted');
+          console.log(UpdateQuestion.updateFilters({
+            questionId: question._id,
+            userId: $scope.user._id,
+            title: escape(choice.title),
+            filterId: 0,
+            index: 0
+          }));
           question.respondents.push($scope.user._id);
-          console.log(choice);
           choice.answeredBy.push($scope.user._id);
           choice.count++;
           question.totalResponses++;
@@ -148,6 +154,16 @@
             return $scope.user.questionsAnswered.splice(index, 1);
           }
         });
+        console.log(foundOption.title);
+        console.log(questionId);
+        console.log($scope.user._id);
+        console.log(UpdateQuestion.removeAnswer({
+          questionId: questionId,
+          userId: $scope.user._id,
+          title: escape(foundOption.title),
+          filterId: 0,
+          index: 0
+        }));
         return $scope.answer = '';
       });
       $scope.closeModal = function() {

@@ -99,43 +99,64 @@ exports.updateQuestion = (req,res)->
 	userId 		= escapeChar(unescape(req.params.userId))
 	title 		= escapeChar(unescape(req.params.title))
 	filterId 	= escapeChar(unescape(req.params.filterId))
-	optionId 	= escapeChar(unescape(req.params.optionId))
+	task 		= escapeChar(unescape(req.params.task))
+	index 		= req.params.index	
 
 
-	if filterId != "0"
+	if task == "remove"
+
+		console.log 'remove answers'
 		
-		console.log 'update question filter'
-
 		conditions = 
-
-			"_id":questionId
-			"targets._id":filterId
-			"lists._id":optionId
-		
-		updates = 
-			$push:
-				"lists.$.answeredBy":userId
-
-
-	else 
-	
-		console.log 'update question'
-
-		conditions = 
+			
 			"_id":questionId
 			"option.title":title
-		
-
-
+			
 		updates = 
 			
 			$inc:
-				"option.$.count":1
-				"totalResponses":1
+				"option.$.count":-1
+				"totalResponses":-1
 			
-			$push:
+			$pull:
 				"option.$.answeredBy":userId
 				"respondents":userId
+	
+	else
+		if filterId != "0"
+			
+			console.log 'update question filter'
+
+			conditions = 
+
+				"_id":questionId
+				"targets._id":filterId
+				
+			updates = {$push:{}}
+			updates.$push["targets.$.lists."+index+".answeredBy"] = userId
+
+			
+
+
+		else 
+		
+			console.log 'update question'
+
+			conditions = 
+				"_id":questionId
+				"option.title":title
+			
+
+
+			updates = 
+				
+				$inc:
+					"option.$.count":1
+					"totalResponses":1
+				
+				$push:
+					"option.$.answeredBy":userId
+					"respondents":userId
 			
 	
 	options = {upsert:true}

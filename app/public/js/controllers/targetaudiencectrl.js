@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $timeout, $q, Question, User) {
+    return function($scope, $timeout, $q, Question, User, UpdateQuestion) {
       var checkFilterQuestionStatus, checkIfEverythingAnswered, makeTargetChecker, skipThroughFilterQuestions;
       checkFilterQuestionStatus = function(answer) {
         var defer;
@@ -98,7 +98,7 @@
         return checkFilterQuestionStatus('');
       })();
       $scope.submitTarget = function(question, targetAnswer, index) {
-        var answer, answeredOption, defer, targetQuestionID;
+        var answer, defer, target, targetAnswerIndex, targetQuestionID;
         if (targetAnswer === "" || !targetAnswer) {
           return $scope.warning = true;
         } else {
@@ -108,12 +108,17 @@
             _id: targetQuestionID,
             answer: targetAnswer
           };
-          console.log(answer);
-          console.log($scope.filterNumber);
-          answeredOption = _.findWhere(question.targets[index].lists, {
-            option: targetAnswer
+          target = _.find(question.targets[index].lists, function(obj) {
+            return obj.option === targetAnswer;
           });
-          answeredOption.answeredBy.push($scope.user._id);
+          targetAnswerIndex = _.indexOf(question.targets[index].lists, target);
+          console.log(UpdateQuestion.updateFilters({
+            questionId: question._id,
+            userId: $scope.user._id,
+            title: "0",
+            filterId: question.targets[index]._id,
+            index: targetAnswerIndex
+          }));
           $scope.user.filterQuestionsAnswered.push(answer);
           defer = $q.defer();
           defer.promise.then(function() {

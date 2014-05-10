@@ -120,7 +120,7 @@ app.route '/api/findQuestions/:searchTerm/:category/:order/:offset'
       .get contents.findQuestions
 
 # update question
-app.route '/api/updateQuestion/:questionId/:userId/:title/:filterId/:optionId'
+app.route '/api/updateQuestion/:questionId/:userId/:title/:filterId/:index/:task'
       .put contents.updateQuestion
 
 

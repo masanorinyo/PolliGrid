@@ -1,5 +1,5 @@
 define ['underscore'], (_)->
-	($scope,$location,$state,$stateParams,$timeout,FindQuestions,User,Filters,Error,Search)->
+	($scope,$location,$state,$stateParams,$timeout,FindQuestions,User,Filters,Error,Search,UpdateQuestion)->
 
 
 
@@ -162,22 +162,31 @@ define ['underscore'], (_)->
 
 				# by adding user id to the question respondents,
 				# users won't have to answer to the question again
-				
-				question.respondents.push($scope.user._id)
 
+				# server side
+				console.log UpdateQuestion.updateFilters(
+					questionId 	: question._id
+					userId 		: $scope.user._id
+					title 		: escape(choice.title)
+					filterId 	: 0
+					index 		: 0
+				)
+
+				# front side
+				question.respondents.push($scope.user._id)
 				# update the option related data 
-				console.log choice
 				choice.answeredBy.push($scope.user._id)
 				choice.count++
 				question.totalResponses++
 				
+
+				# update user 
 				answer = 
 					_id 	: question._id
 					answer 	: choice.title
-
-				
 				# add the answer to user's database
 				$scope.user.questionsAnswered.push(answer)
+
 
 				$scope.submitted = true
 
@@ -217,10 +226,8 @@ define ['underscore'], (_)->
 		$scope.$on 'resetAnswer',(question)->
 			console.clear()
 			console.trace()
-			
 
-			
-			
+
 
 
 			#shows the main question section
@@ -228,8 +235,6 @@ define ['underscore'], (_)->
 			
 			# decrement the total resonse for the reset
 			$scope.card.totalResponses--
-
-
 			# remove the user's id from the question's respondendents array
 			indexOfRespondents = $scope.card.respondents.indexOf($scope.user._id)	
 			$scope.card.respondents.splice(indexOfRespondents,1)
@@ -273,6 +278,16 @@ define ['underscore'], (_)->
 					$scope.user.questionsAnswered.splice(index,1)
 				
 
+			console.log foundOption.title
+			console.log questionId
+			console.log $scope.user._id
+			console.log UpdateQuestion.removeAnswer(
+				questionId 	: questionId
+				userId 		: $scope.user._id
+				title 		: escape(foundOption.title)
+				filterId 	: 0
+				index 		: 0
+			)
 			
 			# reset the chosen answers
 			$scope.answer = ''
