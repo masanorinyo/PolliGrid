@@ -119,6 +119,11 @@ app.route '/api/question/:questionId'
 app.route '/api/findQuestions/:searchTerm/:category/:order/:offset'
       .get contents.findQuestions
 
+# update question
+app.route '/api/updateQuestion/:questionId/:userId/:title/:filterId/:optionId'
+      .put contents.updateQuestion
+
+
 # returns typehead data
 app.route '/api/getQuestionTitle/:term/:category'
       .get contents.getQuestionTitle

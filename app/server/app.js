@@ -95,6 +95,8 @@
 
   app.route('/api/findQuestions/:searchTerm/:category/:order/:offset').get(contents.findQuestions);
 
+  app.route('/api/updateQuestion/:questionId/:userId/:title/:filterId/:optionId').put(contents.updateQuestion);
+
   app.route('/api/getQuestionTitle/:term/:category').get(contents.getQuestionTitle);
 
   app.route('/api/filter/:searchTerm/:offset').get(contents.loadFilters).post(contents.makeFilter);

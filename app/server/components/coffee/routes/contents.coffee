@@ -85,20 +85,64 @@ exports.findQuestions = (req,res)->
 		.limit(6)
 		.skip(offset)
 		.exec(callback)
-		
+
+# update question
 exports.updateQuestion = (req,res)->
 	callback = (err,updated)->
 		if err
 			res.send err 
 		else 
+			console.log updated
 			res.send updated
 
-	conditions = { _id:questionId}
-	update = {$set:{}}
+	questionId 	= escapeChar(unescape(req.params.questionId))
+	userId 		= escapeChar(unescape(req.params.userId))
+	title 		= escapeChar(unescape(req.params.title))
+	filterId 	= escapeChar(unescape(req.params.filterId))
+	optionId 	= escapeChar(unescape(req.params.optionId))
+
+
+	if filterId != "0"
+		
+		console.log 'update question filter'
+
+		conditions = 
+
+			"_id":questionId
+			"targets._id":filterId
+			"lists._id":optionId
+		
+		updates = 
+			$push:
+				"lists.$.answeredBy":userId
+
+
+	else 
+	
+		console.log 'update question'
+
+		conditions = 
+			"_id":questionId
+			"option.title":title
+		
+
+
+		updates = 
+			
+			$inc:
+				"option.$.count":1
+				"totalResponses":1
+			
+			$push:
+				"option.$.answeredBy":userId
+				"respondents":userId
+			
+	
 	options = {upsert:true}
 
-	Question.update(conditions, update, options, callback);
+	Question.update(conditions, updates, options, callback);
 
+# get questions for type head
 exports.getQuestionTitle = (req,res)->
 	
 	callback = (err,questions)->
@@ -119,9 +163,9 @@ exports.getQuestionTitle = (req,res)->
 		$or:[
  				"question":new RegExp(term, 'i')
 				,
-					"option":
-						$elemMatch:
-							"title":new RegExp(term,'i')
+				"option":
+					$elemMatch:
+						"title":new RegExp(term,'i')
 			]
 	)
 	.where("category").equals(new RegExp(category, 'i'))
@@ -161,6 +205,8 @@ exports.loadFilters = (req,res)->
 		.limit(6)
 		.skip(offset)
 		.exec(callback)
+
+
 
 # load titles for headtypes
 exports.getFilterTitle = (req,res)->
