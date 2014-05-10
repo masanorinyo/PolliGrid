@@ -129,7 +129,7 @@ define ['underscore'], (_)->
 			if $scope.question
 				$scope.card = $scope.question
 
-			console.log $scope.card
+			
 			alreadyAnswered = _.find _.pluck($scope.user.questionsAnswered,'_id'),(id)->
 				
 				if $scope.card != undefined
@@ -166,6 +166,7 @@ define ['underscore'], (_)->
 				question.respondents.push($scope.user._id)
 
 				# update the option related data 
+				console.log choice
 				choice.answeredBy.push($scope.user._id)
 				choice.count++
 				question.totalResponses++

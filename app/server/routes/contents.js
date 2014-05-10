@@ -35,7 +35,7 @@
   };
 
   exports.findQuestions = function(req, res) {
-    var callback, category, offset, order, term;
+    var callback, category, offset, order, sorting, term;
     callback = function(err, data) {
       if (err) {
         return res.send(err);
@@ -55,70 +55,59 @@
     }
     switch (order) {
       case "Recent":
-        return Question.find({
-          $or: [
-            {
-              "question": new RegExp(term, 'i')
-            }, {
-              "option": {
-                $elemMatch: {
-                  "title": new RegExp(term, 'i')
-                }
-              }
-            }
-          ]
-        }).where("category").equals(new RegExp(category, 'i')).sort({
+        sorting = {
           "created_at": -1
-        }).limit(6).skip(offset).exec(callback);
+        };
+        break;
       case "Old":
-        return Question.find({
-          $or: [
-            {
-              "question": new RegExp(term, 'i')
-            }, {
-              "option": {
-                $elemMatch: {
-                  "title": new RegExp(term, 'i')
-                }
-              }
-            }
-          ]
-        }).where("category").equals(new RegExp(category, 'i')).sort({
+        sorting = {
           "created_at": 1
-        }).limit(6).skip(offset).exec(callback);
+        };
+        break;
       case "Most voted":
-        return Question.find({
-          $or: [
-            {
-              "question": new RegExp(term, 'i')
-            }, {
-              "option": {
-                $elemMatch: {
-                  "title": new RegExp(term, 'i')
-                }
-              }
-            }
-          ]
-        }).where("category").equals(new RegExp(category, 'i')).sort({
+        sorting = {
           "totalResponses": -1
-        }).limit(6).skip(offset).exec(callback);
+        };
+        break;
       case "Most popular":
-        return Question.find({
-          $or: [
-            {
-              "question": new RegExp(term, 'i')
-            }, {
-              "option": {
-                $elemMatch: {
-                  "title": new RegExp(term, 'i')
-                }
-              }
-            }
-          ]
-        }).where("category").equals(new RegExp(category, 'i')).sort({
+        sorting = {
           "numOfFavorites": -1
-        }).limit(6).skip(offset).exec(callback);
+        };
     }
+    return Question.find({
+      $or: [
+        {
+          "question": new RegExp(term, 'i')
+        }, {
+          "option": {
+            $elemMatch: {
+              "title": new RegExp(term, 'i')
+            }
+          }
+        }
+      ]
+    }).where("category").equals(new RegExp(category, 'i')).sort(sorting).limit(6).skip(offset).exec(callback);
+  };
+
+  exports.updateQuestion = function(req, res) {
+    var callback, conditions, options, update;
+    callback = function(err, updated) {
+      if (err) {
+        return res.send(err);
+      } else {
+        return res.send(updated);
+      }
+    };
+    conditions = {
+      _id: questionId
+    };
+    update = {
+      $set: {}
+    };
+    options = {
+      upsert: true
+    };
+    return Question.update(conditions, update, options, callback);
   };
 
   exports.getQuestionTitle = function(req, res) {

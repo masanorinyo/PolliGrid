@@ -60,71 +60,44 @@ exports.findQuestions = (req,res)->
 
 	switch order
 		when "Recent"
-		
-			Question.find(
-				$or:[
-		 				"question":new RegExp(term, 'i')
-	 				,
-	 					"option":
-	 						$elemMatch:
-	 							"title":new RegExp(term,'i')
-	 			]
-			)
-			.where("category").equals(new RegExp(category, 'i'))
-			.sort("created_at":-1)
-			.limit(6)
-			.skip(offset)
-			.exec(callback)
-
+		then sorting = {"created_at":-1}
+			
 		when "Old"
-			Question.find(
-				$or:[
-		 				"question":new RegExp(term, 'i')
-	 				,
-	 					"option":
-	 						$elemMatch:
-	 							"title":new RegExp(term,'i')
-	 			]
-			)
-			.where("category").equals(new RegExp(category, 'i'))
-			.sort("created_at":1)
-			.limit(6)
-			.skip(offset)
-			.exec(callback)
-
+		then sorting = {"created_at":1}
+		
 		when "Most voted"
-			Question.find(
-				$or:[
-		 				"question":new RegExp(term, 'i')
-	 				,
-	 					"option":
-	 						$elemMatch:
-	 							"title":new RegExp(term,'i')
-	 			]
-			)
-			.where("category").equals(new RegExp(category, 'i'))
-			.sort("totalResponses":-1)
-			.limit(6)
-			.skip(offset)
-			.exec(callback)
+		then sorting = {"totalResponses":-1}
 
 		when "Most popular"
-			Question.find(
-				$or:[
-		 				"question":new RegExp(term, 'i')
-	 				,
-	 					"option":
-	 						$elemMatch:
-	 							"title":new RegExp(term,'i')
-	 			]
-			)
-			.where("category").equals(new RegExp(category, 'i'))
-			.sort("numOfFavorites":-1)
-			.limit(6)
-			.skip(offset)
-			.exec(callback)
-	
+		then sorting = {"numOfFavorites":-1}
+			
+	Question.find(
+			$or:[
+	 				"question":new RegExp(term, 'i')
+ 				,
+ 					"option":
+ 						$elemMatch:
+ 							"title":new RegExp(term,'i')
+ 			]
+		)
+		.where("category").equals(new RegExp(category, 'i'))
+		.sort(sorting)
+		.limit(6)
+		.skip(offset)
+		.exec(callback)
+		
+exports.updateQuestion = (req,res)->
+	callback = (err,updated)->
+		if err
+			res.send err 
+		else 
+			res.send updated
 
+	conditions = { _id:questionId}
+	update = {$set:{}}
+	options = {upsert:true}
+
+	Question.update(conditions, update, options, callback);
 
 exports.getQuestionTitle = (req,res)->
 	

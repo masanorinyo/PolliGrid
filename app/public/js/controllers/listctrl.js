@@ -72,7 +72,6 @@
         if ($scope.question) {
           $scope.card = $scope.question;
         }
-        console.log($scope.card);
         alreadyAnswered = _.find(_.pluck($scope.user.questionsAnswered, '_id'), function(id) {
           if ($scope.card !== void 0) {
             return $scope.card._id === id;
@@ -91,6 +90,7 @@
           $scope.warning = false;
           $scope.$broadcast('answerSubmitted', 'submitted');
           question.respondents.push($scope.user._id);
+          console.log(choice);
           choice.answeredBy.push($scope.user._id);
           choice.count++;
           question.totalResponses++;

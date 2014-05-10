@@ -38,6 +38,9 @@
           params: {
             id: 0
           }
+        },
+        "update": {
+          method: "PUT"
         }
       });
     }).factory('QuestionTypeHead', function($resource) {

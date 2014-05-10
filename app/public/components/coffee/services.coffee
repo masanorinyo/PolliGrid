@@ -49,6 +49,9 @@ define ['angular'], (angular) ->
 						method : "POST"
 						params :
 							id : 0
+
+					"update" :
+						method :"PUT"
 				}
 			)
 
