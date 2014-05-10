@@ -95,7 +95,9 @@
       $scope.filterNumber = 0;
       $scope.targetChecker = [];
       (function() {
-        return checkFilterQuestionStatus('');
+        if ($scope.submitted) {
+          return checkFilterQuestionStatus('');
+        }
       })();
       $scope.submitTarget = function(question, targetAnswer, index) {
         var answer, defer, target, targetAnswerIndex, targetQuestionID;

@@ -125,14 +125,14 @@ define ['angular'], (angular) ->
 		.factory 'User', ()->
 			user = 
 				
-				_id  					: 6
+				_id  					: "13ssfdasdafdaskdsafsa5"
 				name  					: 'Masanori'
 				email 					: 'masanorinyo@gmail.com'
 				password 				: 'test'
 				profilePic 				: "/img/users/profile-pic.jpg"
 				isLoggedIn 				: true
 				favorites 				: []
-				questionMade 			: [1]
+				questionMade 			: []
 				questionsAnswered 		: [
 						# _id 		: "536d57ccd22f0c4e4b0bf6ea"
 						# answer 		: "Kindergarden"

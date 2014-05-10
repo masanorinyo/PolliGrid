@@ -63,23 +63,23 @@
 
 	<!-- This will show up on the setting page -->
 	<!-- ui-sref="home.anotherDeep({id:question.id})" -->
-	<button ng-if="isAccessedFromSetting"  ng-click="showDeepResult(question.id)" class="submit-button bigger btn btn-success" >
+	<button ng-if="isAccessedFromSetting"  ng-click="showDeepResult(question._id)" class="submit-button bigger btn btn-success" >
 		See deep result
 	</button>
 	
 
 	<!-- If the question is accessed via an external link, show this button. This won't refresh the page -->
-	<button ng-if="isAccessedViaLink && !isAccessedFromSetting && !user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.signupRedirect({id:question.id})" class="submit-button bigger btn btn-success">
+	<button ng-if="isAccessedViaLink && !isAccessedFromSetting && !user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.signupRedirect({id:question._id})" class="submit-button bigger btn btn-success">
 		See deep result
 	</button>
 
 	<!-- when users is not logged in -  -->
-	<button ng-if="isAccessedViaLink && !isAccessedFromSetting && user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.deepResult({id:question.id})" class="submit-button bigger btn btn-success">
+	<button ng-if="isAccessedViaLink && !isAccessedFromSetting && user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.deepResult({id:question._id})" class="submit-button bigger btn btn-success">
 		See deep result
 	</button>
 
 	<!-- This will refresh the page -->
-	<button ng-if="!isAccessedViaLink && !isAccessedFromSetting" ui-sref="home.deepResult({id:question.id})" class="submit-button bigger btn btn-success">
+	<button ng-if="!isAccessedViaLink && !isAccessedFromSetting" ui-sref="home.deepResult({id:question._id})" class="submit-button bigger btn btn-success">
 		See deep result
 	</button>
 </div>

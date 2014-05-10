@@ -102,14 +102,14 @@
     }).factory('User', function() {
       var user;
       return user = {
-        _id: 6,
+        _id: "13ssfdasdafdaskdsafsa5",
         name: 'Masanori',
         email: 'masanorinyo@gmail.com',
         password: 'test',
         profilePic: "/img/users/profile-pic.jpg",
         isLoggedIn: true,
         favorites: [],
-        questionMade: [1],
+        questionMade: [],
         questionsAnswered: [],
         filterQuestionsAnswered: []
       };

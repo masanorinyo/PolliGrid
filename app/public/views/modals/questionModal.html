@@ -24,7 +24,7 @@
 					<form ng-submit="submitAnswer(answer,question)" id="surveyForm">
 						
 						<ul class="answers">
-							<li ng-hide="targetQ.isQuestionAnswered" class='answer' ng-repeat='option in question.options'>
+							<li ng-hide="targetQ.isQuestionAnswered" class='answer' ng-repeat='option in question.option'>
 								<label class='pointer'>
 									<input ng-model="$parent.answer" type="radio" name="answer" ng-value="option">
 									{{option.title}}

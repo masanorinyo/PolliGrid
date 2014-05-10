@@ -120,8 +120,9 @@
 		}
 
 		.create{
+			
+			@include absolute-center($left:auto,$right:50px);
 			font-size: 3em;
-			@include absolute-center($left:auto,$right:37px);
 			width: 30px;
 			height: 100%;
 			text-align: center;
@@ -133,23 +134,23 @@
 			&:hover{
 				color:$lightblue;
 			}
-
+			
 			@include at-breakpoint($medium){
 				right:70px;
 			}
+
 			@include at-breakpoint($large){
-				right:130px;
+				right:150px;
 			}
+			
 		}
 
 	}
 
 	.profile {
-		position: absolute;
-		right:20px;
-		top:0;
-		bottom:0;
-
+		
+		@include absolute-center($right:30px,$top:3px,$left:auto);
+		
 		@include at-breakpoint($medium){
 			right:50px;
 		}
@@ -198,7 +199,7 @@
 			display:none;
 		}
 
-		@include at-breakpoint($medium){
+		@include at-breakpoint($large){
 			
 
 			.btn-auth{

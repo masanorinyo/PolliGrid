@@ -214,7 +214,7 @@
         left:-90px;
 
     }
-
+    
     > .fa-caret-up {
         
         position:absolute;
@@ -225,7 +225,7 @@
         font-size:3em;
         width:20px;
         height:19px;
-        color:$darkblue;
+        color:$pop-box-eader-color;
         line-height: 25px;
     }
 
@@ -235,7 +235,7 @@
         padding:5px;
         text-align: center;
         font-size:0.8em;
-        background-color:$darkblue;
+        background-color:$pop-box-eader-color;
         cursor: default;
         color:rgb(200,200,200);
     }
@@ -243,14 +243,14 @@
     .selected{
         width:100%;
         padding:25px 15px;
-        background-color:$darkblue;
+        background-color:$pop-box-eader-color;
         position:relative;
 
         >span{
             
             @include absolute-center;
             @include border-radius(20px);
-            background-color:$cyan;
+            background-color:$blue;
             text-align: center;
             color:white;
             width:80%;

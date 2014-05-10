@@ -1,17 +1,25 @@
 define [], ()->
 	($scope,$modalInstance,$stateParams,$location,$timeout,Setting)->
 		
-		# if $stateParams.id.$http(get) -> false -> $location.path('/')
 
 
-		$scope.questionId = Setting.questionId
-		console.log $scope.questionId
+		# (issue)  check if this is necessary
+		if Setting.questionId
+			$scope.questionId = Setting.questionId
+		else 
+			$scope.questionId = $stateParams.id
+		
+		link = window.location.origin
+
+		$scope.sharableLink = link.concat("/#/question/",$scope.questionId)
 
 		$scope.closeModal = ()->
 			$scope.$dismiss()
 
 			if Setting.isSetting
-				
+
+				# cleans out the quesiton id
+				Setting.questionId = ""	
 				$timeout ->
 					$location.path(Setting.section)
 				,100,true

@@ -485,15 +485,7 @@ define ['underscore'], (_)->
 
 			$scope.$dismiss()
 
-			# $timeout ->	
-			# 	# reload the page
-			# 	$state.transitionTo($state.current, $stateParams, {
-			# 		reload: true
-			# 		inherit: true
-			# 		notify: true
-			# 	})
-
-			# ,200,true
+			
 
 
 		# -------------- Invoke Scope --------------#

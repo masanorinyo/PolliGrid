@@ -1,7 +1,7 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $location, $state, $stateParams, $timeout, FindQuestions, User, Filters, Error, Search, UpdateQuestion) {
-      var foundQuestion, getColor, getData, questionId, targetQ;
+    return function($scope, $location, $state, $stateParams, $timeout, $q, FindQuestions, User, Filters, Error, Search, UpdateQuestion, Question, Page) {
+      var getColor, getData, targetQ;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
       };
@@ -46,19 +46,6 @@
       }
       $scope.user = User;
       $scope.isAccessedViaLink = false;
-      if ($location.$$path.split('/')[1] === "question") {
-        $scope.isAccessedViaLink = true;
-        questionId = $stateParams.id;
-        foundQuestion = _.findWhere(Question, {
-          id: questionId
-        });
-        $scope.question = foundQuestion;
-        $scope.answered = _.find(foundQuestion.respondents, function(id) {
-          return id === User._id;
-        });
-      } else {
-        $scope.cards = FindQuestions["default"]();
-      }
       $scope.answer = '';
       $scope.isStarFilled = false;
       $scope.submitted = false;
@@ -68,19 +55,46 @@
       $scope.warning = false;
       $scope.favorite = false;
       (function() {
-        var alreadyAnswered;
-        if ($scope.question) {
-          $scope.card = $scope.question;
-        }
-        alreadyAnswered = _.find(_.pluck($scope.user.questionsAnswered, '_id'), function(id) {
-          if ($scope.card !== void 0) {
-            return $scope.card._id === id;
+        var defer;
+        defer = $q.defer();
+        defer.promise.then(function() {
+          var questionId;
+          if ($location.$$path.split('/')[1] === "question") {
+            $scope.isAccessedViaLink = true;
+            questionId = $stateParams.id;
+            $scope.question = Question.get({
+              questionId: escape(questionId)
+            });
+            $scope.question.$promise.then(function(data) {
+              if (!data._id) {
+                $scope.$dismiss();
+                return $timeout(function() {
+                  return $location.path('/');
+                }, 100, true);
+              }
+            });
+            return $scope.answered = _.find($scope.question.respondents, function(id) {
+              return id === User._id;
+            });
+          } else {
+            return $scope.cards = FindQuestions["default"]();
+          }
+        }).then(function() {
+          var alreadyAnswered;
+          if ($scope.question) {
+            $scope.card = $scope.question;
+          }
+          alreadyAnswered = _.find(_.pluck($scope.user.questionsAnswered, '_id'), function(id) {
+            if ($scope.card !== void 0) {
+              return $scope.card._id === id;
+            }
+          });
+          if (alreadyAnswered) {
+            $scope.card.alreadyAnswered = true;
+            return getData();
           }
         });
-        if (alreadyAnswered) {
-          $scope.card.alreadyAnswered = true;
-          return getData();
-        }
+        return defer.resolve();
       })();
       $scope.submitAnswer = function(choice, question) {
         var answer;
@@ -127,7 +141,7 @@
         }
       };
       $scope.$on('resetAnswer', function(question) {
-        var answers, foundAnswerId, foundAnswered, foundOption, index, indexOfRespondents, optionIndex;
+        var answers, foundAnswerId, foundAnswered, foundOption, index, indexOfRespondents, optionIndex, questionId;
         console.clear();
         console.trace();
         $scope.submitted = false;

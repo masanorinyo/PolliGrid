@@ -73,8 +73,8 @@ define ['underscore'], (_)->
 					i++
 
 				
-				
 				return $scope.targetChecker
+
 
 		# determine the initial filter questions
 		# increment filterNumber until it hits the unanswered filter question
@@ -197,10 +197,10 @@ define ['underscore'], (_)->
 		# inital loading - to show results of the questions users already answered
 		
 		do ()->
-
-			checkFilterQuestionStatus('')
-			# checkIfQuestionAlaredyAnswered()
-			# skipThroughFilterQuestions()
+			
+			if $scope.submitted
+				checkFilterQuestionStatus('')
+			
 			
 
 		# ------------------ Scope funcitons ------------------ #

@@ -1,5 +1,5 @@
 define ['underscore'], (_)->
-	($scope,$location,$state,$stateParams,$timeout,FindQuestions,User,Filters,Error,Search,UpdateQuestion)->
+	($scope,$location,$state,$stateParams,$timeout,$q,FindQuestions,User,Filters,Error,Search,UpdateQuestion,Question,Page)->
 
 
 
@@ -81,27 +81,7 @@ define ['underscore'], (_)->
 		# ***************  Models *************** #
 		$scope.user = User
 		$scope.isAccessedViaLink = false
-		# if the question is accessed via external link
-		# get the url id and find the question with the id
-		if $location.$$path.split('/')[1] == "question"
-			
-			$scope.isAccessedViaLink = true
-			
-			questionId = $stateParams.id
-			foundQuestion = _.findWhere Question,{id:questionId}
-			$scope.question = foundQuestion	
-
-			$scope.answered = _.find foundQuestion.respondents,(id)->
-				id == User._id
-
-
-
-
-			
-
-		else
-
-			$scope.cards = FindQuestions.default()
+		
 
 		
 		$scope.answer = ''
@@ -126,20 +106,64 @@ define ['underscore'], (_)->
 		
 		do ()->
 		
-			if $scope.question
-				$scope.card = $scope.question
+			# if the question is accessed via external link
+			# get the url id and find the question with the id
+			defer = $q.defer()
+			defer.promise
+				.then ->
 
-			
-			alreadyAnswered = _.find _.pluck($scope.user.questionsAnswered,'_id'),(id)->
-				
-				if $scope.card != undefined
-					$scope.card._id == id
+					if $location.$$path.split('/')[1] == "question" 
+						
+											
+						$scope.isAccessedViaLink = true
+						
+						questionId = $stateParams.id
+						
+						
+						$scope.question = Question.get(
+												{
+													questionId:escape(questionId)
+												}
+											)
+						
+						$scope.question.$promise.then (data)->
+							#  close the modal box and redirect to the main page
+							#  question is not found
+							unless data._id
+								
+								$scope.$dismiss()
+								$timeout -> 
+									$location.path('/')
+								,100,true
+								
+
+						$scope.answered = _.find $scope.question.respondents,(id)->
+							id == User._id
 
 
-			if alreadyAnswered
-				
-				$scope.card.alreadyAnswered = true
-				getData()
+
+					else
+
+						$scope.cards = FindQuestions.default()
+
+				.then ->
+
+					if $scope.question
+						$scope.card = $scope.question
+
+					
+					alreadyAnswered = _.find _.pluck($scope.user.questionsAnswered,'_id'),(id)->
+						
+						if $scope.card != undefined
+							$scope.card._id == id
+
+
+					if alreadyAnswered
+						
+						$scope.card.alreadyAnswered = true
+						getData()
+
+			defer.resolve()
 
 
 
