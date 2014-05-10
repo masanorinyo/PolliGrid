@@ -125,7 +125,7 @@ define ['angular'], (angular) ->
 		.factory 'User', ()->
 			user = 
 				
-				_id  					: 5
+				_id  					: 6
 				name  					: 'Masanori'
 				email 					: 'masanorinyo@gmail.com'
 				password 				: 'test'

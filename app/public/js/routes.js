@@ -114,14 +114,7 @@
             }).result.then(function() {
               return console.log('modal is open');
             }, function() {
-              $location.path('/');
-              return $timeout(function() {
-                return $state.transitionTo($state.current, $stateParams, {
-                  reload: true,
-                  inherit: true,
-                  notify: true
-                });
-              }, 200, true);
+              return $location.path('/');
             });
           }
         }
@@ -166,14 +159,7 @@
             }).result.then(function() {
               return console.log('modal is open');
             }, function() {
-              $location.path('/');
-              return $timeout(function() {
-                return $state.transitionTo($state.current, $stateParams, {
-                  reload: true,
-                  inherit: true,
-                  notify: true
-                });
-              }, 200, true);
+              return $location.path('/');
             });
           }
         }

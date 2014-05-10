@@ -474,9 +474,6 @@ define ['underscore'], (_)->
 						]
 
 
-						console.log overallDataForDonut
-						console.log filteredDataForDonut
-
 						$scope.donutDataOverall.push(overallDataForDonut) 
 						$scope.donutDataFiltered.push(filteredDataForDonut) 
 
@@ -488,15 +485,15 @@ define ['underscore'], (_)->
 
 			$scope.$dismiss()
 
-			$timeout ->	
-				# reload the page
-				$state.transitionTo($state.current, $stateParams, {
-					reload: true
-					inherit: true
-					notify: true
-				})
+			# $timeout ->	
+			# 	# reload the page
+			# 	$state.transitionTo($state.current, $stateParams, {
+			# 		reload: true
+			# 		inherit: true
+			# 		notify: true
+			# 	})
 
-			,200,true
+			# ,200,true
 
 
 		# -------------- Invoke Scope --------------#

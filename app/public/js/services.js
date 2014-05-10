@@ -102,7 +102,7 @@
     }).factory('User', function() {
       var user;
       return user = {
-        _id: 5,
+        _id: 6,
         name: 'Masanori',
         email: 'masanorinyo@gmail.com',
         password: 'test',

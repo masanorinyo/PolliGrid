@@ -319,8 +319,6 @@
                 color: "rgb(235,235,235)"
               }
             ];
-            console.log(overallDataForDonut);
-            console.log(filteredDataForDonut);
             $scope.donutDataOverall.push(overallDataForDonut);
             return $scope.donutDataFiltered.push(filteredDataForDonut);
           });
@@ -328,14 +326,7 @@
         return defer.resolve();
       })();
       $scope.closeModal = function() {
-        $scope.$dismiss();
-        return $timeout(function() {
-          return $state.transitionTo($state.current, $stateParams, {
-            reload: true,
-            inherit: true,
-            notify: true
-          });
-        }, 200, true);
+        return $scope.$dismiss();
       };
       return $scope.$apply();
     };
