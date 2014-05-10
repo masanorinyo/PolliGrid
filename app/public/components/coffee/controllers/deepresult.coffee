@@ -22,7 +22,6 @@ define ['underscore'], (_)->
 
 
 			if message == 'createOverallPieData'
-				
 				ref = $scope.question.option
 			else
 				ref = $scope.filterGroup.answers
@@ -156,7 +155,11 @@ define ['underscore'], (_)->
 		
 
 		# ------------- Scope Variables ------------- #
-
+		if Setting.isSetting
+			questionId = Setting.questionId
+			
+		else 
+			questionId = $stateParams.id
 		
 		$scope.chartType = "pie"
 
@@ -209,7 +212,7 @@ define ['underscore'], (_)->
 
 					category = 
 						categoryTitle 	: target.title
-						option  		: [
+						option			: [
 							answer.option
 						]
 
@@ -371,18 +374,9 @@ define ['underscore'], (_)->
 		# create filters array
 		do ()->
 
-
 			defer = $q.defer()
 			defer.promise
-				.then ->
-					if Setting.isSetting
-						questionId = Setting.questionId
-						
-					else 
-						questionId = $stateParams.id
-					
-					# find the question from the server
-					
+				.then ->					
 					$scope.question = Question.get(
 											{
 												questionId:escape(questionId)
@@ -391,10 +385,8 @@ define ['underscore'], (_)->
 					
 					$scope.question.$promise.then (data)->
 						console.log data
+				.then ->
 
-
-				.then -> 
-					console.log $scope.question
 					#make a pie at the initial load
 					getData('createOverallPieData')
 

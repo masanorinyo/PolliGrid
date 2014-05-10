@@ -107,7 +107,7 @@ define ['angular'], (angular) ->
 				questionMade 			: [1]
 				questionsAnswered 		: [
 						_id 		: "536d57ccd22f0c4e4b0bf6ea"
-						answer 	: "Kindergarden"
+						answer 		: "Kindergarden"
 				]
 				filterQuestionsAnswered : [
 						# id 		: 1

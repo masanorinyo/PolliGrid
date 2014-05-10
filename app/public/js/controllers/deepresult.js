@@ -1,7 +1,7 @@
 (function() {
   define(['underscore'], function(_) {
     return function($scope, $modalInstance, $stateParams, $location, $q, $timeout, Question, Setting, $state) {
-      var getColor, getData, getPercentage;
+      var getColor, getData, getPercentage, questionId;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
       };
@@ -105,6 +105,11 @@
         showTooltips: false,
         animation: false
       };
+      if (Setting.isSetting) {
+        questionId = Setting.questionId;
+      } else {
+        questionId = $stateParams.id;
+      }
       $scope.chartType = "pie";
       $scope.filterAdded = false;
       $scope.filterAdded = 'Add to filter';
@@ -236,12 +241,6 @@
         var defer;
         defer = $q.defer();
         defer.promise.then(function() {
-          var questionId;
-          if (Setting.isSetting) {
-            questionId = Setting.questionId;
-          } else {
-            questionId = $stateParams.id;
-          }
           $scope.question = Question.get({
             questionId: escape(questionId)
           });
@@ -250,7 +249,6 @@
           });
         }).then(function() {
           var data, i, length, targetId, targetTitle, targets;
-          console.log($scope.question);
           getData('createOverallPieData');
           _.each($scope.question.option, function(option) {
             $scope.myChartInfo.labels.push(option.title);

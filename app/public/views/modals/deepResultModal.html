@@ -12,7 +12,7 @@
 		
 		<!-- Filter button -->
 
-		<div class="list-filters">
+		<div ng-if="question.targets.length" class="list-filters">
 			<div class='sub-title white bg-teal'>
 				<span ng-hide="foundRespondents">Add filters:</span>
 				<span class="white" ng-show="foundRespondents">
@@ -53,7 +53,7 @@
 					<li class="label label-info">
 						{{category.categoryTitle}}
 					</li>
-					<li class="respondent" ng-repeat="option in category.options">
+					<li class="respondent" ng-repeat="option in category.option">
 						{{option}}
 					</li>
 				</ul>
@@ -77,7 +77,7 @@
 					 	<i class="fa fa-quote-right"></i>
 					 </p>
 				</blockquote>
-				<ul class="well">
+				<ul ng-class="{'wide-width':!question.targets.length}"class="well">
 					<label class='slightlyBlack'>Overall</label>
 					<li class="blue">	
 						Total : 
@@ -86,14 +86,14 @@
 						</span>
 					
 					</li>
-					<li class='answer gray' ng-repeat='option in question.options'>
+					<li class='answer gray' ng-repeat='option in question.option'>
 						{{option.title}}: 
 						<span>
 							{{option.count}}
 						</span>
 					</li>
 				</ul>
-				<ul class="well">
+				<ul ng-if="question.targets.length" class="well">
 					<label class='slightlyBlack'>Filter</label>
 					<li class="blue">	
 						Total : 
@@ -152,7 +152,7 @@
 			<br>
 	
 			<ul class="chart-percentage">
-				<li class="list-chart" ng-repeat="option in question.options">
+				<li class="list-chart" ng-repeat="option in question.option">
 					
 					<p class='gray chart-title'>
 						
@@ -163,7 +163,7 @@
 						<canvas ng-hide="isFiltered" doughnutchart options="donutOption" class="chart-main" data="donutDataOverall[$index]" width="300" height="300"></canvas>
 						<canvas ng-show="isFiltered"  doughnutchart options="donutOption" class="chart-main" data="donutDataFiltered[$index]" width="300" height="300"></canvas>
 					</div>
-					<div class="button-switch btn-group">
+					<div ng-if="question.targets.length" class="button-switch btn-group">
 						<button ng-click="isFiltered=!isFiltered" class='btn btn-sm btn-default' ng-class="{'active':!isFiltered}">Overall</button>
 						<button ng-click="isFiltered=!isFiltered" class='btn btn-sm btn-default' ng-class="{'active':isFiltered}">Filtered</button>
 					</div>
