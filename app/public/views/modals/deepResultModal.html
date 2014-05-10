@@ -180,6 +180,11 @@
 	        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
 	        var disqus_shortname = 'whichone'; // required: replace example with your forum shortname
 
+	        unique_id = window.location.hash.match(/([^\/]*)\/*$/)[1];
+
+	        var disqus_identifier = unique_id;
+
+	         
 	        /* * * DON'T EDIT BELOW THIS LINE * * */
 	        (function() {
 	            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -105,7 +105,7 @@ define ['underscore'], (_)->
 		# loads the chart data when the page initially is loaded
 		
 		do ()->
-		
+			
 			# if the question is accessed via external link
 			# get the url id and find the question with the id
 			defer = $q.defer()

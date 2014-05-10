@@ -10,7 +10,7 @@ define [], ()->
 			$scope.questionId = $stateParams.id
 		
 		link = window.location.origin
-
+		
 		$scope.sharableLink = link.concat("/#/question/",$scope.questionId)
 
 		$scope.closeModal = ()->
