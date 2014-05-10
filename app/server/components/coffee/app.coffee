@@ -111,12 +111,9 @@ app.route '/'
 #################################################
 
 # returns user related contents
-app.route '/api/question'
-      .post contents.makeQuestion
-
-# returns specific contents
-app.route '/api/findById/:id'
+app.route '/api/question/:questionId'
       .get contents.findById
+      .post contents.makeQuestion
 
 # returns contents
 app.route '/api/findQuestions/:searchTerm/:category/:order/:offset'

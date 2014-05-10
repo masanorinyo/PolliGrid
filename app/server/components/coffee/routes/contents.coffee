@@ -28,10 +28,15 @@ exports.makeQuestion = (req,res)->
 
 # find a question by id
 exports.findById = (req,res)->
+	callback = (err,data)->
+		if err 
+			res.send err 
+		else 
+			res.json data
 	
-	id = req.params.id
+	id = escapeChar(unescape(req.params.questionId))
 	
-	foundQuestion = Question.findById(id).exec(callback)
+	Question.findById(id).exec(callback)
 
 
 # find questions by search term

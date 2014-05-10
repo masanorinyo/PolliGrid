@@ -1,7 +1,7 @@
 (function() {
   define(['underscore'], function(_) {
     return function($scope, $modalInstance, $stateParams, $location, $q, $timeout, Question, Setting, $state) {
-      var foundQuestion, getColor, getData, getPercentage, questionId;
+      var getColor, getData, getPercentage;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
       };
@@ -14,7 +14,7 @@
         $scope.myChartDataDeep = [];
         $scope.myChartInfo.datasets[1].data = [];
         if (message === 'createOverallPieData') {
-          ref = $scope.question.options;
+          ref = $scope.question.option;
         } else {
           ref = $scope.filterGroup.answers;
         }
@@ -105,16 +105,6 @@
         showTooltips: false,
         animation: false
       };
-      if (Setting.isSetting) {
-        questionId = Setting.questionId;
-      } else {
-        questionId = $stateParams.id;
-      }
-      console.log(questionId);
-      _.findWhere(Question, {
-        _id: questionId
-      });
-      foundQuestion = $scope.question = foundQuestion;
       $scope.chartType = "pie";
       $scope.filterAdded = false;
       $scope.filterAdded = 'Add to filter';
@@ -141,11 +131,11 @@
             categoryTitle: target.title
           });
           if (foundCategory) {
-            foundCategory.options.push(answer.option);
+            foundCategory.option.push(answer.option);
           } else {
             category = {
               categoryTitle: target.title,
-              options: [answer.option]
+              option: [answer.option]
             };
             $scope.filterCategories.push(category);
           }
@@ -167,9 +157,9 @@
           foundCategory = _.findWhere($scope.filterCategories, {
             categoryTitle: target.title
           });
-          index = foundCategory.options.indexOf(answer.option);
-          foundCategory.options.splice(index, 1);
-          if (foundCategory.options.length === 0) {
+          index = foundCategory.option.indexOf(answer.option);
+          foundCategory.option.splice(index, 1);
+          if (foundCategory.option.length === 0) {
             $scope.filterCategories = _.without($scope.filterCategories, foundCategory);
           }
           answer.filterBtn = "Add to filter";
@@ -202,7 +192,7 @@
         defer.promise.then(function() {
           var data;
           data = [];
-          _.each($scope.question.options, function(option, index) {
+          _.each($scope.question.option, function(option, index) {
             data[index] = option.answeredBy;
             return _.each($scope.filterGroup.filters, function(filter) {
               return data[index] = _.intersection(data[index], filter.respondents);
@@ -243,78 +233,97 @@
         return defer.resolve();
       };
       (function() {
-        var data, i, length, targetId, targetTitle, targets;
-        getData('createOverallPieData');
-        _.each($scope.question.options, function(option) {
-          $scope.myChartInfo.labels.push(option.title);
-          return $scope.myChartInfo.datasets[0].data.push(option.count);
-        });
-        if ($scope.myChartInfo.labels.length <= 2) {
-          $scope.myChartInfo.labels.push('');
-          $scope.myChartInfo.datasets[0].data.push(0);
-        }
-        length = $scope.question.targets.length;
-        i = 0;
-        _.each($scope.question.options, function(obj) {
-          var answer;
-          answer = {
-            title: obj.title,
-            count: 0
-          };
-          return $scope.filterGroup.answers.push(answer);
-        });
-        while (i < length) {
-          targets = [];
-          targetId = $scope.question.targets[i]._id;
-          targetTitle = $scope.question.targets[i].title;
-          _.each($scope.question.targets[i].lists, function(num) {
-            var optionData;
-            optionData = {
-              option: num.option,
-              answeredBy: num.answeredBy,
-              numOfResponses: num.answeredBy.length,
-              isAdded: false,
-              filterBtn: "Add to filter"
-            };
-            return targets.push(optionData);
+        var defer;
+        defer = $q.defer();
+        defer.promise.then(function() {
+          var questionId;
+          if (Setting.isSetting) {
+            questionId = Setting.questionId;
+          } else {
+            questionId = $stateParams.id;
+          }
+          $scope.question = Question.get({
+            questionId: escape(questionId)
           });
-          data = {
-            _id: targetId,
-            title: targetTitle,
-            numOfAdded: 0,
-            lists: targets
-          };
-          $scope.filters.push(data);
-          i++;
-        }
-        return _.each($scope.question.options, function(obj) {
-          var filteredDataForDonut, overallDataForDonut, percentage;
-          percentage = parseInt(getPercentage(obj.count, $scope.question.totalResponses));
-          overallDataForDonut = [
-            {
-              label: obj.title,
-              value: percentage,
-              color: "rgb(100,250,245)"
-            }, {
-              label: obj.title,
-              value: 100 - percentage,
-              color: "rgb(235,235,235)"
-            }
-          ];
-          filteredDataForDonut = [
-            {
-              label: obj.title,
-              value: 0,
-              color: "rgb(100,150,245)"
-            }, {
-              label: obj.title,
-              value: 100,
-              color: "rgb(235,235,235)"
-            }
-          ];
-          $scope.donutDataOverall.push(overallDataForDonut);
-          return $scope.donutDataFiltered.push(filteredDataForDonut);
+          return $scope.question.$promise.then(function(data) {
+            return console.log(data);
+          });
+        }).then(function() {
+          var data, i, length, targetId, targetTitle, targets;
+          console.log($scope.question);
+          getData('createOverallPieData');
+          _.each($scope.question.option, function(option) {
+            $scope.myChartInfo.labels.push(option.title);
+            return $scope.myChartInfo.datasets[0].data.push(option.count);
+          });
+          if ($scope.myChartInfo.labels.length <= 2) {
+            $scope.myChartInfo.labels.push('');
+            $scope.myChartInfo.datasets[0].data.push(0);
+          }
+          length = $scope.question.targets.length;
+          i = 0;
+          _.each($scope.question.option, function(obj) {
+            var answer;
+            answer = {
+              title: obj.title,
+              count: 0
+            };
+            return $scope.filterGroup.answers.push(answer);
+          });
+          while (i < length) {
+            targets = [];
+            targetId = $scope.question.targets[i]._id;
+            targetTitle = $scope.question.targets[i].title;
+            _.each($scope.question.targets[i].lists, function(num) {
+              var optionData;
+              optionData = {
+                option: num.option,
+                answeredBy: num.answeredBy,
+                numOfResponses: num.answeredBy.length,
+                isAdded: false,
+                filterBtn: "Add to filter"
+              };
+              return targets.push(optionData);
+            });
+            data = {
+              _id: targetId,
+              title: targetTitle,
+              numOfAdded: 0,
+              lists: targets
+            };
+            $scope.filters.push(data);
+            i++;
+          }
+          return _.each($scope.question.option, function(obj) {
+            var filteredDataForDonut, overallDataForDonut, percentage;
+            percentage = parseInt(getPercentage(obj.count, $scope.question.totalResponses));
+            overallDataForDonut = [
+              {
+                label: obj.title,
+                value: percentage,
+                color: "rgb(100,250,245)"
+              }, {
+                label: obj.title,
+                value: 100 - percentage,
+                color: "rgb(235,235,235)"
+              }
+            ];
+            filteredDataForDonut = [
+              {
+                label: obj.title,
+                value: 0,
+                color: "rgb(100,150,245)"
+              }, {
+                label: obj.title,
+                value: 100,
+                color: "rgb(235,235,235)"
+              }
+            ];
+            $scope.donutDataOverall.push(overallDataForDonut);
+            return $scope.donutDataFiltered.push(filteredDataForDonut);
+          });
         });
+        return defer.resolve();
       })();
       $scope.closeModal = function() {
         $scope.$dismiss();

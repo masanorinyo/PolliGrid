@@ -27,9 +27,17 @@
         }
       });
     }).factory('Question', function($resource) {
-      return $resource("/api/question", {}, {
+      return $resource("/api/question/:questionId", {
+        questionId: "@questionId"
+      }, {
+        "get": {
+          method: "GET"
+        },
         "save": {
-          method: "POST"
+          method: "POST",
+          params: {
+            id: 0
+          }
         }
       });
     }).factory('QuestionTypeHead', function($resource) {
@@ -75,7 +83,12 @@
         isLoggedIn: true,
         favorites: [],
         questionMade: [1],
-        questionsAnswered: [],
+        questionsAnswered: [
+          {
+            _id: "536d57ccd22f0c4e4b0bf6ea",
+            answer: "Kindergarden"
+          }
+        ],
         filterQuestionsAnswered: []
       };
     }).factory('Error', function() {

@@ -31,9 +31,9 @@
           $scope.searchTerm = $scope.searchQuestion;
         }
         return FindQuestions.get({
-          searchTerm: encodeURI($scope.searchTerm),
-          category: encodeURI($scope.category),
-          order: encodeURI($scope.order),
+          searchTerm: escape($scope.searchTerm),
+          category: escape($scope.category),
+          order: escape($scope.order),
           offset: Page.questionPage
         }).$promise.then(function(data) {
           if (!data.length) {

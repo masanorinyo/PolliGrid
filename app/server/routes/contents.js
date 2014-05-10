@@ -22,9 +22,16 @@
   };
 
   exports.findById = function(req, res) {
-    var foundQuestion, id;
-    id = req.params.id;
-    return foundQuestion = Question.findById(id).exec(callback);
+    var callback, id;
+    callback = function(err, data) {
+      if (err) {
+        return res.send(err);
+      } else {
+        return res.json(data);
+      }
+    };
+    id = escapeChar(unescape(req.params.questionId));
+    return Question.findById(id).exec(callback);
   };
 
   exports.findQuestions = function(req, res) {

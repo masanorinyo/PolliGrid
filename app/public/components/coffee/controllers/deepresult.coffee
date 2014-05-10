@@ -22,7 +22,8 @@ define ['underscore'], (_)->
 
 
 			if message == 'createOverallPieData'
-				ref = $scope.question.options
+				
+				ref = $scope.question.option
 			else
 				ref = $scope.filterGroup.answers
 				
@@ -156,24 +157,6 @@ define ['underscore'], (_)->
 
 		# ------------- Scope Variables ------------- #
 
-		# if $stateParams.id.$http(get) -> false -> $location.path('/')
-		# http request
-		# find the question using the url id
-
-		if Setting.isSetting
-			questionId = Setting.questionId
-			
-		else 
-			questionId = $stateParams.id
-			
-		console.log questionId
-
-
-		# find the question from the server
-		_.findWhere Question,{_id:questionId}
-
-		foundQuestion = 
-		$scope.question = foundQuestion	
 		
 		$scope.chartType = "pie"
 
@@ -220,13 +203,13 @@ define ['underscore'], (_)->
 				
 				if foundCategory 
 					
-					foundCategory.options.push(answer.option)
+					foundCategory.option.push(answer.option)
 				
 				else
 
 					category = 
 						categoryTitle 	: target.title
-						options 			: [
+						option  		: [
 							answer.option
 						]
 
@@ -261,12 +244,12 @@ define ['underscore'], (_)->
 				# remove the added category
 				
 				foundCategory = _.findWhere $scope.filterCategories, {categoryTitle:target.title} 
-				index = foundCategory.options.indexOf(answer.option)
-				foundCategory.options.splice(index,1)
+				index = foundCategory.option.indexOf(answer.option)
+				foundCategory.option.splice(index,1)
 
 
 
-				if foundCategory.options.length == 0
+				if foundCategory.option.length == 0
 					$scope.filterCategories = _.without $scope.filterCategories,foundCategory
 				
 						
@@ -321,7 +304,7 @@ define ['underscore'], (_)->
 			defer.promise
 				.then ()->
 					data = []
-					_.each $scope.question.options,(option,index)->
+					_.each $scope.question.option,(option,index)->
 						
 						data[index] = option.answeredBy
 
@@ -388,96 +371,122 @@ define ['underscore'], (_)->
 		# create filters array
 		do ()->
 
-			#make a pie at the initial load
-			getData('createOverallPieData')
 
-			#load information of overall for other charts
-			_.each $scope.question.options,(option)->
-				$scope.myChartInfo.labels.push(option.title)
-				$scope.myChartInfo.datasets[0].data.push(option.count)
-				
-			# if the number of question options is less than 2
-			# put a blank data
-			if $scope.myChartInfo.labels.length <=2
-				$scope.myChartInfo.labels.push('')
-				$scope.myChartInfo.datasets[0].data.push(0)
-
-
-
-
-			length = $scope.question.targets.length
-			i = 0
-
-
-			# add option answers to $scope filter group
-			_.each $scope.question.options, (obj)->
-				answer = 
-					title : obj.title
-					count : 0
-				$scope.filterGroup.answers.push(answer)
-
-			
-
-			# create filter array
-			while i < length
-				targets = []
-				targetId 	= $scope.question.targets[i]._id
-				targetTitle = $scope.question.targets[i].title
-
-				_.each $scope.question.targets[i].lists,(num)->
-					optionData = 
-						option 			: num.option
-						answeredBy  	: num.answeredBy
-						numOfResponses 	: num.answeredBy.length
-						isAdded 		: false
-						filterBtn 		: "Add to filter"
+			defer = $q.defer()
+			defer.promise
+				.then ->
+					if Setting.isSetting
+						questionId = Setting.questionId
 						
+					else 
+						questionId = $stateParams.id
+					
+					# find the question from the server
+					
+					$scope.question = Question.get(
+											{
+												questionId:escape(questionId)
+											}
+										)
+					
+					$scope.question.$promise.then (data)->
+						console.log data
 
 
-					targets.push(optionData)
+				.then -> 
+					console.log $scope.question
+					#make a pie at the initial load
+					getData('createOverallPieData')
 
-				data = 
-					_id  		: targetId
-					title 		: targetTitle
-					numOfAdded 	: 0
-					lists 		: targets
+					#load information of overall for other charts
+					_.each $scope.question.option,(option)->
+						$scope.myChartInfo.labels.push(option.title)
+						$scope.myChartInfo.datasets[0].data.push(option.count)
+						
+					# if the number of question options is less than 2
+					# put a blank data
+					if $scope.myChartInfo.labels.length <=2
+						$scope.myChartInfo.labels.push('')
+						$scope.myChartInfo.datasets[0].data.push(0)
+
+
+
+
+					length = $scope.question.targets.length
+					i = 0
+
+
+					# add option answers to $scope filter group
+					_.each $scope.question.option, (obj)->
+						answer = 
+							title : obj.title
+							count : 0
+						$scope.filterGroup.answers.push(answer)
+
 					
 
-				$scope.filters.push(data)
+					# create filter array
+					while i < length
+						targets = []
+						targetId 	= $scope.question.targets[i]._id
+						targetTitle = $scope.question.targets[i].title
 
-				i++		
-
-
-			_.each $scope.question.options, (obj)->
-
-
-				percentage = parseInt(getPercentage(obj.count,$scope.question.totalResponses))
-				
-				
-				overallDataForDonut = [ 
-						label : obj.title
-						value : percentage
-						color : "rgb(100,250,245)"
-					,
-						label : obj.title
-						value : 100-percentage
-						color : "rgb(235,235,235)"
-				]
-
-				filteredDataForDonut =[
-
-						label : obj.title
-						value: 0
-						color: "rgb(100,150,245)"
-					,
-						label : obj.title
-						value : 100
-						color: "rgb(235,235,235)"
-				]
+						_.each $scope.question.targets[i].lists,(num)->
+							optionData = 
+								option 			: num.option
+								answeredBy  	: num.answeredBy
+								numOfResponses 	: num.answeredBy.length
+								isAdded 		: false
+								filterBtn 		: "Add to filter"
+								
 
 
-				$scope.donutDataOverall.push(overallDataForDonut) 
-				$scope.donutDataFiltered.push(filteredDataForDonut) 
+							targets.push(optionData)
+
+						data = 
+							_id  		: targetId
+							title 		: targetTitle
+							numOfAdded 	: 0
+							lists 		: targets
+							
+
+						$scope.filters.push(data)
+
+						i++		
+
+
+					_.each $scope.question.option, (obj)->
+
+
+						percentage = parseInt(getPercentage(obj.count,$scope.question.totalResponses))
+						
+						
+						overallDataForDonut = [ 
+								label : obj.title
+								value : percentage
+								color : "rgb(100,250,245)"
+							,
+								label : obj.title
+								value : 100-percentage
+								color : "rgb(235,235,235)"
+						]
+
+						filteredDataForDonut =[
+
+								label : obj.title
+								value: 0
+								color: "rgb(100,150,245)"
+							,
+								label : obj.title
+								value : 100
+								color: "rgb(235,235,235)"
+						]
+
+
+						$scope.donutDataOverall.push(overallDataForDonut) 
+						$scope.donutDataFiltered.push(filteredDataForDonut) 
+
+			defer.resolve()
 
 		# ------------- Scope Function ------------- #
 

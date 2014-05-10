@@ -91,9 +91,7 @@
 
   app.route('/').get(routes.index);
 
-  app.route('/api/question').post(contents.makeQuestion);
-
-  app.route('/api/findById/:id').get(contents.findById);
+  app.route('/api/question/:questionId').get(contents.findById).post(contents.makeQuestion);
 
   app.route('/api/findQuestions/:searchTerm/:category/:order/:offset').get(contents.findQuestions);
 

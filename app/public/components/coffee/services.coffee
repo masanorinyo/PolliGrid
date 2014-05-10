@@ -37,12 +37,18 @@ define ['angular'], (angular) ->
 				
 		.factory 'Question', ($resource)->
 			$resource(
-				"/api/question"
-				{}
+				"/api/question/:questionId"
 				{
-					"save":
-						method:"POST"
-					
+					questionId:"@questionId"
+				}
+				{
+					"get" :
+						method: "GET"
+
+					"save" :
+						method : "POST"
+						params :
+							id : 0
 				}
 			)
 
@@ -100,8 +106,8 @@ define ['angular'], (angular) ->
 				favorites 				: []
 				questionMade 			: [1]
 				questionsAnswered 		: [
-						# id 		: 2
-						# answer 	: "positive"
+						_id 		: "536d57ccd22f0c4e4b0bf6ea"
+						answer 	: "Kindergarden"
 				]
 				filterQuestionsAnswered : [
 						# id 		: 1

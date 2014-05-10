@@ -38,7 +38,7 @@ define ['underscore'], (_)->
 
 		$scope.searchByCategory = (category)->
 			Search.category = category
-			
+
 			$scope.$emit "category-changed", category
 
 
@@ -129,7 +129,7 @@ define ['underscore'], (_)->
 			if $scope.question
 				$scope.card = $scope.question
 
-
+			console.log $scope.card
 			alreadyAnswered = _.find _.pluck($scope.user.questionsAnswered,'_id'),(id)->
 				
 				if $scope.card != undefined
@@ -171,11 +171,10 @@ define ['underscore'], (_)->
 				question.totalResponses++
 				
 				answer = 
-					_id 		: question._id
+					_id 	: question._id
 					answer 	: choice.title
 
-				console.log answer
-
+				
 				# add the answer to user's database
 				$scope.user.questionsAnswered.push(answer)
 
