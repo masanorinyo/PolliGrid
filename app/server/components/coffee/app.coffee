@@ -6,14 +6,15 @@ MongoStore        = require('connect-mongo')(session)
 path              = require('path')
 routes            = require('./routes')
 contents          = require('./routes/contents')
-auth              = require('./routes/auth')
 bodyParser        = require('body-parser')
 favicon           = require('static-favicon')
 methodOverride    = require('method-override')
 morgan            = require('morgan')
-passport          = require('passport')
 cookieParser      = require('cookie-parser') 
 
+# ------------------------ passport config ------------------------ # 
+passport       = require('passport')
+require('./lib/passport')(passport)
 
 # ------------------------ server config ------------------------ #
 
@@ -145,8 +146,7 @@ app.route '/api/getFilterTitle/:term'
 # -------------- User handlers ---------------- #
 #################################################
 
-app.route '/api/auth'
-      .get auth.index
+require('./routes/auth')(app, passport)
 
 
 # ------------------------ server setup ------------------------ #

@@ -1,82 +1,192 @@
 # authentication handler
 
-exports.index = (req,res)->
-	res.send('test')
+# --------------------------------------------#
+# ------------   Dependencies    ------------ #
+# --------------------------------------------#
+User = require("../models/user")
+auth_utility = require("../lib/auth-utility")
 
-# #--load user model--//
-# User = require("../models/user")
 # fs = require("fs")
 # verification = require("../lib/verification")
-# auth_utility = require("../lib/auth-utility")
-# fbgraph = require("fbgraph")
-# Twit = require("twit")
 
-# # ********************** Module export **********************//
-# module.exports = (app, passport) ->
+
+# --------------------------------------------#
+# ------------  exports modeul   ------------ #
+# --------------------------------------------#
+
+module.exports = (app,passport) ->
+
+
+	#======== Authentication ========//
+
+	# login authentication
+	app.post "/api/login", passport.authenticate("local-login"),(req, res,next) ->
+		
+		if req.user
+
+			auth_utility.rememberMe(req, res, next)
+			res.send(req.user)
+
+		else 
+
+			res.send(req.session.message)
+		
+
+	# Signup authentication
+	app.post "/api/signup",passport.authenticate("local-signup"),(req, res, next) ->
+		
+		if req.user
+
+			auth_utility.rememberMe(req, res, next)
+			res.send(req.user)
+
+		else
+			
+			res.send(req.session.message)
+
+   
+#   #Facebook
+#   app.get "/auth/facebook", passport.authenticate("facebook",
+#     scope: [
+#       "email"
+#       "read_stream"
+#       "publish_actions"
+#     ]
+#   )
   
-#   #======== Normal routes ========//
-#   #Home page
-#   app.get "/", (req, res) ->
-#     req.app.locals.chatroom = null
-#     req.session.errorMessage = ""  unless req.session.errorMessage
-#     if req.user
-#       res.redirect "/room/" + req.user.profile.username + "/me"
+#   # handle the callback after facebook has authenticated the user
+#   app.get "/auth/facebook/callback", passport.authenticate("facebook",
+#     failureRedirect: "/"
+#   ), (req, res) ->
+#     auth_utility.rememberOauth req, res
+#     res.redirect "/room/" + req.user.profile.username + "/me"
+#     return
+
+  
+#   #Twitter
+#   app.get "/auth/twitter", passport.authenticate("twitter",
+#     scope: [
+#       "email"
+#       "photo"
+#     ]
+#   )
+  
+#   # handle the callback after twitter has authenticated the user
+#   app.get "/auth/twitter/callback", passport.authenticate("twitter",
+#     failureRedirect: "/"
+#   ), (req, res) ->
+#     auth_utility.rememberOauth req, res
+    
+#     #check if users have an email address
+#     unless req.user.profile.hasEmail
+#       res.redirect "/getEmail"
 #     else
-#       res.render "contents/index.jade",
-#         message: req.session.errorMessage
-#       , auth_utility.cleanup(req, res)
+#       res.redirect "/room/" + req.user.profile.username + "/me"
 #     return
 
-  
-#   # post a message on different social networks
-#   app.get "/post/:platform", (req, res) ->
-#     platform = req.params.platform
-#     wallPost = message: req.query.message + "\n" + req.query.url
-#     if platform is "facebook"
-#       fb_token = req.user.facebook.token
-#       fbgraph.setAccessToken fb_token
-#       fbgraph.post req.user.facebook.id + "/feed", wallPost, (err, res) ->
-#         console.log res
-#         return
+#   app.get "/getEmail", (req, res) ->
+#     req.session.errorMessage = ""  unless req.session.errorMessage
+#     res.render "auth/getEmail.jade",
+#       errorMessage: req.session.errorMessage
+#     , auth_utility.cleanup(req, res)
+#     return
 
-#     else if platform is "twitter"
-#       T = new Twit(
-#         consumer_key: "Nb3QUO3hjbWbtmIZHaYDvrbo6"
-#         consumer_secret: "KK47AQIDZGrK7bULZxmvjQmuil04YU2bInuX82qUxwXiqohChm"
-#         access_token: req.user.twitter.token
-#         access_token_secret: req.user.twitter.tokenSecret
-#       )
-#       console.log req.user.twitter.token + " secret:" + req.user.twitter.tokenSecret
-#       T.post "statuses/update",
-#         status: wallPost.message
-#       , (err, reply) ->
-#         console.log reply
-#         return
+#   app.post "/getEmail/complete", (req, res) ->
+#     User.findById req.user.id, (err, user) ->
+#       if err
+#         console.log err
+#         req.session.destroy ->
+#           req.logout()
+#           res.redirect "/"
+#           return
 
-#     else if platform is "all"
-#       fb_token = req.user.facebook.token
-#       fbgraph.setAccessToken fb_token
-#       fbgraph.post req.user.facebook.id + "/feed", wallPost, (err, res) ->
-#         console.log res
-#         return
+#       else
+#         User.findOne
+#           "profile.email": req.body.email
+#         , (err, existingUser) ->
+#           if err
+#             throw errres.redirect "/"
+#           else if existingUser
+#             req.session.errorMessage = "That Email is already used"
+#             res.redirect "/getEmail"
+#           else
+#             user.profile.email = req.body.email
+#             user.profile.hasEmail = true
+#             user.save (err, user) ->
+#               if err
+#                 throw errres.redirect "/"
+#               else
+                
+#                 #log user's signup activity
+#                 auth_utility.writeLog user.profile.username, user.id, "Twitter signup"
+#                 verification.sendVerification req, user, user.profile.email
+#                 res.redirect "/room/" + req.user.profile.username + "/me"
+#               return
 
-#       T = new Twit(
-#         consumer_key: "Nb3QUO3hjbWbtmIZHaYDvrbo6"
-#         consumer_secret: "KK47AQIDZGrK7bULZxmvjQmuil04YU2bInuX82qUxwXiqohChm"
-#         access_token: req.user.twitter.token
-#         access_token_secret: req.user.twitter.tokenSecret
-#       )
-#       console.log req.user.twitter.token + " secret:" + req.user.twitter.tokenSecret
-#       T.post "statuses/update",
-#         status: wallPost.message
-#       , (err, reply) ->
-#         console.log reply
-#         return
+#           return
+
+#       return
 
 #     return
 
   
-#   #Setting
+#   #Google
+#   app.get "/auth/google", passport.authenticate("google",
+#     scope: [
+#       "profile"
+#       "email"
+#     ]
+#   )
+  
+#   # the callback after google has authenticated the user
+#   app.get "/auth/google/callback", passport.authenticate("google",
+#     failureRedirect: "/"
+#   ), (req, res) ->
+#     console.log req
+#     auth_utility.rememberOauth req, res
+#     res.redirect "/room/" + req.user.profile.username + "/me"
+#     return
+
+
+	# ====== Logout ====== #
+	
+	app.get "/api/logout", (req, res) ->
+    
+		req.logout()
+		req.session.cookie.expires = false
+		# res.redirect "/"
+
+
+  
+	# ====== Delete Account ======#
+	
+	app.delete "/api/delete", (req, res) ->
+		if req.user
+			
+			User.remove (err, user) ->
+				req.session.destroy ->
+		
+					req.logout()
+		
+				if err
+				
+					throw err
+			
+				else
+
+					User.findById req.user.id, (err, user) ->
+				
+						res.redirect "/"
+	
+		else
+		
+			res.redirect "/"
+
+
+
+		
+		
+	#   #Setting
 #   app.get "/setting", auth_utility.isLoggedIn, (req, res) ->
     
 #     #check if the user has an email address
@@ -103,34 +213,6 @@ exports.index = (req,res)->
 #       res.redirect "/"
 #     return
 
-#   app.post "/defaultPhoto/:type", (req, res) ->
-#     type = req.params.type
-#     console.log req.user.id
-#     User.findOne
-#       _id: req.user.id
-#     , (err, user) ->
-#       if err
-#         throw err
-#       else if user
-#         if type is "facebook"
-#           user.profile.primaryPhoto = req.user.profile.photos.facebook
-#           user.save()
-#           res.send user.profile.primaryPhoto
-#         else if type is "twitter"
-#           user.profile.primaryPhoto = req.user.profile.photos.twitter
-#           user.save()
-#           res.send user.profile.primaryPhoto
-#         else if type is "google"
-#           user.profile.primaryPhoto = req.user.profile.photos.google
-#           user.save()
-#           res.send user.profile.primaryPhoto
-#         else if type is "local"
-#           user.profile.primaryPhoto = req.user.profile.photos.local
-#           user.save()
-#           res.send user.profile.primaryPhoto
-#       return
-
-#     return
 
 #   app.post "/upload", (req, res) ->
 #     fs.readFile req.files.localPhoto.path, (err, data) ->
@@ -166,7 +248,7 @@ exports.index = (req,res)->
 #       res.redirect "/"
 #     return
 
-  
+
 #   # check if the input password is correct
 #   app.get "/checkPass", (req, res) ->
 #     isCorrect = false
@@ -184,43 +266,6 @@ exports.index = (req,res)->
 #       return
 
 #     return
-
-  
-#   #Logout
-#   app.get "/logout", (req, res) ->
-    
-#     #log user's logout activity
-#     auth_utility.writeLog req.user.profile.username, req.user.id, "Logged off"
-#     req.logout()
-#     req.session.cookie.expires = false
-#     res.redirect "/"
-#     return
-
-  
-#   #Delete Account
-#   app.get "/delete", (req, res) ->
-#     if req.user
-#       User.remove (err, user) ->
-#         req.session.destroy ->
-#           req.logout()
-#           return
-
-#         if err
-#           throw err
-#         else
-          
-#           #log user's deleting activity
-#           auth_utility.writeLog req.user.profile.username, req.user.id, "Deleted"
-#           User.findById req.user.id, (err, user) ->
-#             res.redirect "/"
-#             return
-
-#         return
-
-#     else
-#       res.redirect "/"
-#     return
-
   
 #   #======== Verification Email ========//
   
@@ -357,302 +402,5 @@ exports.index = (req,res)->
 #     return
 
   
-#   #======== Authentication ========//
-#   #local login
-#   app.get "/login", (req, res) ->
-#     req.session.loginMessage = ""  unless req.session.loginMessage
-#     if req.user
-#       res.redirect "/room/" + req.user.profile.username + "/me"
-#     else
-      
-#       #clean up empties the login session message.
-#       res.render "auth/login.jade",
-#         message: req.session.loginMessage
-#       , auth_utility.cleanup(req, res)
-#     return
 
   
-#   # login authentication
-#   app.post "/login", passport.authenticate("local-login",
-#     failureRedirect: "/login" # redirect back to the signup page if there is an error
-#   ), (req, res) ->
-#     auth_utility.rememberMe req, res
-#     res.redirect "/room/" + req.user.profile.username + "/me"
-#     return
-
-  
-#   # Local signup
-#   app.get "/signup", (req, res) ->
-#     req.session.signupMessage = ""  unless req.session.signupMessage
-#     if req.user
-#       res.redirect "/room/" + req.user.profile.username + "/me"
-#     else
-      
-#       #clean up empties the signup session message
-#       res.render "auth/signup.jade",
-#         message: req.session.signupMessage
-#       , auth_utility.cleanup(req, res)
-#     return
-
-  
-#   # Signup authentication
-#   app.post "/signup", passport.authenticate("local-signup",
-#     failureRedirect: "/signup" # redirect back to the signup page if there is an error
-#   ), (req, res, next) ->
-#     auth_utility.rememberMe req, res, next
-#     res.redirect "/room/" + req.user.profile.username + "/me"
-#     return
-
-  
-#   #Facebook
-#   app.get "/auth/facebook", passport.authenticate("facebook",
-#     scope: [
-#       "email"
-#       "read_stream"
-#       "publish_actions"
-#     ]
-#   )
-  
-#   # handle the callback after facebook has authenticated the user
-#   app.get "/auth/facebook/callback", passport.authenticate("facebook",
-#     failureRedirect: "/"
-#   ), (req, res) ->
-#     auth_utility.rememberOauth req, res
-#     res.redirect "/room/" + req.user.profile.username + "/me"
-#     return
-
-  
-#   #Twitter
-#   app.get "/auth/twitter", passport.authenticate("twitter",
-#     scope: [
-#       "email"
-#       "photo"
-#     ]
-#   )
-  
-#   # handle the callback after twitter has authenticated the user
-#   app.get "/auth/twitter/callback", passport.authenticate("twitter",
-#     failureRedirect: "/"
-#   ), (req, res) ->
-#     auth_utility.rememberOauth req, res
-    
-#     #check if users have an email address
-#     unless req.user.profile.hasEmail
-#       res.redirect "/getEmail"
-#     else
-#       res.redirect "/room/" + req.user.profile.username + "/me"
-#     return
-
-#   app.get "/getEmail", (req, res) ->
-#     req.session.errorMessage = ""  unless req.session.errorMessage
-#     res.render "auth/getEmail.jade",
-#       errorMessage: req.session.errorMessage
-#     , auth_utility.cleanup(req, res)
-#     return
-
-#   app.post "/getEmail/complete", (req, res) ->
-#     User.findById req.user.id, (err, user) ->
-#       if err
-#         console.log err
-#         req.session.destroy ->
-#           req.logout()
-#           res.redirect "/"
-#           return
-
-#       else
-#         User.findOne
-#           "profile.email": req.body.email
-#         , (err, existingUser) ->
-#           if err
-#             throw errres.redirect "/"
-#           else if existingUser
-#             req.session.errorMessage = "That Email is already used"
-#             res.redirect "/getEmail"
-#           else
-#             user.profile.email = req.body.email
-#             user.profile.hasEmail = true
-#             user.save (err, user) ->
-#               if err
-#                 throw errres.redirect "/"
-#               else
-                
-#                 #log user's signup activity
-#                 auth_utility.writeLog user.profile.username, user.id, "Twitter signup"
-#                 verification.sendVerification req, user, user.profile.email
-#                 res.redirect "/room/" + req.user.profile.username + "/me"
-#               return
-
-#           return
-
-#       return
-
-#     return
-
-  
-#   #Google
-#   app.get "/auth/google", passport.authenticate("google",
-#     scope: [
-#       "profile"
-#       "email"
-#     ]
-#   )
-  
-#   # the callback after google has authenticated the user
-#   app.get "/auth/google/callback", passport.authenticate("google",
-#     failureRedirect: "/"
-#   ), (req, res) ->
-#     console.log req
-#     auth_utility.rememberOauth req, res
-#     res.redirect "/room/" + req.user.profile.username + "/me"
-#     return
-
-  
-#   #======== Authorization ========//
-#   # Local authorization
-#   app.get "/connect/local", (req, res) ->
-#     req.session.signupMessage = ""  unless req.session.signupMessage
-#     if not req.user or req.user.local.email
-#       res.redirect "/setting"
-#     else
-#       res.render "auth/connect-local.jade",
-#         message: req.session.signupMessage
-#       , auth_utility.cleanup(req, res)
-#     return
-
-#   app.post "/connect/local/submitted", passport.authenticate("local-signup",
-#     successRedirect: "/setting" # redirect to the secure setting section
-#     failureRedirect: "/connect/local" # redirect back to the signup page if there is an error
-#   )
-  
-#   # facebook authorization
-  
-#   # send to facebook to do the authentication
-#   app.get "/connect/facebook", ((req, res, next) ->
-#     res.redirect "/"  unless req.user
-#     next()
-#     return
-#   ), passport.authenticate("facebook-connect",
-#     scope: "email"
-#   )
-  
-#   # handle the callback after facebook has authorized the user
-#   app.get "/connect/facebook/callback", ((req, res, next) ->
-#     res.redirect "/"  unless req.user
-#     next()
-#     return
-#   ), passport.authenticate("facebook-connect",
-#     successRedirect: "/setting"
-#     failureRedirect: "/"
-#   )
-  
-#   # twitter authorization
-  
-#   # send to twitter to do the authentication
-#   app.get "/connect/twitter", ((req, res, next) ->
-#     res.redirect "/"  unless req.user
-#     next()
-#     return
-#   ), passport.authenticate("twitter-connect",
-#     scope: "email"
-#   )
-  
-#   # handle the callback after twitter has authorized the user
-#   app.get "/connect/twitter/callback", ((req, res, next) ->
-#     res.redirect "/"  unless req.user
-#     next()
-#     return
-#   ), passport.authenticate("twitter-connect",
-#     successRedirect: "/setting"
-#     failureRedirect: "/"
-#   )
-  
-#   # google authorization
-  
-#   # send to google to do the authentication
-#   app.get "/connect/google", ((req, res, next) ->
-#     res.redirect "/"  unless req.user
-#     next()
-#     return
-#   ), passport.authenticate("google-connect",
-#     scope: [
-#       "profile"
-#       "email"
-#     ]
-#   )
-  
-#   # the callback after google has authorized the user
-#   app.get "/connect/google/callback", ((req, res, next) ->
-#     res.redirect "/"  unless req.user
-#     next()
-#     return
-#   ), passport.authenticate("google-connect",
-#     successRedirect: "/setting"
-#     failureRedirect: "/"
-#   )
-  
-#   #======== Unlink ========//
-#   # used to unlink accounts. for social accounts, just remove the token
-#   # for local account, remove email and password
-#   # user account will stay active in case they want to reconnect in the future
-  
-#   # local unlink
-#   app.get "/unlink/local", (req, res) ->
-#     user = req.user
-#     res.redirect "/"  unless user
-    
-#     #log user's unlinking activity
-#     auth_utility.writeLog user.profile.username, user.id, "Local unlinked"
-#     user.local.email = `undefined`
-#     user.local.password = `undefined`
-#     user.save (err) ->
-#       res.redirect "/setting"
-#       return
-
-#     return
-
-  
-#   # facebook unlink
-#   app.get "/unlink/facebook", (req, res) ->
-#     user = req.user
-#     res.redirect "/"  unless user
-    
-#     #log user's unlinking activity
-#     auth_utility.writeLog user.profile.username, user.id, "facebook unlinked"
-#     user.facebook.token = `undefined`
-#     user.save (err) ->
-#       res.redirect "/setting"
-#       return
-
-#     return
-
-  
-#   # twitter unlink
-#   app.get "/unlink/twitter", (req, res) ->
-#     user = req.user
-#     res.redirect "/"  unless user
-    
-#     #log user's unlinking activity
-#     auth_utility.writeLog user.profile.username, user.id, "Twitter unlinked"
-#     user.twitter.token = `undefined`
-#     user.save (err) ->
-#       res.redirect "/setting"
-#       return
-
-#     return
-
-  
-#   # google unlink
-#   app.get "/unlink/google", (req, res) ->
-#     user = req.user
-#     res.redirect "/"  unless user
-    
-#     #log user's unlinking activity
-#     auth_utility.writeLog user.profile.username, user.id, "Google unlinked"
-#     user.google.token = `undefined`
-#     user.save (err) ->
-#       res.redirect "/setting"
-#       return
-
-#     return
-
-#   return

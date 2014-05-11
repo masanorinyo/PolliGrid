@@ -1,5 +1,5 @@
 (function() {
-  var MongoStore, app, argv, auth, bodyParser, contents, cookieParser, cp, db, env, express, favicon, grunt, methodOverride, morgan, passport, path, port, prompt, repl, router, routes, session;
+  var MongoStore, app, argv, bodyParser, contents, cookieParser, cp, db, env, express, favicon, grunt, methodOverride, morgan, passport, path, port, prompt, repl, router, routes, session;
 
   express = require('express');
 
@@ -13,8 +13,6 @@
 
   contents = require('./routes/contents');
 
-  auth = require('./routes/auth');
-
   bodyParser = require('body-parser');
 
   favicon = require('static-favicon');
@@ -23,9 +21,11 @@
 
   morgan = require('morgan');
 
+  cookieParser = require('cookie-parser');
+
   passport = require('passport');
 
-  cookieParser = require('cookie-parser');
+  require('./lib/passport')(passport);
 
   argv = require('optimist').argv;
 
@@ -103,7 +103,7 @@
 
   app.route('/api/getFilterTitle/:term').get(contents.getFilterTitle);
 
-  app.route('/api/auth').get(auth.index);
+  require('./routes/auth')(app, passport);
 
   app.listen(port, function() {
     return console.log('Express server listening on port ' + port);
