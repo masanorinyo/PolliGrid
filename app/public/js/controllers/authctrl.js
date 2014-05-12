@@ -1,6 +1,6 @@
 (function() {
   define([], function() {
-    return function($rootScope, $scope, $stateParams, $modalInstance, $location, $timeout, Error, User, $http) {
+    return function($rootScope, $scope, $stateParams, $modalInstance, $location, $timeout, Error, User, $http, $cookieStore) {
       switch ($location.$$path.split('/')[1]) {
         case 'login':
           $scope.title = "Login";
@@ -8,7 +8,7 @@
         case 'signup':
           $scope.title = "Signup";
       }
-      console.log($scope.user);
+      console.log(User.user);
       $scope.alertMessage = Error.auth;
       $scope.newUser = {
         remember_me: true
@@ -28,10 +28,11 @@
             'X-Requested-With': 'XMLHttpRequest'
           }
         }).success(function(data) {
+          data.isLoggedIn = true;
           console.log("success");
           console.log(data);
+          $cookieStore.put("loggedInUser", data);
           User.user = data;
-          User.user.isLoggedIn = true;
           if ($scope.user.questionsAnswered.length) {
             console.log($scope.user.questionsAnswered);
           }

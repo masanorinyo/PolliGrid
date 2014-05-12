@@ -7,9 +7,12 @@
 
   module.exports = function(app, passport) {
     app.post("/api/auth/login", passport.authenticate("local-login"), function(req, res, next) {
-      console.log(req.body);
       if (req.user) {
-        auth_utility.rememberMe(req, res, next);
+        console.log(req.body.remember_me);
+        if (req.body.remember_me === "true") {
+          console.log("req.body.remember_me is on");
+          req.session.cookie.maxAge = new Date(Date.now() + (60000 * 60 * 24 * 365));
+        }
         return res.send(req.user);
       } else {
         return res.send(req.session.message);

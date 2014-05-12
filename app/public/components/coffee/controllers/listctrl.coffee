@@ -323,6 +323,7 @@ define ['underscore'], (_)->
 			
 
 		$scope.$on 'userLoggedIn', (value)->
+			console.log User.user
 			$scope.user = User.user
 
 		# ------------- Scope Function ------------- #

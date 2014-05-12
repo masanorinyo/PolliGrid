@@ -99,7 +99,7 @@
           isArray: true
         }
       });
-    }).factory('User', function() {
+    }).factory('User', function($cookieStore) {
       var randLetter, uniqid, user;
       randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
       uniqid = randLetter + Date.now();
@@ -110,7 +110,7 @@
           isLoggedIn: false,
           questionsAnswered: [],
           filterQuestionsAnswered: [],
-          user: null
+          user: $cookieStore.get("loggedInUser")
         }
       };
     }).factory('Verification', function($resource) {

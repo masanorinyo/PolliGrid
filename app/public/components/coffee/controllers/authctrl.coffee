@@ -1,5 +1,5 @@
 define [], ()->
-	($rootScope,$scope,$stateParams,$modalInstance,$location,$timeout,Error,User,$http)->
+	($rootScope,$scope,$stateParams,$modalInstance,$location,$timeout,Error,User,$http,$cookieStore)->
 		
 		switch $location.$$path.split('/')[1]
 			when 'login' 
@@ -8,7 +8,7 @@ define [], ()->
 			when 'signup' 
 			then $scope.title = "Signup"
 
-		console.log $scope.user
+		console.log User.user
 		$scope.alertMessage = Error.auth
 		$scope.newUser = 
 			remember_me : true
@@ -32,22 +32,32 @@ define [], ()->
 					'X-Requested-With' : 'XMLHttpRequest'
 				
 			.success (data)-> 
+				
+				data.isLoggedIn = true
+
 				console.log "success"
 				console.log data
+
+				$cookieStore.put("loggedInUser",data)
 				User.user = data
-				User.user.isLoggedIn = true
 				
 				if $scope.user.questionsAnswered.length
 					# check to see if there is any duplicate answer in the server
+					# and add the answers to the user info
+					# in case of users resetting their answers
+					# replace the answeredby user id of the questino with the loggedin user's
 					console.log $scope.user.questionsAnswered
+
 
 				if $scope.user.filterQuestionsAnswered.length
 					# check to see if there is any duplicate answer in the server
+					# and add the answers to the user info
 					console.log $scope.user.filterQuestionsAnswered
 
 				$rootScope.$broadcast 'userLoggedIn',User
 				$scope.user = User.user
 
+				
 				$scope.$dismiss()
 				$timeout ->
 					$location.path('/')

@@ -21,11 +21,19 @@ module.exports = (app,passport) ->
 
 	# login authentication
 	app.post "/api/auth/login", passport.authenticate("local-login"), (req, res,next) ->
-		console.log req.body
+		
 		if req.user
 
-			auth_utility.rememberMe(req, res, next)
+			console.log req.body.remember_me
+			if req.body.remember_me == "true"
+				console.log "req.body.remember_me is on"
+				# exactly one year
+				req.session.cookie.maxAge = new Date(Date.now()+(60000*60*24*365))
+            
+
+            
 			res.send(req.user)
+
 
 		else 
 

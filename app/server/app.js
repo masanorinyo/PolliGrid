@@ -61,15 +61,7 @@
 
   app.use(session({
     secret: "$noOnecanGetThisSecretBesidesZhengdianZhan",
-    key: "express.sid",
-    cookie: {
-      path: '/',
-      httpOnly: true,
-      maxAge: new Date(Date.now() + (60000 * 60 * 24 * 365))
-    },
-    store: new MongoStore({
-      mongoose_connection: db
-    })
+    key: "express.sid"
   }));
 
   app.use(passport.initialize());

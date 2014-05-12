@@ -184,6 +184,7 @@
         return $scope.answer = '';
       });
       $scope.$on('userLoggedIn', function(value) {
+        console.log(User.user);
         return $scope.user = User.user;
       });
       $scope.closeModal = function() {

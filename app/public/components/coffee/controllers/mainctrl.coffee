@@ -274,7 +274,7 @@ define ["underscore"], (_)->
 
 		$scope.$on 'userLoggedIn', (value)->
 			console.log "main"
-			
+
 			
 			$scope.user = User.user
 		

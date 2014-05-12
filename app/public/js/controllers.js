@@ -1,13 +1,14 @@
 (function() {
   define(['angular', 'services'], function(angular) {
-    return angular.module('myapp.controllers', ['myapp.services']).controller('MainCtrl', function($scope, $injector, $location, $stateParams, $timeout, $state, $q) {
+    return angular.module('myapp.controllers', ['myapp.services']).controller('MainCtrl', function($scope, $injector, $location, $stateParams, $timeout, $state, $q, $cookieStore) {
       return require(['controllers/mainctrl'], function(mainctrl) {
         return $injector.invoke(mainctrl, this, {
           "$scope": $scope,
           "$location": $location,
           "$stateParams": $stateParams,
           "$timeout": $timeout,
-          "$q": $q
+          "$q": $q,
+          "$cookieStore": $cookieStore
         });
       });
     }).controller('ShareCtrl', function($scope, $injector, $modalInstance, $location, $timeout) {
