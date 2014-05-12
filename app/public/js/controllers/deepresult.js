@@ -112,6 +112,7 @@
       }
       $scope.chartType = "pie";
       $scope.filterAdded = false;
+      console.log(questionId);
       $scope.filterAdded = 'Add to filter';
       $scope.filterCategories = [];
       $scope.foundRespondents = false;

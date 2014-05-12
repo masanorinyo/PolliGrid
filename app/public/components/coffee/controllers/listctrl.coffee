@@ -79,7 +79,14 @@ define ['underscore'], (_)->
 
 		
 		# ***************  Models *************** #
-		$scope.user = User.visitor
+		if User.user
+			
+			$scope.user = User.user
+
+		else
+			
+			$scope.user = User.visitor
+
 		$scope.isAccessedViaLink = false
 		
 
@@ -138,7 +145,7 @@ define ['underscore'], (_)->
 								
 
 						$scope.answered = _.find $scope.question.respondents,(id)->
-							id == User._id
+							id == $scope.user._id
 
 
 
@@ -187,8 +194,10 @@ define ['underscore'], (_)->
 				# by adding user id to the question respondents,
 				# users won't have to answer to the question again
 
+				console.log question
+
 				# server side
-				console.log UpdateQuestion.updateFilters(
+				console.log UpdateQuestion.updateQuestion(
 					questionId 	: question._id
 					userId 		: $scope.user._id
 					title 		: escape(choice.title)
@@ -225,7 +234,7 @@ define ['underscore'], (_)->
 
 		$scope.fillStar = (question)->
 			
-			if User.isLoggedIn 
+			if $scope.user.isLoggedIn 
 
 				$scope.favorite = !$scope.favorite
 

@@ -63,7 +63,7 @@
           return $timeout(function() {
             var favoriteQuestion;
             if (scope.question !== void 0) {
-              favoriteQuestion = _.find(User.favorites, function(id) {
+              favoriteQuestion = _.find(User.user.favorites, function(id) {
                 return id === scope.question._id;
               });
             }

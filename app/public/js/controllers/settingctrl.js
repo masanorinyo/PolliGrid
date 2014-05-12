@@ -4,7 +4,11 @@
       var findQuestion, showAnswers, showDeepResult, showFavorites, showFilters, showQuestions;
       $scope.type = $stateParams.type;
       $scope.id = $stateParams.id;
-      $scope.user = User.user;
+      if (User.user) {
+        $scope.user = User.user;
+      } else {
+        $location.path('/');
+      }
       $scope.isAccessedFromSetting = true;
       Setting.isSetting = true;
       findQuestion = function(target, requiredIds) {
@@ -22,18 +26,18 @@
       showFavorites = $scope.showFavorites = function() {
         $scope.type = "favorites";
         $location.path('setting/' + $scope.id + "/favorites");
-        return $scope.questions = findQuestion(Question, User.favorites);
+        return $scope.questions = findQuestion(Question, $scope.user.favorites);
       };
       showQuestions = $scope.showQuestions = function() {
         $scope.type = "questions";
         $location.path('setting/' + $scope.id + "/questions");
-        return $scope.questions = findQuestion(Question, User.questionMade);
+        return $scope.questions = findQuestion(Question, $scope.user.questionMade);
       };
       showAnswers = $scope.showAnswers = function() {
         var ids;
         $scope.type = "answers";
         $location.path('setting/' + $scope.id + "/answers");
-        ids = _.pluck(User.questionsAnswered, "_id");
+        ids = _.pluck($scope.user.questionsAnswered, "_id");
         return $scope.questions = findQuestion(Question, ids);
       };
       showFilters = $scope.showFilters = function() {
@@ -41,10 +45,10 @@
         $scope.type = "filters";
         $location.path('setting/' + $scope.id + "/filters");
         $scope.questions = [];
-        ids = _.pluck(User.filterQuestionsAnswered, "_id");
+        ids = _.pluck($scope.user.filterQuestionsAnswered, "_id");
         $scope.filters = findQuestion(Filters, ids);
         $scope.answer = [];
-        return _.each(User.filterQuestionsAnswered, function(filter, index) {
+        return _.each($scope.user.filterQuestionsAnswered, function(filter, index) {
           console.log(filter.answer);
           return $scope.answer[index] = filter.answer;
         });

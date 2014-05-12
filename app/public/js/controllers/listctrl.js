@@ -44,7 +44,11 @@
           animationEasing: "easeOutQuart"
         };
       }
-      $scope.user = User.visitor;
+      if (User.user) {
+        $scope.user = User.user;
+      } else {
+        $scope.user = User.visitor;
+      }
       $scope.isAccessedViaLink = false;
       $scope.answer = '';
       $scope.isStarFilled = false;
@@ -74,7 +78,7 @@
               }
             });
             return $scope.answered = _.find($scope.question.respondents, function(id) {
-              return id === User._id;
+              return id === $scope.user._id;
             });
           } else {
             return $scope.cards = FindQuestions["default"]();
@@ -103,7 +107,8 @@
         } else {
           $scope.warning = false;
           $scope.$broadcast('answerSubmitted', 'submitted');
-          console.log(UpdateQuestion.updateFilters({
+          console.log(question);
+          console.log(UpdateQuestion.updateQuestion({
             questionId: question._id,
             userId: $scope.user._id,
             title: escape(choice.title),
@@ -128,7 +133,7 @@
       };
       $scope.fillStar = function(question) {
         var index;
-        if (User.isLoggedIn) {
+        if ($scope.user.isLoggedIn) {
           $scope.favorite = !$scope.favorite;
           if ($scope.favorite) {
             $scope.user.favorites.push(question._id);

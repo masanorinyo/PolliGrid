@@ -12,6 +12,7 @@
   exports.makeQuestion = function(req, res) {
     var newQuestion;
     newQuestion = new Question(req.body);
+    console.log(newQuestion);
     return newQuestion.save(function(error, newQuestion) {
       if (error) {
         return console.log(error);

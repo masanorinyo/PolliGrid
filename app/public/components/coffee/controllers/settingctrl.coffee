@@ -3,7 +3,15 @@ define ['underscore'], (_)->
 
 		$scope.type = $stateParams.type
 		$scope.id = $stateParams.id
-		$scope.user = User.user
+		
+		if User.user
+			
+			$scope.user = User.user
+
+		else
+			
+			$location.path('/')
+
 		$scope.isAccessedFromSetting = true
 		
 		
@@ -31,19 +39,19 @@ define ['underscore'], (_)->
 			$scope.type = "favorites"
 			$location.path('setting/'+$scope.id+"/favorites")
 
-			$scope.questions = findQuestion(Question,User.favorites)
+			$scope.questions = findQuestion(Question,$scope.user.favorites)
 			
 		showQuestions = $scope.showQuestions = ->
 			$scope.type = "questions"
 			$location.path('setting/'+$scope.id+"/questions")
 
-			$scope.questions = findQuestion(Question,User.questionMade)
+			$scope.questions = findQuestion(Question,$scope.user.questionMade)
 
 		showAnswers = $scope.showAnswers = ->
 			$scope.type = "answers"
 			$location.path('setting/'+$scope.id+"/answers")
 
-			ids = _.pluck User.questionsAnswered,"_id"
+			ids = _.pluck $scope.user.questionsAnswered,"_id"
 			$scope.questions = findQuestion(Question,ids)
 
 			
@@ -55,14 +63,14 @@ define ['underscore'], (_)->
 			# empty the questions
 			$scope.questions=[]
 			
-			ids = _.pluck User.filterQuestionsAnswered,"_id"
+			ids = _.pluck $scope.user.filterQuestionsAnswered,"_id"
 			
 
 			$scope.filters = findQuestion(Filters,ids)
 
 			
 			$scope.answer = []
-			_.each User.filterQuestionsAnswered, (filter,index)->
+			_.each $scope.user.filterQuestionsAnswered, (filter,index)->
 				console.log filter.answer
 
 				$scope.answer[index] = filter.answer

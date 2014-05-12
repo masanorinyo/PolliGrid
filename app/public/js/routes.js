@@ -15,7 +15,7 @@
       }).state('home.login', {
         url: 'login',
         onEnter: function($state, $modal, $stateParams, $location, Error, User) {
-          if (User.isLoggedIn) {
+          if (User.user) {
             return $location.path('/');
           } else {
             return $modal.open({
@@ -33,7 +33,7 @@
       }).state('home.loginRedirect', {
         url: 'login/:id',
         onEnter: function($state, $modal, $stateParams, $location, Error, User) {
-          if (User.isLoggedIn) {
+          if (User.user) {
             return $location.path('/deepResult/' + $stateParams.id);
           } else {
             return $modal.open({
@@ -51,7 +51,7 @@
       }).state('home.signup', {
         url: 'signup',
         onEnter: function($state, $modal, $stateParams, $location, Error, User) {
-          if (User.isLoggedIn) {
+          if (User.user) {
             return $location.path('/');
           } else {
             return $modal.open({
@@ -70,7 +70,7 @@
         url: 'signup/:id',
         onEnter: function($state, $modal, $stateParams, $location, Error, User) {
           var newUrl;
-          if (User.isLoggedIn) {
+          if (User.user) {
             newUrl = '/deepResult/' + $stateParams.id;
             return $location.path(newUrl);
           } else {
@@ -101,7 +101,7 @@
           }
         },
         onEnter: function($state, $modal, $location, $stateParams, $timeout, User, Error) {
-          if (!User.isLoggedIn) {
+          if (!User.user) {
             Error.auth = 'Please sign up to proceed';
             return $timeout(function() {
               return $location.path('signup');
@@ -138,13 +138,20 @@
       }).state('home.deepResult', {
         url: 'deepResult/:id',
         onEnter: function($state, $modal, $timeout, $stateParams, $location, User, Error) {
-          var found;
-          found = _.find(User.questionsAnswered, function(question) {
+          var found, onlineUser;
+          if (User.user) {
+            onlineUser = User.user;
+          } else {
+            onlineUser = User.visitor;
+          }
+          console.log(onlineUser);
+          found = _.find(onlineUser.questionsAnswered, function(question) {
             return question._id === $stateParams.id;
           });
+          console.log(found);
           if ($stateParams.id === "") {
             return $location.path('/');
-          } else if (!User.isLoggedIn) {
+          } else if (!User.user) {
             Error.auth = 'Please sign up to proceed';
             return $timeout(function() {
               return $location.path('signup');

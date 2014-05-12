@@ -11,7 +11,7 @@ questionSchema = mongoose.Schema(
     numOfFilters        : Number
     totalResponses      : Number
     created_at          : Number
-    creator             : Number
+    creator             : String
     creatorName         : String
     photo               : String    
     option              : []

@@ -48,7 +48,7 @@ define ['angular'], (angular) ->
 					"save" :
 						method : "POST"
 						params :
-							id : 0
+							questionId : 0
 				}
 			)
 

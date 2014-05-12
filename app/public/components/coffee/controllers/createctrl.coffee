@@ -297,22 +297,23 @@ define ['underscore'], ( _ )->
 			# get the current time
 			newQuestion.created_at = new Date().getTime()			
 
-			newQuestion.photo = User.profilePic
-			newQuestion.creatorName = User.profilePic
-			newQuestion.creator = User._id
+			newQuestion.photo = User.user.profilePic
+			newQuestion.creatorName = User.user.profilePic
+			newQuestion.creator = User.user._id
+
+				
+			Question.save(newQuestion,(data)->
+				console.log "Question was saved"
+				console.log NewQuestion.question = data
+				$rootScope.$broadcast 'newQuestionAdded',newQuestion
+			)
+			
+			utility.isQuestionCreated 		= false
+			utility.isQuestionCompleted 	= true
+				
+				
 
 			
-			defer = $q.defer()
-			defer.promise
-				.then -> NewQuestion.question = newQuestion
-				.then -> $rootScope.$broadcast 'newQuestionAdded',newQuestion
-				.then ->
-					Question.save(newQuestion)
-					
-					utility.isQuestionCreated 		= false
-					utility.isQuestionCompleted 	= true			
-
-			defer.resolve()
 
 			
 			

@@ -168,6 +168,8 @@
 
 		img{
 			height: 70%;
+			width:37px;
+			height:37px;
 			border:1px solid lighten($gray,10);
 			@include absolute-center;
 		}

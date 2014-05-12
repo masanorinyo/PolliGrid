@@ -19,6 +19,8 @@ exports.makeQuestion = (req,res)->
 	
 	newQuestion = new Question(req.body)
 
+	console.log newQuestion
+
 	newQuestion.save (error,newQuestion)->
 		if error 
 			console.log error 

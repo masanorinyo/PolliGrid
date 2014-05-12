@@ -39,7 +39,7 @@ define(
 					url:'login'
 					onEnter:($state,$modal,$stateParams,$location,Error,User)->
 						
-						if User.isLoggedIn
+						if User.user
 
 							$location.path('/')
 
@@ -62,7 +62,7 @@ define(
 					url:'login/:id'
 					onEnter:($state,$modal,$stateParams,$location,Error,User)->
 						
-						if User.isLoggedIn
+						if User.user
 
 							$location.path '/deepResult/'+$stateParams.id
 							
@@ -85,7 +85,7 @@ define(
 				.state 'home.signup',
 					url:'signup'
 					onEnter:($state,$modal,$stateParams,$location,Error,User)->
-						if User.isLoggedIn
+						if User.user
 
 							$location.path('/')
 
@@ -108,7 +108,7 @@ define(
 				.state 'home.signupRedirect',
 					url:'signup/:id'
 					onEnter:($state,$modal,$stateParams,$location,Error,User)->
-						if User.isLoggedIn
+						if User.user
 							
 							newUrl = '/deepResult/'+$stateParams.id
 							$location.path(newUrl)
@@ -147,7 +147,7 @@ define(
 							templateUrl:'views/partials/shareQuestion.html'
 
 					onEnter:($state,$modal,$location,$stateParams,$timeout,User,Error)->
-						if !User.isLoggedIn
+						if !User.user 
 							
 							Error.auth = 'Please sign up to proceed'
 
@@ -209,19 +209,26 @@ define(
 					url:'deepResult/:id'
 					onEnter:($state,$modal,$timeout,$stateParams,$location,User,Error)->
 						
+						if User.user
+							onlineUser = User.user
+						else
+							onlineUser = User.visitor
+
+						console.log onlineUser
+
 						# check to see if the answer is already answered by the user
-						found = _.find User.questionsAnswered,(question)->
+						found = _.find onlineUser.questionsAnswered,(question)->
 							
 							question._id == $stateParams.id
 
-						
+						console.log found
 						
 						
 						if $stateParams.id is "" 
 							
 							$location.path('/')
 
-						else if !User.isLoggedIn
+						else if !User.user
 							
 							Error.auth = 'Please sign up to proceed'
 

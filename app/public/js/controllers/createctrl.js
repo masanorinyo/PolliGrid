@@ -175,24 +175,19 @@
         }
       };
       $scope.completeQuestion = function() {
-        var defer;
         newQuestion.question = "Which one ".concat(newQuestion.question);
         newQuestion.numOfFilters = _.size(newQuestion.targets);
         newQuestion.created_at = new Date().getTime();
-        newQuestion.photo = User.profilePic;
-        newQuestion.creatorName = User.profilePic;
-        newQuestion.creator = User._id;
-        defer = $q.defer();
-        defer.promise.then(function() {
-          return NewQuestion.question = newQuestion;
-        }).then(function() {
+        newQuestion.photo = User.user.profilePic;
+        newQuestion.creatorName = User.user.profilePic;
+        newQuestion.creator = User.user._id;
+        Question.save(newQuestion, function(data) {
+          console.log("Question was saved");
+          console.log(NewQuestion.question = data);
           return $rootScope.$broadcast('newQuestionAdded', newQuestion);
-        }).then(function() {
-          Question.save(newQuestion);
-          utility.isQuestionCreated = false;
-          return utility.isQuestionCompleted = true;
         });
-        return defer.resolve();
+        utility.isQuestionCreated = false;
+        return utility.isQuestionCompleted = true;
       };
       $scope.backToCreateQuestion = function() {
         utility.isCreatingQuestion = true;

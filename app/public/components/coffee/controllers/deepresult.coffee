@@ -165,7 +165,7 @@ define ['underscore'], (_)->
 
 		$scope.filterAdded = false
 		
-		
+		console.log questionId
 
 		
 		# answer:null / count:0 

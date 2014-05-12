@@ -162,16 +162,9 @@
         return $scope.user = User.user;
       });
       $scope.logout = function() {
-        User._id = 0;
-        User.name = '';
-        User.email = '';
-        User.password = '';
-        User.profilePic = "";
-        User.isLoggedIn = false;
-        User.favorites = [];
-        User.questionMade = [];
-        User.questionsAnswered = [];
-        User.filterQuestionsAnswered = [];
+        User.visitor.questionsAnswered = [];
+        User.visitor.filterQuestionsAnswered = [];
+        $scope.user = User.visitor;
         $location.path('/');
         return $timeout(function() {
           return $state.transitionTo($state.current, $stateParams, {

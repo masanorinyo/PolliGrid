@@ -36,7 +36,7 @@
         "save": {
           method: "POST",
           params: {
-            id: 0
+            questionId: 0
           }
         }
       });

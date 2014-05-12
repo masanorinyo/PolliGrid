@@ -286,17 +286,13 @@ define ["underscore"], (_)->
 			$scope.user = User.user
 		
 		$scope.logout = ()->
+		
+			# cleans up the visitor varable
+			User.visitor.questionsAnswered = []
+			User.visitor.filterQuestionsAnswered = []
+
+			$scope.user = User.visitor
 			
-			User._id  					 = 0
-			User.name  					 = ''
-			User.email 					 = ''
-			User.password 				 = ''
-			User.profilePic 			 = ""
-			User.isLoggedIn 			 = false
-			User.favorites 				 = []
-			User.questionMade 			 = []
-			User.questionsAnswered 		 = []
-			User.filterQuestionsAnswered = []
 
 			$location.path('/')
 			
