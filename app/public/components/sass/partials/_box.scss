@@ -163,9 +163,8 @@
                 display: inline-block;
                 &.userPhoto img {
                     width: 4em;
-                    height: 4em;
+                    height: 100%;
                     padding: 2px;
-                    background-color: $lightgray;
                 }
                 //li.userPhoto > img
                 &.category {

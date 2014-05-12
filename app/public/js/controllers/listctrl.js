@@ -137,11 +137,19 @@
           $scope.favorite = !$scope.favorite;
           if ($scope.favorite) {
             $scope.user.favorites.push(question._id);
-            return question.numOfFavorites++;
+            question.numOfFavorites++;
+            return Question.favorite({
+              questionId: question._id,
+              action: "increment"
+            });
           } else {
             index = $scope.user.favorites.indexOf(question._id);
             $scope.user.favorites.splice(index, 1);
-            return question.numOfFavorites--;
+            question.numOfFavorites--;
+            return Question.favorite({
+              questionId: question._id,
+              action: "decrement"
+            });
           }
         } else {
           Error.auth = "Please sign up to proceed";

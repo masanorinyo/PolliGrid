@@ -105,9 +105,10 @@ app.route '/'
 #################################################
 
 # returns user related contents
-app.route '/api/question/:questionId'
+app.route '/api/question/:questionId/:action'
       .get contents.findById
       .post contents.makeQuestion
+      .put contents.favoriteQuestion
 
 # returns contents
 app.route '/api/findQuestions/:searchTerm/:category/:order/:offset'

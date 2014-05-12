@@ -27,17 +27,25 @@
         }
       });
     }).factory('Question', function($resource) {
-      return $resource("/api/question/:questionId", {
-        questionId: "@questionId"
+      return $resource("/api/question/:questionId/:action", {
+        questionId: "@questionId",
+        action: "@action"
       }, {
         "get": {
-          method: "GET"
+          method: "GET",
+          params: {
+            action: 0
+          }
         },
         "save": {
           method: "POST",
           params: {
-            questionId: 0
+            questionId: 0,
+            action: 0
           }
+        },
+        "favorite": {
+          method: "PUT"
         }
       });
     }).factory('UpdateQuestion', function($resource) {

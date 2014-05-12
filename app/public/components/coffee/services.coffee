@@ -37,18 +37,26 @@ define ['angular'], (angular) ->
 				
 		.factory 'Question', ($resource)->
 			$resource(
-				"/api/question/:questionId"
+				"/api/question/:questionId/:action"
 				{
 					questionId:"@questionId"
+					action:"@action"
 				}
 				{
 					"get" :
 						method: "GET"
-
+						params :
+							action : 0
+					
 					"save" :
 						method : "POST"
 						params :
 							questionId : 0
+							action 	   : 0
+
+					"favorite" :
+						method : "PUT"
+
 				}
 			)
 

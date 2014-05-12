@@ -35,6 +35,42 @@
     return Question.findById(id).exec(callback);
   };
 
+  exports.favoriteQuestion = function(req, res) {
+    var action, callback, conditions, options, questionId, updates;
+    callback = function(err, data) {
+      if (err) {
+        return res.send(err);
+      } else {
+        return res.json(data);
+      }
+    };
+    questionId = escapeChar(unescape(req.params.questionId));
+    action = escapeChar(unescape(req.params.action));
+    conditions = {
+      "_id": questionId
+    };
+    console.log(questionId);
+    console.log(action);
+    console.log(Question);
+    if (action === "increment") {
+      updates = {
+        $inc: {
+          "numOfFavorites": 1
+        }
+      };
+    } else {
+      updates = {
+        $inc: {
+          "numOfFavorites": -1
+        }
+      };
+    }
+    options = {
+      upsert: true
+    };
+    return Question.update(conditions, updates, options, callback);
+  };
+
   exports.findQuestions = function(req, res) {
     var callback, category, offset, order, sorting, term;
     callback = function(err, data) {

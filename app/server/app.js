@@ -82,7 +82,7 @@
 
   app.route('/').get(routes.index);
 
-  app.route('/api/question/:questionId').get(contents.findById).post(contents.makeQuestion);
+  app.route('/api/question/:questionId/:action').get(contents.findById).post(contents.makeQuestion).put(contents.favoriteQuestion);
 
   app.route('/api/findQuestions/:searchTerm/:category/:order/:offset').get(contents.findQuestions);
 

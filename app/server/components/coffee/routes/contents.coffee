@@ -40,6 +40,37 @@ exports.findById = (req,res)->
 	
 	Question.findById(id).exec(callback)
 
+# find a question by id
+exports.favoriteQuestion = (req,res)->
+	callback = (err,data)->
+		if err 
+			res.send err 
+		else 
+			res.json data
+	
+	questionId = escapeChar(unescape(req.params.questionId))
+	action = escapeChar(unescape(req.params.action))
+	conditions = 
+			
+		"_id":questionId
+	
+	console.log questionId
+	console.log action
+	console.log Question
+
+	if action == "increment"
+		updates = 	
+			$inc:
+				"numOfFavorites":1
+	else 
+		updates = 	
+			$inc:
+				"numOfFavorites":-1
+	
+	options = {upsert:true}
+
+	Question.update(conditions, updates, options, callback);
+
 
 # find questions by search term
 exports.findQuestions = (req,res)->

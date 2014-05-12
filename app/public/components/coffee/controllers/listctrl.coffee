@@ -243,12 +243,24 @@ define ['underscore'], (_)->
 					$scope.user.favorites.push(question._id)
 					question.numOfFavorites++
 
+					Question.favorite(
+						questionId 	:question._id
+						action 		:"increment"
+					)
+
+
 				else
 
 					# attach it to the question
 					index = $scope.user.favorites.indexOf(question._id)	
 					$scope.user.favorites.splice(index,1)
 					question.numOfFavorites--
+					
+					Question.favorite(
+						questionId 	:question._id
+						action 		:"decrement"
+					)					
+					
 
 			else 
 
