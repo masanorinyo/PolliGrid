@@ -107,10 +107,60 @@
           isArray: true
         }
       });
-    }).factory('User', function(ipCookie) {
-      var randLetter, uniqid, user;
+    }).factory('UpdateUserInfo', function($resource) {
+      return $resource("/api/updateUser/:userId/:qId/:qAnswer/:fId/:fAnswer/:task", {
+        userId: "@userId",
+        qId: "@questionId",
+        qAnswer: "@questionAnswer",
+        fId: "@filterId",
+        fAnswer: "@filterAnswer",
+        task: "@task"
+      }, {
+        "answerQuestion": {
+          method: "PUT",
+          params: {
+            task: "updateQuestion"
+          }
+        },
+        "answerFilter": {
+          method: "PUT",
+          params: {
+            task: "updateFilter"
+          }
+        },
+        "favorite": {
+          method: "PUT",
+          params: {
+            qAnswer: 0,
+            fId: 0,
+            fAnswer: 0
+          }
+        },
+        "inheritInfo": {
+          method: "PUT",
+          params: {
+            task: "inherit"
+          }
+        }
+      });
+    }).factory('User', function(ipCookie, $http) {
+      var loggedInUser, randLetter, uniqid, user;
       randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
       uniqid = randLetter + Date.now();
+      loggedInUser = ipCookie("loggedInUser");
+      if (loggedInUser) {
+        $http({
+          url: "/api/getUser",
+          method: "GET",
+          params: {
+            userId: loggedInUser._id
+          }
+        }).success(function(data) {
+          data.isLoggedIn = true;
+          loggedInUser = data;
+          return user.user = data;
+        });
+      }
       return user = {
         visitor: {
           _id: uniqid,
@@ -119,7 +169,7 @@
           questionsAnswered: [],
           filterQuestionsAnswered: []
         },
-        user: ipCookie("loggedInUser")
+        user: loggedInUser
       };
     }).factory('Verification', function($resource) {
       return $resource("/api/user/:id", {

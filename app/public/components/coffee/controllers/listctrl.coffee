@@ -1,7 +1,22 @@
 define ['underscore'], (_)->
-	($scope,$location,$state,$stateParams,$timeout,$q,FindQuestions,User,Filters,Error,Search,UpdateQuestion,Question,Page)->
-
-
+	(
+		$scope
+		$location
+		$state
+		$stateParams
+		$timeout
+		$q
+		FindQuestions
+		User
+		Filters
+		Error
+		Search
+		UpdateQuestion
+		Question
+		Page
+		UpdateUserInfo
+	
+	)->
 
 
 		# ----------------- Utility functions ----------------- #
@@ -80,7 +95,7 @@ define ['underscore'], (_)->
 		
 		# ***************  Models *************** #
 		if User.user
-			
+				
 			$scope.user = User.user
 
 		else
@@ -233,8 +248,8 @@ define ['underscore'], (_)->
 				
 
 		$scope.fillStar = (question)->
-			
-			if $scope.user.isLoggedIn 
+			console.log question
+			if $scope.user.isLoggedIn
 
 				$scope.favorite = !$scope.favorite
 
@@ -243,9 +258,19 @@ define ['underscore'], (_)->
 					$scope.user.favorites.push(question._id)
 					question.numOfFavorites++
 
+					console.log $scope.user._id
+
+					# increment the number of filters of the question
 					Question.favorite(
-						questionId 	:question._id
-						action 		:"increment"
+						questionId 	: escape(question._id)
+						action 		: escape("increment")
+					)
+
+					# save question id in user's favorite questions
+					UpdateUserInfo.favorite(
+						userId 		: escape($scope.user._id)
+						questionId  : escape(question._id)
+						task		: escape("favoritePush")
 					)
 
 
@@ -256,11 +281,20 @@ define ['underscore'], (_)->
 					$scope.user.favorites.splice(index,1)
 					question.numOfFavorites--
 					
+					# decrement the number of filters of the question
 					Question.favorite(
-						questionId 	:question._id
-						action 		:"decrement"
+						questionId 	: escape(question._id)
+						action 		: escape("decrement")
 					)					
-					
+
+					console.log $scope.user._id
+
+					# save question id in user's favorite questions
+					UpdateUserInfo.favorite(
+						userId 		: escape($scope.user._id)
+						questionId  : escape(question._id)
+						task		: escape("favoritePull")
+					)
 
 			else 
 

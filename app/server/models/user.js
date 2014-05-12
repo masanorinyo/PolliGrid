@@ -29,10 +29,9 @@
       tokenSecret: String
     },
     google: {
-      id: String
+      id: String,
+      token: String
     }
-  }, {
-    token: String
   });
 
   userSchema.methods.generateHash = function(password) {

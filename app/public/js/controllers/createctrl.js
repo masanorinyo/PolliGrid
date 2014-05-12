@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($rootScope, $scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams, $q, Debounce, FilterTypeHead, NewQuestion) {
+    return function($rootScope, $scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams, $q, Debounce, FilterTypeHead, NewQuestion, UpdateUserInfo) {
       var changeInSearchText, findSameOption, message, newQuestion, utility;
       findSameOption = function(item) {
         if (item.title === newQuestion.newOption) {
@@ -184,7 +184,8 @@
         Question.save(newQuestion, function(data) {
           console.log("Question was saved");
           console.log(NewQuestion.question = data);
-          return $rootScope.$broadcast('newQuestionAdded', newQuestion);
+          $rootScope.$broadcast('newQuestionAdded', newQuestion);
+          return User.user.questionMade.push(data._id);
         });
         utility.isQuestionCreated = false;
         return utility.isQuestionCompleted = true;

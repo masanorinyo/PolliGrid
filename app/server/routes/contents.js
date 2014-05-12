@@ -1,7 +1,9 @@
 (function() {
-  var Filter, Question, escapeChar;
+  var Filter, Question, User, escapeChar;
 
   Question = require('../models/question');
+
+  User = require('../models/user');
 
   Filter = require('../models/targetQuestion');
 
@@ -10,13 +12,32 @@
   };
 
   exports.makeQuestion = function(req, res) {
-    var newQuestion;
+    var callback, conditions, id, newQuestion, options, updates;
     newQuestion = new Question(req.body);
-    console.log(newQuestion);
+    id = req.body.creator;
+    conditions = {
+      "_id": id
+    };
+    updates = {
+      $push: {
+        "questionMade": newQuestion._id
+      }
+    };
+    options = {
+      upsert: true
+    };
+    callback = function(err, user) {
+      if (err) {
+        return res.send(err);
+      } else {
+        return res.send(user);
+      }
+    };
     return newQuestion.save(function(error, newQuestion) {
       if (error) {
         return console.log(error);
       } else {
+        User.update(conditions, updates, options, callback);
         return res.send(newQuestion);
       }
     });
@@ -49,9 +70,6 @@
     conditions = {
       "_id": questionId
     };
-    console.log(questionId);
-    console.log(action);
-    console.log(Question);
     if (action === "increment") {
       updates = {
         $inc: {
@@ -275,6 +293,61 @@
         return res.send(filter);
       }
     });
+  };
+
+  exports.updateUser = function(req, res) {
+    var callback, conditions, fAnswer, fId, options, qAnswer, qId, task, updates, userId;
+    console.log(userId = escapeChar(unescape(req.params.userId)));
+    console.log(qId = escapeChar(unescape(req.params.qId)));
+    console.log(qAnswer = escapeChar(unescape(req.params.qAnswer)));
+    console.log(fId = escapeChar(unescape(req.params.fId)));
+    console.log(fAnswer = escapeChar(unescape(req.params.fAnswer)));
+    console.log(task = escapeChar(unescape(req.params.task)));
+    callback = function(err, user) {
+      if (err) {
+        console.log('err');
+        console.log(err);
+        return res.send(err);
+      } else {
+        console.log("user");
+        console.log(user);
+        return res.send(user);
+      }
+    };
+    conditions = {
+      "_id": userId
+    };
+    if (task === "favoritePush") {
+      updates = {
+        $push: {
+          "favorites": qId
+        }
+      };
+    } else if (task === "favoritePull") {
+      updates = {
+        $pull: {
+          "favorites": qId
+        }
+      };
+    }
+    options = {
+      upsert: true
+    };
+    return User.update(conditions, updates, options, callback);
+  };
+
+  exports.getUserInfo = function(req, res) {
+    var callback, id;
+    callback = function(err, data) {
+      if (err) {
+        return res.send(err);
+      } else {
+        console.log(data);
+        return res.json(data);
+      }
+    };
+    id = req.query.userId;
+    return User.findById(id).exec(callback);
   };
 
 }).call(this);

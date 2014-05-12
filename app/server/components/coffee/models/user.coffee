@@ -27,7 +27,7 @@ userSchema = mongoose.Schema(
 
 	google:
 		id: String
-token: String
+		token: String
 )
 userSchema.methods.generateHash = (password) ->
   bcrypt.hashSync password, bcrypt.genSaltSync(8), null

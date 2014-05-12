@@ -96,6 +96,10 @@
 
   require('./routes/auth')(app, passport);
 
+  app.route('/api/getUser').get(contents.getUserInfo);
+
+  app.route('/api/updateUser/:userId/:qId/:qAnswer/:fId/:fAnswer/:task').put(contents.updateUser);
+
   app.listen(port, function() {
     return console.log('Express server listening on port ' + port);
   });

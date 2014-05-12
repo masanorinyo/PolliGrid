@@ -129,13 +129,66 @@ define ['angular'], (angular) ->
 				}
 			)
 
+		.factory 'UpdateUserInfo',($resource)->
+			$resource(
+				"/api/updateUser/:userId/:qId/:qAnswer/:fId/:fAnswer/:task"
+				{
+					userId 	: "@userId"
+					qId 	: "@questionId"
+					qAnswer : "@questionAnswer"
+					fId 	: "@filterId"
+					fAnswer : "@filterAnswer"
+					task 	: "@task"
+				}
+				{
+					"answerQuestion":
+						method:"PUT"
+						params:
+							task:"updateQuestion"
+					
+					"answerFilter":
+						method:"PUT"
+						params:
+							task:"updateFilter"
+					
+					"favorite":
+						method:"PUT"
+						params:
+							qAnswer: 0
+							fId: 0
+							fAnswer: 0
+
+					"inheritInfo":
+						method:"PUT"
+						params:
+							task:"inherit"
+				}
+
+			)
 
 	
-		.factory 'User', (ipCookie)->
+		.factory 'User', (ipCookie,$http)->
 			
 			# get the unique id
 			randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26))
 			uniqid = randLetter + Date.now()
+			
+			loggedInUser = ipCookie("loggedInUser")
+
+			# get updated loggedInUser
+			if loggedInUser
+				$http 
+
+					url 	: "/api/getUser"
+					method 	: "GET"
+					params 	: {userId: loggedInUser._id}
+
+				.success (data)-> 
+					# update user information
+					data.isLoggedIn = true
+					loggedInUser = data
+					user.user = data
+
 			
 			user = 	
 				visitor: 
@@ -145,8 +198,9 @@ define ['angular'], (angular) ->
 						questionsAnswered 		: []
 						filterQuestionsAnswered : []
 				
-				 user : 
-				 	ipCookie("loggedInUser")
+				user : loggedInUser
+				
+				 
 				 
 
 		.factory 'Verification',($resource)->

@@ -14,25 +14,27 @@
         var defer, foundUser;
         foundUser = false;
         defer = $q.defer();
-        defer.promise.then(function() {
-          return Verification.findUser({
-            id: $scope.user._id
-          }).$promise.then(function(data) {
-            return foundUser = data.foundUser;
-          });
-        }).then(function() {
-          var randomNum;
-          if (foundUser) {
-            randomNum = Math.floor(Math.random() * 99);
-            $scope.user._id = $scope.user._id.concat(randomNum);
+        if (!User.user) {
+          defer.promise.then(function() {
             return Verification.findUser({
               id: $scope.user._id
             }).$promise.then(function(data) {
               return foundUser = data.foundUser;
             });
-          }
-        });
-        return defer.resolve();
+          }).then(function() {
+            var randomNum;
+            if (foundUser) {
+              randomNum = Math.floor(Math.random() * 99);
+              $scope.user._id = $scope.user._id.concat(randomNum);
+              return Verification.findUser({
+                id: $scope.user._id
+              }).$promise.then(function(data) {
+                return foundUser = data.foundUser;
+              });
+            }
+          });
+          return defer.resolve();
+        }
       }, 200, true);
       $scope.questions = FindQuestions["default"]();
       $scope.showLoader = false;

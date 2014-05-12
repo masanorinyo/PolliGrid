@@ -24,30 +24,33 @@ define ["underscore"], (_)->
 
 			foundUser = false
 
-			defer = $q.defer()			
-			defer.promise
-			
-				.then -> 
-					
-					Verification.findUser({id:$scope.user._id}).$promise.then (data)->
-						foundUser = data.foundUser
-					
-				.then ->
+			defer = $q.defer()
 
-					
-					
-					# if user is found, keep changin the id until it becomes unique
-					
-					if foundUser 
+			# generate unique id for visitor
+			if !User.user
+				defer.promise
+				
+					.then -> 
 						
-						
-						randomNum = Math.floor(Math.random() * 99)
-						$scope.user._id = $scope.user._id.concat(randomNum)
 						Verification.findUser({id:$scope.user._id}).$promise.then (data)->
 							foundUser = data.foundUser
 						
+					.then ->
+
 						
-			defer.resolve()
+						
+						# if user is found, keep changin the id until it becomes unique
+						
+						if foundUser 
+							
+							
+							randomNum = Math.floor(Math.random() * 99)
+							$scope.user._id = $scope.user._id.concat(randomNum)
+							Verification.findUser({id:$scope.user._id}).$promise.then (data)->
+								foundUser = data.foundUser
+							
+							
+				defer.resolve()
 			
 			
 			

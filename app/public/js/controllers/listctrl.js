@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $location, $state, $stateParams, $timeout, $q, FindQuestions, User, Filters, Error, Search, UpdateQuestion, Question, Page) {
+    return function($scope, $location, $state, $stateParams, $timeout, $q, FindQuestions, User, Filters, Error, Search, UpdateQuestion, Question, Page, UpdateUserInfo) {
       var getColor, getData, targetQ;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
@@ -133,22 +133,35 @@
       };
       $scope.fillStar = function(question) {
         var index;
+        console.log(question);
         if ($scope.user.isLoggedIn) {
           $scope.favorite = !$scope.favorite;
           if ($scope.favorite) {
             $scope.user.favorites.push(question._id);
             question.numOfFavorites++;
-            return Question.favorite({
-              questionId: question._id,
-              action: "increment"
+            console.log($scope.user._id);
+            Question.favorite({
+              questionId: escape(question._id),
+              action: escape("increment")
+            });
+            return UpdateUserInfo.favorite({
+              userId: escape($scope.user._id),
+              questionId: escape(question._id),
+              task: escape("favoritePush")
             });
           } else {
             index = $scope.user.favorites.indexOf(question._id);
             $scope.user.favorites.splice(index, 1);
             question.numOfFavorites--;
-            return Question.favorite({
-              questionId: question._id,
-              action: "decrement"
+            Question.favorite({
+              questionId: escape(question._id),
+              action: escape("decrement")
+            });
+            console.log($scope.user._id);
+            return UpdateUserInfo.favorite({
+              userId: escape($scope.user._id),
+              questionId: escape(question._id),
+              task: escape("favoritePull")
             });
           }
         } else {

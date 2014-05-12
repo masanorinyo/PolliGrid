@@ -1,5 +1,22 @@
 define ['underscore'], ( _ )->
-	($rootScope,$scope,$modalInstance,$location,$timeout,Filters,Question,User,Page,$state,$stateParams,$q,Debounce,FilterTypeHead,NewQuestion)->
+	(
+		$rootScope
+		$scope
+		$modalInstance
+		$location
+		$timeout
+		Filters
+		Question
+		User
+		Page
+		$state
+		$stateParams
+		$q
+		Debounce
+		FilterTypeHead
+		NewQuestion
+		UpdateUserInfo
+	)->
 		
 		# --------------------- Functions for utility --------------------- #
 		
@@ -306,7 +323,12 @@ define ['underscore'], ( _ )->
 				console.log "Question was saved"
 				console.log NewQuestion.question = data
 				$rootScope.$broadcast 'newQuestionAdded',newQuestion
+				User.user.questionMade.push(data._id)
+			
 			)
+
+
+
 			
 			utility.isQuestionCreated 		= false
 			utility.isQuestionCompleted 	= true

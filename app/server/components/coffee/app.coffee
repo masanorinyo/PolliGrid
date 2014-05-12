@@ -143,7 +143,13 @@ app.route '/api/getFilterTitle/:term'
 # authentication
 require('./routes/auth')(app, passport)
 
+# get user info
+app.route '/api/getUser'
+      .get contents.getUserInfo
 
+# update questions and filters answered
+app.route '/api/updateUser/:userId/:qId/:qAnswer/:fId/:fAnswer/:task'
+      .put contents.updateUser
 
 # ------------------------ server setup ------------------------ #
 

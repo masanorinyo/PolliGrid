@@ -1,5 +1,6 @@
 # ----------------- Models ----------------- #
 Question 	= 	require('../models/question')
+User 		= 	require('../models/user')
 Filter 		= 	require('../models/targetQuestion');
 
 
@@ -18,13 +19,31 @@ escapeChar = (regex)->
 exports.makeQuestion = (req,res)->
 	
 	newQuestion = new Question(req.body)
-
-	console.log newQuestion
+	id = req.body.creator
+	
+	conditions = 		
+		"_id":id
+	
+	updates = 	
+		$push:
+			"questionMade":newQuestion._id
+	
+	options = {upsert:true}
+	
+	callback = (err,user)->
+		if err 
+			res.send err 
+		else 
+			res.send user
 
 	newQuestion.save (error,newQuestion)->
 		if error 
 			console.log error 
 		else
+			# update user information
+			# add the question id to user's creation list
+			User.update(conditions,updates,options,callback)
+			
 			res.send newQuestion
 
 
@@ -54,9 +73,6 @@ exports.favoriteQuestion = (req,res)->
 			
 		"_id":questionId
 	
-	console.log questionId
-	console.log action
-	console.log Question
 
 	if action == "increment"
 		updates = 	
@@ -297,3 +313,65 @@ exports.makeFilter = (req,res)->
 		else
 			res.send filter
 	
+
+#################################################
+# --------------   User handlers   ------------ #
+#################################################
+exports.updateUser = (req,res)->
+	
+	console.log userId 	= escapeChar(unescape(req.params.userId))
+	console.log qId 	= escapeChar(unescape(req.params.qId))
+	console.log qAnswer = escapeChar(unescape(req.params.qAnswer))
+	console.log fId 	= escapeChar(unescape(req.params.fId))
+	console.log fAnswer = escapeChar(unescape(req.params.fAnswer))
+	console.log task 	= escapeChar(unescape(req.params.task))
+
+	callback = (err,user)->
+		if err 
+			console.log 'err'
+			console.log err
+			res.send err 
+		else
+			console.log "user"
+			console.log user
+			res.send user
+
+	conditions = 
+			
+		"_id":userId
+	
+
+	if task == "favoritePush"
+		updates = 	
+			$push:
+				"favorites":qId
+
+	else if task == "favoritePull"
+		updates = 	
+			$pull:
+				"favorites":qId
+	 
+	
+
+	
+	options = {upsert:true}
+
+	User.update(conditions, updates, options, callback);
+
+exports.getUserInfo = (req,res)->
+	
+	callback = (err,data)->
+		if err 
+			res.send err 
+		else 
+			console.log data
+			res.json data
+	
+	id = req.query.userId
+	
+	User.findById(id).exec(callback)
+
+
+
+
+

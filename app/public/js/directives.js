@@ -70,7 +70,7 @@
             if (favoriteQuestion) {
               return scope.favorite = true;
             }
-          }, 550, true);
+          }, 100, true);
         }
       };
     }).directive('focusMe', function($timeout) {
