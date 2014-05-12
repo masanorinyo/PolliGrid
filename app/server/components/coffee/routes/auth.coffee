@@ -20,8 +20,8 @@ module.exports = (app,passport) ->
 	#======== Authentication ========//
 
 	# login authentication
-	app.post "/api/login", passport.authenticate("local-login"),(req, res,next) ->
-		
+	app.post "/api/auth/login", passport.authenticate("local-login"), (req, res,next) ->
+		console.log req.body
 		if req.user
 
 			auth_utility.rememberMe(req, res, next)
@@ -33,7 +33,7 @@ module.exports = (app,passport) ->
 		
 
 	# Signup authentication
-	app.post "/api/signup",passport.authenticate("local-signup"),(req, res, next) ->
+	app.post "/api/auth/signup",passport.authenticate("local-signup"),(req, res, next) ->
 		
 		if req.user
 
@@ -150,7 +150,7 @@ module.exports = (app,passport) ->
 
 	# ====== Logout ====== #
 	
-	app.get "/api/logout", (req, res) ->
+	app.get "/api/auth/logout", (req, res) ->
     
 		req.logout()
 		req.session.cookie.expires = false
@@ -160,7 +160,7 @@ module.exports = (app,passport) ->
   
 	# ====== Delete Account ======#
 	
-	app.delete "/api/delete", (req, res) ->
+	app.delete "/api/auth/delete", (req, res) ->
 		if req.user
 			
 			User.remove (err, user) ->
@@ -183,7 +183,23 @@ module.exports = (app,passport) ->
 			res.redirect "/"
 
 
+	# verification
+	app.get "/api/user/:id",(req,res) ->
+		id = req.params.id
 
+		User.findById id, (err,user) ->
+			
+			if err 
+			
+				res.send("foundUser",{foundUser:false})
+			
+			else if user
+
+				res.send("foundUser",{foundUser:true})
+
+			else 
+
+				res.send("foundUser",{foundUser:false})
 		
 		
 	#   #Setting

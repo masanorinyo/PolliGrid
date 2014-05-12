@@ -121,26 +121,33 @@ define ['angular'], (angular) ->
 				}
 			)
 
+
 	
 		.factory 'User', ()->
-			user = 
-				
-				_id  					: "13ssfdasaasaasdafdaskdsafsa5"
-				name  					: 'Masanori'
-				email 					: 'masanorinyo@gmail.com'
-				password 				: 'test'
-				profilePic 				: "/img/users/profile-pic.jpg"
-				isLoggedIn 				: true
-				favorites 				: []
-				questionMade 			: []
-				questionsAnswered 		: [
-						# _id 		: "536d57ccd22f0c4e4b0bf6ea"
-						# answer 		: "Kindergarden"
-				]
-				filterQuestionsAnswered : [
-						# id 		: 1
-						# answer 	: "21 ~ 30"
-				]
+			
+			# get the unique id
+			randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26))
+			uniqid = randLetter + Date.now()
+			
+
+			user = 	
+				visitor:
+					_id						: uniqid
+					name  					: 'visitor'
+					isLoggedIn 				: false
+					questionsAnswered 		: []
+					filterQuestionsAnswered : []
+				 user : null
+
+		.factory 'Verification',($resource)->
+			$resource(
+				"/api/user/:id"
+				{id:"@id"}
+				{
+					"findUser":
+						method:"GET"
+				}
+			)
 
 		.factory 'Error', ()->
 			error = 

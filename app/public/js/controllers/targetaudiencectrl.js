@@ -114,14 +114,17 @@
             return obj.option === targetAnswer;
           });
           targetAnswerIndex = _.indexOf(question.targets[index].lists, target);
-          console.log(UpdateQuestion.updateFilters({
+          UpdateQuestion.updateFilters({
             questionId: question._id,
             userId: $scope.user._id,
             title: "0",
             filterId: question.targets[index]._id,
             index: targetAnswerIndex
-          }));
+          });
           $scope.user.filterQuestionsAnswered.push(answer);
+          if ($scope.user.isLoggedIn) {
+            console.log('save info in the server');
+          }
           defer = $q.defer();
           defer.promise.then(function() {
             return checkFilterQuestionStatus(answer);

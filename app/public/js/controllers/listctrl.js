@@ -44,7 +44,7 @@
           animationEasing: "easeOutQuart"
         };
       }
-      $scope.user = User;
+      $scope.user = User.visitor;
       $scope.isAccessedViaLink = false;
       $scope.answer = '';
       $scope.isStarFilled = false;
@@ -119,6 +119,9 @@
             answer: choice.title
           };
           $scope.user.questionsAnswered.push(answer);
+          if ($scope.user.isLoggedIn) {
+            console.log('save info in the server');
+          }
           $scope.submitted = true;
           return getData();
         }
@@ -179,6 +182,9 @@
           index: 0
         }));
         return $scope.answer = '';
+      });
+      $scope.$on('userLoggedIn', function(value) {
+        return $scope.user = User.user;
       });
       $scope.closeModal = function() {
         $scope.$dismiss();

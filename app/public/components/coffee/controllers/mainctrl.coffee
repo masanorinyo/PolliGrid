@@ -1,5 +1,5 @@
 define ["underscore"], (_)->
-	($scope,$location,$q,$stateParams,$timeout,$state,User,Page,FindQuestions,Debounce,Search,QuestionTypeHead,NewQuestion)->
+	($scope,$location,$q,$stateParams,$timeout,$state,User,Page,FindQuestions,Debounce,Search,QuestionTypeHead,NewQuestion,Verification)->
 
 
 		# --------------- Util functions --------------- #					
@@ -8,7 +8,47 @@ define ["underscore"], (_)->
 		
 		# --------------- Models --------------- #					
 
-		$scope.user = User
+		# if user is a returnee, then assign User.user
+		$scope.user = User.visitor
+		
+		# make sure the user id doesn't conflict with others'
+		$timeout ->
+					
+
+			foundUser = false
+
+			defer = $q.defer()			
+			defer.promise
+			
+				.then -> 
+					
+					Verification.findUser({id:$scope.user._id}).$promise.then (data)->
+						foundUser = data.foundUser
+					
+				.then ->
+
+					
+					
+					# if user is found, keep changin the id until it becomes unique
+					
+					if foundUser 
+						
+						
+						randomNum = Math.floor(Math.random() * 99)
+						$scope.user._id = $scope.user._id.concat(randomNum)
+						Verification.findUser({id:$scope.user._id}).$promise.then (data)->
+							foundUser = data.foundUser
+						
+						
+			defer.resolve()
+			
+			
+			
+
+		,200,true
+
+
+
 		# get the questions when the page loads up
 		$scope.questions = FindQuestions.default()
 
@@ -232,7 +272,11 @@ define ["underscore"], (_)->
 
 			defer.resolve(callback)
 
-
+		$scope.$on 'userLoggedIn', (value)->
+			console.log "main"
+			
+			
+			$scope.user = User.user
 		
 		$scope.logout = ()->
 			

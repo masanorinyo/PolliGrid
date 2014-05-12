@@ -4,7 +4,7 @@
       var findQuestion, showAnswers, showDeepResult, showFavorites, showFilters, showQuestions;
       $scope.type = $stateParams.type;
       $scope.id = $stateParams.id;
-      $scope.user = User;
+      $scope.user = User.user;
       $scope.isAccessedFromSetting = true;
       Setting.isSetting = true;
       findQuestion = function(target, requiredIds) {

@@ -100,19 +100,27 @@
         }
       });
     }).factory('User', function() {
-      var user;
+      var randLetter, uniqid, user;
+      randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+      uniqid = randLetter + Date.now();
       return user = {
-        _id: "13ssfdasaasaasdafdaskdsafsa5",
-        name: 'Masanori',
-        email: 'masanorinyo@gmail.com',
-        password: 'test',
-        profilePic: "/img/users/profile-pic.jpg",
-        isLoggedIn: true,
-        favorites: [],
-        questionMade: [],
-        questionsAnswered: [],
-        filterQuestionsAnswered: []
+        visitor: {
+          _id: uniqid,
+          name: 'visitor',
+          isLoggedIn: false,
+          questionsAnswered: [],
+          filterQuestionsAnswered: [],
+          user: null
+        }
       };
+    }).factory('Verification', function($resource) {
+      return $resource("/api/user/:id", {
+        id: "@id"
+      }, {
+        "findUser": {
+          method: "GET"
+        }
+      });
     }).factory('Error', function() {
       var error;
       return error = {

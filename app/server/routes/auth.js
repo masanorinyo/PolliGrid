@@ -6,7 +6,8 @@
   auth_utility = require("../lib/auth-utility");
 
   module.exports = function(app, passport) {
-    app.post("/api/login", passport.authenticate("local-login"), function(req, res, next) {
+    app.post("/api/auth/login", passport.authenticate("local-login"), function(req, res, next) {
+      console.log(req.body);
       if (req.user) {
         auth_utility.rememberMe(req, res, next);
         return res.send(req.user);
@@ -14,7 +15,7 @@
         return res.send(req.session.message);
       }
     });
-    app.post("/api/signup", passport.authenticate("local-signup"), function(req, res, next) {
+    app.post("/api/auth/signup", passport.authenticate("local-signup"), function(req, res, next) {
       if (req.user) {
         auth_utility.rememberMe(req, res, next);
         return res.send(req.user);
@@ -22,11 +23,11 @@
         return res.send(req.session.message);
       }
     });
-    app.get("/api/logout", function(req, res) {
+    app.get("/api/auth/logout", function(req, res) {
       req.logout();
       return req.session.cookie.expires = false;
     });
-    return app["delete"]("/api/delete", function(req, res) {
+    app["delete"]("/api/auth/delete", function(req, res) {
       if (req.user) {
         return User.remove(function(err, user) {
           req.session.destroy(function() {
@@ -43,6 +44,25 @@
       } else {
         return res.redirect("/");
       }
+    });
+    return app.get("/api/user/:id", function(req, res) {
+      var id;
+      id = req.params.id;
+      return User.findById(id, function(err, user) {
+        if (err) {
+          return res.send("foundUser", {
+            foundUser: false
+          });
+        } else if (user) {
+          return res.send("foundUser", {
+            foundUser: true
+          });
+        } else {
+          return res.send("foundUser", {
+            foundUser: false
+          });
+        }
+      });
     });
   };
 

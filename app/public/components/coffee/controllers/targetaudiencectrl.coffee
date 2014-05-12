@@ -233,7 +233,7 @@ define ['underscore'], (_)->
 				
 
 				# find the answered option
-				console.log UpdateQuestion.updateFilters(
+				UpdateQuestion.updateFilters(
 					questionId 	: question._id
 					userId 		: $scope.user._id
 					title 		: "0"
@@ -247,6 +247,9 @@ define ['underscore'], (_)->
 				
 				$scope.user.filterQuestionsAnswered.push(answer)
 
+				if $scope.user.isLoggedIn
+					# save info in the server
+					console.log 'save info in the server'
 				
 
 				

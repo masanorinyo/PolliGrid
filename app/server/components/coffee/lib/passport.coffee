@@ -54,15 +54,16 @@ module.exports = (passport) ->
 			done(err, user)
 		)
   
+
   	# ========== Local Login ========== #
 	passport.use "local-login", new LocalStrategy(
-		
+			
 		usernameField: "email"
 		passwordField: "password"
 		passReqToCallback: true
 		
 		, (req, email, password, done) ->
-			
+			console.log req
 			req.session.message = ""
 			
 			process.nextTick ->
@@ -131,7 +132,7 @@ module.exports = (passport) ->
 
 								newUser.username = name
 								newUser.email = email
-								newUser.profilePic = "/img/default_img.png"
+								newUser.profilePic = "/img/users/default_img.png"
 
 								# Stores email and hashed password into a new user variable.
 								newUser.local.email = email

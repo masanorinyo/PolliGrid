@@ -19,13 +19,15 @@
           "$timeout": $timeout
         });
       });
-    }).controller('AuthCtrl', function($scope, $injector, $modalInstance, $location, $timeout) {
+    }).controller('AuthCtrl', function($rootScope, $scope, $injector, $modalInstance, $location, $timeout, $http) {
       return require(['controllers/authctrl'], function(authctrl) {
         return $injector.invoke(authctrl, this, {
+          "$rootScope": $rootScope,
           "$scope": $scope,
           "$modalInstance": $modalInstance,
           "$location": $location,
-          "$timeout": $timeout
+          "$timeout": $timeout,
+          "$http": $http
         });
       });
     }).controller('CreateCtrl', function($scope, $injector, $modalInstance, $location, $timeout, $state, $stateParams, $q) {

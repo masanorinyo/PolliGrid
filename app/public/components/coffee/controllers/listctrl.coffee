@@ -79,7 +79,7 @@ define ['underscore'], (_)->
 
 		
 		# ***************  Models *************** #
-		$scope.user = User
+		$scope.user = User.visitor
 		$scope.isAccessedViaLink = false
 		
 
@@ -208,8 +208,13 @@ define ['underscore'], (_)->
 				answer = 
 					_id 	: question._id
 					answer 	: choice.title
+				
 				# add the answer to user's database
 				$scope.user.questionsAnswered.push(answer)
+
+				if $scope.user.isLoggedIn
+					# save info in the server
+					console.log 'save info in the server'
 
 
 				$scope.submitted = true
@@ -317,7 +322,8 @@ define ['underscore'], (_)->
 			$scope.answer = ''
 			
 
-
+		$scope.$on 'userLoggedIn', (value)->
+			$scope.user = User.user
 
 		# ------------- Scope Function ------------- #
 

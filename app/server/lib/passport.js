@@ -43,6 +43,7 @@
       passwordField: "password",
       passReqToCallback: true
     }, function(req, email, password, done) {
+      console.log(req);
       req.session.message = "";
       return process.nextTick(function() {
         return User.findOne({
@@ -87,7 +88,7 @@
                 newUser = new User();
                 newUser.username = name;
                 newUser.email = email;
-                newUser.profilePic = "/img/default_img.png";
+                newUser.profilePic = "/img/users/default_img.png";
                 newUser.local.email = email;
                 newUser.local.password = newUser.generateHash(password);
                 newUser.confirmed = false;

@@ -1,11 +1,35 @@
 (function() {
   define(["underscore"], function(_) {
-    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search, QuestionTypeHead, NewQuestion) {
+    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search, QuestionTypeHead, NewQuestion, Verification) {
       var capitaliseFirstLetter, searchSpecificQuestions;
       capitaliseFirstLetter = function(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
       };
-      $scope.user = User;
+      $scope.user = User.visitor;
+      $timeout(function() {
+        var defer, foundUser;
+        foundUser = false;
+        defer = $q.defer();
+        defer.promise.then(function() {
+          return Verification.findUser({
+            id: $scope.user._id
+          }).$promise.then(function(data) {
+            return foundUser = data.foundUser;
+          });
+        }).then(function() {
+          var randomNum;
+          if (foundUser) {
+            randomNum = Math.floor(Math.random() * 99);
+            $scope.user._id = $scope.user._id.concat(randomNum);
+            return Verification.findUser({
+              id: $scope.user._id
+            }).$promise.then(function(data) {
+              return foundUser = data.foundUser;
+            });
+          }
+        });
+        return defer.resolve();
+      }, 200, true);
       $scope.questions = FindQuestions["default"]();
       $scope.showLoader = false;
       $scope.anyContentsLeft = false;
@@ -128,6 +152,10 @@
           return searchSpecificQuestions();
         });
         return defer.resolve(callback);
+      });
+      $scope.$on('userLoggedIn', function(value) {
+        console.log("main");
+        return $scope.user = User.user;
       });
       $scope.logout = function() {
         User._id = 0;

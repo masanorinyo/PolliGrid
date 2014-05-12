@@ -1,6 +1,6 @@
 (function() {
   define([], function() {
-    return function($scope, $stateParams, $modalInstance, $location, $timeout, Error, User) {
+    return function($rootScope, $scope, $stateParams, $modalInstance, $location, $timeout, Error, User, $http) {
       switch ($location.$$path.split('/')[1]) {
         case 'login':
           $scope.title = "Login";
@@ -8,18 +8,47 @@
         case 'signup':
           $scope.title = "Signup";
       }
+      console.log($scope.user);
       $scope.alertMessage = Error.auth;
-      $scope.signin = function() {
-        var newUrl;
-        User.isLoggedIn = true;
-        $scope.$dismiss();
-        if ($location.$$path.split('/')[2]) {
-          console.log($location.$$path.split('/')[2]);
-          newUrl = "deepResult/" + $stateParams.id;
+      $scope.newUser = {
+        remember_me: true
+      };
+      $scope.user = User.visitor;
+      $scope.signup = function(data) {
+        return console.log('test');
+      };
+      $scope.login = function(data) {
+        console.log(data);
+        return $http({
+          method: 'POST',
+          url: '/api/auth/login',
+          data: $.param(data),
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        }).success(function(data) {
+          console.log("success");
+          console.log(data);
+          User.user = data;
+          User.user.isLoggedIn = true;
+          if ($scope.user.questionsAnswered.length) {
+            console.log($scope.user.questionsAnswered);
+          }
+          if ($scope.user.filterQuestionsAnswered.length) {
+            console.log($scope.user.filterQuestionsAnswered);
+          }
+          $rootScope.$broadcast('userLoggedIn', User);
+          $scope.user = User.user;
+          $scope.$dismiss();
           return $timeout(function() {
-            return $location.path(newUrl);
-          }, 300, true);
-        }
+            $location.path('/');
+            return Error.auth = '';
+          }, 100, true);
+        }).error(function(data) {
+          console.log("err");
+          return console.log(data);
+        });
       };
       $scope["switch"] = function(type) {
         if ($stateParams.id) {

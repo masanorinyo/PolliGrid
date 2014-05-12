@@ -27,14 +27,16 @@ define ['angular','services'], (angular) ->
 				)
 			)
 		
-		.controller 'AuthCtrl', ($scope, $injector,$modalInstance,$location,$timeout)->
+		.controller 'AuthCtrl', ($rootScope,$scope, $injector,$modalInstance,$location,$timeout,$http)->
 			require(['controllers/authctrl'], (authctrl)->
 				$injector.invoke(
 					authctrl, this,{
+						"$rootScope" 			: $rootScope
 						"$scope" 				: $scope
 						"$modalInstance" 		: $modalInstance
 						"$location" 	 		: $location
 						"$timeout" 				: $timeout
+						"$http" 				: $http
 					}
 				)
 			)

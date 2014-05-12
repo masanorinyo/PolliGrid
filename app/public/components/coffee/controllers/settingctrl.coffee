@@ -3,7 +3,7 @@ define ['underscore'], (_)->
 
 		$scope.type = $stateParams.type
 		$scope.id = $stateParams.id
-		$scope.user = User
+		$scope.user = User.user
 		$scope.isAccessedFromSetting = true
 		
 		

@@ -146,7 +146,9 @@ app.route '/api/getFilterTitle/:term'
 # -------------- User handlers ---------------- #
 #################################################
 
+# authentication
 require('./routes/auth')(app, passport)
+
 
 
 # ------------------------ server setup ------------------------ #
