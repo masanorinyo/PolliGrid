@@ -9,7 +9,14 @@ define ["underscore"], (_)->
 		# --------------- Models --------------- #					
 
 		# if user is a returnee, then assign User.user
-		$scope.user = User.visitor
+		
+		if User.user
+			
+			$scope.user = User.user
+
+		else
+			
+			$scope.user = User.visitor
 		
 		# make sure the user id doesn't conflict with others'
 		$timeout ->

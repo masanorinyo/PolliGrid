@@ -1,5 +1,5 @@
 define [], ()->
-	($rootScope,$scope,$stateParams,$modalInstance,$location,$timeout,Error,User,$http,$cookieStore)->
+	($rootScope,$scope,$stateParams,$modalInstance,$location,$timeout,Error,User,$http,ipCookie)->
 		
 		switch $location.$$path.split('/')[1]
 			when 'login' 
@@ -8,7 +8,7 @@ define [], ()->
 			when 'signup' 
 			then $scope.title = "Signup"
 
-		console.log User.user
+		
 		$scope.alertMessage = Error.auth
 		$scope.newUser = 
 			remember_me : true
@@ -22,7 +22,7 @@ define [], ()->
 			
 
 		$scope.login = (data)->
-			console.log data
+
 			$http
 				method  : 'POST',
 				url     : '/api/auth/login',
@@ -35,10 +35,16 @@ define [], ()->
 				
 				data.isLoggedIn = true
 
-				console.log "success"
-				console.log data
 
-				$cookieStore.put("loggedInUser",data)
+
+				if $scope.newUser.remember_me
+
+					ipCookie("loggedInUser",data,{expires:365})
+				
+				else 
+
+					ipCookie("loggedInUser",data)
+				
 				User.user = data
 				
 				if $scope.user.questionsAnswered.length
@@ -55,7 +61,7 @@ define [], ()->
 					console.log $scope.user.filterQuestionsAnswered
 
 				$rootScope.$broadcast 'userLoggedIn',User
-				$scope.user = User.user
+				
 
 				
 				$scope.$dismiss()

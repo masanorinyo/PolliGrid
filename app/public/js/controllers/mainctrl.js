@@ -5,7 +5,11 @@
       capitaliseFirstLetter = function(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
       };
-      $scope.user = User.visitor;
+      if (User.user) {
+        $scope.user = User.user;
+      } else {
+        $scope.user = User.visitor;
+      }
       $timeout(function() {
         var defer, foundUser;
         foundUser = false;

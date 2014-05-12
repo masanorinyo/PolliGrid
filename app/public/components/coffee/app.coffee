@@ -12,7 +12,7 @@ define [
 	'angles'
 	'angular-deckgrid'
 	'ngInfiniteScroll'
-	"angularCookies"
+	"angularCookie"
 
 ], (angular)->
 		angular.module('myapp',[
@@ -27,5 +27,5 @@ define [
 			'angles'
 			'akoenig.deckgrid'
 			'infinite-scroll'
-			'ngCookies'
+			'ipCookie'
 		])

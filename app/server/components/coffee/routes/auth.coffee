@@ -24,14 +24,6 @@ module.exports = (app,passport) ->
 		
 		if req.user
 
-			console.log req.body.remember_me
-			if req.body.remember_me == "true"
-				console.log "req.body.remember_me is on"
-				# exactly one year
-				req.session.cookie.maxAge = new Date(Date.now()+(60000*60*24*365))
-            
-
-            
 			res.send(req.user)
 
 

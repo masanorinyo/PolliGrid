@@ -1,7 +1,7 @@
 define ['angular','services'], (angular) ->
 	angular.module('myapp.controllers', ['myapp.services'])
 
-		.controller 'MainCtrl', ($scope,$injector,$location,$stateParams,$timeout,$state,$q,$cookieStore)->
+		.controller 'MainCtrl', ($scope,$injector,$location,$stateParams,$timeout,$state,$q)->
 			require(['controllers/mainctrl'], (mainctrl)->
 				$injector.invoke(
 					mainctrl, this,{
@@ -10,7 +10,6 @@ define ['angular','services'], (angular) ->
 						"$stateParams" 			: $stateParams
 						"$timeout" 				: $timeout
 						"$q" 					: $q
-						"$cookieStore"			: $cookieStore
 					}
 				)
 			)
@@ -28,7 +27,7 @@ define ['angular','services'], (angular) ->
 				)
 			)
 		
-		.controller 'AuthCtrl', ($rootScope,$scope, $injector,$modalInstance,$location,$timeout,$http)->
+		.controller 'AuthCtrl', ($rootScope,$scope, $injector,$modalInstance,$location,$timeout,$http,ipCookie)->
 			require(['controllers/authctrl'], (authctrl)->
 				$injector.invoke(
 					authctrl, this,{
@@ -38,6 +37,7 @@ define ['angular','services'], (angular) ->
 						"$location" 	 		: $location
 						"$timeout" 				: $timeout
 						"$http" 				: $http
+						"ipCookie" 				: ipCookie
 					}
 				)
 			)

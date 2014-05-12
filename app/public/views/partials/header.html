@@ -1,76 +1,78 @@
 <header class='main-header'>
-	<div ng-class="{'toggleShow':$parent.toggleSearchBox}" class="search">
-		<input id="searchbox"  type="text" ng-model="$parent.searchQuestion" placeholder="Search..." ng-change="updateSearch()" class="form-control" typeahead="term for term in getPartOfQuestion($viewValue)" typeahead-on-select='selectedTypehead($item)'>
-		<div class="header-utility">
-			<div class="btn btn-default order" ng-class="{'active':orderBox}" id="order-toggler" toggle order="orderBox" category="categoryBox" ng-click="orderBox = !orderBox">
-				<i id="order-icon" class="fa fa-filter"></i>
-			</div>
-			<div ng-show="orderBox" class="pop-box order">
-				<i class="fa fa-caret-up"></i>
-				<div class='sub-title'>Currently selected order:</div>
-				<div class='selected'><span>{{order}}</span></div>
-				<ul class="pop-box-lists" >
-					<li ng-click="changeOrder(order)" ng-repeat="order in options.orders">{{order}}</li>
-				</ul>
-			</div>
-
-			<div class="btn btn-default category" ng-class="{'active':categoryBox}" id="category-toggler" toggle order="orderBox" category="categoryBox" ng-click="categoryBox = !categoryBox">
-				<i id="category-icon" class="fa fa-archive"></i>
-			</div>
-			<div ng-show="categoryBox" class="pop-box category">
-				<i class="fa fa-caret-up"></i>
-				<div class='sub-title'>Currently selected category:</div>
-				<div class='selected'><span>{{category}}</span></div>
-				<ul class="pop-box-lists">
-					<li ng-click="changeCategory(category)" ng-repeat="category in options.categories">{{category}}</li>
-				</ul>
-			</div>
-		</div>
-    </div>
-	<div class="header-wrapper">
+	<div class="navi-wrapper">
+		<div ng-class="{'toggleShow':$parent.toggleSearchBox}" class="search">
+			<input id="searchbox"  type="text" ng-model="$parent.searchQuestion" placeholder="Search..." ng-change="updateSearch()" class="form-control" typeahead="term for term in getPartOfQuestion($viewValue)" typeahead-on-select='selectedTypehead($item)'>
+			<div class="header-utility">
+				<div class="btn btn-default order" ng-class="{'active':orderBox}" id="order-toggler" toggle order="orderBox" category="categoryBox" ng-click="orderBox = !orderBox">
+					<i id="order-icon" class="fa fa-filter"></i>
+				</div>
+				<div ng-show="orderBox" class="pop-box order">
+					<i class="fa fa-caret-up"></i>
+					<div class='sub-title'>Currently selected order:</div>
+					<div class='selected'><span>{{order}}</span></div>
+					<ul class="pop-box-lists" >
+						<li ng-click="changeOrder(order)" ng-repeat="order in options.orders">{{order}}</li>
+					</ul>
+				</div>
 		
-		<span class="pointer btn-search" ng-click="$parent.toggleSearchBox = !$parent.toggleSearchBox ">
-			<i class="glyphicon glyphicon-search"></i>
-		</span>
-
-		<h1 ng-click="refresh()">
-			<a class='header-title' href="#">
-				Which one</a>
-		</h1>
-		<a href="#" ui-sref=".create" class='create'>
-			+
-		</a>
-		<div ng-if="user.isLoggedIn" class="profile pull-right dropdown">
-		    <a href="#" class="dropdown-toggle">
-		      <img ng-src="{{user.profilePic}}" alt="{{user.name}}" class="img-circle">
-		    </a>
-			<ul class="dropdown-menu">
-				<li><a ng-href="#/setting/{{user.id}}/profile">Profile</a></li>
-				<li><a ng-href="#/setting/{{user.id}}/favorites">favorites</a></li>
-				<li><a ng-href="#/setting/{{user.id}}/questions">My questions</a></li>
-				<li><a ng-href="#/setting/{{user.id}}/answers">My answers</a></li>
-				<li ng-click="logout()"class="border-top"><a ng-href="/logout">Logout</a></li>
+				<div class="btn btn-default category" ng-class="{'active':categoryBox}" id="category-toggler" toggle order="orderBox" category="categoryBox" ng-click="categoryBox = !categoryBox">
+					<i id="category-icon" class="fa fa-archive"></i>
+				</div>
+				<div ng-show="categoryBox" class="pop-box category">
+					<i class="fa fa-caret-up"></i>
+					<div class='sub-title'>Currently selected category:</div>
+					<div class='selected'><span>{{category}}</span></div>
+					<ul class="pop-box-lists">
+						<li ng-click="changeCategory(category)" ng-repeat="category in options.categories">{{category}}</li>
+					</ul>
+				</div>
+			</div>
+		    </div>
+		<div class="header-wrapper">
+			
+			<span class="pointer btn-search" ng-click="$parent.toggleSearchBox = !$parent.toggleSearchBox ">
+				<i class="glyphicon glyphicon-search"></i>
+			</span>
+		
+			<h1 ng-click="refresh()">
+				<a class='header-title' href="#">
+					Which one</a>
+			</h1>
+			<a href="#" ui-sref=".create" class='create'>
+				+
+			</a>
+			<div ng-if="user.isLoggedIn" class="profile pull-right dropdown">
+			    <a href="#" class="dropdown-toggle">
+			      <img ng-src="{{user.profilePic}}" alt="{{user.name}}" class="img-circle">
+			    </a>
+				<ul class="dropdown-menu">
+					<li><a ng-href="#/setting/{{user.id}}/profile">Profile</a></li>
+					<li><a ng-href="#/setting/{{user.id}}/favorites">favorites</a></li>
+					<li><a ng-href="#/setting/{{user.id}}/questions">My questions</a></li>
+					<li><a ng-href="#/setting/{{user.id}}/answers">My answers</a></li>
+					<li ng-click="logout()"class="border-top"><a ng-href="/logout">Logout</a></li>
+				</ul>
+			</div>
+		
+			
+			<ul class="user-profile" ng-if="!user.isLoggedIn">
+				
+				<div class="btn-auth btn btn-default" ui-sref=".signup">
+					<i  class="fa fa-user"></i>
+				</div>
+		
+				<a class="btn-login" href="#"  ui-sref=".login">
+					<li class="btn btn-sm btn-default">
+						login
+					</li>
+				</a>
+				<a class="btn-signup" href="#"  ui-sref=".signup">
+					<li class="btn btn-sm btn-success">
+						signup
+					</li>
+				</a>
 			</ul>
 		</div>
-
-		
-		<ul class="user-profile" ng-if="!user.isLoggedIn">
-			
-			<div class="btn-auth btn btn-default" ui-sref=".signup">
-				<i  class="fa fa-user"></i>
-			</div>
-
-			<a class="btn-login" href="#"  ui-sref=".login">
-				<li class="btn btn-sm btn-default">
-					login
-				</li>
-			</a>
-			<a class="btn-signup" href="#"  ui-sref=".signup">
-				<li class="btn btn-sm btn-success">
-					signup
-				</li>
-			</a>
-		</ul>
 	</div>
 
 </header>

@@ -123,22 +123,23 @@ define ['angular'], (angular) ->
 
 
 	
-		.factory 'User', ($cookieStore)->
+		.factory 'User', (ipCookie)->
 			
 			# get the unique id
 			randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26))
 			uniqid = randLetter + Date.now()
 			
-			
-			
 			user = 	
-				visitor:
-					_id						: uniqid
-					name  					: 'visitor'
-					isLoggedIn 				: false
-					questionsAnswered 		: []
-					filterQuestionsAnswered : []
-				 user : $cookieStore.get("loggedInUser")
+				visitor: 
+						_id						: uniqid
+						name  					: 'visitor'
+						isLoggedIn 				: false
+						questionsAnswered 		: []
+						filterQuestionsAnswered : []
+				
+				 user : 
+				 	ipCookie("loggedInUser")
+				 
 
 		.factory 'Verification',($resource)->
 			$resource(

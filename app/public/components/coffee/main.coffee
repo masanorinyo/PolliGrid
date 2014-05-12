@@ -8,7 +8,7 @@ require.config
 		"angularMocks" 			: "../vendors/angular-mock/angular-mock"
 		"angularRoute"			: "../vendors/angular-route/angular-route.min"
 		"angularResource" 		: "../vendors/angular-resource/angular-resource.min"
-		"angularCookies" 		: "../vendors/angular-cookies/angular-cookies.min"
+		"angularCookie" 		: "../vendors/angular-cookie/angular-cookie.min"
 		"angularSanitize" 	 	: "../vendors/angular-sanitize/angular-sanitize.min"		
 		"angularLocalStorage"	: "../vendors/angular-local-storage/angular-local-storage.min"
 		"angularUiRouter" 		: "../vendors/angular-ui-router/release/angular-ui-router.min"
@@ -47,7 +47,7 @@ require.config
 		"angularResource"		:
 			deps 				: ['angular']
 
-		"angularCookies" 		: 
+		"angularCookie" 		: 
 			deps 		 		: ['angular']
 
 		"angularSanitize" 		: 

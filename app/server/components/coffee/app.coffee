@@ -57,7 +57,6 @@ app.use(bodyParser.urlencoded())
 app.use(cookieParser())
 app.use(session( 
             secret : "$noOnecanGetThisSecretBesidesZhengdianZhan",
-            key    : "express.sid"
       )
 )
 

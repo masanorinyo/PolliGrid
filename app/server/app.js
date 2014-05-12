@@ -60,8 +60,7 @@
   app.use(cookieParser());
 
   app.use(session({
-    secret: "$noOnecanGetThisSecretBesidesZhengdianZhan",
-    key: "express.sid"
+    secret: "$noOnecanGetThisSecretBesidesZhengdianZhan"
   }));
 
   app.use(passport.initialize());
