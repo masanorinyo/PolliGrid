@@ -306,8 +306,7 @@ define ['underscore'], ( _ )->
 		# This will convert the temporary question into an actual question
 		$scope.completeQuestion = ()->
 			
-			newQuestion.question = "Which one ".concat(newQuestion.question)
-
+			
 			# get the number of added target audience questions
 			newQuestion.numOfFilters = _.size(newQuestion.targets)
 

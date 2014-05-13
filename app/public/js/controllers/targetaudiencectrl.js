@@ -57,14 +57,33 @@
           if ($scope.targetChecker[i].isAnswered) {
             matchedOption = null;
             _.each($scope.user.filterQuestionsAnswered, function(answer, index) {
-              matchedOption = _.find($scope.card.targets[i].lists, function(list) {
-                return list.option === answer.answer;
-              });
-              if (matchedOption) {
-                if (!_.contains(matchedOption.answeredBy, $scope.user._id)) {
-                  return matchedOption.answeredBy.push($scope.user._id);
+              return _.each($scope.card.targets[i].lists, function(list, index) {
+                var filter, filterOption;
+                if (list.option === answer.answer) {
+                  if (!_.contains(list.answeredBy, $scope.user._id)) {
+                    filter = $scope.card.targets[i];
+                    filterOption = $scope.card.targets[i].lists[index];
+                    filterOption.answeredBy.push($scope.user._id);
+                    console.log("filter");
+                    console.log(filter);
+                    console.log("filter._id");
+                    console.log(filter._id);
+                    console.log('$scope.card._id');
+                    console.log($scope.card._id);
+                    console.log("$scope.user._id");
+                    console.log($scope.user._id);
+                    console.log("index");
+                    console.log(index);
+                    return UpdateQuestion.updateFilters({
+                      questionId: $scope.card._id,
+                      userId: $scope.user._id,
+                      title: "0",
+                      filterId: filter._id,
+                      index: index
+                    });
+                  }
                 }
-              }
+              });
             });
             $scope.filterNumber++;
           } else {

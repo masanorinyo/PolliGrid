@@ -175,7 +175,6 @@
         }
       };
       $scope.completeQuestion = function() {
-        newQuestion.question = "Which one ".concat(newQuestion.question);
         newQuestion.numOfFilters = _.size(newQuestion.targets);
         newQuestion.created_at = new Date().getTime();
         newQuestion.photo = User.user.profilePic;

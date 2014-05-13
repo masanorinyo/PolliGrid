@@ -108,17 +108,44 @@ define ['underscore'], (_)->
 					# loop through the already answered target questions
 					_.each $scope.user.filterQuestionsAnswered,(answer,index)->
 						
-						# if any of the answered question matched, store the object into the variable 
-						matchedOption = _.find $scope.card.targets[i].lists,(list)->
-							list.option == answer.answer
-					
-						# if the variable contains the matched object
-						if matchedOption
-						
-							# and if the variable contains the user id
-							if !_.contains(matchedOption.answeredBy,$scope.user._id)
+						# if any of the answered question matched,
+						# store the object into the variable 
+						_.each $scope.card.targets[i].lists,(list,index)->
 							
-								matchedOption.answeredBy.push($scope.user._id)
+							if list.option == answer.answer
+								
+								# while skipping the filter questions
+								# if the filter question does not have the user id
+								# add it 
+								if !_.contains(list.answeredBy,$scope.user._id)
+									filter = $scope.card.targets[i]
+									filterOption = $scope.card.targets[i].lists[index]
+									filterOption.answeredBy.push($scope.user._id)
+									
+									console.log "filter"
+									console.log filter
+									console.log "filter._id"
+									console.log filter._id
+									console.log '$scope.card._id'
+									console.log $scope.card._id
+									console.log "$scope.user._id"
+									console.log $scope.user._id
+									console.log "index"
+									console.log index
+
+									# find the answered option
+									UpdateQuestion.updateFilters(
+										questionId 	: $scope.card._id
+										userId 		: $scope.user._id
+										title 		: "0"
+										filterId 	: filter._id
+										index 		: index
+									)
+
+								
+				
+
+
 
 		
 
