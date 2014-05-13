@@ -132,7 +132,8 @@ define ["underscore"], (_)->
 		# ----------- utility functions ----------- #
 
 		searchSpecificQuestions = ->
-						
+			console.log $scope.questions
+			
 			if $scope.searchQuestion is ""
 				$scope.searchTerm = "All"
 			else

@@ -350,10 +350,29 @@ exports.updateUser = (req,res)->
 		updates = 	
 			$pull:
 				"favorites":qId
-	 
-	
 
+	else if task == "updateQuestion"
 	
+		answer = 
+			_id 	: qId
+			answer  : qAnswer
+	
+		updates =
+			$push:
+				"questionsAnswered":
+					answer
+	else if task == "updateFilter"
+
+		answer = 
+			_id 	: fId 
+			answer 	: fAnswer
+
+		updates = 
+			$push:
+				"filterQuestionsAnswered":
+					answer
+		
+			
 	options = {upsert:true}
 
 	User.update(conditions, updates, options, callback);

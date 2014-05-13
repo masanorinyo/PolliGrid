@@ -1,5 +1,13 @@
 define ['underscore'], (_)->
-	($scope,$timeout,$q,Question,User,UpdateQuestion)->
+	(
+		$scope
+		$timeout
+		$q
+		Question
+		User
+		UpdateQuestion
+		UpdateUserInfo
+	)->
 
 		# ------------------ Utility functions ------------------ #		
 		
@@ -198,8 +206,9 @@ define ['underscore'], (_)->
 		
 		do ()->
 			
-			if $scope.submitted
-				checkFilterQuestionStatus('')
+			
+
+			checkFilterQuestionStatus('')
 			
 			
 
@@ -242,6 +251,7 @@ define ['underscore'], (_)->
 				)
 
 
+
 				# add the answered filter question to the user's filterQuestionsAnswered collection
 				# this way, the same filter question won't show up from the next time
 				
@@ -249,7 +259,11 @@ define ['underscore'], (_)->
 
 				if $scope.user.isLoggedIn
 					# save info in the server
-					console.log 'save info in the server'
+					UpdateUserInfo.answerFilter(
+						userId 			: escape($scope.user._id)
+						filterId 		: escape(targetQuestionID)
+						filterAnswer 	: escape(targetAnswer)
+					)
 				
 
 				

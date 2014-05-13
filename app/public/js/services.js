@@ -119,13 +119,17 @@
         "answerQuestion": {
           method: "PUT",
           params: {
-            task: "updateQuestion"
+            task: "updateQuestion",
+            fId: 0,
+            fAnswer: 0
           }
         },
         "answerFilter": {
           method: "PUT",
           params: {
-            task: "updateFilter"
+            task: "updateFilter",
+            qId: 0,
+            qAnswer: 0
           }
         },
         "favorite": {

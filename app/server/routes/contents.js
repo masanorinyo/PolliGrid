@@ -296,7 +296,7 @@
   };
 
   exports.updateUser = function(req, res) {
-    var callback, conditions, fAnswer, fId, options, qAnswer, qId, task, updates, userId;
+    var answer, callback, conditions, fAnswer, fId, options, qAnswer, qId, task, updates, userId;
     console.log(userId = escapeChar(unescape(req.params.userId)));
     console.log(qId = escapeChar(unescape(req.params.qId)));
     console.log(qAnswer = escapeChar(unescape(req.params.qAnswer)));
@@ -327,6 +327,26 @@
       updates = {
         $pull: {
           "favorites": qId
+        }
+      };
+    } else if (task === "updateQuestion") {
+      answer = {
+        _id: qId,
+        answer: qAnswer
+      };
+      updates = {
+        $push: {
+          "questionsAnswered": answer
+        }
+      };
+    } else if (task === "updateFilter") {
+      answer = {
+        _id: fId,
+        answer: fAnswer
+      };
+      updates = {
+        $push: {
+          "filterQuestionsAnswered": answer
         }
       };
     }

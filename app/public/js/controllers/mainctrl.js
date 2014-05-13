@@ -55,6 +55,7 @@
         orders: ["Recent", "Old", "Most voted", "Most popular"]
       };
       searchSpecificQuestions = function() {
+        console.log($scope.questions);
         if ($scope.searchQuestion === "") {
           $scope.searchTerm = "All";
         } else {

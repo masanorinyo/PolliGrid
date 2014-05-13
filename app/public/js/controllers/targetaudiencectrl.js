@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $timeout, $q, Question, User, UpdateQuestion) {
+    return function($scope, $timeout, $q, Question, User, UpdateQuestion, UpdateUserInfo) {
       var checkFilterQuestionStatus, checkIfEverythingAnswered, makeTargetChecker, skipThroughFilterQuestions;
       checkFilterQuestionStatus = function(answer) {
         var defer;
@@ -95,9 +95,7 @@
       $scope.filterNumber = 0;
       $scope.targetChecker = [];
       (function() {
-        if ($scope.submitted) {
-          return checkFilterQuestionStatus('');
-        }
+        return checkFilterQuestionStatus('');
       })();
       $scope.submitTarget = function(question, targetAnswer, index) {
         var answer, defer, target, targetAnswerIndex, targetQuestionID;
@@ -123,7 +121,11 @@
           });
           $scope.user.filterQuestionsAnswered.push(answer);
           if ($scope.user.isLoggedIn) {
-            console.log('save info in the server');
+            UpdateUserInfo.answerFilter({
+              userId: escape($scope.user._id),
+              filterId: escape(targetQuestionID),
+              filterAnswer: escape(targetAnswer)
+            });
           }
           defer = $q.defer();
           defer.promise.then(function() {

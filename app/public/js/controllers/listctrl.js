@@ -107,7 +107,6 @@
         } else {
           $scope.warning = false;
           $scope.$broadcast('answerSubmitted', 'submitted');
-          console.log(question);
           console.log(UpdateQuestion.updateQuestion({
             questionId: question._id,
             userId: $scope.user._id,
@@ -124,9 +123,15 @@
             answer: choice.title
           };
           $scope.user.questionsAnswered.push(answer);
+          console.log("update user info");
           if ($scope.user.isLoggedIn) {
-            console.log('save info in the server');
+            UpdateUserInfo.answerQuestion({
+              userId: escape($scope.user._id),
+              questionId: escape(question._id),
+              questionAnswer: escape(choice.title)
+            });
           }
+          console.log($scope.user);
           $scope.submitted = true;
           return getData();
         }

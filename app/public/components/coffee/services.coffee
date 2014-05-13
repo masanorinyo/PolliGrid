@@ -144,24 +144,28 @@ define ['angular'], (angular) ->
 					"answerQuestion":
 						method:"PUT"
 						params:
-							task:"updateQuestion"
+							task 	: "updateQuestion"
+							fId 	: 0 
+							fAnswer : 0
 					
 					"answerFilter":
 						method:"PUT"
 						params:
-							task:"updateFilter"
+							task 	: "updateFilter"
+							qId 	: 0
+							qAnswer : 0
 					
 					"favorite":
 						method:"PUT"
 						params:
-							qAnswer: 0
-							fId: 0
-							fAnswer: 0
+							qAnswer : 0
+							fId 	: 0
+							fAnswer : 0
 
 					"inheritInfo":
 						method:"PUT"
 						params:
-							task:"inherit"
+							task : "inherit"
 				}
 
 			)

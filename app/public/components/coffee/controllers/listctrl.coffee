@@ -209,7 +209,7 @@ define ['underscore'], (_)->
 				# by adding user id to the question respondents,
 				# users won't have to answer to the question again
 
-				console.log question
+				
 
 				# server side
 				console.log UpdateQuestion.updateQuestion(
@@ -236,11 +236,19 @@ define ['underscore'], (_)->
 				# add the answer to user's database
 				$scope.user.questionsAnswered.push(answer)
 
+
+				console.log "update user info"
+
+
 				if $scope.user.isLoggedIn
 					# save info in the server
-					console.log 'save info in the server'
+					UpdateUserInfo.answerQuestion(
+						userId 			: escape($scope.user._id)
+						questionId 		: escape(question._id )
+						questionAnswer 	: escape(choice.title)
+					)
 
-
+				console.log $scope.user
 				$scope.submitted = true
 
 				getData()
