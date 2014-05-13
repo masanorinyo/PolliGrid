@@ -63,17 +63,7 @@
                   if (!_.contains(list.answeredBy, $scope.user._id)) {
                     filter = $scope.card.targets[i];
                     filterOption = $scope.card.targets[i].lists[index];
-                    filterOption.answeredBy.push($scope.user._id);
-                    console.log("filter");
-                    console.log(filter);
-                    console.log("filter._id");
-                    console.log(filter._id);
-                    console.log('$scope.card._id');
-                    console.log($scope.card._id);
-                    console.log("$scope.user._id");
-                    console.log($scope.user._id);
-                    console.log("index");
-                    console.log(index);
+                    list.answeredBy.push($scope.user._id);
                     return UpdateQuestion.updateFilters({
                       questionId: $scope.card._id,
                       userId: $scope.user._id,
@@ -130,6 +120,7 @@
           target = _.find(question.targets[index].lists, function(obj) {
             return obj.option === targetAnswer;
           });
+          target.answeredBy.push($scope.user._id);
           targetAnswerIndex = _.indexOf(question.targets[index].lists, target);
           UpdateQuestion.updateFilters({
             questionId: question._id,

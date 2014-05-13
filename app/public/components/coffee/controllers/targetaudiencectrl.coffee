@@ -120,18 +120,8 @@ define ['underscore'], (_)->
 								if !_.contains(list.answeredBy,$scope.user._id)
 									filter = $scope.card.targets[i]
 									filterOption = $scope.card.targets[i].lists[index]
-									filterOption.answeredBy.push($scope.user._id)
+									list.answeredBy.push($scope.user._id)
 									
-									console.log "filter"
-									console.log filter
-									console.log "filter._id"
-									console.log filter._id
-									console.log '$scope.card._id'
-									console.log $scope.card._id
-									console.log "$scope.user._id"
-									console.log $scope.user._id
-									console.log "index"
-									console.log index
 
 									# find the answered option
 									UpdateQuestion.updateFilters(
@@ -265,6 +255,7 @@ define ['underscore'], (_)->
 				
 				# get the index of options of the target question
 				target = _.find question.targets[index].lists, (obj)-> obj.option == targetAnswer
+				target.answeredBy.push($scope.user._id)
 				targetAnswerIndex = _.indexOf(question.targets[index].lists,target)
 				
 
