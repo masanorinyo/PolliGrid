@@ -162,10 +162,6 @@ define ['angular'], (angular) ->
 							fId 	: 0
 							fAnswer : 0
 
-					"inheritInfo":
-						method:"PUT"
-						params:
-							task : "inherit"
 				}
 
 			)

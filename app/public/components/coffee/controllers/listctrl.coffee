@@ -95,7 +95,7 @@ define ['underscore'], (_)->
 		
 		# ***************  Models *************** #
 		if User.user
-			console.count "user user"
+			
 			$scope.user = User.user
 
 		else
@@ -212,7 +212,7 @@ define ['underscore'], (_)->
 				
 
 				# server side
-				console.log UpdateQuestion.updateQuestion(
+				UpdateQuestion.updateQuestion(
 					questionId 	: question._id
 					userId 		: $scope.user._id
 					title 		: escape(choice.title)
@@ -240,7 +240,8 @@ define ['underscore'], (_)->
 				console.log "update user info"
 
 
-				if $scope.user.isLoggedIn
+				if User.user
+					console.log User.user
 					# save info in the server
 					UpdateUserInfo.answerQuestion(
 						userId 			: escape($scope.user._id)
@@ -248,7 +249,7 @@ define ['underscore'], (_)->
 						questionAnswer 	: escape(choice.title)
 					)
 
-				console.log $scope.user
+				$scope.user
 				$scope.submitted = true
 
 				getData()
@@ -256,7 +257,7 @@ define ['underscore'], (_)->
 				
 
 		$scope.fillStar = (question)->
-			console.log question
+			
 			if $scope.user.isLoggedIn
 
 				$scope.favorite = !$scope.favorite
@@ -370,10 +371,8 @@ define ['underscore'], (_)->
 					$scope.user.questionsAnswered.splice(index,1)
 				
 
-			console.log foundOption.title
-			console.log questionId
-			console.log $scope.user._id
-			console.log UpdateQuestion.removeAnswer(
+			
+			UpdateQuestion.removeAnswer(
 				questionId 	: questionId
 				userId 		: $scope.user._id
 				title 		: escape(foundOption.title)
@@ -386,7 +385,7 @@ define ['underscore'], (_)->
 			
 
 		$scope.$on 'userLoggedIn', (value)->
-			console.log User.user
+			
 			$scope.user = User.user
 
 		$scope.$on 'logOff',(value)->

@@ -372,7 +372,7 @@ exports.updateUser = (req,res)->
 				"filterQuestionsAnswered":
 					answer
 		
-			
+
 	options = {upsert:true}
 
 	User.update(conditions, updates, options, callback);
@@ -383,14 +383,52 @@ exports.getUserInfo = (req,res)->
 		if err 
 			res.send err 
 		else 
-			console.log data
 			res.json data
 	
 	id = req.query.userId
 	
 	User.findById(id).exec(callback)
 
+exports.visitorToGuest = (req,res)->
+	
+	callback = (err,data)->
+		if err 
+			res.send err 
+		else 
+			console.log data
+			res.json data
 
+	console.log userId = req.body.userId
+	console.log questions = req.body.questions
+	console.log filters = req.body.filters
+	
+	if questions.length
+		questions.forEach (q,key)->	
+			console.log q._id
+			conditions = 
+					
+				"_id":userId
+				"questionsAnswered._id":q._id
 
+			updates = 
+				$set:
+					"questionsAnswered.$.answer":q.answer
 
+			options = {upsert:true}
 
+			User.update(conditions, updates, options, callback)
+
+	if filters.length
+		filters.forEach (f,key)->	
+			conditions = 
+					
+				"_id":userId
+				"filtersAnswered._id":f._id
+
+			updates = 
+				$set:
+					"filtersAnswered.$.answer":f.answer
+
+			options = {upsert:true}
+
+			User.update(conditions, updates, options, callback)

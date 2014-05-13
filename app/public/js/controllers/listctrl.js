@@ -45,7 +45,6 @@
         };
       }
       if (User.user) {
-        console.count("user user");
         $scope.user = User.user;
       } else {
         $scope.user = User.visitor;
@@ -108,13 +107,13 @@
         } else {
           $scope.warning = false;
           $scope.$broadcast('answerSubmitted', 'submitted');
-          console.log(UpdateQuestion.updateQuestion({
+          UpdateQuestion.updateQuestion({
             questionId: question._id,
             userId: $scope.user._id,
             title: escape(choice.title),
             filterId: 0,
             index: 0
-          }));
+          });
           question.respondents.push($scope.user._id);
           choice.answeredBy.push($scope.user._id);
           choice.count++;
@@ -125,21 +124,21 @@
           };
           $scope.user.questionsAnswered.push(answer);
           console.log("update user info");
-          if ($scope.user.isLoggedIn) {
+          if (User.user) {
+            console.log(User.user);
             UpdateUserInfo.answerQuestion({
               userId: escape($scope.user._id),
               questionId: escape(question._id),
               questionAnswer: escape(choice.title)
             });
           }
-          console.log($scope.user);
+          $scope.user;
           $scope.submitted = true;
           return getData();
         }
       };
       $scope.fillStar = function(question) {
         var index;
-        console.log(question);
         if ($scope.user.isLoggedIn) {
           $scope.favorite = !$scope.favorite;
           if ($scope.favorite) {
@@ -203,20 +202,16 @@
             return $scope.user.questionsAnswered.splice(index, 1);
           }
         });
-        console.log(foundOption.title);
-        console.log(questionId);
-        console.log($scope.user._id);
-        console.log(UpdateQuestion.removeAnswer({
+        UpdateQuestion.removeAnswer({
           questionId: questionId,
           userId: $scope.user._id,
           title: escape(foundOption.title),
           filterId: 0,
           index: 0
-        }));
+        });
         return $scope.answer = '';
       });
       $scope.$on('userLoggedIn', function(value) {
-        console.log(User.user);
         return $scope.user = User.user;
       });
       $scope.$on('logOff', function(value) {

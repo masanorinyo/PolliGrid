@@ -26,7 +26,9 @@
             'X-Requested-With': 'XMLHttpRequest'
           }
         }).success(function(data) {
+          var userId;
           data.isLoggedIn = true;
+          userId = data._id;
           if ($scope.newUser.remember_me) {
             ipCookie("loggedInUser", data, {
               expires: 365
@@ -34,12 +36,31 @@
           } else {
             ipCookie("loggedInUser", data);
           }
-          User.user = data;
-          if ($scope.user.questionsAnswered.length) {
+          if ($scope.user.questionsAnswered.length || $scope.user.filterQuestionsAnswered.length) {
+            $http({
+              url: "/api/visitorToGuest",
+              method: "PUT",
+              data: {
+                userId: data._id,
+                questions: $scope.user.questionsAnswered,
+                filters: $scope.user.filterQuestionsAnswered
+              }
+            }).success(function(data) {
+              return $http({
+                url: "/api/getUser",
+                method: "GET",
+                params: {
+                  userId: userId
+                }
+              }).success(function(loggedInUser) {
+                loggedInUser.isLoggedIn = true;
+                User.user = loggedInUser;
+                return console.log(User.user);
+              });
+            });
+          } else {
+            User.user = data;
             console.log($scope.user.questionsAnswered);
-          }
-          if ($scope.user.filterQuestionsAnswered.length) {
-            console.log($scope.user.filterQuestionsAnswered);
           }
           $rootScope.$broadcast('userLoggedIn', User);
           $scope.$dismiss();

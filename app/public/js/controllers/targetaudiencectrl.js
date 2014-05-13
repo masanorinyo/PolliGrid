@@ -120,7 +120,7 @@
             index: targetAnswerIndex
           });
           $scope.user.filterQuestionsAnswered.push(answer);
-          if ($scope.user.isLoggedIn) {
+          if (User.user) {
             UpdateUserInfo.answerFilter({
               userId: escape($scope.user._id),
               filterId: escape(targetQuestionID),

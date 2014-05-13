@@ -21,10 +21,6 @@
         return res.send(req.session.message);
       }
     });
-    app.get("/api/auth/logout", function(req, res) {
-      req.logout();
-      return req.session.cookie.expires = false;
-    });
     app["delete"]("/api/auth/delete", function(req, res) {
       if (req.user) {
         return User.remove(function(err, user) {

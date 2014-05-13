@@ -148,13 +148,13 @@ module.exports = (app,passport) ->
 #     return
 
 
-	# ====== Logout ====== #
+	# # ====== Logout ====== #
 	
-	app.get "/api/auth/logout", (req, res) ->
-    
-		req.logout()
-		req.session.cookie.expires = false
-		# res.redirect "/"
+	# app.get "/api/auth/logout", (req, res) ->
+ #    	console.log "successfully logged out"
+	# 	req.logout()
+	# 	req.session.cookie.expires = false
+	# 	# res.redirect "/"
 
 
   

@@ -321,6 +321,12 @@ define ["underscore"], (_)->
 			User.user = null
 			$location.path('/')
 			
+
+			# $http 
+			# 	method 	: "GET"
+			# 	url 	: "/api/auth/logout"
+			# .success (data)-> console.log data
+
 			$timeout ->
 				
 				# reload the page

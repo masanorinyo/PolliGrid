@@ -43,7 +43,6 @@
       passwordField: "password",
       passReqToCallback: true
     }, function(req, email, password, done) {
-      console.log(req);
       req.session.message = "";
       return process.nextTick(function() {
         return User.findOne({

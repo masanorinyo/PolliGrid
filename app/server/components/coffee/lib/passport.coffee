@@ -63,7 +63,7 @@ module.exports = (passport) ->
 		passReqToCallback: true
 		
 		, (req, email, password, done) ->
-			console.log req
+			
 			req.session.message = ""
 			
 			process.nextTick ->

@@ -47,7 +47,7 @@ define [], ()->
 				
 				data.isLoggedIn = true
 
-
+				userId = data._id
 
 				if $scope.newUser.remember_me
 
@@ -57,20 +57,46 @@ define [], ()->
 
 					ipCookie("loggedInUser",data)
 				
-				User.user = data
 				
-				if $scope.user.questionsAnswered.length
+				
+				if $scope.user.questionsAnswered.length || $scope.user.filterQuestionsAnswered.length
 					# check to see if there is any duplicate answer in the server
+					
+					$http
+						url 	: "/api/visitorToGuest"
+						method 	: "PUT"
+						data 	: {
+							userId 	: data._id
+							questions : $scope.user.questionsAnswered
+							filters : $scope.user.filterQuestionsAnswered
+						} 
+
+					.success (data)->
+						$http 
+							url 	: "/api/getUser"
+							method 	: "GET"
+							params 	: {userId: userId}
+
+						.success (loggedInUser)-> 
+							loggedInUser.isLoggedIn = true
+							User.user = loggedInUser
+							console.log User.user		
+
+				else
+
+					User.user = data
+
 					# and add the answers to the user info
 					# in case of users resetting their answers
 					# replace the answeredby user id of the questino with the loggedin user's
 					console.log $scope.user.questionsAnswered
 
 
-				if $scope.user.filterQuestionsAnswered.length
-					# check to see if there is any duplicate answer in the server
-					# and add the answers to the user info
-					console.log $scope.user.filterQuestionsAnswered
+				# if $scope.user.filterQuestionsAnswered.length
+				# 	# check to see if there is any duplicate answer in the server
+					
+				# 	# and add the answers to the user info
+				# 	console.log $scope.user.filterQuestionsAnswered
 
 				$rootScope.$broadcast 'userLoggedIn',User
 				

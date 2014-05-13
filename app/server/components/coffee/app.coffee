@@ -147,6 +147,10 @@ require('./routes/auth')(app, passport)
 app.route '/api/getUser'
       .get contents.getUserInfo
 
+# state transition from visitor to user
+app.route '/api/visitorToGuest'
+      .put contents.visitorToGuest
+
 # update questions and filters answered
 app.route '/api/updateUser/:userId/:qId/:qAnswer/:fId/:fAnswer/:task'
       .put contents.updateUser

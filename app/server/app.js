@@ -98,6 +98,8 @@
 
   app.route('/api/getUser').get(contents.getUserInfo);
 
+  app.route('/api/visitorToGuest').put(contents.visitorToGuest);
+
   app.route('/api/updateUser/:userId/:qId/:qAnswer/:fId/:fAnswer/:task').put(contents.updateUser);
 
   app.listen(port, function() {

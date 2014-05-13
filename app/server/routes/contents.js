@@ -362,12 +362,63 @@
       if (err) {
         return res.send(err);
       } else {
-        console.log(data);
         return res.json(data);
       }
     };
     id = req.query.userId;
     return User.findById(id).exec(callback);
+  };
+
+  exports.visitorToGuest = function(req, res) {
+    var callback, filters, questions, userId;
+    callback = function(err, data) {
+      if (err) {
+        return res.send(err);
+      } else {
+        console.log(data);
+        return res.json(data);
+      }
+    };
+    console.log(userId = req.body.userId);
+    console.log(questions = req.body.questions);
+    console.log(filters = req.body.filters);
+    if (questions.length) {
+      questions.forEach(function(q, key) {
+        var conditions, options, updates;
+        console.log(q._id);
+        conditions = {
+          "_id": userId,
+          "questionsAnswered._id": q._id
+        };
+        updates = {
+          $set: {
+            "questionsAnswered.$.answer": q.answer
+          }
+        };
+        options = {
+          upsert: true
+        };
+        return User.update(conditions, updates, options, callback);
+      });
+    }
+    if (filters.length) {
+      return filters.forEach(function(f, key) {
+        var conditions, options, updates;
+        conditions = {
+          "_id": userId,
+          "filtersAnswered._id": f._id
+        };
+        updates = {
+          $set: {
+            "filtersAnswered.$.answer": f.answer
+          }
+        };
+        options = {
+          upsert: true
+        };
+        return User.update(conditions, updates, options, callback);
+      });
+    }
   };
 
 }).call(this);

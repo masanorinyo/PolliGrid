@@ -257,7 +257,7 @@ define ['underscore'], (_)->
 				
 				$scope.user.filterQuestionsAnswered.push(answer)
 
-				if $scope.user.isLoggedIn
+				if User.user
 					# save info in the server
 					UpdateUserInfo.answerFilter(
 						userId 			: escape($scope.user._id)
