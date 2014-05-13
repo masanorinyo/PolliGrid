@@ -105,7 +105,7 @@
             Error.auth = 'Please sign up to proceed';
             return $timeout(function() {
               return $location.path('signup');
-            }, 300, true);
+            });
           } else {
             return $modal.open({
               templateUrl: 'views/modals/createModal.html',
@@ -154,8 +154,8 @@
           } else if (!User.user) {
             Error.auth = 'Please sign up to proceed';
             return $timeout(function() {
-              return $location.path('signup');
-            }, 300, true);
+              return $state.transitionTo("home.signup", false);
+            });
           } else if (!found) {
             return $location.path('/');
           } else {

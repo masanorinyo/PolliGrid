@@ -27,8 +27,9 @@
           }
         }).success(function(data) {
           var userId;
+          console.log('succesfully logged in');
+          console.log(data);
           data.isLoggedIn = true;
-          userId = data._id;
           if ($scope.newUser.remember_me) {
             ipCookie("loggedInUser", data, {
               expires: 365
@@ -36,12 +37,15 @@
           } else {
             ipCookie("loggedInUser", data);
           }
-          if ($scope.user.questionsAnswered.length || $scope.user.filterQuestionsAnswered.length) {
+          if (User.visitor.questionsAnswered.length || User.visitor.filterQuestionsAnswered.length) {
+            console.log("User.visitor.questionsAnswered.length");
+            console.log(User.visitor.questionsAnswered.length);
+            userId = data._id;
             $http({
               url: "/api/visitorToGuest",
               method: "PUT",
               data: {
-                userId: data._id,
+                userId: userId,
                 questions: $scope.user.questionsAnswered,
                 filters: $scope.user.filterQuestionsAnswered
               }
@@ -55,15 +59,14 @@
               }).success(function(loggedInUser) {
                 loggedInUser.isLoggedIn = true;
                 User.user = loggedInUser;
-                console.log("User.user");
-                return console.log(User.user);
+                return $rootScope.$broadcast('userLoggedIn', User);
               });
             });
           } else {
             User.user = data;
             console.log($scope.user.questionsAnswered);
+            $rootScope.$broadcast('userLoggedIn', User);
           }
-          $rootScope.$broadcast('userLoggedIn', User);
           $scope.$dismiss();
           $location.path('/');
           Error.auth = '';

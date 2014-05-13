@@ -304,6 +304,7 @@ define ["underscore"], (_)->
 
 			
 			$scope.user = User.user
+			console.log $scope.user
 		
 		$scope.logout = ()->
 		

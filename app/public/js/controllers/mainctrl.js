@@ -162,7 +162,8 @@
       });
       $scope.$on('userLoggedIn', function(value) {
         console.log("main");
-        return $scope.user = User.user;
+        $scope.user = User.user;
+        return console.log($scope.user);
       });
       $scope.logout = function() {
         User.visitor.questionsAnswered = [];

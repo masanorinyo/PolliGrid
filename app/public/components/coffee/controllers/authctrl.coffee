@@ -44,10 +44,11 @@ define [], ()->
 					'X-Requested-With' : 'XMLHttpRequest'
 				
 			.success (data)-> 
-				
+				console.log 'succesfully logged in'
+				console.log data
 				data.isLoggedIn = true
 
-				userId = data._id
+				
 
 				if $scope.newUser.remember_me
 
@@ -58,14 +59,19 @@ define [], ()->
 					ipCookie("loggedInUser",data)
 				
 				
-				if $scope.user.questionsAnswered.length || $scope.user.filterQuestionsAnswered.length
+				if User.visitor.questionsAnswered.length || User.visitor.filterQuestionsAnswered.length
 					
+					console.log "User.visitor.questionsAnswered.length"
+					console.log User.visitor.questionsAnswered.length
+
+					userId = data._id
+
 					# check to see if there is any duplicate answer in the server
 					$http
 						url 	: "/api/visitorToGuest"
 						method 	: "PUT"
 						data 	: {
-							userId 	: data._id
+							userId 	: userId
 							questions : $scope.user.questionsAnswered
 							filters : $scope.user.filterQuestionsAnswered
 						} 
@@ -81,8 +87,8 @@ define [], ()->
 						.success (loggedInUser)-> 
 							loggedInUser.isLoggedIn = true
 							User.user = loggedInUser
-							console.log "User.user"
-							console.log User.user		
+							$rootScope.$broadcast 'userLoggedIn',User
+							
 
 				else
 
@@ -92,7 +98,7 @@ define [], ()->
 					# in case of users resetting their answers
 					# replace the answeredby user id of the questino with the loggedin user's
 					console.log $scope.user.questionsAnswered
-
+					$rootScope.$broadcast 'userLoggedIn',User
 
 				# if $scope.user.filterQuestionsAnswered.length
 				# 	# check to see if there is any duplicate answer in the server
@@ -100,7 +106,9 @@ define [], ()->
 				# 	# and add the answers to the user info
 				# 	console.log $scope.user.filterQuestionsAnswered
 
-				$rootScope.$broadcast 'userLoggedIn',User
+
+
+				
 				
 
 				

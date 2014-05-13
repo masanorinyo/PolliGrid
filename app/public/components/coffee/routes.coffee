@@ -153,7 +153,7 @@ define(
 
 							$timeout ()->
 								$location.path('signup')
-							,300,true
+							
 
 						else
 
@@ -172,15 +172,7 @@ define(
 								
 								$location.path('/')
 
-								# $timeout ->	
-								# 	# reload the page
-								# 	$state.transitionTo($state.current, $stateParams, {
-								# 		reload: true
-								# 		inherit: true
-								# 		notify: true
-								# 	})
-
-								# ,200,true
+								
 
 				.state 'home.share',
 					url:'share/:id'
@@ -233,8 +225,10 @@ define(
 							Error.auth = 'Please sign up to proceed'
 
 							$timeout ()->
-								$location.path('signup')
-							,300,true
+								
+								 $state.transitionTo("home.signup", false)
+
+							
 
 						# if the question has not been answered, redirect back
 						else if !found
@@ -257,15 +251,7 @@ define(
 								
 								$location.path('/')
 
-								# $timeout ->	
-								# 	# reload the page
-								# 	$state.transitionTo($state.current, $stateParams, {
-								# 		reload: true
-								# 		inherit: true
-								# 		notify: true
-								# 	})
-
-								# ,200,true
+								
 								
 
 
