@@ -35,7 +35,8 @@
     };
     return newQuestion.save(function(error, newQuestion) {
       if (error) {
-        return console.log(error);
+        console.log(error);
+        return res.send(error);
       } else {
         User.update(conditions, updates, options, callback);
         return res.send(newQuestion);
@@ -145,7 +146,7 @@
   };
 
   exports.updateQuestion = function(req, res) {
-    var callback, conditions, filterId, index, options, questionId, task, title, updates, userId;
+    var callback, conditions, filterId, index, options, questionId, task, title, updates, userId, visitorId;
     callback = function(err, updated) {
       if (err) {
         return res.send(err);
@@ -156,6 +157,7 @@
     };
     questionId = escapeChar(unescape(req.params.questionId));
     userId = escapeChar(unescape(req.params.userId));
+    visitorId = escapeChar(unescape(req.params.visitorId));
     title = escapeChar(unescape(req.params.title));
     filterId = escapeChar(unescape(req.params.filterId));
     task = escapeChar(unescape(req.params.task));
@@ -288,7 +290,8 @@
     newFilter = new Filter(req.body);
     return newFilter.save(function(error, filter) {
       if (error) {
-        return console.log(error);
+        console.log(error);
+        return res.send(error);
       } else {
         return res.send(filter);
       }
@@ -297,12 +300,12 @@
 
   exports.updateUser = function(req, res) {
     var answer, callback, conditions, fAnswer, fId, options, qAnswer, qId, task, updates, userId;
-    console.log(userId = escapeChar(unescape(req.params.userId)));
-    console.log(qId = escapeChar(unescape(req.params.qId)));
-    console.log(qAnswer = escapeChar(unescape(req.params.qAnswer)));
-    console.log(fId = escapeChar(unescape(req.params.fId)));
-    console.log(fAnswer = escapeChar(unescape(req.params.fAnswer)));
-    console.log(task = escapeChar(unescape(req.params.task)));
+    userId = escapeChar(unescape(req.params.userId));
+    qId = escapeChar(unescape(req.params.qId));
+    qAnswer = escapeChar(unescape(req.params.qAnswer));
+    fId = escapeChar(unescape(req.params.fId));
+    fAnswer = escapeChar(unescape(req.params.fAnswer));
+    task = escapeChar(unescape(req.params.task));
     callback = function(err, user) {
       if (err) {
         console.log('err');
@@ -379,9 +382,9 @@
         return res.json(data);
       }
     };
-    console.log(userId = req.body.userId);
-    console.log(questions = req.body.questions);
-    console.log(filters = req.body.filters);
+    userId = req.body.userId;
+    questions = req.body.questions;
+    filters = req.body.filters;
     if (questions.length) {
       questions.forEach(function(q, key) {
         var conditions, options, updates;
@@ -419,6 +422,40 @@
         return User.update(conditions, updates, options, callback);
       });
     }
+  };
+
+  exports.reset = function(req, res) {
+    var callback, conditions, filters, options, quesitons, questionId, updates, userId, visitorId;
+    console.log("reset user info");
+    console.log(quesitons = req.body.questions);
+    console.log(filters = req.body.filters);
+    console.log(visitorId = req.body.visitorId);
+    console.log(questionId = req.body.questionId);
+    console.log(userId = req.body.userId);
+    callback = function(err, data) {
+      if (err) {
+        console.log("error");
+        return res.send(err);
+      } else {
+        console.log("reset user");
+        return res.send(data);
+      }
+    };
+    conditions = {
+      "_id": userId,
+      "questionsAnswered._id": questionId
+    };
+    updates = {
+      $pull: {
+        "questionsAnswered": {
+          "_id": questionId
+        }
+      }
+    };
+    options = {
+      upsert: true
+    };
+    return User.update(conditions, updates, options, callback);
   };
 
 }).call(this);

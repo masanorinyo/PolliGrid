@@ -58,10 +58,9 @@ define [], ()->
 					ipCookie("loggedInUser",data)
 				
 				
-				
 				if $scope.user.questionsAnswered.length || $scope.user.filterQuestionsAnswered.length
-					# check to see if there is any duplicate answer in the server
 					
+					# check to see if there is any duplicate answer in the server
 					$http
 						url 	: "/api/visitorToGuest"
 						method 	: "PUT"
@@ -72,6 +71,8 @@ define [], ()->
 						} 
 
 					.success (data)->
+						
+						# get the updated user information
 						$http 
 							url 	: "/api/getUser"
 							method 	: "GET"

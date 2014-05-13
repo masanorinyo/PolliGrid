@@ -6,6 +6,7 @@ define ['underscore'], (_)->
 		$stateParams
 		$timeout
 		$q
+		$http
 		FindQuestions
 		User
 		Filters
@@ -241,7 +242,7 @@ define ['underscore'], (_)->
 
 
 				if User.user
-					console.log User.user
+
 					# save info in the server
 					UpdateUserInfo.answerQuestion(
 						userId 			: escape($scope.user._id)
@@ -329,7 +330,8 @@ define ['underscore'], (_)->
 			# decrement the total resonse for the reset
 			$scope.card.totalResponses--
 			# remove the user's id from the question's respondendents array
-			indexOfRespondents = $scope.card.respondents.indexOf($scope.user._id)	
+			indexOfRespondents = $scope.card.respondents.indexOf($scope.user._id)
+			
 			$scope.card.respondents.splice(indexOfRespondents,1)
 
 			# -- remove the question id from the user's questionAnswered Array -- #			
@@ -355,6 +357,25 @@ define ['underscore'], (_)->
 			optionIndex = foundOption.answeredBy.indexOf($scope.user._id)
 			foundOption.answeredBy.splice(optionIndex,1)
 			
+		
+
+
+
+			# reset the server side data
+			# also remove all the data made when the user was in the visitor state
+			$http
+				method 	: "PUT"
+				url 	: "/api/reset"
+				data 	: 
+					questions 	: User.visitor.questionsAnswered
+					filters 	: User.visitor.targetQuestionsAnswered
+					questionId 	: questionId
+					visitorId	: User.visitor._id
+					userId 		: $scope.user._id
+
+			.success (data)-> console.log data
+
+			
 
 
 			# using the found option, decrement the count for the reset
@@ -371,13 +392,15 @@ define ['underscore'], (_)->
 					$scope.user.questionsAnswered.splice(index,1)
 				
 
+			console.log User.visitor._id
 			
-			UpdateQuestion.removeAnswer(
+			console.log UpdateQuestion.removeAnswer(
 				questionId 	: questionId
 				userId 		: $scope.user._id
 				title 		: escape(foundOption.title)
 				filterId 	: 0
 				index 		: 0
+				visitorId   : User.visitor._id
 			)
 			
 			# reset the chosen answers

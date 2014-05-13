@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $location, $state, $stateParams, $timeout, $q, FindQuestions, User, Filters, Error, Search, UpdateQuestion, Question, Page, UpdateUserInfo) {
+    return function($scope, $location, $state, $stateParams, $timeout, $q, $http, FindQuestions, User, Filters, Error, Search, UpdateQuestion, Question, Page, UpdateUserInfo) {
       var getColor, getData, targetQ;
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
@@ -125,7 +125,6 @@
           $scope.user.questionsAnswered.push(answer);
           console.log("update user info");
           if (User.user) {
-            console.log(User.user);
             UpdateUserInfo.answerQuestion({
               userId: escape($scope.user._id),
               questionId: escape(question._id),
@@ -195,6 +194,19 @@
         });
         optionIndex = foundOption.answeredBy.indexOf($scope.user._id);
         foundOption.answeredBy.splice(optionIndex, 1);
+        $http({
+          method: "PUT",
+          url: "/api/reset",
+          data: {
+            questions: User.visitor.questionsAnswered,
+            filters: User.visitor.targetQuestionsAnswered,
+            questionId: questionId,
+            visitorId: User.visitor._id,
+            userId: $scope.user._id
+          }
+        }).success(function(data) {
+          return console.log(data);
+        });
         foundOption.count--;
         index = answers.indexOf(questionId);
         _.find($scope.user.questionsAnswered, function(answer) {
@@ -202,13 +214,15 @@
             return $scope.user.questionsAnswered.splice(index, 1);
           }
         });
-        UpdateQuestion.removeAnswer({
+        console.log(User.visitor._id);
+        console.log(UpdateQuestion.removeAnswer({
           questionId: questionId,
           userId: $scope.user._id,
           title: escape(foundOption.title),
           filterId: 0,
-          index: 0
-        });
+          index: 0,
+          visitorId: User.visitor._id
+        }));
         return $scope.answer = '';
       });
       $scope.$on('userLoggedIn', function(value) {

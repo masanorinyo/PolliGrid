@@ -115,7 +115,7 @@ app.route '/api/findQuestions/:searchTerm/:category/:order/:offset'
       .get contents.findQuestions
 
 # update question
-app.route '/api/updateQuestion/:questionId/:userId/:title/:filterId/:index/:task'
+app.route '/api/updateQuestion/:questionId/:userId/:visitorId/:title/:filterId/:index/:task'
       .put contents.updateQuestion
 
 
@@ -154,6 +154,10 @@ app.route '/api/visitorToGuest'
 # update questions and filters answered
 app.route '/api/updateUser/:userId/:qId/:qAnswer/:fId/:fAnswer/:task'
       .put contents.updateUser
+
+# resetting question and filter answers
+app.route "/api/reset"
+      .put contents.reset
 
 # ------------------------ server setup ------------------------ #
 

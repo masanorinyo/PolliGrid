@@ -62,10 +62,11 @@ define ['angular'], (angular) ->
 
 		.factory 'UpdateQuestion',($resource)->
 			$resource(
-				"/api/updateQuestion/:questionId/:userId/:title/:filterId/:index/:task"
+				"/api/updateQuestion/:questionId/:userId/:visitorId/:title/:filterId/:index/:task"
 				{
 					questionId 	: "@questionId"
 					userId 		: "@userId"
+					visitorId 	: "@visitorId"
 					title 		: "@title"
 					filterId 	: "@filterId"
 					index 		: "@index"
@@ -74,12 +75,15 @@ define ['angular'], (angular) ->
 					"updateQuestion":
 						method 		: "PUT"
 						params 		:
-							task 	: "update"
+							visitorId 	: 0
+							task 		: "update"
 					
 					"updateFilters" :
 						method 		: "PUT"
 						params 		:
-							task  	: "update"
+							visitorId 	: 0
+							task  		: "update"
+							
 
 					"removeAnswer"  : 
 						method 		: "PUT"

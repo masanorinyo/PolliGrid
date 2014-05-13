@@ -86,7 +86,7 @@
 
   app.route('/api/findQuestions/:searchTerm/:category/:order/:offset').get(contents.findQuestions);
 
-  app.route('/api/updateQuestion/:questionId/:userId/:title/:filterId/:index/:task').put(contents.updateQuestion);
+  app.route('/api/updateQuestion/:questionId/:userId/:visitorId/:title/:filterId/:index/:task').put(contents.updateQuestion);
 
   app.route('/api/getQuestionTitle/:term/:category').get(contents.getQuestionTitle);
 
@@ -101,6 +101,8 @@
   app.route('/api/visitorToGuest').put(contents.visitorToGuest);
 
   app.route('/api/updateUser/:userId/:qId/:qAnswer/:fId/:fAnswer/:task').put(contents.updateUser);
+
+  app.route("/api/reset").put(contents.reset);
 
   app.listen(port, function() {
     return console.log('Express server listening on port ' + port);

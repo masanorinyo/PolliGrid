@@ -39,6 +39,7 @@ exports.makeQuestion = (req,res)->
 	newQuestion.save (error,newQuestion)->
 		if error 
 			console.log error 
+			res.send error
 		else
 			# update user information
 			# add the question id to user's creation list
@@ -146,6 +147,7 @@ exports.updateQuestion = (req,res)->
 
 	questionId 	= escapeChar(unescape(req.params.questionId))
 	userId 		= escapeChar(unescape(req.params.userId))
+	visitorId 	= escapeChar(unescape(req.params.visitorId))
 	title 		= escapeChar(unescape(req.params.title))
 	filterId 	= escapeChar(unescape(req.params.filterId))
 	task 		= escapeChar(unescape(req.params.task))
@@ -166,10 +168,12 @@ exports.updateQuestion = (req,res)->
 			$inc:
 				"option.$.count":-1
 				"totalResponses":-1
-			
+			 
 			$pull:
 				"option.$.answeredBy":userId
 				"respondents":userId
+			
+			
 	
 	else
 		if filterId != "0"
@@ -310,6 +314,7 @@ exports.makeFilter = (req,res)->
 	newFilter.save (error,filter)->
 		if error 
 			console.log error 
+			res.send error
 		else
 			res.send filter
 	
@@ -319,12 +324,12 @@ exports.makeFilter = (req,res)->
 #################################################
 exports.updateUser = (req,res)->
 	
-	console.log userId 	= escapeChar(unescape(req.params.userId))
-	console.log qId 	= escapeChar(unescape(req.params.qId))
-	console.log qAnswer = escapeChar(unescape(req.params.qAnswer))
-	console.log fId 	= escapeChar(unescape(req.params.fId))
-	console.log fAnswer = escapeChar(unescape(req.params.fAnswer))
-	console.log task 	= escapeChar(unescape(req.params.task))
+	userId 	= escapeChar(unescape(req.params.userId))
+	qId 	= escapeChar(unescape(req.params.qId))
+	qAnswer = escapeChar(unescape(req.params.qAnswer))
+	fId 	= escapeChar(unescape(req.params.fId))
+	fAnswer = escapeChar(unescape(req.params.fAnswer))
+	task 	= escapeChar(unescape(req.params.task))
 
 	callback = (err,user)->
 		if err 
@@ -398,9 +403,9 @@ exports.visitorToGuest = (req,res)->
 			console.log data
 			res.json data
 
-	console.log userId = req.body.userId
-	console.log questions = req.body.questions
-	console.log filters = req.body.filters
+	userId = req.body.userId
+	questions = req.body.questions
+	filters = req.body.filters
 	
 	if questions.length
 		questions.forEach (q,key)->	
@@ -432,3 +437,34 @@ exports.visitorToGuest = (req,res)->
 			options = {upsert:true}
 
 			User.update(conditions, updates, options, callback)
+
+
+exports.reset = (req,res)->
+	console.log "reset user info"
+	console.log quesitons = req.body.questions
+	console.log filters = req.body.filters
+	console.log visitorId = req.body.visitorId
+	console.log questionId = req.body.questionId
+	console.log userId = req.body.userId
+
+	callback = (err,data)->
+		if err 
+			console.log "error"
+			res.send err 
+		else 
+			console.log "reset user"
+			res.send data
+
+	conditions = 
+		"_id" 					: userId 
+		"questionsAnswered._id"	: questionId
+	
+	updates =
+		$pull : 
+			"questionsAnswered" :
+				"_id" 			: questionId
+			
+	options = {upsert:true}
+
+	User.update(conditions,updates,options,callback)
+	

@@ -49,9 +49,10 @@
         }
       });
     }).factory('UpdateQuestion', function($resource) {
-      return $resource("/api/updateQuestion/:questionId/:userId/:title/:filterId/:index/:task", {
+      return $resource("/api/updateQuestion/:questionId/:userId/:visitorId/:title/:filterId/:index/:task", {
         questionId: "@questionId",
         userId: "@userId",
+        visitorId: "@visitorId",
         title: "@title",
         filterId: "@filterId",
         index: "@index"
@@ -59,12 +60,14 @@
         "updateQuestion": {
           method: "PUT",
           params: {
+            visitorId: 0,
             task: "update"
           }
         },
         "updateFilters": {
           method: "PUT",
           params: {
+            visitorId: 0,
             task: "update"
           }
         },
