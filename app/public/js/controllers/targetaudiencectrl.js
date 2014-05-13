@@ -146,6 +146,12 @@
         $scope.card.alreadyAnswered = false;
         return $scope.$emit('resetAnswer', question);
       };
+      $scope.$on("logOff", function(result) {
+        console.log('log off from target');
+        $scope.areAllQuestionAnswered = false;
+        $scope.showResult = false;
+        return $scope.card.alreadyAnswered = false;
+      });
       $scope.$on("showGraph", function(result) {
         return $scope.showResult = true;
       });

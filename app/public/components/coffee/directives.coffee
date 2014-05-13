@@ -74,7 +74,7 @@ define ['angular','controllers','underscore','jquery'], (angular,controllers,_,$
 				
 				$timeout ()->
 					
-					if scope.question != undefined
+					if scope.question != undefined and User.user
 						
 						favoriteQuestion = _.find User.user.favorites, (id)->
 							

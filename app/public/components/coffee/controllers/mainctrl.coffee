@@ -1,5 +1,21 @@
 define ["underscore"], (_)->
-	($scope,$location,$q,$stateParams,$timeout,$state,User,Page,FindQuestions,Debounce,Search,QuestionTypeHead,NewQuestion,Verification)->
+	(
+		$scope
+		$location
+		$q
+		$stateParams
+		$timeout
+		$state
+		User
+		Page
+		FindQuestions
+		Debounce
+		Search
+		QuestionTypeHead
+		NewQuestion
+		Verification
+		ipCookie
+	)->
 
 
 		# --------------- Util functions --------------- #					
@@ -297,7 +313,12 @@ define ["underscore"], (_)->
 
 			$scope.user = User.visitor
 			
-
+			ipCookie.remove("loggedInUser")
+			
+			# $scope.questions = FindQuestions.default()
+			
+			$scope.$broadcast 'logOff', User.visitor
+			User.user = null
 			$location.path('/')
 			
 			$timeout ->
@@ -305,7 +326,7 @@ define ["underscore"], (_)->
 				# reload the page
 				$state.transitionTo($state.current, $stateParams, {
 					reload: true
-					inherit: false
+					inherit: true
 					notify: true
 				})
 

@@ -315,6 +315,12 @@ define ['underscore'], (_)->
 			# send the information to the upper scopes
 			$scope.$emit('resetAnswer',question)
 			
+		# when user logs off
+		$scope.$on "logOff",(result)->
+			console.log 'log off from target'
+			$scope.areAllQuestionAnswered = false
+			$scope.showResult = false
+			$scope.card.alreadyAnswered = false
 
 		$scope.$on "showGraph", (result)->
 			

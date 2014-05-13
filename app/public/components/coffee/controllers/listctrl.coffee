@@ -56,7 +56,7 @@ define ['underscore'], (_)->
 
 			$scope.$emit "category-changed", category
 
-
+		
 		# ----------------- Scope functions and variables ----------------- #
 	
 		# ***************  ChartJS configuration *************** #
@@ -95,7 +95,7 @@ define ['underscore'], (_)->
 		
 		# ***************  Models *************** #
 		if User.user
-				
+			console.count "user user"
 			$scope.user = User.user
 
 		else
@@ -388,6 +388,14 @@ define ['underscore'], (_)->
 		$scope.$on 'userLoggedIn', (value)->
 			console.log User.user
 			$scope.user = User.user
+
+		$scope.$on 'logOff',(value)->
+			console.log "Log off from list"
+			
+			$scope.submitted = false
+			$timeout ->
+				$scope.user = User.visitor
+				console.log $scope.user
 
 		# ------------- Scope Function ------------- #
 

@@ -1,6 +1,6 @@
 (function() {
   define(["underscore"], function(_) {
-    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search, QuestionTypeHead, NewQuestion, Verification) {
+    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search, QuestionTypeHead, NewQuestion, Verification, ipCookie) {
       var capitaliseFirstLetter, searchSpecificQuestions;
       capitaliseFirstLetter = function(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -168,11 +168,14 @@
         User.visitor.questionsAnswered = [];
         User.visitor.filterQuestionsAnswered = [];
         $scope.user = User.visitor;
+        ipCookie.remove("loggedInUser");
+        $scope.$broadcast('logOff', User.visitor);
+        User.user = null;
         $location.path('/');
         return $timeout(function() {
           return $state.transitionTo($state.current, $stateParams, {
             reload: true,
-            inherit: false,
+            inherit: true,
             notify: true
           });
         }, 100, true);

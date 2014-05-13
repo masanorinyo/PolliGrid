@@ -1,6 +1,6 @@
 (function() {
   define([], function() {
-    return function($rootScope, $scope, $stateParams, $modalInstance, $location, $timeout, Error, User, $http, ipCookie) {
+    return function($rootScope, $scope, $stateParams, $modalInstance, $location, $timeout, Error, User, $http, ipCookie, $state) {
       switch ($location.$$path.split('/')[1]) {
         case 'login':
           $scope.title = "Login";
@@ -43,9 +43,14 @@
           }
           $rootScope.$broadcast('userLoggedIn', User);
           $scope.$dismiss();
+          $location.path('/');
+          Error.auth = '';
           return $timeout(function() {
-            $location.path('/');
-            return Error.auth = '';
+            return $state.transitionTo($state.current, $stateParams, {
+              reload: true,
+              inherit: false,
+              notify: true
+            });
           }, 100, true);
         }).error(function(data) {
           console.log("err");

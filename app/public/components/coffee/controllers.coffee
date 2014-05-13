@@ -1,15 +1,17 @@
 define ['angular','services'], (angular) ->
 	angular.module('myapp.controllers', ['myapp.services'])
 
-		.controller 'MainCtrl', ($scope,$injector,$location,$stateParams,$timeout,$state,$q)->
+		.controller 'MainCtrl', ($scope,$injector,$location,$state,$stateParams,$timeout,$q,ipCookie)->
 			require(['controllers/mainctrl'], (mainctrl)->
 				$injector.invoke(
 					mainctrl, this,{
 						"$scope" 				: $scope
 						"$location" 	 		: $location
+						"$state"				: $state
 						"$stateParams" 			: $stateParams
 						"$timeout" 				: $timeout
 						"$q" 					: $q
+						"ipCookie" 				: ipCookie
 					}
 				)
 			)
@@ -27,12 +29,13 @@ define ['angular','services'], (angular) ->
 				)
 			)
 		
-		.controller 'AuthCtrl', ($rootScope,$scope, $injector,$modalInstance,$location,$timeout,$http,ipCookie)->
+		.controller 'AuthCtrl', ($rootScope,$scope,$state, $injector,$modalInstance,$location,$timeout,$http,ipCookie)->
 			require(['controllers/authctrl'], (authctrl)->
 				$injector.invoke(
 					authctrl, this,{
 						"$rootScope" 			: $rootScope
 						"$scope" 				: $scope
+						"$state" 				: $state
 						"$modalInstance" 		: $modalInstance
 						"$location" 	 		: $location
 						"$timeout" 				: $timeout

@@ -62,7 +62,7 @@
         link: function(scope) {
           return $timeout(function() {
             var favoriteQuestion;
-            if (scope.question !== void 0) {
+            if (scope.question !== void 0 && User.user) {
               favoriteQuestion = _.find(User.user.favorites, function(id) {
                 return id === scope.question._id;
               });

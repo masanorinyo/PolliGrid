@@ -45,6 +45,7 @@
         };
       }
       if (User.user) {
+        console.count("user user");
         $scope.user = User.user;
       } else {
         $scope.user = User.visitor;
@@ -217,6 +218,14 @@
       $scope.$on('userLoggedIn', function(value) {
         console.log(User.user);
         return $scope.user = User.user;
+      });
+      $scope.$on('logOff', function(value) {
+        console.log("Log off from list");
+        $scope.submitted = false;
+        return $timeout(function() {
+          $scope.user = User.visitor;
+          return console.log($scope.user);
+        });
       });
       $scope.closeModal = function() {
         $scope.$dismiss();

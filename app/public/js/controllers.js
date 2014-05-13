@@ -1,13 +1,15 @@
 (function() {
   define(['angular', 'services'], function(angular) {
-    return angular.module('myapp.controllers', ['myapp.services']).controller('MainCtrl', function($scope, $injector, $location, $stateParams, $timeout, $state, $q) {
+    return angular.module('myapp.controllers', ['myapp.services']).controller('MainCtrl', function($scope, $injector, $location, $state, $stateParams, $timeout, $q, ipCookie) {
       return require(['controllers/mainctrl'], function(mainctrl) {
         return $injector.invoke(mainctrl, this, {
           "$scope": $scope,
           "$location": $location,
+          "$state": $state,
           "$stateParams": $stateParams,
           "$timeout": $timeout,
-          "$q": $q
+          "$q": $q,
+          "ipCookie": ipCookie
         });
       });
     }).controller('ShareCtrl', function($scope, $injector, $modalInstance, $location, $timeout) {
@@ -19,11 +21,12 @@
           "$timeout": $timeout
         });
       });
-    }).controller('AuthCtrl', function($rootScope, $scope, $injector, $modalInstance, $location, $timeout, $http, ipCookie) {
+    }).controller('AuthCtrl', function($rootScope, $scope, $state, $injector, $modalInstance, $location, $timeout, $http, ipCookie) {
       return require(['controllers/authctrl'], function(authctrl) {
         return $injector.invoke(authctrl, this, {
           "$rootScope": $rootScope,
           "$scope": $scope,
+          "$state": $state,
           "$modalInstance": $modalInstance,
           "$location": $location,
           "$timeout": $timeout,

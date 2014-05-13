@@ -198,6 +198,7 @@ define ['angular'], (angular) ->
 				visitor: 
 						_id						: uniqid
 						name  					: 'visitor'
+						favorites 				: []
 						isLoggedIn 				: false
 						questionsAnswered 		: []
 						filterQuestionsAnswered : []

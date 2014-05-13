@@ -1,5 +1,17 @@
 define [], ()->
-	($rootScope,$scope,$stateParams,$modalInstance,$location,$timeout,Error,User,$http,ipCookie)->
+	(
+		$rootScope
+		$scope
+		$stateParams
+		$modalInstance
+		$location
+		$timeout
+		Error
+		User
+		$http
+		ipCookie
+		$state
+	)->
 		
 		switch $location.$$path.split('/')[1]
 			when 'login' 
@@ -65,13 +77,20 @@ define [], ()->
 
 				
 				$scope.$dismiss()
+				$location.path('/')
+				Error.auth = ''
+				
 				$timeout ->
-					$location.path('/')
-					Error.auth = ''
+					
+					# reload the page
+					$state.transitionTo($state.current, $stateParams, {
+						reload: true
+						inherit: false
+						notify: true
+					})
 
 				,100,true
-
-
+				
 
 			.error (data)-> 
 				console.log "err"
