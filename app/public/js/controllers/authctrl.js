@@ -55,6 +55,7 @@
               }).success(function(loggedInUser) {
                 loggedInUser.isLoggedIn = true;
                 User.user = loggedInUser;
+                console.log("User.user");
                 return console.log(User.user);
               });
             });

@@ -81,6 +81,7 @@ define [], ()->
 						.success (loggedInUser)-> 
 							loggedInUser.isLoggedIn = true
 							User.user = loggedInUser
+							console.log "User.user"
 							console.log User.user		
 
 				else

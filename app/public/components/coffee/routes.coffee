@@ -9,7 +9,7 @@ define(
 
 	(angular,app,_)->
 		
-		app.config(($stateProvider,$urlRouterProvider)->
+		app.config ($stateProvider,$urlRouterProvider)->
 
 			$stateProvider
 				
@@ -327,4 +327,3 @@ define(
 			$urlRouterProvider.otherwise('/')
 
 		)
-)

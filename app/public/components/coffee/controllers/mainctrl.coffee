@@ -332,8 +332,8 @@ define ["underscore"], (_)->
 				# reload the page
 				$state.transitionTo($state.current, $stateParams, {
 					reload: true
-					inherit: true
-					notify: true
+					inherit: false
+					notify: false
 				})
 
 			,100,true

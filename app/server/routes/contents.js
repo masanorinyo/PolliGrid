@@ -173,10 +173,18 @@
           "option.$.count": -1,
           "totalResponses": -1
         },
-        $pull: {
-          "option.$.answeredBy": userId,
-          "respondents": userId
-        }
+        $and: [
+          {
+            $pull: {
+              "option.$.answeredBy": userId,
+              "respondents": userId
+            },
+            $pull: {
+              "option.$.answeredBy": visitorId,
+              "respondents": visitorId
+            }
+          }
+        ]
       };
     } else {
       if (filterId !== "0") {
@@ -287,7 +295,6 @@
 
   exports.makeFilter = function(req, res) {
     var newFilter;
-    console.log(req.body);
     newFilter = new Filter(req.body);
     return newFilter.save(function(error, filter) {
       if (error) {
@@ -395,7 +402,7 @@
   };
 
   exports.visitorToGuest = function(req, res) {
-    var callback, filters, questions, userId;
+    var callback, filters, options, questions, userId;
     callback = function(err, data) {
       if (err) {
         return res.send(err);
@@ -404,31 +411,51 @@
         return res.json(data);
       }
     };
+    options = {
+      upsert: true
+    };
     userId = req.body.userId;
     questions = req.body.questions;
     filters = req.body.filters;
     if (questions.length) {
       questions.forEach(function(q, key) {
-        var conditions, options, updates;
-        console.log(q._id);
+        var conditions;
         conditions = {
           "_id": userId,
           "questionsAnswered._id": q._id
         };
-        updates = {
-          $set: {
-            "questionsAnswered.$.answer": q.answer
+        return User.find(conditions).exec(function(err, found) {
+          var updates;
+          console.log(found.length);
+          if (found.length) {
+            updates = {
+              $set: {
+                "questionsAnswered.$.answer": q.answer
+              }
+            };
+            console.log(found);
+            return User.update(conditions, updates, options, callback);
+          } else {
+            conditions = {
+              "_id": userId
+            };
+            updates = {
+              $push: {
+                "questionsAnswered": {
+                  "_id": q._id,
+                  "answer": q.answer
+                }
+              }
+            };
+            console.log('ready to push');
+            return User.update(conditions, updates, options, callback);
           }
-        };
-        options = {
-          upsert: true
-        };
-        return User.update(conditions, updates, options, callback);
+        });
       });
     }
     if (filters.length) {
       return filters.forEach(function(f, key) {
-        var conditions, options, updates;
+        var conditions, updates;
         conditions = {
           "_id": userId,
           "filtersAnswered._id": f._id
@@ -437,9 +464,6 @@
           $set: {
             "filtersAnswered.$.answer": f.answer
           }
-        };
-        options = {
-          upsert: true
         };
         return User.update(conditions, updates, options, callback);
       });

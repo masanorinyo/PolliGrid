@@ -169,9 +169,14 @@ exports.updateQuestion = (req,res)->
 				"option.$.count":-1
 				"totalResponses":-1
 			 
-			$pull:
-				"option.$.answeredBy":userId
-				"respondents":userId
+			$and:[
+				$pull:
+					"option.$.answeredBy":userId
+					"respondents":userId
+				$pull:
+					"option.$.answeredBy":visitorId
+					"respondents":visitorId
+			]
 			
 			
 	
@@ -308,7 +313,7 @@ exports.getFilterTitle = (req,res)->
 
 # make filters
 exports.makeFilter = (req,res)->
-	console.log req.body
+	
 	newFilter = new Filter(req.body)
 
 	newFilter.save (error,filter)->
@@ -424,26 +429,50 @@ exports.visitorToGuest = (req,res)->
 		else 
 			console.log data
 			res.json data
-
+	options = {upsert:true}
+	
 	userId = req.body.userId
 	questions = req.body.questions
 	filters = req.body.filters
 	
+
+
 	if questions.length
 		questions.forEach (q,key)->	
-			console.log q._id
+
 			conditions = 
 					
 				"_id":userId
 				"questionsAnswered._id":q._id
 
-			updates = 
-				$set:
-					"questionsAnswered.$.answer":q.answer
+						
+			User.find(conditions).exec (err,found)-> 
+				console.log found.length
+				if found.length
 
-			options = {upsert:true}
+					updates = 
+						$set:
+							"questionsAnswered.$.answer":q.answer
 
-			User.update(conditions, updates, options, callback)
+
+					console.log found
+					User.update(conditions, updates, options, callback)
+				else 
+
+					conditions = 
+						"_id" : userId
+
+					updates = 
+						$push:
+							"questionsAnswered":
+								"_id" 	: q._id
+								"answer": q.answer
+
+					console.log 'ready to push'
+					
+					User.update(conditions, updates, options, callback)
+
+				
 
 	if filters.length
 		filters.forEach (f,key)->	
@@ -456,7 +485,7 @@ exports.visitorToGuest = (req,res)->
 				$set:
 					"filtersAnswered.$.answer":f.answer
 
-			options = {upsert:true}
+			
 
 			User.update(conditions, updates, options, callback)
 
