@@ -162,6 +162,9 @@
     filterId = escapeChar(unescape(req.params.filterId));
     task = escapeChar(unescape(req.params.task));
     index = req.params.index;
+    options = {
+      upsert: true
+    };
     if (task === "remove") {
       console.log('remove answers');
       conditions = {
@@ -173,18 +176,14 @@
           "option.$.count": -1,
           "totalResponses": -1
         },
-        $and: [
-          {
-            $pull: {
-              "option.$.answeredBy": userId,
-              "respondents": userId
-            },
-            $pull: {
-              "option.$.answeredBy": visitorId,
-              "respondents": visitorId
-            }
+        $pull: {
+          "option.$.answeredBy": {
+            $in: [userId, visitorId]
+          },
+          "respondents": {
+            $in: [userId, visitorId]
           }
-        ]
+        }
       };
     } else {
       if (filterId !== "0") {
@@ -215,9 +214,6 @@
         };
       }
     }
-    options = {
-      upsert: true
-    };
     return Question.update(conditions, updates, options, callback);
   };
 
@@ -433,8 +429,7 @@
                 "questionsAnswered.$.answer": q.answer
               }
             };
-            console.log(found);
-            return User.update(conditions, updates, options, callback);
+            console.log("question found");
           } else {
             conditions = {
               "_id": userId
@@ -448,24 +443,41 @@
               }
             };
             console.log('ready to push');
-            return User.update(conditions, updates, options, callback);
           }
+          return User.update(conditions, updates, options, callback);
         });
       });
     }
     if (filters.length) {
       return filters.forEach(function(f, key) {
-        var conditions, updates;
+        var conditions;
         conditions = {
           "_id": userId,
-          "filtersAnswered._id": f._id
+          "filterQuestionsAnswered._id": f._id
         };
-        updates = {
-          $set: {
-            "filtersAnswered.$.answer": f.answer
+        return User.find(conditions).exec(function(err, found) {
+          var updates;
+          if (found.length) {
+            updates = {
+              $set: {
+                "filterQuestionsAnswered.$.answer": f.answer
+              }
+            };
+          } else {
+            conditions = {
+              "_id": userId
+            };
+            updates = {
+              $push: {
+                "filterQuestionsAnswered": {
+                  "_id": f._id,
+                  "answer": f.answer
+                }
+              }
+            };
           }
-        };
-        return User.update(conditions, updates, options, callback);
+          return User.update(conditions, updates, options, callback);
+        });
       });
     }
   };

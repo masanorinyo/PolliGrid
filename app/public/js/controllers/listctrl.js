@@ -174,7 +174,7 @@
         }
       };
       $scope.$on('resetAnswer', function(question) {
-        var answers, foundAnswerId, foundAnswered, foundOption, index, indexOfRespondents, optionIndex, questionId;
+        var answers, foundAnswerId, foundAnswered, foundOption, index, indexOfRespondents, optionIndex, questionId, userId;
         console.clear();
         console.trace();
         $scope.submitted = false;
@@ -194,10 +194,12 @@
         });
         optionIndex = foundOption.answeredBy.indexOf($scope.user._id);
         foundOption.answeredBy.splice(optionIndex, 1);
-        UpdateUserInfo.reset({
-          questionId: questionId,
-          userId: $scope.user._id
-        });
+        if (User.user) {
+          UpdateUserInfo.reset({
+            questionId: questionId,
+            userId: User.user._id
+          });
+        }
         foundOption.count--;
         index = answers.indexOf(questionId);
         _.find($scope.user.questionsAnswered, function(answer) {
@@ -205,10 +207,15 @@
             return $scope.user.questionsAnswered.splice(index, 1);
           }
         });
+        if (!User.user) {
+          userId = 0;
+        } else {
+          userId = User.user._id;
+        }
         console.log(User.visitor._id);
         console.log(UpdateQuestion.removeAnswer({
           questionId: questionId,
-          userId: $scope.user._id,
+          userId: userId,
           title: escape(foundOption.title),
           filterId: 0,
           index: 0,

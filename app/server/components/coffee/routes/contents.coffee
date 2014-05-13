@@ -153,6 +153,7 @@ exports.updateQuestion = (req,res)->
 	task 		= escapeChar(unescape(req.params.task))
 	index 		= req.params.index	
 
+	options = {upsert:true}
 
 	if task == "remove"
 
@@ -162,22 +163,22 @@ exports.updateQuestion = (req,res)->
 			
 			"_id":questionId
 			"option.title":title
-			
+		
+
 		updates = 
 			
 			$inc:
 				"option.$.count":-1
 				"totalResponses":-1
 			 
-			$and:[
-				$pull:
-					"option.$.answeredBy":userId
-					"respondents":userId
-				$pull:
-					"option.$.answeredBy":visitorId
-					"respondents":visitorId
-			]
 			
+			$pull:
+				"option.$.answeredBy":
+					$in:[userId,visitorId]
+
+				"respondents":
+					$in:[userId,visitorId]
+				
 			
 	
 	else
@@ -217,7 +218,7 @@ exports.updateQuestion = (req,res)->
 					"respondents":userId
 			
 	
-	options = {upsert:true}
+	
 
 	Question.update(conditions, updates, options, callback);
 
@@ -436,8 +437,12 @@ exports.visitorToGuest = (req,res)->
 	filters = req.body.filters
 	
 
-
+	# if there are questions already answered
+	# when the user was in the visitor's state
 	if questions.length
+
+		# loop through each answered questions
+		# and add the information to the logged in user's data
 		questions.forEach (q,key)->	
 
 			conditions = 
@@ -455,8 +460,8 @@ exports.visitorToGuest = (req,res)->
 							"questionsAnswered.$.answer":q.answer
 
 
-					console.log found
-					User.update(conditions, updates, options, callback)
+					console.log "question found"
+					
 				else 
 
 					conditions = 
@@ -470,22 +475,45 @@ exports.visitorToGuest = (req,res)->
 
 					console.log 'ready to push'
 					
-					User.update(conditions, updates, options, callback)
+				User.update(conditions, updates, options, callback)
 
-				
+	
+	# if there are filter questions already answered
+	# when the user was in the visitor's state		
 
 	if filters.length
+
+		# loop through each answered filter questions
+		# and add the information to the logged in user's data
 		filters.forEach (f,key)->	
+			
 			conditions = 
 					
 				"_id":userId
-				"filtersAnswered._id":f._id
+				"filterQuestionsAnswered._id":f._id
 
-			updates = 
-				$set:
-					"filtersAnswered.$.answer":f.answer
+			User.find(conditions).exec (err,found)->
+				if found.length 
 
+					updates = 
+						$set:
+							"filterQuestionsAnswered.$.answer":f.answer
+
+					
+				
+				else
+
+					conditions = 
+						"_id":userId
+
+					updates = 
+						$push : 
+							"filterQuestionsAnswered":
+								"_id"	 : f._id
+								"answer" : f.answer
+
+				User.update(conditions, updates, options, callback)
 			
 
-			User.update(conditions, updates, options, callback)
+			
 

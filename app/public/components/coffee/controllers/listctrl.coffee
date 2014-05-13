@@ -363,10 +363,11 @@ define ['underscore'], (_)->
 
 			# reset the server side data
 			# also remove all the data made when the user was in the visitor state
-			UpdateUserInfo.reset(
-				questionId 	: questionId
-				userId 		: $scope.user._id
-			)
+			if User.user
+				UpdateUserInfo.reset(
+					questionId 	: questionId
+					userId 		: User.user._id
+				)
 
 			
 
@@ -385,11 +386,16 @@ define ['underscore'], (_)->
 					$scope.user.questionsAnswered.splice(index,1)
 				
 
+			if !User.user 
+				userId = 0
+			else 
+				userId = User.user._id
+
 			console.log User.visitor._id
-			
+
 			console.log UpdateQuestion.removeAnswer(
 				questionId 	: questionId
-				userId 		: $scope.user._id
+				userId 		: userId
 				title 		: escape(foundOption.title)
 				filterId 	: 0
 				index 		: 0
