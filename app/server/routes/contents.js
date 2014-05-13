@@ -287,6 +287,7 @@
 
   exports.makeFilter = function(req, res) {
     var newFilter;
+    console.log(req.body);
     newFilter = new Filter(req.body);
     return newFilter.save(function(error, filter) {
       if (error) {
@@ -317,22 +318,28 @@
         return res.send(user);
       }
     };
-    conditions = {
-      "_id": userId
-    };
     if (task === "favoritePush") {
+      conditions = {
+        "_id": userId
+      };
       updates = {
         $push: {
           "favorites": qId
         }
       };
     } else if (task === "favoritePull") {
+      conditions = {
+        "_id": userId
+      };
       updates = {
         $pull: {
           "favorites": qId
         }
       };
     } else if (task === "updateQuestion") {
+      conditions = {
+        "_id": userId
+      };
       answer = {
         _id: qId,
         answer: qAnswer
@@ -343,6 +350,9 @@
         }
       };
     } else if (task === "updateFilter") {
+      conditions = {
+        "_id": userId
+      };
       answer = {
         _id: fId,
         answer: fAnswer
@@ -350,6 +360,18 @@
       updates = {
         $push: {
           "filterQuestionsAnswered": answer
+        }
+      };
+    } else if (task === "reset") {
+      conditions = {
+        "_id": userId,
+        "questionsAnswered._id": qId
+      };
+      updates = {
+        $pull: {
+          "questionsAnswered": {
+            "_id": qId
+          }
         }
       };
     }
@@ -422,40 +444,6 @@
         return User.update(conditions, updates, options, callback);
       });
     }
-  };
-
-  exports.reset = function(req, res) {
-    var callback, conditions, filters, options, quesitons, questionId, updates, userId, visitorId;
-    console.log("reset user info");
-    console.log(quesitons = req.body.questions);
-    console.log(filters = req.body.filters);
-    console.log(visitorId = req.body.visitorId);
-    console.log(questionId = req.body.questionId);
-    console.log(userId = req.body.userId);
-    callback = function(err, data) {
-      if (err) {
-        console.log("error");
-        return res.send(err);
-      } else {
-        console.log("reset user");
-        return res.send(data);
-      }
-    };
-    conditions = {
-      "_id": userId,
-      "questionsAnswered._id": questionId
-    };
-    updates = {
-      $pull: {
-        "questionsAnswered": {
-          "_id": questionId
-        }
-      }
-    };
-    options = {
-      upsert: true
-    };
-    return User.update(conditions, updates, options, callback);
   };
 
 }).call(this);

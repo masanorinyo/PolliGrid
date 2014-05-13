@@ -155,9 +155,6 @@ app.route '/api/visitorToGuest'
 app.route '/api/updateUser/:userId/:qId/:qAnswer/:fId/:fAnswer/:task'
       .put contents.updateUser
 
-# resetting question and filter answers
-app.route "/api/reset"
-      .put contents.reset
 
 # ------------------------ server setup ------------------------ #
 

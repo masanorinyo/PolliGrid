@@ -166,6 +166,14 @@ define ['angular'], (angular) ->
 							fId 	: 0
 							fAnswer : 0
 
+					"reset":
+						method:"PUT"
+						params:
+							qAnswer : 0
+							fId 	: 0
+							fAnswer : 0
+							task 	: "reset"
+
 				}
 
 			)

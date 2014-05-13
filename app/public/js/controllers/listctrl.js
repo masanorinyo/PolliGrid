@@ -194,18 +194,9 @@
         });
         optionIndex = foundOption.answeredBy.indexOf($scope.user._id);
         foundOption.answeredBy.splice(optionIndex, 1);
-        $http({
-          method: "PUT",
-          url: "/api/reset",
-          data: {
-            questions: User.visitor.questionsAnswered,
-            filters: User.visitor.targetQuestionsAnswered,
-            questionId: questionId,
-            visitorId: User.visitor._id,
-            userId: $scope.user._id
-          }
-        }).success(function(data) {
-          return console.log(data);
+        UpdateUserInfo.reset({
+          questionId: questionId,
+          userId: $scope.user._id
         });
         foundOption.count--;
         index = answers.indexOf(questionId);

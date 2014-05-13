@@ -363,17 +363,10 @@ define ['underscore'], (_)->
 
 			# reset the server side data
 			# also remove all the data made when the user was in the visitor state
-			$http
-				method 	: "PUT"
-				url 	: "/api/reset"
-				data 	: 
-					questions 	: User.visitor.questionsAnswered
-					filters 	: User.visitor.targetQuestionsAnswered
-					questionId 	: questionId
-					visitorId	: User.visitor._id
-					userId 		: $scope.user._id
-
-			.success (data)-> console.log data
+			UpdateUserInfo.reset(
+				questionId 	: questionId
+				userId 		: $scope.user._id
+			)
 
 			
 

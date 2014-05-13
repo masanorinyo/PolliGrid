@@ -102,8 +102,6 @@
 
   app.route('/api/updateUser/:userId/:qId/:qAnswer/:fId/:fAnswer/:task').put(contents.updateUser);
 
-  app.route("/api/reset").put(contents.reset);
-
   app.listen(port, function() {
     return console.log('Express server listening on port ' + port);
   });

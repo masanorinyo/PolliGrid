@@ -308,7 +308,7 @@ exports.getFilterTitle = (req,res)->
 
 # make filters
 exports.makeFilter = (req,res)->
-	
+	console.log req.body
 	newFilter = new Filter(req.body)
 
 	newFilter.save (error,filter)->
@@ -341,22 +341,30 @@ exports.updateUser = (req,res)->
 			console.log user
 			res.send user
 
-	conditions = 
-			
-		"_id":userId
 	
-
 	if task == "favoritePush"
+		conditions = 
+
+			"_id":userId
+
 		updates = 	
 			$push:
 				"favorites":qId
 
 	else if task == "favoritePull"
+		conditions = 
+
+			"_id":userId
+
+
 		updates = 	
 			$pull:
 				"favorites":qId
 
 	else if task == "updateQuestion"
+		conditions = 
+
+			"_id":userId
 	
 		answer = 
 			_id 	: qId
@@ -367,6 +375,9 @@ exports.updateUser = (req,res)->
 				"questionsAnswered":
 					answer
 	else if task == "updateFilter"
+		conditions = 
+
+			"_id":userId
 
 		answer = 
 			_id 	: fId 
@@ -376,6 +387,17 @@ exports.updateUser = (req,res)->
 			$push:
 				"filterQuestionsAnswered":
 					answer
+
+	else if task == "reset"
+		conditions = 
+			"_id" 					: userId 
+			"questionsAnswered._id"	: qId
+	
+		updates =
+			$pull : 
+				"questionsAnswered" :
+					"_id" 			: qId
+				
 		
 
 	options = {upsert:true}
@@ -438,33 +460,3 @@ exports.visitorToGuest = (req,res)->
 
 			User.update(conditions, updates, options, callback)
 
-
-exports.reset = (req,res)->
-	console.log "reset user info"
-	console.log quesitons = req.body.questions
-	console.log filters = req.body.filters
-	console.log visitorId = req.body.visitorId
-	console.log questionId = req.body.questionId
-	console.log userId = req.body.userId
-
-	callback = (err,data)->
-		if err 
-			console.log "error"
-			res.send err 
-		else 
-			console.log "reset user"
-			res.send data
-
-	conditions = 
-		"_id" 					: userId 
-		"questionsAnswered._id"	: questionId
-	
-	updates =
-		$pull : 
-			"questionsAnswered" :
-				"_id" 			: questionId
-			
-	options = {upsert:true}
-
-	User.update(conditions,updates,options,callback)
-	
