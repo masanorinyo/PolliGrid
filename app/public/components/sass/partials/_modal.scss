@@ -341,8 +341,12 @@
     }
     .list-group-item {
         .option-content {
-            width: 56%;
+            width:50%;
             margin-left: 27px;
+            word-break:break-all;
+            @include at-breakpoint($medium){
+                width:69%;
+            }
         }
         .btn-list {
             position: absolute;

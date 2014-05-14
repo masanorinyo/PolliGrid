@@ -84,6 +84,7 @@
         noSameEmail = false;
         check_allConditions = function(condition_length, noSameEmail) {
           if (condition_length && noSameEmail) {
+            $scope.somethingWrongWith.signup = false;
             return $http({
               method: 'POST',
               url: '/api/auth/signup',

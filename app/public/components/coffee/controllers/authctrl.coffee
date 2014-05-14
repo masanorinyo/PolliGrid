@@ -119,7 +119,7 @@ define [], ()->
 
 				if condition_length && noSameEmail
 				
-					
+					$scope.somethingWrongWith.signup = false
 	
 					$http
 						method  : 'POST',
