@@ -44,9 +44,9 @@
           animationEasing: "easeOutQuart"
         };
       }
-      if (User.user) {
+      if (User.user && !$scope.isAccessedFromSetting) {
         $scope.user = User.user;
-      } else {
+      } else if (!$scope.isAccessedFromSetting) {
         $scope.user = User.visitor;
       }
       $scope.isAccessedViaLink = false;

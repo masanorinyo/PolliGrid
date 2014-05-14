@@ -104,7 +104,11 @@
       $scope.filterNumber = 0;
       $scope.targetChecker = [];
       (function() {
-        return checkFilterQuestionStatus('');
+        console.log($scope.filtersOnSettingPage);
+        if (!$scope.filtersOnSettingPage) {
+          console.log("$scope.filtersOnSettingPage");
+          return checkFilterQuestionStatus('');
+        }
       })();
       $scope.submitTarget = function(question, targetAnswer, index) {
         var answer, defer, target, targetAnswerIndex, targetQuestionID;

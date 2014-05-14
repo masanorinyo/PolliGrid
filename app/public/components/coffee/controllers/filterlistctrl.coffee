@@ -1,5 +1,13 @@
 define ['underscore'], (_)->
-	($scope,$location,$q,$timeout,Question,User)->
+	(
+		$scope
+		$location
+		$q
+		$timeout
+		Question
+		User
+		UpdateUserInfo
+	)->
 		
 
 		# ------------- Scope Function ------------- #
@@ -8,19 +16,19 @@ define ['underscore'], (_)->
 		$scope.answerChanged = false
 		$scope.changeAnswer = (answer,filter)->
 			
-			answeredFilter = _.findWhere User.user.filterQuestionsAnswered,{id:filter._id}
-			
+			answeredFilter = _.findWhere User.user.filterQuestionsAnswered,{_id:filter._id}
+			console.log answeredFilter._id
+			console.log answer
 			answeredFilter.answer = answer
-
 			
 
-			
-			
+			UpdateUserInfo.changeFilter(
+				userId : User.user._id 
+				filterId : answeredFilter._id
+				filterAnswer : answer
+			)
+
 			$scope.answerChanged = true
-			$timeout ->
-				$scope.fadeOut = true
-			,1000,true
-
 			$timeout ->
 				$scope.answerChanged = false
 			,2000,true				

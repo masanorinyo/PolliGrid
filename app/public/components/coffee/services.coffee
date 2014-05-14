@@ -175,6 +175,13 @@ define ['angular'], (angular) ->
 							qId 	: 0
 							qAnswer : 0
 					
+					"changeFilter":
+						method:"PUT"
+						params:
+							task 	: "changeFilter"
+							qId 	: 0
+							qAnswer : 0
+
 					"favorite":
 						method:"PUT"
 						params:
@@ -310,3 +317,33 @@ define ['angular'], (angular) ->
 						deferred.resolve func.apply(context, args)
 						deferred = $q.defer()
 					deferred.promise
+		
+		.factory "location", ($location, $route, $rootScope) ->
+			page_route = $route.current
+			$location.skipReload = ->
+				
+				#var lastRoute = $route.current;
+				unbind = $rootScope.$on("$locationChangeSuccess", ->
+					$route.current = page_route
+					unbind()
+					return
+				)
+				$location
+
+			throw "$location.intercept is already defined"  if $location.intercept
+			$location.intercept = (url_pattern, load_url) ->
+				parse_path = ->
+					match = $location.path().match(url_pattern)
+					if match
+						match.shift()
+						match
+				unbind = $rootScope.$on("$locationChangeSuccess", ->
+					matched = parse_path()
+					return unbind()  if not matched or load_url(matched) is false
+					$route.current = page_route
+					return
+				)
+				return
+
+			return $location
+		

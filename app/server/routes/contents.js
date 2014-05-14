@@ -147,11 +147,11 @@
     }).where("category").equals(new RegExp(category, 'i')).sort(sorting).limit(6).skip(offset).exec(callback);
   };
 
-  exports.findQuestionsByIds = function(req, res) {
-    var callback, conditions, ids, offset;
+  exports.findQuestionsAndFiltersByIds = function(req, res) {
+    var callback, conditions, ids, offset, type;
     console.log(ids = req.query.ids);
     console.log(offset = req.query.offset);
-    console.log(offset);
+    console.log(type = req.query.type);
     callback = function(err, questions) {
       if (err) {
         return res.send(err);
@@ -173,7 +173,11 @@
         "_id": ids
       };
     }
-    return Question.find(conditions).limit(6).exec(callback);
+    if (type !== "filters") {
+      return Question.find(conditions).limit(6).exec(callback);
+    } else {
+      return Filter.find(conditions).limit(6).exec(callback);
+    }
   };
 
   exports.updateQuestion = function(req, res) {
@@ -395,6 +399,37 @@
         $push: {
           "filterQuestionsAnswered": answer
         }
+      };
+    } else if (task === "changeFilter") {
+      conditions = {
+        "_id": userId
+      };
+      updates = {
+        $pull: {
+          "filterQuestionsAnswered": {
+            "_id": fId
+          }
+        }
+      };
+      callback = function() {
+        answer = {
+          _id: fId,
+          answer: fAnswer
+        };
+        updates = {
+          $push: {
+            "filterQuestionsAnswered": answer
+          }
+        };
+        return User.update(conditions, updates, options, function(err, data) {
+          if (err) {
+            return res.send(err);
+          } else {
+            console.log("success");
+            console.log(data);
+            return res.send(data);
+          }
+        });
       };
     } else if (task === "reset") {
       conditions = {

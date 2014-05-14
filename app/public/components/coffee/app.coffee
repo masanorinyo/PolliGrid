@@ -13,6 +13,7 @@ define [
 	'angular-deckgrid'
 	'ngInfiniteScroll'
 	"angularCookie"
+	"angularRoute"
 
 ], (angular)->
 		angular.module('myapp',[
@@ -28,4 +29,6 @@ define [
 			'akoenig.deckgrid'
 			'infinite-scroll'
 			'ipCookie'
+			'ngRoute'
 		])
+		

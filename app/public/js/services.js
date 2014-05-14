@@ -145,6 +145,14 @@
             qAnswer: 0
           }
         },
+        "changeFilter": {
+          method: "PUT",
+          params: {
+            task: "changeFilter",
+            qId: 0,
+            qAnswer: 0
+          }
+        },
         "favorite": {
           method: "PUT",
           params: {
@@ -268,6 +276,40 @@
           return deferred.promise;
         };
       };
+    }).factory("location", function($location, $route, $rootScope) {
+      var page_route;
+      page_route = $route.current;
+      $location.skipReload = function() {
+        var unbind;
+        unbind = $rootScope.$on("$locationChangeSuccess", function() {
+          $route.current = page_route;
+          unbind();
+        });
+        return $location;
+      };
+      if ($location.intercept) {
+        throw "$location.intercept is already defined";
+      }
+      $location.intercept = function(url_pattern, load_url) {
+        var parse_path, unbind;
+        parse_path = function() {
+          var match;
+          match = $location.path().match(url_pattern);
+          if (match) {
+            match.shift();
+            return match;
+          }
+        };
+        unbind = $rootScope.$on("$locationChangeSuccess", function() {
+          var matched;
+          matched = parse_path();
+          if (!matched || load_url(matched) === false) {
+            return unbind();
+          }
+          $route.current = page_route;
+        });
+      };
+      return $location;
     });
   });
 

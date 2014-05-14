@@ -6,6 +6,7 @@ define ['underscore'], (_)->
 		$stateParams
 		$timeout
 		$http
+		$q
 		Question
 		User
 		Page
@@ -14,7 +15,7 @@ define ['underscore'], (_)->
 		Setting
 		FindQuestions
 		Verification
-
+		location
 	)->
 
 		$scope.type = $stateParams.type
@@ -24,28 +25,7 @@ define ['underscore'], (_)->
 		$scope.anyContentsLeft = false
 		$scope.userLoaded = false
 
-
-			
-		$http 
-			method:"GET"
-			url:"/api/getUser"
-			params:
-				userId:$scope.id
-
-		.success (user)->
-			
-			$scope.user = user	
-			if $scope.user._id == $scope.id 
-				$scope.onMyPage = true
-
-			$scope.userLoaded = true
-		
-		
-
-		# else
-			
-		# 	$location.path('/')
-
+		$scope.filtersOnSettingPage = false
 		$scope.isAccessedFromSetting = true
 		
 		
@@ -57,73 +37,104 @@ define ['underscore'], (_)->
 		findQuestion = ->
 			# empties questions first
 
-
+			
 
 			$http
 				method	: "GET"
-				url 	: "/api/findQuestionsByIds"
+				url 	: "/api/findQuestionsAndFiltersByIds"
 				params	:
 					ids 	: $scope.requiredIds
-					offset 	: Page.questionPage
+					offset 	: 0
+					type 	: $scope.type
 			
-			.success (questions)-> 
+			.success (data)-> 
 				
-				$scope.questions = questions
+				if $scope.type != "filters"
+					$scope.questions = data
+				else 
+					$scope.filters = data
 				
-				if questions.length < 6 
+				if data.length < 6 
 					$scope.anyContentsLeft = true
 
 
-		$scope.downloadMoreQuestions = ()->
+		$scope.downloadMoreData = ()->
+
+
+			if $scope.type != "filters"
+				Page.questionPage +=5
+				page = Page.questionPage
+			else 
+				Page.filterPage +=5
+				page = Page.filterPage
 			
-			Page.questionPage +=6
-			removeIndex = $scope.requiredIds.length - Page.questionPage
+			removeIndex = $scope.requiredIds.length - page
+			console.log removeIndex
 
 			if parseInt(removeIndex) > 0
-				
-				ids = $scope.requiredIds.splice(0,$scope.requiredIds.length - Page.questionPage)
+			
 				$scope.showLoader = true
-
-
-
-				$http
-					method	: "GET"
-					url 	: "/api/findQuestionsByIds"
-					params	:
-						ids 	: ids
-						offset 	: Page.questionPage
+				ids = []
 				
-				.success (questions)->
-					$scope.showLoader = false
-					if !questions.length
-						$scope.anyContentsLeft = true
-					else
-						questions.forEach (val,key)->
-							$scope.questions.push(val)
+				defer = $q.defer()
+				defer.promise
+					.then ->
+						
+						$scope.requiredIds.forEach (val,key)->
+							if key > page and key < page + 6
+								console.log val
+								ids.push(val)
+					
+					.then ->
+						
+						$http
+							method	: "GET"
+							url 	: "/api/findQuestionsAndFiltersByIds"
+							params	:
+								ids 	: ids
+								offset 	: page
+								type 	: $scope.type
+						
+						.success (data)->
+							console.log 'test'
+							
+							$scope.showLoader = false
+							if !data.length
+								$scope.anyContentsLeft = true
+							else
+								data.forEach (val,key)->
+									
+									if $scope.type != "filters"
+										$scope.questions.push(val)
+									else 
+										$scope.filters.push(val)
+
+				
+				defer.resolve()
 			else 
 				
 				
 				$scope.showLoader = false
-				$scope.anyContentsLeft = true
-				console.log $scope.anyContentsLeft
-				
-				
+				$timeout ->
+					$scope.anyContentsLeft = true
 
 				
-					
-					
-					
-
 		
 
 		# --------------- Setting Content navi --------------- #
 
 		showFavorites = $scope.showFavorites = ->
+			$scope.filtersOnSettingPage = false
 			$scope.anyContentsLeft = false
 			Page.questionPage = 0
 			$scope.type = "favorites"
-			# $location.path('setting/'+$scope.id+"/favorites").replace().reload(false)
-			
+			console.log $scope.user.favorites
+			url = 'setting/favorites/'+$scope.id
+
+			#without reload - currently not working
+			# location.skipReload().path(url).replace()
+
+			# 
 			$scope.questions = []
 			$scope.requiredIds = $scope.user.favorites
 			findQuestion()
@@ -131,11 +142,15 @@ define ['underscore'], (_)->
 			
 			
 		showQuestions = $scope.showQuestions = ->
+			$scope.filtersOnSettingPage = false
 			$scope.anyContentsLeft = false
 			Page.questionPage = 0
 			$scope.type = "questions"
-			# $location.path('setting/'+$scope.id+"/questions").replace().reload(false)
 			console.log $scope.user.questionMade
+			url = 'setting/questions/'+$scope.id
+
+			#without reload - currently not working
+			# location.skipReload().path(url).replace()
 			$scope.questions = []
 			$scope.requiredIds = $scope.user.questionMade
 
@@ -144,13 +159,17 @@ define ['underscore'], (_)->
 			
 
 		showAnswers = $scope.showAnswers = ->
+			$scope.filtersOnSettingPage = false
 			$scope.anyContentsLeft = false
 			Page.questionPage = 0
 			$scope.type = "answers"
-			# $location.path('setting/'+$scope.id+"/answers").replace().reload(false)
+			url = 'setting/answers/'+$scope.id
 			
-			ids = _.pluck $scope.user.questionsAnswered,"_id"
-			$scope.requiredIds = ids
+			#without reload - currently not working
+			# location.skipReload().path(url).replace()
+			
+			$scope.requiredIds = _.pluck $scope.user.questionsAnswered,"_id"
+			
 			
 			findQuestion()
 			
@@ -158,25 +177,35 @@ define ['underscore'], (_)->
 			
 
 		showFilters = $scope.showFilters = ->
+			$scope.filtersOnSettingPage = true
 			$scope.anyContentsLeft = false
+			Page.filterPage = 0
 			$scope.type = "filters"
-			# $location.path('setting/'+$scope.id+"/filters").replace().reload(false)
+			url = 'setting/filters/'+$scope.id
 
-			# empty the questions
-			$scope.questions=[]
+			#without reload - currently not working
+			# location.skipReload().path(url).replace()
+
+
+			$scope.requiredIds = _.pluck $scope.user.filterQuestionsAnswered,"_id"
 			
-			ids = _.pluck $scope.user.filterQuestionsAnswered,"_id"
-			
 
-			#
-			$scope.filters = findQuestion(ids)
 
-			# #
-			# $scope.answer = []
-			# _.each $scope.user.filterQuestionsAnswered, (filter,index)->
-			# 	console.log filter.answer
+			defer = $q.defer()
+			defer.promise
+				.then -> findQuestion()
 
-			# 	$scope.answer[index] = filter.answer
+				.then ->
+					$scope.answer = []
+
+					_.each $scope.user.filterQuestionsAnswered, (filter,index)->
+						
+						_.each $scope.filters,(s_filter,s_index)->
+
+							if s_filter._id == filter._id
+						
+								$scope.answer[s_index] = filter.answer
+			defer.resolve()
 
 
 
@@ -202,25 +231,47 @@ define ['underscore'], (_)->
 
 		# -------------------------- for initial load --------------------------#
 		do ()->
-			$timeout ->
-				if $scope.type == "favorites" || $scope.type == "profile"
+
+			$http 
+				method:"GET"
+				url:"/api/getUser"
+				params:
+					userId:$scope.id
+
+			.success (user)->
+				
+				$scope.user = user
+				
+				# if user is not found, redirect to the main page
+				if user._id is undefined 
+
+
+					$location.path('/')
+
+				else 
+
+					if User.user._id == $scope.id 
+						$scope.user = User.user
+						$scope.onMyPage = true
+
+					$scope.userLoaded = true
+				
+
+					if $scope.type == "favorites" || $scope.type == "profile"
 					
-					showFavorites()
+						showFavorites()
 
-				else if $scope.type == "answers"
-					
-					showAnswers()
+					else if $scope.type == "answers"
+						
+						showAnswers()
 
-				else if $scope.type == "questions"
-					
-					showQuestions()
+					else if $scope.type == "questions"
+						
+						showQuestions()
 
-				else if $scope.type == "filters"
-					
-					showFilters()
-
-
-
+					else if $scope.type == "filters"
+						
+						showFilters()
 
 		# ------------------ invoke the scope ------------------ #
 		$scope.$apply()

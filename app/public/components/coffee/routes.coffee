@@ -292,6 +292,19 @@ define(
 				
 				.state 'home.setting',
 					url:'setting/:type/:id'
+					onEnter:($stateParams,$location)->
+						type = $stateParams.type
+						check = 0
+						if  type is "favorites" then check++
+						if  type is "profile" then check++
+						if  type is "answers" then check++
+						if  type is "filters" then check++
+						if  type is "questions" then check++
+						if check == 0 then $location.path('/')
+						
+							
+						
+						
 					views:
 
 						'content@':
@@ -304,6 +317,7 @@ define(
 							templateUrl :'views/partials/targetQuestions.html'
 							controller:'TargetAudienceCtrl'
 
+					
 
 					
 

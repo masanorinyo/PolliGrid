@@ -196,6 +196,29 @@
         }
       }).state('home.setting', {
         url: 'setting/:type/:id',
+        onEnter: function($stateParams, $location) {
+          var check, type;
+          type = $stateParams.type;
+          check = 0;
+          if (type === "favorites") {
+            check++;
+          }
+          if (type === "profile") {
+            check++;
+          }
+          if (type === "answers") {
+            check++;
+          }
+          if (type === "filters") {
+            check++;
+          }
+          if (type === "questions") {
+            check++;
+          }
+          if (check === 0) {
+            return $location.path('/');
+          }
+        },
         views: {
           'content@': {
             templateUrl: '/views/partials/setting.html',

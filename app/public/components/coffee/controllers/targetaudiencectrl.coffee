@@ -222,10 +222,12 @@ define ['underscore'], (_)->
 		# inital loading - to show results of the questions users already answered
 		
 		do ()->
-			
-			
 
-			checkFilterQuestionStatus('')
+			# if it is accessed from 
+			console.log $scope.filtersOnSettingPage
+			if !$scope.filtersOnSettingPage
+				console.log "$scope.filtersOnSettingPage"
+				checkFilterQuestionStatus('')
 			
 			
 

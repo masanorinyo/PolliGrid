@@ -115,8 +115,8 @@ app.route '/api/findQuestions/:searchTerm/:category/:order/:offset'
       .get contents.findQuestions
 
 # find questions by multiple ids
-app.route "/api/findQuestionsByIds"
-      .get contents.findQuestionsByIds
+app.route "/api/findQuestionsAndFiltersByIds"
+      .get contents.findQuestionsAndFiltersByIds
 
 # update question
 app.route '/api/updateQuestion/:questionId/:userId/:visitorId/:title/:filterId/:index/:task'

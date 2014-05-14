@@ -138,11 +138,12 @@ exports.findQuestions = (req,res)->
 
 
 # find multiple questions by ids
-exports.findQuestionsByIds = (req,res)->
+exports.findQuestionsAndFiltersByIds = (req,res)->
 	console.log ids = req.query.ids
 	console.log offset = req.query.offset
+	console.log type = req.query.type
 
-	console.log offset
+
 
 	callback = (err,questions)->
 		if err 
@@ -151,7 +152,7 @@ exports.findQuestionsByIds = (req,res)->
 			console.log questions
 			res.send questions
 
-	
+		
 	if _.isArray ids
 		console.log 'many'
 		conditions = 
@@ -163,10 +164,13 @@ exports.findQuestionsByIds = (req,res)->
 		conditions = 
 			"_id":ids
 			
+	if type != "filters"
 
+		Question.find(conditions).limit(6).exec(callback)
 
-	Question.find(conditions).limit(6).exec(callback)
+	else 
 
+		Filter.find(conditions).limit(6).exec(callback)
 
 
 # update question
@@ -427,6 +431,39 @@ exports.updateUser = (req,res)->
 				"filterQuestionsAnswered":
 					answer
 
+	else if task == "changeFilter"
+		conditions = 
+
+			"_id":userId
+
+		updates = 
+			$pull:
+				"filterQuestionsAnswered":
+					"_id" 	: fId
+
+		# overwrite the original callback
+		# after pulling the original answer 
+		# add the new answer to the filter question
+		callback = ->
+			answer = 
+				_id 	: fId 
+				answer 	: fAnswer
+
+			updates = 
+				$push:
+					"filterQuestionsAnswered":
+						answer
+
+			User.update(conditions, updates, options, (err,data)->
+				if err 
+					res.send err 
+				else 
+					console.log "success"
+					console.log data
+					res.send data
+			)
+									
+
 	else if task == "reset"
 		conditions = 
 			"_id" 					: userId 
@@ -441,7 +478,7 @@ exports.updateUser = (req,res)->
 
 	options = {upsert:true}
 
-	User.update(conditions, updates, options, callback);
+	User.update(conditions, updates, options, callback)
 
 exports.getUserInfo = (req,res)->
 	
