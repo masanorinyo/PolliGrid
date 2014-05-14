@@ -23,6 +23,12 @@
 	}//.loaderWrapper
 }//loader
 
+.loader-entire{
+	@include absolute-center;
+	height: 50px;
+	width: 50px;
+}
+
 
 .pointer{
 	cursor:pointer;

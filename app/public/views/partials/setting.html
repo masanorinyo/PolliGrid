@@ -1,4 +1,9 @@
-<section class='setting'>
+<div ng-hide="userLoaded" class="loader-entire">
+	<div class="loaderWrapper">
+		<img src="/img/utility/loader.gif" alt="loading">
+	</div>
+</div>
+<section ng-show="userLoaded" class='setting'>
 	<h2 hidden>Setting</h2>
 	<div ng-if="onMyPage" class="animated fadeIn">
 		<div class="card">

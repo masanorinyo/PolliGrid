@@ -22,7 +22,7 @@ define ['underscore'], (_)->
 		$scope.onMyPage = false
 		$scope.showLoader = false
 		$scope.anyContentsLeft = false
-		# if User.user
+		$scope.userLoaded = false
 
 
 			
@@ -37,6 +37,9 @@ define ['underscore'], (_)->
 			$scope.user = user	
 			if $scope.user._id == $scope.id 
 				$scope.onMyPage = true
+
+			$scope.userLoaded = true
+		
 		
 
 		# else
@@ -64,7 +67,7 @@ define ['underscore'], (_)->
 					offset 	: Page.questionPage
 			
 			.success (questions)-> 
-				console.log $scope.questions
+				
 				$scope.questions = questions
 				
 				if questions.length < 6 
@@ -74,13 +77,11 @@ define ['underscore'], (_)->
 		$scope.downloadMoreQuestions = ()->
 			
 			Page.questionPage +=6
-			ids = $scope.requiredIds
+			removeIndex = $scope.requiredIds.length - Page.questionPage
 
-			console.log 'removeIndex'
-			console.log removeIndex = ids.length - Page.questionPage
-
-			if removeIndex > 0
-				ids = ids.splice(0,ids.length - Page.questionPage)
+			if parseInt(removeIndex) > 0
+				
+				ids = $scope.requiredIds.splice(0,$scope.requiredIds.length - Page.questionPage)
 				$scope.showLoader = true
 
 
@@ -101,9 +102,10 @@ define ['underscore'], (_)->
 							$scope.questions.push(val)
 			else 
 				
-				console.log 'test'
+				
 				$scope.showLoader = false
 				$scope.anyContentsLeft = true
+				console.log $scope.anyContentsLeft
 				
 				
 
@@ -133,11 +135,11 @@ define ['underscore'], (_)->
 			Page.questionPage = 0
 			$scope.type = "questions"
 			# $location.path('setting/'+$scope.id+"/questions").replace().reload(false)
-			
+			console.log $scope.user.questionMade
 			$scope.questions = []
 			$scope.requiredIds = $scope.user.questionMade
 
-			console.log $scope.requiredIds
+			
 			findQuestion()
 			
 

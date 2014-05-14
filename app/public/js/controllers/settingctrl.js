@@ -7,6 +7,7 @@
       $scope.onMyPage = false;
       $scope.showLoader = false;
       $scope.anyContentsLeft = false;
+      $scope.userLoaded = false;
       $http({
         method: "GET",
         url: "/api/getUser",
@@ -16,8 +17,9 @@
       }).success(function(user) {
         $scope.user = user;
         if ($scope.user._id === $scope.id) {
-          return $scope.onMyPage = true;
+          $scope.onMyPage = true;
         }
+        return $scope.userLoaded = true;
       });
       $scope.isAccessedFromSetting = true;
       Setting.isSetting = true;
@@ -30,7 +32,6 @@
             offset: Page.questionPage
           }
         }).success(function(questions) {
-          console.log($scope.questions);
           $scope.questions = questions;
           if (questions.length < 6) {
             return $scope.anyContentsLeft = true;
@@ -40,11 +41,9 @@
       $scope.downloadMoreQuestions = function() {
         var ids, removeIndex;
         Page.questionPage += 6;
-        ids = $scope.requiredIds;
-        console.log('removeIndex');
-        console.log(removeIndex = ids.length - Page.questionPage);
-        if (removeIndex > 0) {
-          ids = ids.splice(0, ids.length - Page.questionPage);
+        removeIndex = $scope.requiredIds.length - Page.questionPage;
+        if (parseInt(removeIndex) > 0) {
+          ids = $scope.requiredIds.splice(0, $scope.requiredIds.length - Page.questionPage);
           $scope.showLoader = true;
           return $http({
             method: "GET",
@@ -64,9 +63,9 @@
             }
           });
         } else {
-          console.log('test');
           $scope.showLoader = false;
-          return $scope.anyContentsLeft = true;
+          $scope.anyContentsLeft = true;
+          return console.log($scope.anyContentsLeft);
         }
       };
       showFavorites = $scope.showFavorites = function() {
@@ -81,9 +80,9 @@
         $scope.anyContentsLeft = false;
         Page.questionPage = 0;
         $scope.type = "questions";
+        console.log($scope.user.questionMade);
         $scope.questions = [];
         $scope.requiredIds = $scope.user.questionMade;
-        console.log($scope.requiredIds);
         return findQuestion();
       };
       showAnswers = $scope.showAnswers = function() {
