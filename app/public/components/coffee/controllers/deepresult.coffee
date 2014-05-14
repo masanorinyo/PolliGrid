@@ -155,6 +155,7 @@ define ['underscore'], (_)->
 		
 
 		# ------------- Scope Variables ------------- #
+		console.log Setting.isSetting
 		if Setting.isSetting
 			questionId = Setting.questionId
 			

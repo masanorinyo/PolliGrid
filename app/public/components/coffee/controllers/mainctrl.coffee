@@ -15,6 +15,7 @@ define ["underscore"], (_)->
 		NewQuestion
 		Verification
 		ipCookie
+		Setting
 	)->
 
 
@@ -181,15 +182,16 @@ define ["underscore"], (_)->
 		# --------------- scope functions --------------- #
 		$scope.refresh = ()->
 			
-			$location.path('/')
 			
-			
-			# reload the page
-			$state.transitionTo($state.current, $stateParams, {
-				reload: true
-				inherit: false
-				notify: true
-			})
+			$timeout ->
+				Setting.isSetting = false
+				$location.path('/')
+				# reload the page
+				$state.transitionTo($state.current, $stateParams, {
+					reload: true
+					inherit: false
+					notify: true
+				})
 
 			
 

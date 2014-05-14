@@ -105,6 +105,7 @@
         showTooltips: false,
         animation: false
       };
+      console.log(Setting.isSetting);
       if (Setting.isSetting) {
         questionId = Setting.questionId;
       } else {

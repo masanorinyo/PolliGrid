@@ -49,18 +49,25 @@
         }
       };
       skipThroughFilterQuestions = function() {
-        var i, length, matchedOption;
+        var i, length, matchedOption, userAlreadyAnswered;
         $scope.filterNumber = 0;
         length = $scope.targetChecker.length;
         i = 0;
         while (i < length) {
           if ($scope.targetChecker[i].isAnswered) {
             matchedOption = null;
-            _.each($scope.user.filterQuestionsAnswered, function(answer, index) {
-              return _.each($scope.card.targets[i].lists, function(list, index) {
-                var filter, filterOption;
-                if (list.option === answer.answer) {
-                  if (!_.contains(list.answeredBy, $scope.user._id)) {
+            userAlreadyAnswered = false;
+            _.each($scope.card.targets[i].lists, function(list, index) {
+              if (_.contains(list.answeredBy, $scope.user._id)) {
+                console.log('contains user id');
+                return userAlreadyAnswered = true;
+              }
+            });
+            if (!userAlreadyAnswered) {
+              _.each($scope.user.filterQuestionsAnswered, function(answer, index) {
+                return _.each($scope.card.targets[i].lists, function(list, index) {
+                  var filter, filterOption;
+                  if (list.option === answer.answer) {
                     filter = $scope.card.targets[i];
                     filterOption = $scope.card.targets[i].lists[index];
                     list.answeredBy.push($scope.user._id);
@@ -72,9 +79,9 @@
                       index: index
                     });
                   }
-                }
+                });
               });
-            });
+            }
             $scope.filterNumber++;
           } else {
             break;
@@ -104,9 +111,7 @@
       $scope.filterNumber = 0;
       $scope.targetChecker = [];
       (function() {
-        console.log($scope.filtersOnSettingPage);
         if (!$scope.filtersOnSettingPage) {
-          console.log("$scope.filtersOnSettingPage");
           return checkFilterQuestionStatus('');
         }
       })();

@@ -105,23 +105,36 @@ define ['underscore'], (_)->
 					# the array of question target lists's answeredBy array
 					matchedOption = null
 
-					# loop through the already answered target questions
-					_.each $scope.user.filterQuestionsAnswered,(answer,index)->
-						
-						# if any of the answered question matched,
-						# store the object into the variable 
-						_.each $scope.card.targets[i].lists,(list,index)->
+					userAlreadyAnswered = false
+					
+					_.each $scope.card.targets[i].lists,(list,index)->
+						if _.contains(list.answeredBy,$scope.user._id)
+							console.log 'contains user id'
+							userAlreadyAnswered = true
+
+
+
+					if not userAlreadyAnswered
+
+						# loop through the already answered target questions
+						_.each $scope.user.filterQuestionsAnswered,(answer,index)->
 							
-							if list.option == answer.answer
+							# if any of the answered question matched,
+							# store the object into the variable 
+							_.each $scope.card.targets[i].lists,(list,index)->
 								
-								# while skipping the filter questions
-								# if the filter question does not have the user id
-								# add it 
-								if !_.contains(list.answeredBy,$scope.user._id)
+
+								
+								if list.option == answer.answer
+									
+									# while skipping the filter questions
+									# if the filter question does not have the user id
+									# add it 
 									filter = $scope.card.targets[i]
 									filterOption = $scope.card.targets[i].lists[index]
 									list.answeredBy.push($scope.user._id)
 									
+
 
 									# find the answered option
 									UpdateQuestion.updateFilters(
@@ -131,6 +144,8 @@ define ['underscore'], (_)->
 										filterId 	: filter._id
 										index 		: index
 									)
+								 
+
 
 								
 				
@@ -224,9 +239,8 @@ define ['underscore'], (_)->
 		do ()->
 
 			# if it is accessed from 
-			console.log $scope.filtersOnSettingPage
 			if !$scope.filtersOnSettingPage
-				console.log "$scope.filtersOnSettingPage"
+			
 				checkFilterQuestionStatus('')
 			
 			

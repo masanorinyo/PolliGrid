@@ -34,12 +34,13 @@
       };
       closeDownModal = function() {
         $scope.$dismiss();
-        $location.path('/');
         Error.auth = '';
-        return $state.transitionTo($state.next, $stateParams, {
-          reload: true,
-          inherit: false,
-          notify: true
+        return $timeout(function() {
+          return $state.transitionTo($state.current, $stateParams, {
+            reload: true,
+            inherit: false,
+            notify: true
+          });
         });
       };
       transformToRealUser = function(data) {

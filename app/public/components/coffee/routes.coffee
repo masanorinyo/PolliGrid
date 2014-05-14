@@ -16,7 +16,7 @@ define(
 				.state 'home',
 
 					url:"/"
-
+						
 					views:
 
 						'header':
@@ -33,6 +33,7 @@ define(
 							
 						# 	templateUrl :'views/partials/targetQuestions.html'
 						# 	controller:'TargetAudienceCtrl'
+					
 
 
 				.state 'home.login',

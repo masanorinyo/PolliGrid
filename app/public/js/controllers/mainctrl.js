@@ -1,6 +1,6 @@
 (function() {
   define(["underscore"], function(_) {
-    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search, QuestionTypeHead, NewQuestion, Verification, ipCookie) {
+    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search, QuestionTypeHead, NewQuestion, Verification, ipCookie, Setting) {
       var capitaliseFirstLetter, searchSpecificQuestions;
       capitaliseFirstLetter = function(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -78,11 +78,14 @@
         });
       };
       $scope.refresh = function() {
-        $location.path('/');
-        return $state.transitionTo($state.current, $stateParams, {
-          reload: true,
-          inherit: false,
-          notify: true
+        return $timeout(function() {
+          Setting.isSetting = false;
+          $location.path('/');
+          return $state.transitionTo($state.current, $stateParams, {
+            reload: true,
+            inherit: false,
+            notify: true
+          });
         });
       };
       $scope.selectedTypehead = function($item) {

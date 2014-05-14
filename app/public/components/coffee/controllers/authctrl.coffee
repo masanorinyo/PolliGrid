@@ -50,17 +50,18 @@ define [], ()->
 		closeDownModal = ->
 
 			$scope.$dismiss()
-			$location.path('/')
+			
 			Error.auth = ''
 			
+			$timeout ->
 			
-			
-			# reload the page
-			$state.transitionTo($state.next, $stateParams, {
-				reload: true
-				inherit: false
-				notify: true
-			})
+				# reload the page
+				$state.transitionTo($state.current, $stateParams, {
+					reload: true
+					inherit: false
+					notify: true
+				})
+
 
 			
 

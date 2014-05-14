@@ -189,13 +189,13 @@ define ['underscore'], ( _ )->
 
 			
 			
-				
-			# reload the page
-			$state.transitionTo($state.next, $stateParams, {
-				reload: true
-				inherit: true
-				notify: true
-			})
+			$timeout ->
+				# reload the page
+				$state.transitionTo($state.current, $stateParams, {
+					reload: true
+					inherit: false
+					notify: true
+				})
 
 			
 
