@@ -98,14 +98,15 @@
           "$state": $state
         });
       });
-    }).controller('SettingCtrl', function($scope, $modal, $injector, $location, $timeout, $q) {
+    }).controller('SettingCtrl', function($scope, $modal, $injector, $location, $timeout, $q, $http) {
       return require(['controllers/settingctrl'], function(settingctrl) {
         return $injector.invoke(settingctrl, this, {
           "$scope": $scope,
           "$location": $location,
           "$timeout": $timeout,
           "$q": $q,
-          "$modal": $modal
+          "$modal": $modal,
+          "$http": $http
         });
       });
     }).controller('ChangePassCtrl', function($scope, $injector, $modal, $location, $timeout, $q) {

@@ -36,18 +36,22 @@
 		<hr>
 		<div class="local-box">
 			<div class="title-wrapper">
-				<span class="title"> E-mail</span>
+				<span class="title"> Local</span>
 			</div>
-			<form ng-if="title=='Signup'" method="post" ng-submit="signup(username,password)" id="signupForm" name="signupForm">
+			<form ng-if="title=='Signup'" method="post" ng-submit="signup(newUser)" id="signupForm" name="signupForm">
+				<ul ng-show="somethingWrongWith.signup" class="alert alert-danger">
+					<li> {{warning.password}}</li>
+					<li> {{warning.email}}</li>
+					<li> {{warning.unknown}}</li>
+				</ul>
 				<div class="form-group">
-					<input type="email" name="email" ng-model="username" placeholder="Please type email.." class="form-control">
+					<input type="email" name="email" ng-model="newUser.email" placeholder="Please type email.." class="form-control">
 				</div>
 				<div class="form-group">
-					<input type="password" name="password" ng-model="password" placeholder="Please type password.." class="form-control">
+					<input type="password" name="password" ng-model="newUser.password" placeholder="Please type password.." class="form-control">
 				</div>
-				<input id="remember_me" type="checkbox" name="remember_me" checked="">
 				<label for="remember_me" class="font-size-sl">
-					&nbsp;  
+					<input id="remember_me" type="checkbox" ng-model="newUser.remember_me" name="remember_me">
 					remember me
 				</label>
 				
@@ -57,6 +61,9 @@
 
 			<!-- login form -->
 			<form ng-if="title=='Login'" method="post" ng-submit="login(newUser)" id="loginForm" name="loginForm"  charset="utf-8">
+				<p ng-show="somethingWrongWith.login" class="alert alert-danger">
+					Wrong username or password
+				</p>
 				<div class="form-group">
 					<input type="email" name="email" ng-model="newUser.email" placeholder="Please type email.." class="form-control">
 				</div>

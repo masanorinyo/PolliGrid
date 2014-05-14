@@ -133,7 +133,7 @@ define ['angular','services'], (angular) ->
 				)
 			)
 
-		.controller 'SettingCtrl', ($scope,$modal, $injector,$location,$timeout,$q)->
+		.controller 'SettingCtrl', ($scope,$modal, $injector,$location,$timeout,$q,$http)->
 			require(['controllers/settingctrl'], (settingctrl)->
 				$injector.invoke(
 					settingctrl, this,{
@@ -142,6 +142,7 @@ define ['angular','services'], (angular) ->
 						"$timeout" 				: $timeout
 						"$q" 					: $q
 						"$modal" 				: $modal
+						"$http" 				: $http
 					}
 				)
 			)

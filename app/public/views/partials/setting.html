@@ -40,7 +40,7 @@
 			</button>
 		</div>
 	</div>
-	<div class="content-questions">
+	<div class="content-questions" infinite-scroll="downloadMoreQuestions()" infinite-scroll-disabled="anyContentsLeft">
 		<ul class='content-cards'>
 			<p ng-show="!questions.length" class="noContent">
 				Couldn't find anything
@@ -56,7 +56,7 @@
 						<i ng-show="favorite" class="glyphicon glyphicon-star"></i>
 					</div>
 
-					<div ng-click="openShareModal(question.id)" class="share-button">
+					<div ng-click="openShareModal(question._id)" class="share-button">
 						<i class="glyphicon glyphicon-share"></i>
 					</div>
 
@@ -136,5 +136,13 @@
 				</div>
 			</li>
 		</ul>
+		<div ng-show="showLoader" id="loader">
+			<div class="loaderWrapper">
+				<img src="/img/utility/loader.gif" alt="loading">
+			</div>
+		</div>
+		<div ng-show="anyContentsLeft && questions.length" class="outOfContent">
+			<p>No more questions</p>
+		</div>
 	</div>
 </section>

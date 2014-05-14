@@ -48,7 +48,7 @@ define ["underscore"], (_)->
 				
 					.then -> 
 						
-						Verification.findUser({id:$scope.user._id}).$promise.then (data)->
+						Verification.findUserById({id:escape($scope.user._id)}).$promise.then (data)->
 							foundUser = data.foundUser
 						
 					.then ->
@@ -62,7 +62,7 @@ define ["underscore"], (_)->
 							
 							randomNum = Math.floor(Math.random() * 99)
 							$scope.user._id = $scope.user._id.concat(randomNum)
-							Verification.findUser({id:$scope.user._id}).$promise.then (data)->
+							Verification.findUserById({id:escape($scope.user._id)}).$promise.then (data)->
 								foundUser = data.foundUser
 							
 							
@@ -173,6 +173,7 @@ define ["underscore"], (_)->
 						data.forEach (val,key)->
 						
 							$scope.questions.push(val)
+
 
 		
 

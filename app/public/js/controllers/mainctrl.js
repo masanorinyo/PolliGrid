@@ -16,8 +16,8 @@
         defer = $q.defer();
         if (!User.user) {
           defer.promise.then(function() {
-            return Verification.findUser({
-              id: $scope.user._id
+            return Verification.findUserById({
+              id: escape($scope.user._id)
             }).$promise.then(function(data) {
               return foundUser = data.foundUser;
             });
@@ -26,8 +26,8 @@
             if (foundUser) {
               randomNum = Math.floor(Math.random() * 99);
               $scope.user._id = $scope.user._id.concat(randomNum);
-              return Verification.findUser({
-                id: $scope.user._id
+              return Verification.findUserById({
+                id: escape($scope.user._id)
               }).$promise.then(function(data) {
                 return foundUser = data.foundUser;
               });

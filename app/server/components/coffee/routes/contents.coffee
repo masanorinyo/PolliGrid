@@ -2,7 +2,7 @@
 Question 	= 	require('../models/question')
 User 		= 	require('../models/user')
 Filter 		= 	require('../models/targetQuestion');
-
+_ 			= 	require('underscore')
 
 # ----------------- utility functions ----------------- #
 escapeChar = (regex)->
@@ -135,6 +135,38 @@ exports.findQuestions = (req,res)->
 		.limit(6)
 		.skip(offset)
 		.exec(callback)
+
+
+# find multiple questions by ids
+exports.findQuestionsByIds = (req,res)->
+	console.log ids = req.query.ids
+	console.log offset = req.query.offset
+
+
+	callback = (err,questions)->
+		if err 
+			res.send err 
+		else 
+			console.log questions
+			res.send questions
+
+	
+	if _.isArray ids
+		console.log 'many'
+		conditions = 
+			"_id":
+				$in:ids
+	else 
+
+		console.log 'one'
+		conditions = 
+			"_id":ids
+			
+
+
+	Question.find(conditions).limit(6).skip(offset).exec(callback)
+
+
 
 # update question
 exports.updateQuestion = (req,res)->

@@ -110,6 +110,16 @@
           isArray: true
         }
       });
+    }).factory("FindByType", function($resource) {
+      return $resource("/api/findQuestionsBy/:userId/:type", {
+        userId: "@userId",
+        type: "@type"
+      }, {
+        "get": {
+          method: "GET",
+          isArray: true
+        }
+      });
     }).factory('UpdateUserInfo', function($resource) {
       return $resource("/api/updateUser/:userId/:qId/:qAnswer/:fId/:fAnswer/:task", {
         userId: "@userId",
@@ -183,11 +193,22 @@
         user: loggedInUser
       };
     }).factory('Verification', function($resource) {
-      return $resource("/api/user/:id", {
-        id: "@id"
+      return $resource("/api/user/:id/:email", {
+        id: "@id",
+        email: "@email"
       }, {
-        "findUser": {
-          method: "GET"
+        "findUserById": {
+          method: "GET",
+          params: {
+            email: 0
+          }
+        },
+        "findUserByEmail": {
+          method: "GET",
+          params: {
+            id: 0
+          },
+          isArray: true
         }
       });
     }).factory('Error', function() {

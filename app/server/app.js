@@ -86,6 +86,8 @@
 
   app.route('/api/findQuestions/:searchTerm/:category/:order/:offset').get(contents.findQuestions);
 
+  app.route("/api/findQuestionsByIds").get(contents.findQuestionsByIds);
+
   app.route('/api/updateQuestion/:questionId/:userId/:visitorId/:title/:filterId/:index/:task').put(contents.updateQuestion);
 
   app.route('/api/getQuestionTitle/:term/:category').get(contents.getQuestionTitle);

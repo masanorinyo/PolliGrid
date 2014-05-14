@@ -133,6 +133,22 @@ define ['angular'], (angular) ->
 				}
 			)
 
+		.factory "FindByType", ($resource)->
+			$resource(
+				"/api/findQuestionsBy/:userId/:type"
+				{
+					userId:"@userId"
+					type:"@type"
+				}
+				{
+					"get":
+						method:"GET"
+						isArray:true
+				}
+			)
+			
+		
+
 		.factory 'UpdateUserInfo',($resource)->
 			$resource(
 				"/api/updateUser/:userId/:qId/:qAnswer/:fId/:fAnswer/:task"
@@ -218,11 +234,25 @@ define ['angular'], (angular) ->
 
 		.factory 'Verification',($resource)->
 			$resource(
-				"/api/user/:id"
-				{id:"@id"}
+				"/api/user/:id/:email"
 				{
-					"findUser":
-						method:"GET"
+					id:"@id"
+					email:"@email"
+				}
+				{
+					
+					"findUserById":
+						method 	: "GET"
+						params 	:
+							email : 0
+						
+
+					
+					"findUserByEmail":
+						method 	: "GET"
+						params 	:
+							id 	: 0
+						isArray:true
 				}
 			)
 

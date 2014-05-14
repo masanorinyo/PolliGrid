@@ -1,9 +1,10 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $location, $modal, $stateParams, $timeout, Question, User, Filters, Error, Setting) {
+    return function($scope, $location, $modal, $stateParams, $timeout, $http, Question, User, Page, Filters, Error, Setting, FindQuestions) {
       var findQuestion, showAnswers, showDeepResult, showFavorites, showFilters, showQuestions;
       $scope.type = $stateParams.type;
       $scope.id = $stateParams.id;
+      $scope.anyContentsLeft = false;
       if (User.user) {
         $scope.user = User.user;
       } else {
@@ -11,47 +12,64 @@
       }
       $scope.isAccessedFromSetting = true;
       Setting.isSetting = true;
-      findQuestion = function(target, requiredIds) {
-        var questions;
-        questions = [];
-        _.each(requiredIds, function(requiredId) {
-          var foundQuestion;
-          foundQuestion = _.findWhere(target, {
-            id: requiredId
-          });
-          return questions.push(foundQuestion);
+      findQuestion = function() {
+        return $http({
+          method: "GET",
+          url: "/api/findQuestionsByIds",
+          params: {
+            ids: $scope.requiredIds,
+            offset: Page.questionPage
+          }
+        }).success(function(questions) {
+          return $scope.questions = questions;
         });
-        return questions;
+      };
+      $scope.downloadMoreQuestions = function() {
+        console.log(Page.questionPage += 6);
+        $scope.showLoader = true;
+        return $http({
+          method: "GET",
+          url: "/api/findQuestionsByIds",
+          params: {
+            ids: $scope.requiredIds,
+            offset: Page.questionPage
+          }
+        }).success(function(questions) {
+          if (!questions.length) {
+            $scope.anyContentsLeft = true;
+            $scope.showLoader = false;
+          }
+          return $scope.questions.push(questions);
+        });
       };
       showFavorites = $scope.showFavorites = function() {
+        Page.questionPage = 0;
         $scope.type = "favorites";
-        $location.path('setting/' + $scope.id + "/favorites");
-        return $scope.questions = findQuestion(Question, $scope.user.favorites);
+        $scope.questions = [];
+        $scope.requiredIds = $scope.user.favorites;
+        return findQuestion();
       };
       showQuestions = $scope.showQuestions = function() {
+        Page.questionPage = 0;
         $scope.type = "questions";
-        $location.path('setting/' + $scope.id + "/questions");
-        return $scope.questions = findQuestion(Question, $scope.user.questionMade);
+        $scope.questions = [];
+        $scope.requiredIds = $scope.user.questionMade;
+        return findQuestion();
       };
       showAnswers = $scope.showAnswers = function() {
         var ids;
+        Page.questionPage = 0;
         $scope.type = "answers";
-        $location.path('setting/' + $scope.id + "/answers");
         ids = _.pluck($scope.user.questionsAnswered, "_id");
-        return $scope.questions = findQuestion(Question, ids);
+        $scope.requiredIds = ids;
+        return findQuestion();
       };
       showFilters = $scope.showFilters = function() {
         var ids;
         $scope.type = "filters";
-        $location.path('setting/' + $scope.id + "/filters");
         $scope.questions = [];
         ids = _.pluck($scope.user.filterQuestionsAnswered, "_id");
-        $scope.filters = findQuestion(Filters, ids);
-        $scope.answer = [];
-        return _.each($scope.user.filterQuestionsAnswered, function(filter, index) {
-          console.log(filter.answer);
-          return $scope.answer[index] = filter.answer;
-        });
+        return $scope.filters = findQuestion(ids);
       };
       showDeepResult = $scope.showDeepResult = function(id) {
         var modalInstance;
@@ -73,15 +91,17 @@
         });
       };
       (function() {
-        if ($scope.type === "favorites" || $scope.type === "profile") {
-          return showFavorites();
-        } else if ($scope.type === "answers") {
-          return showAnswers();
-        } else if ($scope.type === "questions") {
-          return showQuestions();
-        } else if ($scope.type === "filters") {
-          return showFilters();
-        }
+        return $timeout(function() {
+          if ($scope.type === "favorites" || $scope.type === "profile") {
+            return showFavorites();
+          } else if ($scope.type === "answers") {
+            return showAnswers();
+          } else if ($scope.type === "questions") {
+            return showQuestions();
+          } else if ($scope.type === "filters") {
+            return showFilters();
+          }
+        });
       })();
       return $scope.$apply();
     };

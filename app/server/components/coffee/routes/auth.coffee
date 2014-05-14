@@ -6,6 +6,11 @@
 User = require("../models/user")
 auth_utility = require("../lib/auth-utility")
 
+# ----------------- utility functions ----------------- #
+escapeChar = (regex)->
+	regex.replace(/([()[{*+.$^\\|?])/g, '\\$1')
+
+
 # fs = require("fs")
 # verification = require("../lib/verification")
 
@@ -37,7 +42,6 @@ module.exports = (app,passport) ->
 		
 		if req.user
 
-			auth_utility.rememberMe(req, res, next)
 			res.send(req.user)
 
 		else
@@ -184,23 +188,37 @@ module.exports = (app,passport) ->
 
 
 	# verification
-	app.get "/api/user/:id",(req,res) ->
-		id = req.params.id
+	app.get "/api/user/:id/:email",(req,res) ->
+		console.log id = escapeChar(unescape(req.params.id))
+		console.log email = unescape(req.params.email)
 
-		User.findById id, (err,user) ->
+		if id != "0"
+
+			User.findById id, (err,user) ->
+				
+				if err 
+				
+					res.send("foundUser",{foundUser:false})
+				
+				else if user
+
+					res.send("foundUser",{foundUser:true})
+
+				else 
+
+					res.send("foundUser",{foundUser:false})
+
+		else 
+
+			User.find({"local.email":email},(err,user)-> 
+				
+				if err 
+					res.send err 
+				else
+					console.log user
+					res.send user
+			)
 			
-			if err 
-			
-				res.send("foundUser",{foundUser:false})
-			
-			else if user
-
-				res.send("foundUser",{foundUser:true})
-
-			else 
-
-				res.send("foundUser",{foundUser:false})
-		
 		
 	#   #Setting
 #   app.get "/setting", auth_utility.isLoggedIn, (req, res) ->

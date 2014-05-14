@@ -1,11 +1,13 @@
 (function() {
-  var Filter, Question, User, escapeChar;
+  var Filter, Question, User, escapeChar, _;
 
   Question = require('../models/question');
 
   User = require('../models/user');
 
   Filter = require('../models/targetQuestion');
+
+  _ = require('underscore');
 
   escapeChar = function(regex) {
     return regex.replace(/([()[{*+.$^\\|?])/g, '\\$1');
@@ -143,6 +145,34 @@
         }
       ]
     }).where("category").equals(new RegExp(category, 'i')).sort(sorting).limit(6).skip(offset).exec(callback);
+  };
+
+  exports.findQuestionsByIds = function(req, res) {
+    var callback, conditions, ids, offset;
+    console.log(ids = req.query.ids);
+    console.log(offset = req.query.offset);
+    callback = function(err, questions) {
+      if (err) {
+        return res.send(err);
+      } else {
+        console.log(questions);
+        return res.send(questions);
+      }
+    };
+    if (_.isArray(ids)) {
+      console.log('many');
+      conditions = {
+        "_id": {
+          $in: ids
+        }
+      };
+    } else {
+      console.log('one');
+      conditions = {
+        "_id": ids
+      };
+    }
+    return Question.find(conditions).limit(6).skip(offset).exec(callback);
   };
 
   exports.updateQuestion = function(req, res) {

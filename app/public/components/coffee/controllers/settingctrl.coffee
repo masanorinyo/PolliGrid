@@ -1,9 +1,24 @@
 define ['underscore'], (_)->
-	($scope,$location,$modal,$stateParams,$timeout,Question,User,Filters,Error,Setting)->
+	(
+		$scope
+		$location
+		$modal
+		$stateParams
+		$timeout
+		$http
+		Question
+		User
+		Page
+		Filters
+		Error
+		Setting
+		FindQuestions
+
+	)->
 
 		$scope.type = $stateParams.type
 		$scope.id = $stateParams.id
-		
+		$scope.anyContentsLeft = false
 		if User.user
 			
 			$scope.user = User.user
@@ -20,45 +35,90 @@ define ['underscore'], (_)->
 		
 		
 
-		findQuestion = (target,requiredIds)->
+		findQuestion = ->
 			# empties questions first
-			questions = []
 
-			_.each requiredIds, (requiredId)->
-				foundQuestion = _.findWhere target,{id:requiredId}
-				questions.push(foundQuestion)
 
+
+			$http
+				method	: "GET"
+				url 	: "/api/findQuestionsByIds"
+				params	:
+					ids 	: $scope.requiredIds
+					offset 	: Page.questionPage
 			
-			return questions
+			.success (questions)-> 
+				$scope.questions = questions
 
 
+		$scope.downloadMoreQuestions = ()->
+			 
+			console.log Page.questionPage +=6
+			$scope.showLoader = true
+			$http
+				method	: "GET"
+				url 	: "/api/findQuestionsByIds"
+				params	:
+					ids 	: $scope.requiredIds
+					offset 	: Page.questionPage
+			
+			.success (questions)-> 
+				if !questions.length 
+					$scope.anyContentsLeft = true
+					$scope.showLoader = false
+				
+				$scope.questions.push(questions)
+				
+				
+				
+
+				
+					
+					
+					
+
+		
 
 		# --------------- Setting Content navi --------------- #
 
 		showFavorites = $scope.showFavorites = ->
+			Page.questionPage = 0
 			$scope.type = "favorites"
-			$location.path('setting/'+$scope.id+"/favorites")
+			# $location.path('setting/'+$scope.id+"/favorites").replace().reload(false)
+			
+			$scope.questions = []
+			$scope.requiredIds = $scope.user.favorites
+			findQuestion()
 
-			$scope.questions = findQuestion(Question,$scope.user.favorites)
+			
 			
 		showQuestions = $scope.showQuestions = ->
+			Page.questionPage = 0
 			$scope.type = "questions"
-			$location.path('setting/'+$scope.id+"/questions")
-
-			$scope.questions = findQuestion(Question,$scope.user.questionMade)
+			# $location.path('setting/'+$scope.id+"/questions").replace().reload(false)
+			
+			$scope.questions = []
+			$scope.requiredIds = $scope.user.questionMade
+			findQuestion()
+			
 
 		showAnswers = $scope.showAnswers = ->
+			Page.questionPage = 0
 			$scope.type = "answers"
-			$location.path('setting/'+$scope.id+"/answers")
-
+			# $location.path('setting/'+$scope.id+"/answers").replace().reload(false)
+			
 			ids = _.pluck $scope.user.questionsAnswered,"_id"
-			$scope.questions = findQuestion(Question,ids)
+			$scope.requiredIds = ids
+			
+			findQuestion()
+			
 
 			
 
 		showFilters = $scope.showFilters = ->
+			
 			$scope.type = "filters"
-			$location.path('setting/'+$scope.id+"/filters")
+			# $location.path('setting/'+$scope.id+"/filters").replace().reload(false)
 
 			# empty the questions
 			$scope.questions=[]
@@ -66,14 +126,15 @@ define ['underscore'], (_)->
 			ids = _.pluck $scope.user.filterQuestionsAnswered,"_id"
 			
 
-			$scope.filters = findQuestion(Filters,ids)
+			#
+			$scope.filters = findQuestion(ids)
 
-			
-			$scope.answer = []
-			_.each $scope.user.filterQuestionsAnswered, (filter,index)->
-				console.log filter.answer
+			# #
+			# $scope.answer = []
+			# _.each $scope.user.filterQuestionsAnswered, (filter,index)->
+			# 	console.log filter.answer
 
-				$scope.answer[index] = filter.answer
+			# 	$scope.answer[index] = filter.answer
 
 
 
@@ -99,21 +160,22 @@ define ['underscore'], (_)->
 
 		# -------------------------- for initial load --------------------------#
 		do ()->
-			if $scope.type == "favorites" || $scope.type == "profile"
-				
-				showFavorites()
+			$timeout ->
+				if $scope.type == "favorites" || $scope.type == "profile"
+					
+					showFavorites()
 
-			else if $scope.type == "answers"
-				
-				showAnswers()
+				else if $scope.type == "answers"
+					
+					showAnswers()
 
-			else if $scope.type == "questions"
-				
-				showQuestions()
+				else if $scope.type == "questions"
+					
+					showQuestions()
 
-			else if $scope.type == "filters"
-				
-				showFilters()
+				else if $scope.type == "filters"
+					
+					showFilters()
 
 
 
