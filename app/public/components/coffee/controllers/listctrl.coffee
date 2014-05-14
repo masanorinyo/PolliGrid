@@ -318,11 +318,7 @@ define ['underscore'], (_)->
 			
 		# reset everything	
 		$scope.$on 'resetAnswer',(question)->
-			console.clear()
-			console.trace()
-
-
-
+			
 
 			#shows the main question section
 			$scope.submitted = false
@@ -391,9 +387,28 @@ define ['underscore'], (_)->
 			else 
 				userId = User.user._id
 
-			console.log User.visitor._id
+			 
+			_.each $scope.card.targets,(target,index)->
+				_.find target.lists,(list,index)->
+					if _.contains(list.answeredBy,$scope.user._id)
+						
+						console.log $scope.card._id
+						console.log list._id
+						console.log index
 
-			console.log UpdateQuestion.removeAnswer(
+						UpdateQuestion.removeFiltersAnswer(
+							questionId 	: $scope.card._id
+							userId 		: $scope.user._id
+							visitorId 	: User.visitor._id
+							title 		: "0"
+							filterId 	: target._id
+							index 		: index
+						)
+
+					
+
+
+			UpdateQuestion.removeAnswer(
 				questionId 	: questionId
 				userId 		: userId
 				title 		: escape(foundOption.title)

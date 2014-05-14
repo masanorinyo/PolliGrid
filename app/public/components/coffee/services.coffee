@@ -83,8 +83,11 @@ define ['angular'], (angular) ->
 						params 		:
 							visitorId 	: 0
 							task  		: "update"
-							
-
+					
+					"removeFiltersAnswer":
+						method 		: "PUT"
+						params 		:
+							task  	: "removeFilter"
 					"removeAnswer"  : 
 						method 		: "PUT"
 						params 		:

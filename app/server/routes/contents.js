@@ -220,6 +220,26 @@
           }
         }
       };
+    } else if (task === "removeFilter") {
+      console.log('filter was removed');
+      console.log("questionId");
+      console.log(questionId);
+      console.log("filterId");
+      console.log(filterId);
+      console.log("index");
+      console.log(index);
+      console.log("userId");
+      console.log(userId);
+      conditions = {
+        "_id": questionId,
+        "targets._id": filterId
+      };
+      updates = {
+        $pull: {}
+      };
+      updates.$pull["targets.$.lists." + index + ".answeredBy"] = {
+        $in: [userId, visitorId]
+      };
     } else {
       if (filterId !== "0") {
         console.log('update question filter');
