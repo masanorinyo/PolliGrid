@@ -79,13 +79,11 @@
       };
       $scope.refresh = function() {
         $location.path('/');
-        return $timeout(function() {
-          return $state.transitionTo($state.current, $stateParams, {
-            reload: true,
-            inherit: false,
-            notify: true
-          });
-        }, 100, true);
+        return $state.transitionTo($state.current, $stateParams, {
+          reload: true,
+          inherit: false,
+          notify: true
+        });
       };
       $scope.selectedTypehead = function($item) {
         Page.questionPage = 0;

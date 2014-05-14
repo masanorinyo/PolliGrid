@@ -36,13 +36,11 @@
         $scope.$dismiss();
         $location.path('/');
         Error.auth = '';
-        return $timeout(function() {
-          return $state.transitionTo($state.current, $stateParams, {
-            reload: true,
-            inherit: false,
-            notify: true
-          });
-        }, 100, true);
+        return $state.transitionTo($state.next, $stateParams, {
+          reload: true,
+          inherit: false,
+          notify: true
+        });
       };
       transformToRealUser = function(data) {
         var userId;

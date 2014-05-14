@@ -151,6 +151,7 @@
     var callback, conditions, ids, offset;
     console.log(ids = req.query.ids);
     console.log(offset = req.query.offset);
+    console.log(offset);
     callback = function(err, questions) {
       if (err) {
         return res.send(err);
@@ -172,7 +173,7 @@
         "_id": ids
       };
     }
-    return Question.find(conditions).limit(6).skip(offset).exec(callback);
+    return Question.find(conditions).limit(6).exec(callback);
   };
 
   exports.updateQuestion = function(req, res) {

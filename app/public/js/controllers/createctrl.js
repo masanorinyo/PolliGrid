@@ -107,13 +107,11 @@
       $scope.closeModal = function() {
         $scope.$dismiss();
         $location.path('/');
-        return $timeout(function() {
-          return $state.transitionTo($state.current, $stateParams, {
-            reload: true,
-            inherit: true,
-            notify: true
-          });
-        }, 500, true);
+        return $state.transitionTo($state.next, $stateParams, {
+          reload: true,
+          inherit: true,
+          notify: true
+        });
       };
       $scope.createOption = function(option) {
         var newlyCreatedOption, sameOptionFound;

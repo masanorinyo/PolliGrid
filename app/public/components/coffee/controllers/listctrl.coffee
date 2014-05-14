@@ -426,17 +426,16 @@ define ['underscore'], (_)->
 
 			$scope.$dismiss()
 			
-			$timeout ->
-				$location.path('/')
+			$location.path('/')
 
-				# reload the page
-				$state.transitionTo($state.current, $stateParams, {
-					reload: true
-					inherit: true
-					notify: true
-				})
+			# reload the page
+			$state.transitionTo($state.current, $stateParams, {
+				reload: true
+				inherit: true
+				notify: true
+			})
 
-			,100,true
+			
 
 		$scope.closeQuestionModal = ()->
 			

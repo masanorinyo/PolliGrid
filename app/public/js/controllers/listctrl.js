@@ -236,14 +236,12 @@
       });
       $scope.closeModal = function() {
         $scope.$dismiss();
-        return $timeout(function() {
-          $location.path('/');
-          return $state.transitionTo($state.current, $stateParams, {
-            reload: true,
-            inherit: true,
-            notify: true
-          });
-        }, 100, true);
+        $location.path('/');
+        return $state.transitionTo($state.current, $stateParams, {
+          reload: true,
+          inherit: true,
+          notify: true
+        });
       };
       $scope.closeQuestionModal = function() {
         return $scope.$dismiss();

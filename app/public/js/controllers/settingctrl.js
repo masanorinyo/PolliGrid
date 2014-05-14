@@ -1,15 +1,24 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $location, $modal, $stateParams, $timeout, $http, Question, User, Page, Filters, Error, Setting, FindQuestions) {
+    return function($scope, $location, $modal, $stateParams, $timeout, $http, Question, User, Page, Filters, Error, Setting, FindQuestions, Verification) {
       var findQuestion, showAnswers, showDeepResult, showFavorites, showFilters, showQuestions;
       $scope.type = $stateParams.type;
       $scope.id = $stateParams.id;
+      $scope.onMyPage = false;
+      $scope.showLoader = false;
       $scope.anyContentsLeft = false;
-      if (User.user) {
-        $scope.user = User.user;
-      } else {
-        $location.path('/');
-      }
+      $http({
+        method: "GET",
+        url: "/api/getUser",
+        params: {
+          userId: $scope.id
+        }
+      }).success(function(user) {
+        $scope.user = user;
+        if ($scope.user._id === $scope.id) {
+          return $scope.onMyPage = true;
+        }
+      });
       $scope.isAccessedFromSetting = true;
       Setting.isSetting = true;
       findQuestion = function() {
@@ -21,28 +30,47 @@
             offset: Page.questionPage
           }
         }).success(function(questions) {
-          return $scope.questions = questions;
+          console.log($scope.questions);
+          $scope.questions = questions;
+          if (questions.length < 6) {
+            return $scope.anyContentsLeft = true;
+          }
         });
       };
       $scope.downloadMoreQuestions = function() {
-        console.log(Page.questionPage += 6);
-        $scope.showLoader = true;
-        return $http({
-          method: "GET",
-          url: "/api/findQuestionsByIds",
-          params: {
-            ids: $scope.requiredIds,
-            offset: Page.questionPage
-          }
-        }).success(function(questions) {
-          if (!questions.length) {
-            $scope.anyContentsLeft = true;
+        var ids, removeIndex;
+        Page.questionPage += 6;
+        ids = $scope.requiredIds;
+        console.log('removeIndex');
+        console.log(removeIndex = ids.length - Page.questionPage);
+        if (removeIndex > 0) {
+          ids = ids.splice(0, ids.length - Page.questionPage);
+          $scope.showLoader = true;
+          return $http({
+            method: "GET",
+            url: "/api/findQuestionsByIds",
+            params: {
+              ids: ids,
+              offset: Page.questionPage
+            }
+          }).success(function(questions) {
             $scope.showLoader = false;
-          }
-          return $scope.questions.push(questions);
-        });
+            if (!questions.length) {
+              return $scope.anyContentsLeft = true;
+            } else {
+              return questions.forEach(function(val, key) {
+                return $scope.questions.push(val);
+              });
+            }
+          });
+        } else {
+          console.log('test');
+          $scope.showLoader = false;
+          return $scope.anyContentsLeft = true;
+        }
       };
       showFavorites = $scope.showFavorites = function() {
+        $scope.anyContentsLeft = false;
         Page.questionPage = 0;
         $scope.type = "favorites";
         $scope.questions = [];
@@ -50,14 +78,17 @@
         return findQuestion();
       };
       showQuestions = $scope.showQuestions = function() {
+        $scope.anyContentsLeft = false;
         Page.questionPage = 0;
         $scope.type = "questions";
         $scope.questions = [];
         $scope.requiredIds = $scope.user.questionMade;
+        console.log($scope.requiredIds);
         return findQuestion();
       };
       showAnswers = $scope.showAnswers = function() {
         var ids;
+        $scope.anyContentsLeft = false;
         Page.questionPage = 0;
         $scope.type = "answers";
         ids = _.pluck($scope.user.questionsAnswered, "_id");
@@ -66,6 +97,7 @@
       };
       showFilters = $scope.showFilters = function() {
         var ids;
+        $scope.anyContentsLeft = false;
         $scope.type = "filters";
         $scope.questions = [];
         ids = _.pluck($scope.user.filterQuestionsAnswered, "_id");

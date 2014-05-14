@@ -52,3 +52,18 @@
 		font-size:1.5em;
 	}
 }
+
+.separator{
+	height:100%;
+	position:relative;
+}
+
+.separator-right{
+	width:70%;
+	float:right
+}
+
+.separator-left{
+	width:30%;
+	float:left
+}

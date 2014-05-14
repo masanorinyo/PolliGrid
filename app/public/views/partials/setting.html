@@ -1,6 +1,6 @@
 <section class='setting'>
 	<h2 hidden>Setting</h2>
-	<div>
+	<div ng-if="onMyPage" class="animated fadeIn">
 		<div class="card">
 			<div class="title-header">
 				<h3>Account Setting</h3>
@@ -24,7 +24,15 @@
 			</div>
 		</div>
 	</div>
-	<div class="navi">
+	<div class="well username" ng-hide="onMyPage">
+		<div class="separator separator-left">
+			<img class="img-circle" ng-src="{{user.profilePic}}" alt="{{user.username}}">
+		</div>
+		<div class="separator separator-right">
+			<p class="gray"><span>{{user.username}}</span>'s page</p>
+		</div>
+	</div>
+	<div class="navi" ng-class="{'narrower-navi':!onMyPage}" class="animated fadeIn">
 		<div class="btn-group">
 			<button type="button" ng-click="showFavorites()" ng-class="{'active':type=='favorites' || type=='profile' }" class="btn btn-default">
 				Favorites
@@ -35,7 +43,7 @@
 			<button type="button" ng-click="showAnswers()" ng-class="{'active':type=='answers' }" class="btn btn-default">
 				My answers
 			</button>
-			<button type="button" ng-click="showFilters()" ng-class="{'active':type=='filters' }" class="btn btn-default">
+			<button ng-if="onMyPage" type="button" ng-click="showFilters()" ng-class="{'active':type=='filters' }" class="btn btn-default">
 				Filters
 			</button>
 		</div>
@@ -46,7 +54,7 @@
 				Couldn't find anything
 			</p>
 			<li  ng-repeat="question in questions" 
-			 ng-controller="ListCtrl">
+			 ng-controller="ListCtrl" class="animated fadeIn">
 
 				<div answered='question.alreadyAnswered' submitted="submitted"  class="card card-large">
 					
@@ -74,7 +82,7 @@
 						<form ng-submit="submitAnswer(answer,question)" class="surveyForm">
 							
 							<ul class="answers">
-								<li ng-hide="targetQ.isQuestionAnswered" class='answer' ng-repeat='option in question.options'>
+								<li ng-hide="targetQ.isQuestionAnswered" class='answer' ng-repeat='option in question.option'>
 									<label class='pointer'>
 										<input ng-model="$parent.answer" type="radio" name="answer" ng-value="option">
 										{{option.title}}

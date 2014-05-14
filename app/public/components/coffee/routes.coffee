@@ -291,7 +291,7 @@ define(
 								
 				
 				.state 'home.setting',
-					url:'setting/:id/:type'
+					url:'setting/:type/:id'
 					views:
 
 						'content@':

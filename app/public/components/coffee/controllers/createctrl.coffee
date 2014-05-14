@@ -187,17 +187,17 @@ define ['underscore'], ( _ )->
 			$scope.$dismiss()
 			$location.path('/')
 
-			$timeout ->
+			
+			
 				
-				
-				# reload the page
-				$state.transitionTo($state.current, $stateParams, {
-					reload: true
-					inherit: true
-					notify: true
-				})
+			# reload the page
+			$state.transitionTo($state.next, $stateParams, {
+				reload: true
+				inherit: true
+				notify: true
+			})
 
-			,500,true
+			
 
 		
 		# -- for create question section --#

@@ -13,19 +13,35 @@ define ['underscore'], (_)->
 		Error
 		Setting
 		FindQuestions
+		Verification
 
 	)->
 
 		$scope.type = $stateParams.type
 		$scope.id = $stateParams.id
+		$scope.onMyPage = false
+		$scope.showLoader = false
 		$scope.anyContentsLeft = false
-		if User.user
-			
-			$scope.user = User.user
+		# if User.user
 
-		else
+
 			
-			$location.path('/')
+		$http 
+			method:"GET"
+			url:"/api/getUser"
+			params:
+				userId:$scope.id
+
+		.success (user)->
+			
+			$scope.user = user	
+			if $scope.user._id == $scope.id 
+				$scope.onMyPage = true
+		
+
+		# else
+			
+		# 	$location.path('/')
 
 		$scope.isAccessedFromSetting = true
 		
@@ -48,27 +64,46 @@ define ['underscore'], (_)->
 					offset 	: Page.questionPage
 			
 			.success (questions)-> 
+				console.log $scope.questions
 				$scope.questions = questions
+				
+				if questions.length < 6 
+					$scope.anyContentsLeft = true
 
 
 		$scope.downloadMoreQuestions = ()->
-			 
-			console.log Page.questionPage +=6
-			$scope.showLoader = true
-			$http
-				method	: "GET"
-				url 	: "/api/findQuestionsByIds"
-				params	:
-					ids 	: $scope.requiredIds
-					offset 	: Page.questionPage
 			
-			.success (questions)-> 
-				if !questions.length 
-					$scope.anyContentsLeft = true
+			Page.questionPage +=6
+			ids = $scope.requiredIds
+
+			console.log 'removeIndex'
+			console.log removeIndex = ids.length - Page.questionPage
+
+			if removeIndex > 0
+				ids = ids.splice(0,ids.length - Page.questionPage)
+				$scope.showLoader = true
+
+
+
+				$http
+					method	: "GET"
+					url 	: "/api/findQuestionsByIds"
+					params	:
+						ids 	: ids
+						offset 	: Page.questionPage
+				
+				.success (questions)->
 					$scope.showLoader = false
+					if !questions.length
+						$scope.anyContentsLeft = true
+					else
+						questions.forEach (val,key)->
+							$scope.questions.push(val)
+			else 
 				
-				$scope.questions.push(questions)
-				
+				console.log 'test'
+				$scope.showLoader = false
+				$scope.anyContentsLeft = true
 				
 				
 
@@ -82,6 +117,7 @@ define ['underscore'], (_)->
 		# --------------- Setting Content navi --------------- #
 
 		showFavorites = $scope.showFavorites = ->
+			$scope.anyContentsLeft = false
 			Page.questionPage = 0
 			$scope.type = "favorites"
 			# $location.path('setting/'+$scope.id+"/favorites").replace().reload(false)
@@ -93,16 +129,20 @@ define ['underscore'], (_)->
 			
 			
 		showQuestions = $scope.showQuestions = ->
+			$scope.anyContentsLeft = false
 			Page.questionPage = 0
 			$scope.type = "questions"
 			# $location.path('setting/'+$scope.id+"/questions").replace().reload(false)
 			
 			$scope.questions = []
 			$scope.requiredIds = $scope.user.questionMade
+
+			console.log $scope.requiredIds
 			findQuestion()
 			
 
 		showAnswers = $scope.showAnswers = ->
+			$scope.anyContentsLeft = false
 			Page.questionPage = 0
 			$scope.type = "answers"
 			# $location.path('setting/'+$scope.id+"/answers").replace().reload(false)
@@ -116,7 +156,7 @@ define ['underscore'], (_)->
 			
 
 		showFilters = $scope.showFilters = ->
-			
+			$scope.anyContentsLeft = false
 			$scope.type = "filters"
 			# $location.path('setting/'+$scope.id+"/filters").replace().reload(false)
 

@@ -195,7 +195,7 @@
           }
         }
       }).state('home.setting', {
-        url: 'setting/:id/:type',
+        url: 'setting/:type/:id',
         views: {
           'content@': {
             templateUrl: '/views/partials/setting.html',

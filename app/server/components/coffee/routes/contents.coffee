@@ -142,6 +142,7 @@ exports.findQuestionsByIds = (req,res)->
 	console.log ids = req.query.ids
 	console.log offset = req.query.offset
 
+	console.log offset
 
 	callback = (err,questions)->
 		if err 
@@ -164,7 +165,7 @@ exports.findQuestionsByIds = (req,res)->
 			
 
 
-	Question.find(conditions).limit(6).skip(offset).exec(callback)
+	Question.find(conditions).limit(6).exec(callback)
 
 
 

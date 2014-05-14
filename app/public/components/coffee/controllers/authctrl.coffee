@@ -53,16 +53,16 @@ define [], ()->
 			$location.path('/')
 			Error.auth = ''
 			
-			$timeout ->
-				
-				# reload the page
-				$state.transitionTo($state.current, $stateParams, {
-					reload: true
-					inherit: false
-					notify: true
-				})
+			
+			
+			# reload the page
+			$state.transitionTo($state.next, $stateParams, {
+				reload: true
+				inherit: false
+				notify: true
+			})
 
-			,100,true
+			
 
 		transformToRealUser = (data)->
 			if User.visitor.questionsAnswered.length || User.visitor.filterQuestionsAnswered.length

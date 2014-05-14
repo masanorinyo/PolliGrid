@@ -183,15 +183,15 @@ define ["underscore"], (_)->
 			
 			$location.path('/')
 			
-			$timeout ->
-				# reload the page
-				$state.transitionTo($state.current, $stateParams, {
-					reload: true
-					inherit: false
-					notify: true
-				})
+			
+			# reload the page
+			$state.transitionTo($state.current, $stateParams, {
+				reload: true
+				inherit: false
+				notify: true
+			})
 
-			,100,true
+			
 
 
 		# type head
