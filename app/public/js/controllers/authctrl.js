@@ -36,6 +36,7 @@
         $scope.$dismiss();
         Error.auth = '';
         return $timeout(function() {
+          $location.path('/');
           return $state.transitionTo($state.current, $stateParams, {
             reload: true,
             inherit: false,

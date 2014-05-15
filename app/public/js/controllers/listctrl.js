@@ -213,10 +213,11 @@
         _.each($scope.card.targets, function(target, index) {
           return _.find(target.lists, function(list, index) {
             if (_.contains(list.answeredBy, $scope.user._id)) {
-              list.answeredBy = _.without(list.answeredBy, [User.user._id, User.visitor._id]);
-              console.log($scope.card._id);
-              console.log(list._id);
-              console.log(index);
+              if (User.user) {
+                list.answeredBy = _.without(list.answeredBy, User.user._id);
+              }
+              list.answeredBy = _.without(list.answeredBy, User.visitor._id);
+              console.log($scope.card);
               return UpdateQuestion.removeFiltersAnswer({
                 questionId: $scope.card._id,
                 userId: $scope.user._id,
@@ -236,6 +237,7 @@
           index: 0,
           visitorId: User.visitor._id
         });
+        $scope.user = User.visitor;
         return $scope.answer = '';
       });
       $scope.$on('userLoggedIn', function(value) {
@@ -249,15 +251,17 @@
           $scope.submitted = false;
           $scope.favorite = false;
           return $scope.submitted = false;
-        });
+        }, 100, true);
       });
       $scope.closeModal = function() {
         $scope.$dismiss();
-        $location.path('/');
-        return $state.transitionTo($state.current, $stateParams, {
-          reload: true,
-          inherit: true,
-          notify: true
+        return $timeout(function() {
+          $location.path('/');
+          return $state.transitionTo($state.current, $stateParams, {
+            reload: true,
+            inherit: false,
+            notify: true
+          });
         });
       };
       $scope.closeQuestionModal = function() {

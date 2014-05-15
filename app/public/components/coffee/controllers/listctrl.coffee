@@ -394,10 +394,11 @@ define ['underscore'], (_)->
 				_.find target.lists,(list,index)->
 					
 					if _.contains(list.answeredBy,$scope.user._id)
-						list.answeredBy = _.without(list.answeredBy,[User.user._id,User.visitor._id])
-						console.log $scope.card._id
-						console.log list._id
-						console.log index
+						if User.user then list.answeredBy = _.without(list.answeredBy,User.user._id)
+						list.answeredBy = _.without(list.answeredBy,User.visitor._id)
+						
+						
+						console.log $scope.card
 
 						UpdateQuestion.removeFiltersAnswer(
 							questionId 	: $scope.card._id
@@ -408,7 +409,7 @@ define ['underscore'], (_)->
 							index 		: index
 						)
 
-					
+				
 
 
 			UpdateQuestion.removeAnswer(
@@ -419,7 +420,7 @@ define ['underscore'], (_)->
 				index 		: 0
 				visitorId   : User.visitor._id
 			)
-			
+			$scope.user = User.visitor
 			# reset the chosen answers
 			$scope.answer = ''
 			
@@ -436,6 +437,7 @@ define ['underscore'], (_)->
 				$scope.submitted = false
 				$scope.favorite = false
 				$scope.submitted = false
+			,100,true
 
 
 		# ------------- Scope Function ------------- #
@@ -446,14 +448,16 @@ define ['underscore'], (_)->
 
 			$scope.$dismiss()
 			
-			$location.path('/')
 
-			# reload the page
-			$state.transitionTo($state.current, $stateParams, {
-				reload: true
-				inherit: true
-				notify: true
-			})
+			$timeout ->
+				$location.path('/')
+
+				# reload the page
+				$state.transitionTo($state.current, $stateParams, {
+					reload: true
+					inherit: false
+					notify: true
+				})
 
 			
 

@@ -317,7 +317,10 @@ define ["underscore"], (_)->
 		
 		$scope.logout = ()->
 		
-			# cleans up the visitor varable
+			# cleans up the visitor varable -> change the factory to service eventually
+			randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26))
+			uniqid = randLetter + Date.now()
+			User.visitor._id = uniqid
 			User.visitor.questionsAnswered = []
 			User.visitor.filterQuestionsAnswered = []
 
@@ -338,10 +341,10 @@ define ["underscore"], (_)->
 				$state.transitionTo($state.current, $stateParams, {
 					reload: true
 					inherit: false
-					notify: false
+					notify: true
 				})
 
-			,100,true
+			,200,true
 		
 
 		# --------------- Apply scope --------------- #			

@@ -54,7 +54,7 @@ define [], ()->
 			Error.auth = ''
 			
 			$timeout ->
-			
+				$location.path('/')
 				# reload the page
 				$state.transitionTo($state.current, $stateParams, {
 					reload: true
