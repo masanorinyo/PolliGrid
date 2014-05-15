@@ -4,19 +4,21 @@ require.config
 
 		# -------------- bower installments -------------- #
 		
-		"angular" 				: "../vendors/angular/angular.min"
-		"angularMocks" 			: "../vendors/angular-mock/angular-mock"
-		"angularRoute"			: "../vendors/angular-route/angular-route.min"
-		"angularResource" 		: "../vendors/angular-resource/angular-resource.min"
-		"angularCookie" 		: "../vendors/angular-cookie/angular-cookie.min"
-		"angularSanitize" 	 	: "../vendors/angular-sanitize/angular-sanitize.min"		
-		"angularLocalStorage"	: "../vendors/angular-local-storage/angular-local-storage.min"
-		"angularUiRouter" 		: "../vendors/angular-ui-router/release/angular-ui-router.min"
-		"jquery"				: "../vendors/jquery/dist/jquery.min"
-		"angular-bootstrap"		: "../vendors/angular-bootstrap/ui-bootstrap-tpls.min"
-		"domReady" 	 			: "../vendors/requirejs-domready/domready"
-		"underscore" 	 		: "../vendors/underscore/underscore"
-		"ngInfiniteScroll" 		: "../vendors/ngInfiniteScroll/build/ng-infinite-scroll"
+		"angular" 					: "../vendors/angular/angular.min"
+		"angularMocks" 				: "../vendors/angular-mock/angular-mock"
+		"angularRoute"				: "../vendors/angular-route/angular-route.min"
+		"angularResource" 			: "../vendors/angular-resource/angular-resource.min"
+		"angularCookie" 			: "../vendors/angular-cookie/angular-cookie.min"
+		"angularSanitize" 	 		: "../vendors/angular-sanitize/angular-sanitize.min"		
+		"angularLocalStorage"		: "../vendors/angular-local-storage/angular-local-storage.min"
+		"angularUiRouter" 			: "../vendors/angular-ui-router/release/angular-ui-router.min"
+		"angular-file-upload-shim"	: "../vendors/ng-file-upload/angular-file-upload-shim"
+		"angular-file-upload"		: "../vendors/ng-file-upload/angular-file-upload"
+		"jquery"					: "../vendors/jquery/dist/jquery.min"
+		"angular-bootstrap"			: "../vendors/angular-bootstrap/ui-bootstrap-tpls.min"
+		"domReady" 	 				: "../vendors/requirejs-domready/domready"
+		"underscore" 	 			: "../vendors/underscore/underscore"
+		"ngInfiniteScroll" 			: "../vendors/ngInfiniteScroll/build/ng-infinite-scroll"
 		# "offline" 				: "../vendors/offline/offline.min"
 
 		
@@ -61,6 +63,9 @@ require.config
 
 		"angular-bootstrap" 	: 
 			deps 		 		: ['angular']
+
+		"angular-file-upload"	:
+			deps				: ["angular",'angular-file-upload-shim']
 
 		"angular-deckgrid"		:
 			deps 				: ['angular']

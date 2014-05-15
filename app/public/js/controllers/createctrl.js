@@ -178,7 +178,7 @@
         newQuestion.numOfFilters = _.size(newQuestion.targets);
         newQuestion.created_at = new Date().getTime();
         newQuestion.photo = User.user.profilePic;
-        newQuestion.creatorName = User.user.profilePic;
+        newQuestion.creatorName = User.user.username;
         newQuestion.creator = User.user._id;
         Question.save(newQuestion, function(data) {
           console.log("Question was saved");

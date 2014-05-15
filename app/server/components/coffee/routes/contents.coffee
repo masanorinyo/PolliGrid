@@ -217,15 +217,7 @@ exports.updateQuestion = (req,res)->
 					$in:[userId,visitorId]
 				
 	else if task == "removeFilter"
-		console.log 'filter was removed'
-		console.log "questionId"
-		console.log questionId
-		console.log "filterId"
-		console.log filterId
-		console.log "index"
-		console.log index
-		console.log "userId"
-		console.log userId
+		
 		conditions = 
 
 				"_id":questionId
@@ -602,5 +594,5 @@ exports.visitorToGuest = (req,res)->
 				User.update(conditions, updates, options, callback)
 			
 
-			
+	
 

@@ -20,10 +20,10 @@
 						<label class="gray">Password:</label>
 						<span ng-click="openPassModal()"  class="form-link blue">Change password</span>
 					</li>
-					<li  class="content-list" ng-controller="ChangePhotoCtrl">
+					<!-- <li  class="content-list" ng-controller="ChangePhotoCtrl">
 						<label class="gray">Profile Picture: </label>
 						<span href="#" ng-click="openPhotoModal()" class="form-link blue">Change profile picture</span>
-					</li>
+					</li> -->
 		
 				</ul>
 			</div>
@@ -31,10 +31,10 @@
 	</div>
 	<div class="well username" ng-hide="onMyPage">
 		<div class="separator separator-left">
-			<img class="img-circle" ng-src="{{anotherUser.profilePic}}" alt="{{anotherUser.username}}">
+			<img class="img-circle" ng-src="{{user.profilePic}}" alt="{{user.username}}">
 		</div>
 		<div class="separator separator-right">
-			<p class="gray"><span>{{anotherUser.username}}</span>'s page</p>
+			<p class="gray"><span>{{user.username}}</span>'s page</p>
 		</div>
 	</div>
 	<div class="navi" ng-class="{'narrower-navi':!onMyPage}" class="animated fadeIn">
@@ -43,10 +43,12 @@
 				Favorites
 			</button>
 			<button type="button" ng-click="showQuestions()" ng-class="{'active':type=='questions' }" class="btn btn-default">
-				My questions
+				<div ng-if="onMyPage">My questions</div>
+				<div ng-if="!onMyPage">Questions</div>
 			</button>
 			<button type="button" ng-click="showAnswers()" ng-class="{'active':type=='answers' }" class="btn btn-default">
-				My answers
+				<div ng-if="onMyPage">My Answers</div>
+				<div ng-if="!onMyPage">Answered</div>
 			</button>
 			<button ng-if="onMyPage" type="button" ng-click="showFilters()" ng-class="{'active':type=='filters' }" class="btn btn-default">
 				Filters

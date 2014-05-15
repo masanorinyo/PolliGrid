@@ -164,35 +164,38 @@ module.exports = (app,passport) ->
   
 	# ====== Delete Account ======#
 	
-	app.delete "/api/auth/delete", (req, res) ->
-		if req.user
+	# app.delete "/api/auth/delete", (req, res) ->
+	# 	if req.user
 			
-			User.remove (err, user) ->
-				req.session.destroy ->
+	# 		User.remove (err, user) ->
+	# 			req.session.destroy ->
 		
-					req.logout()
+	# 				req.logout()
 		
-				if err
+	# 			if err
 				
-					throw err
+	# 				throw err
 			
-				else
+	# 			else
 
-					User.findById req.user.id, (err, user) ->
+	# 				User.findById req.user.id, (err, user) ->
 				
-						res.redirect "/"
+	# 					res.redirect "/"
 	
-		else
+	# 	else
 		
-			res.redirect "/"
+	# 		res.redirect "/"
 
 
 	# verification
-	app.get "/api/user/:id/:email",(req,res) ->
+	app.get "/api/user/:id/:email/:task/:pass",(req,res) ->
 		console.log id = escapeChar(unescape(req.params.id))
 		console.log email = unescape(req.params.email)
-
-		if id != "0"
+		console.log task = unescape(req.params.task)
+		console.log pass = unescape(req.params.pass)
+		console.log 'test'
+		isCorrect = false
+		if task == "findById"
 
 			User.findById id, (err,user) ->
 				
@@ -208,7 +211,7 @@ module.exports = (app,passport) ->
 
 					res.send("foundUser",{foundUser:false})
 
-		else 
+		else if task == "findByEmail"
 
 			User.find({"local.email":email},(err,user)-> 
 				
@@ -219,6 +222,46 @@ module.exports = (app,passport) ->
 					res.send user
 			)
 			
+		else if task == "checkPass"
+
+			User.findOne({"local.email":email},(err,user)->
+
+				if err
+					res.send isCorrect
+				
+				else if user
+					
+					validPass = user.validPassword(pass)
+					isCorrect = true  if validPass
+					console.log isCorrect
+					res.send isCorrect
+				
+				else
+				
+					res.send isCorrect
+			)
+
+
+	app.post '/api/resetPass/:email/:pass',(req,res)->
+		console.log email = unescape(req.params.email)
+		console.log pass = unescape(req.params.pass)
+		User.findOne({"local.email":email},(err,user)->
+			if err 
+				res.send err 
+			else if user
+
+				newUser = new User()
+				newPassword = newUser.generateHash(pass)
+				user.local.password = newPassword
+
+				user.save (err, user) ->
+					if err
+						throw err
+					else
+						
+						res.send user
+					
+		)
 		
 	#   #Setting
 #   app.get "/setting", auth_utility.isLoggedIn, (req, res) ->
@@ -248,27 +291,27 @@ module.exports = (app,passport) ->
 #     return
 
 
-#   app.post "/upload", (req, res) ->
-#     fs.readFile req.files.localPhoto.path, (err, data) ->
-#       if err
-#         res.send 403
-#       else
-#         if req.files.localPhoto.type isnt "image/png" and req.files.localPhoto.type isnt "image/jpeg" and req.files.localPhoto.type isnt "image/gif"
-#           res.send 403
-#         else
-#           newPath = __dirname + "/../public/images/" + req.user.profile.username + ".jpg"
-#           fs.writeFile newPath, data, (err) ->
-#             if err
-#               throw err
-#             else
-#               req.user.profile.photos.local = req.protocol + "://" + req.get("host") + "/images/" + req.user.profile.username + ".jpg"
-#               req.user.save()
-#               res.redirect "back"
-#             return
+  app.post "/upload", (req, res) ->
+    fs.readFile req.files.localPhoto.path, (err, data) ->
+      if err
+        res.send 403
+      else
+        if req.files.localPhoto.type isnt "image/png" and req.files.localPhoto.type isnt "image/jpeg" and req.files.localPhoto.type isnt "image/gif"
+          res.send 403
+        else
+          newPath = __dirname + "/../public/images/" + req.user.profile.username + ".jpg"
+          fs.writeFile newPath, data, (err) ->
+            if err
+              throw err
+            else
+              req.user.profile.photos.local = req.protocol + "://" + req.get("host") + "/images/" + req.user.profile.username + ".jpg"
+              req.user.save()
+              res.redirect "back"
+            return
 
-#       return
+      return
 
-#     return
+    return
 
   
 #   #resend a verification code
@@ -283,24 +326,16 @@ module.exports = (app,passport) ->
 #     return
 
 
-#   # check if the input password is correct
-#   app.get "/checkPass", (req, res) ->
-#     isCorrect = false
-#     User.findOne
-#       "local.email": req.user.local.email
-#     , (err, user) ->
-#       if err
-#         res.send isCorrect
-#       else if user
-#         validPass = user.validPassword(req.query.oldPass)
-#         isCorrect = true  if validPass
-#         res.send isCorrect
-#       else
-#         res.send isCorrect
-#       return
+	# check if the input password is correct
+	app.get "/api/checkPass", (req, res,next) ->
+		isCorrect = false
 
-#     return
-  
+		User.findOne
+			"local.email": req.body.email
+		, (err, user) ->
+			
+			
+		  
 #   #======== Verification Email ========//
   
 #   #when users click the link provided in the account verification email
@@ -397,8 +432,8 @@ module.exports = (app,passport) ->
 #         res.redirect "/"
 #       else
         
-#         #if the user is found, then set a new password for his or her account
-#         newUser = new User()
+#         #IF THE USER IS FOUND, THEN SET A NEW PASSWORD FOR HIS OR HER ACCOUNT
+#         NEWUSER = NEW USER()
 #         newPassword = newUser.generateHash(req.body.password)
 #         user.local.password = newPassword
 #         user.save (err, user) ->

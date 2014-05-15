@@ -51,7 +51,7 @@
       $scope.category = "All";
       $scope.order = "Recent";
       $scope.options = {
-        categories: ["All", "Animal", "Architecture", "Art", "Cars & Motorcycles", "Celebrities", "Design", "DIY & Crafts", "Education", "Film, Music & Books", "Food & Drink", "Gardening", "Geek", "Hair & Beauty", "Health & Fitness", "History", "Holidays & Events", "Home Decor", "Humor", "Illustration & Posters", "Lifestyle", "Men's Fashion", "Outdoors", "Photography", "Products", "Quotes", "Science & Nature", "Sports", "Tatoos", "Technology", "Travel", "Weddings", "Women's Fashion", "Other"],
+        categories: ["All", "Animal", "Architecture", "Art", "Business", "Cars", "Celebrities", "Design", "DIY", "Education", "Entrepreneurship", "Film", "Food", "Gardening", "Geek", "Hair", "Health", "History", "Holidays", "Home", "Humor", "Illustration", "Joke", "Lifestyle", "Men", "Music", "Outdoors", "Politics", "Philosophy", "Photography", "Products", "Quotes", "Science", "Sports", "Tatoos", "Technology", "Travel", "Weddings", "Women", "Other"],
         orders: ["Recent", "Old", "Most voted", "Most popular"]
       };
       searchSpecificQuestions = function() {

@@ -14,6 +14,8 @@ define [
 	'ngInfiniteScroll'
 	"angularCookie"
 	"angularRoute"
+	'angular-file-upload'
+	
 
 ], (angular)->
 		angular.module('myapp',[
@@ -30,5 +32,7 @@ define [
 			'infinite-scroll'
 			'ipCookie'
 			'ngRoute'
+			"angularFileUpload"
+			
 		])
 		

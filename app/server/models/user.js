@@ -39,6 +39,7 @@
   };
 
   userSchema.methods.validPassword = function(password) {
+    console.log('test');
     return bcrypt.compareSync(password, this.local.password);
   };
 

@@ -109,24 +109,26 @@
           "$http": $http
         });
       });
-    }).controller('ChangePassCtrl', function($scope, $injector, $modal, $location, $timeout, $q) {
+    }).controller('ChangePassCtrl', function($scope, $injector, $modal, $location, $timeout, $q, $http) {
       return require(['controllers/changepassctrl'], function(changepassctrl) {
         return $injector.invoke(changepassctrl, this, {
           "$scope": $scope,
           "$modal": $modal,
           "$location": $location,
           "$timeout": $timeout,
-          "$q": $q
+          "$q": $q,
+          "$http": $http
         });
       });
-    }).controller('ChangePhotoCtrl', function($scope, $injector, $modal, $location, $timeout, $q) {
+    }).controller('ChangePhotoCtrl', function($scope, $injector, $modal, $location, $timeout, $q, $upload) {
       return require(['controllers/changephotoctrl'], function(changephotoctrl) {
         return $injector.invoke(changephotoctrl, this, {
           "$scope": $scope,
           "$modal": $modal,
           "$location": $location,
           "$timeout": $timeout,
-          "$q": $q
+          "$q": $q,
+          "$upload": $upload
         });
       });
     }).controller('FilterListCtrl', function($scope, $injector, $location, $timeout, $q) {

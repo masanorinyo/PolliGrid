@@ -24,29 +24,15 @@
         return res.send(req.session.message);
       }
     });
-    app["delete"]("/api/auth/delete", function(req, res) {
-      if (req.user) {
-        return User.remove(function(err, user) {
-          req.session.destroy(function() {
-            return req.logout();
-          });
-          if (err) {
-            throw err;
-          } else {
-            return User.findById(req.user.id, function(err, user) {
-              return res.redirect("/");
-            });
-          }
-        });
-      } else {
-        return res.redirect("/");
-      }
-    });
-    return app.get("/api/user/:id/:email", function(req, res) {
-      var email, id;
+    app.get("/api/user/:id/:email/:task/:pass", function(req, res) {
+      var email, id, isCorrect, pass, task;
       console.log(id = escapeChar(unescape(req.params.id)));
       console.log(email = unescape(req.params.email));
-      if (id !== "0") {
+      console.log(task = unescape(req.params.task));
+      console.log(pass = unescape(req.params.pass));
+      console.log('test');
+      isCorrect = false;
+      if (task === "findById") {
         return User.findById(id, function(err, user) {
           if (err) {
             return res.send("foundUser", {
@@ -62,7 +48,7 @@
             });
           }
         });
-      } else {
+      } else if (task === "findByEmail") {
         return User.find({
           "local.email": email
         }, function(err, user) {
@@ -73,7 +59,79 @@
             return res.send(user);
           }
         });
+      } else if (task === "checkPass") {
+        return User.findOne({
+          "local.email": email
+        }, function(err, user) {
+          var validPass;
+          if (err) {
+            return res.send(isCorrect);
+          } else if (user) {
+            validPass = user.validPassword(pass);
+            if (validPass) {
+              isCorrect = true;
+            }
+            console.log(isCorrect);
+            return res.send(isCorrect);
+          } else {
+            return res.send(isCorrect);
+          }
+        });
       }
+    });
+    app.post('/api/resetPass/:email/:pass', function(req, res) {
+      var email, pass;
+      console.log(email = unescape(req.params.email));
+      console.log(pass = unescape(req.params.pass));
+      User.findOne({
+        "local.email": email
+      }, function(err, user) {
+        var newPassword, newUser;
+        if (err) {
+          return res.send(err);
+        } else if (user) {
+          newUser = new User();
+          newPassword = newUser.generateHash(pass);
+          user.local.password = newPassword;
+          return user.save(function(err, user) {
+            if (err) {
+              throw err;
+            } else {
+              return res.send(user);
+            }
+          });
+        }
+      });
+      return app.post("/upload", function(req, res) {
+        fs.readFile(req.files.localPhoto.path, function(err, data) {
+          var newPath;
+          if (err) {
+            res.send(403);
+          } else {
+            if (req.files.localPhoto.type !== "image/png" && req.files.localPhoto.type !== "image/jpeg" && req.files.localPhoto.type !== "image/gif") {
+              res.send(403);
+            } else {
+              newPath = __dirname + "/../public/images/" + req.user.profile.username + ".jpg";
+              fs.writeFile(newPath, data, function(err) {
+                if (err) {
+                  throw err;
+                } else {
+                  req.user.profile.photos.local = req.protocol + "://" + req.get("host") + "/images/" + req.user.profile.username + ".jpg";
+                  req.user.save();
+                  res.redirect("back");
+                }
+              });
+            }
+          }
+        });
+      });
+    });
+    return app.get("/api/checkPass", function(req, res, next) {
+      var isCorrect;
+      isCorrect = false;
+      return User.findOne({
+        "local.email": req.body.email
+      }, function(err, user) {});
     });
   };
 

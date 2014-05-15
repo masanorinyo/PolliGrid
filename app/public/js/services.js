@@ -207,22 +207,44 @@
         user: loggedInUser
       };
     }).factory('Verification', function($resource) {
-      return $resource("/api/user/:id/:email", {
+      return $resource("/api/user/:id/:email/:task/:pass", {
         id: "@id",
-        email: "@email"
+        email: "@email",
+        pass: "@pass"
       }, {
         "findUserById": {
           method: "GET",
           params: {
-            email: 0
+            email: 0,
+            task: "findById",
+            pass: "0"
           }
         },
         "findUserByEmail": {
           method: "GET",
           params: {
-            id: 0
+            id: 0,
+            task: "findByEmail",
+            pass: "0"
           },
           isArray: true
+        },
+        "checkPass": {
+          method: "GET",
+          params: {
+            id: 0,
+            task: "checkPass"
+          },
+          isArray: false
+        }
+      });
+    }).factory("Passwowrd", function($resource) {
+      return $resource("/api/resetPass/:email/:pass", {
+        email: "@email",
+        pass: "@pass"
+      }, {
+        "reset": {
+          method: "POST"
         }
       });
     }).factory('Error', function() {

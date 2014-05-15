@@ -9,6 +9,8 @@
       "angularSanitize": "../vendors/angular-sanitize/angular-sanitize.min",
       "angularLocalStorage": "../vendors/angular-local-storage/angular-local-storage.min",
       "angularUiRouter": "../vendors/angular-ui-router/release/angular-ui-router.min",
+      "angular-file-upload-shim": "../vendors/ng-file-upload/angular-file-upload-shim",
+      "angular-file-upload": "../vendors/ng-file-upload/angular-file-upload",
       "jquery": "../vendors/jquery/dist/jquery.min",
       "angular-bootstrap": "../vendors/angular-bootstrap/ui-bootstrap-tpls.min",
       "domReady": "../vendors/requirejs-domready/domready",
@@ -46,6 +48,9 @@
       },
       "angular-bootstrap": {
         deps: ['angular']
+      },
+      "angular-file-upload": {
+        deps: ["angular", 'angular-file-upload-shim']
       },
       "angular-deckgrid": {
         deps: ['angular']

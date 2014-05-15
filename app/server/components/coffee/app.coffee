@@ -100,6 +100,9 @@ if 'development' is env
 app.route '/'
       .get routes.index
 
+app.route '/api/uploadPhoto'
+      .post routes.uploadPhoto
+
 #################################################
 # -------------- Question handlers ------------ #
 #################################################

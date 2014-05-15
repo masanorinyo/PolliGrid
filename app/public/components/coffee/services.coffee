@@ -244,10 +244,11 @@ define ['angular'], (angular) ->
 
 		.factory 'Verification',($resource)->
 			$resource(
-				"/api/user/:id/:email"
+				"/api/user/:id/:email/:task/:pass"
 				{
 					id:"@id"
 					email:"@email"
+					pass:"@pass"
 				}
 				{
 					
@@ -255,6 +256,8 @@ define ['angular'], (angular) ->
 						method 	: "GET"
 						params 	:
 							email : 0
+							task  : "findById"
+							pass  : "0"
 						
 
 					
@@ -262,9 +265,33 @@ define ['angular'], (angular) ->
 						method 	: "GET"
 						params 	:
 							id 	: 0
+							task  : "findByEmail"
+							pass  : "0"
 						isArray:true
+
+					"checkPass":
+						method 	: "GET"
+						params 	:
+							id 		: 0
+							task  	: "checkPass" 
+						isArray : false
+	
 				}
 			)
+
+		.factory "Passwowrd",($resource)->
+			$resource(
+				"/api/resetPass/:email/:pass"
+				{
+					email:"@email"
+					pass:"@pass"
+				}
+				{
+					"reset":
+						method:"POST"
+				}
+			)
+
 
 		.factory 'Error', ()->
 			error = 

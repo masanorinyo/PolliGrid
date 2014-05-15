@@ -147,7 +147,7 @@ define ['angular','services'], (angular) ->
 				)
 			)
 
-		.controller 'ChangePassCtrl', ($scope, $injector,$modal,$location,$timeout,$q)->
+		.controller 'ChangePassCtrl', ($scope, $injector,$modal,$location,$timeout,$q,$http)->
 			require(['controllers/changepassctrl'], (changepassctrl)->
 				$injector.invoke(
 					changepassctrl, this,{
@@ -156,10 +156,11 @@ define ['angular','services'], (angular) ->
 						"$location" 	 		: $location
 						"$timeout" 				: $timeout
 						"$q" 					: $q
+						"$http"					: $http
 					}
 				)
 			)
-		.controller 'ChangePhotoCtrl', ($scope, $injector,$modal,$location,$timeout,$q)->
+		.controller 'ChangePhotoCtrl', ($scope, $injector,$modal,$location,$timeout,$q,$upload)->
 			require(['controllers/changephotoctrl'], (changephotoctrl)->
 				$injector.invoke(
 					changephotoctrl, this,{
@@ -168,6 +169,7 @@ define ['angular','services'], (angular) ->
 						"$location" 	 		: $location
 						"$timeout" 				: $timeout
 						"$q" 					: $q
+						"$upload"				: $upload
 					}
 				)
 			)
