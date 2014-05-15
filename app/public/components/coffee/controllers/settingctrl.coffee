@@ -25,9 +25,15 @@ define ['underscore'], (_)->
 		$scope.anyContentsLeft = false
 		$scope.userLoaded = false
 
+		$scope.anotherUser = 
+			username : null
+			photo : null
+
+		$scope.questionsCreatedByAnother = []
+
 		$scope.filtersOnSettingPage = false
 		$scope.isAccessedFromSetting = true
-		
+		$scope.filters = []
 		
 		# shows which page is on
 		Setting.isSetting = true
@@ -50,9 +56,40 @@ define ['underscore'], (_)->
 			.success (data)-> 
 				
 				if $scope.type != "filters"
+				
 					$scope.questions = data
+				
 				else 
-					$scope.filters = data
+					
+					defer = $q.defer()
+										
+					defer.promise
+						.then ->
+							_.each data,(targets)->
+								_.each targets.lists,(list)->
+									console.log list
+									console.log 'test'
+									list.option = unescape(list.option)
+
+						.then -> 
+							
+							
+							console.log $scope.filters = data
+						
+						.then ->
+							$scope.answer = []
+							
+							_.each $scope.user.filterQuestionsAnswered, (filter,index)->
+								
+								_.each $scope.filters,(s_filter,s_index)->
+									
+									if s_filter._id == filter._id
+								
+										$scope.answer[s_index] = unescape(filter.answer)
+
+					
+					defer.resolve()
+					
 				
 				if data.length < 6 
 					$scope.anyContentsLeft = true
@@ -105,9 +142,21 @@ define ['underscore'], (_)->
 								data.forEach (val,key)->
 									
 									if $scope.type != "filters"
+										console.log 'test'
 										$scope.questions.push(val)
 									else 
-										$scope.filters.push(val)
+
+										defer = $q.defer()
+										
+										defer.promise
+											.then ->
+												_.each val.lists,(list)->
+													list.option = unescape(list.option)
+
+											.then -> 
+												console.log val
+												$scope.filters.push(val)
+										defer.resolve()
 
 				
 				defer.resolve()
@@ -129,7 +178,8 @@ define ['underscore'], (_)->
 			Page.questionPage = 0
 			$scope.type = "favorites"
 			console.log $scope.user.favorites
-			url = 'setting/favorites/'+$scope.id
+			
+			# url = 'setting/favorites/'+$scope.id
 
 			#without reload - currently not working
 			# location.skipReload().path(url).replace()
@@ -147,12 +197,19 @@ define ['underscore'], (_)->
 			Page.questionPage = 0
 			$scope.type = "questions"
 			console.log $scope.user.questionMade
-			url = 'setting/questions/'+$scope.id
-
+			
+			# url = 'setting/questions/'+$scope.id
 			#without reload - currently not working
 			# location.skipReload().path(url).replace()
 			$scope.questions = []
-			$scope.requiredIds = $scope.user.questionMade
+
+			unless $scope.onMyPage
+				
+				$scope.requiredIds = $scope.questionsCreatedByAnother	
+			
+			else 
+
+				$scope.requiredIds = $scope.user.questionMade
 
 			
 			findQuestion()
@@ -163,7 +220,8 @@ define ['underscore'], (_)->
 			$scope.anyContentsLeft = false
 			Page.questionPage = 0
 			$scope.type = "answers"
-			url = 'setting/answers/'+$scope.id
+			
+			# url = 'setting/answers/'+$scope.id
 			
 			#without reload - currently not working
 			# location.skipReload().path(url).replace()
@@ -181,7 +239,8 @@ define ['underscore'], (_)->
 			$scope.anyContentsLeft = false
 			Page.filterPage = 0
 			$scope.type = "filters"
-			url = 'setting/filters/'+$scope.id
+			
+			# url = 'setting/filters/'+$scope.id
 
 			#without reload - currently not working
 			# location.skipReload().path(url).replace()
@@ -189,23 +248,9 @@ define ['underscore'], (_)->
 
 			$scope.requiredIds = _.pluck $scope.user.filterQuestionsAnswered,"_id"
 			
+			
+			findQuestion()
 
-
-			defer = $q.defer()
-			defer.promise
-				.then -> findQuestion()
-
-				.then ->
-					$scope.answer = []
-
-					_.each $scope.user.filterQuestionsAnswered, (filter,index)->
-						
-						_.each $scope.filters,(s_filter,s_index)->
-
-							if s_filter._id == filter._id
-						
-								$scope.answer[s_index] = filter.answer
-			defer.resolve()
 
 
 
@@ -240,7 +285,7 @@ define ['underscore'], (_)->
 
 			.success (user)->
 				
-				$scope.user = user
+				
 				
 				# if user is not found, redirect to the main page
 				if user._id is undefined 
@@ -254,6 +299,11 @@ define ['underscore'], (_)->
 						$scope.user = User.user
 						$scope.onMyPage = true
 
+					else 
+						$scope.questionsCreatedByAnother = user.questionMade
+						$scope.anotherUser.username = user.username
+						$scope.anotherUser.photo = user.profilePic
+					
 					$scope.userLoaded = true
 				
 

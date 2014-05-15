@@ -133,13 +133,18 @@ define ['underscore'], (_)->
 									filter = $scope.card.targets[i]
 									filterOption = $scope.card.targets[i].lists[index]
 									list.answeredBy.push($scope.user._id)
-									
+
+
+									if User.user 
+										userId = User.user._id
+									else 
+										userId = $scope.user._id									
 
 
 									# find the answered option
 									UpdateQuestion.updateFilters(
 										questionId 	: $scope.card._id
-										userId 		: $scope.user._id
+										userId 		: userId
 										title 		: "0"
 										filterId 	: filter._id
 										index 		: index
@@ -352,9 +357,10 @@ define ['underscore'], (_)->
 		# when user logs off
 		$scope.$on "logOff",(result)->
 			console.log 'log off from target'
-			$scope.areAllQuestionAnswered = false
-			$scope.showResult = false
-			$scope.card.alreadyAnswered = false
+			$timeout ->
+				$scope.areAllQuestionAnswered = false
+				$scope.showResult = false
+				$scope.card.alreadyAnswered = false
 
 		$scope.$on "showGraph", (result)->
 			

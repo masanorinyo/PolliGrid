@@ -156,7 +156,6 @@
       if (err) {
         return res.send(err);
       } else {
-        console.log(questions);
         return res.send(questions);
       }
     };
@@ -338,11 +337,16 @@
   exports.makeFilter = function(req, res) {
     var newFilter;
     newFilter = new Filter(req.body);
+    _.each(newFilter.lists, function(list) {
+      list.option = list.option;
+      return console.log(list.option);
+    });
     return newFilter.save(function(error, filter) {
       if (error) {
         console.log(error);
         return res.send(error);
       } else {
+        console.log(filter);
         return res.send(filter);
       }
     });
@@ -354,7 +358,7 @@
     qId = escapeChar(unescape(req.params.qId));
     qAnswer = escapeChar(unescape(req.params.qAnswer));
     fId = escapeChar(unescape(req.params.fId));
-    fAnswer = escapeChar(unescape(req.params.fAnswer));
+    fAnswer = req.params.fAnswer;
     task = escapeChar(unescape(req.params.task));
     callback = function(err, user) {
       if (err) {

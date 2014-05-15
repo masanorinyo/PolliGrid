@@ -205,7 +205,7 @@ define ['angular'], (angular) ->
 			)
 
 	
-		.factory 'User', (ipCookie,$http)->
+		.factory 'User', (ipCookie,$http,$q)->
 			
 			# get the unique id
 			randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26))
@@ -222,10 +222,18 @@ define ['angular'], (angular) ->
 					params 	: {userId: loggedInUser._id}
 
 				.success (data)-> 
-					# update user information
-					data.isLoggedIn = true
-					loggedInUser = data
-					user.user = data
+					
+					defer = $q.defer()
+					defer.promise 
+						.then ->
+							_.each data.targetQuestionsAnswered,(list)->
+								list.answer = unescape(list.answer)
+						.then ->
+							# update user information
+							data.isLoggedIn = true
+							loggedInUser = data
+							user.user = data
+					defer.resolve()
 
 			
 			user = 	

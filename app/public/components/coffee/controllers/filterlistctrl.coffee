@@ -25,7 +25,7 @@ define ['underscore'], (_)->
 			UpdateUserInfo.changeFilter(
 				userId : User.user._id 
 				filterId : answeredFilter._id
-				filterAnswer : answer
+				filterAnswer : escape(answer)
 			)
 
 			$scope.answerChanged = true

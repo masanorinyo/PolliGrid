@@ -323,7 +323,10 @@ define ['underscore'], ( _ )->
 				console.log NewQuestion.question = data
 				$rootScope.$broadcast 'newQuestionAdded',newQuestion
 				User.user.questionMade.push(data._id)
-			
+				
+				link = window.location.origin
+				$scope.sharableLink = link.concat("/#/question/",data._id)
+							
 			)
 
 
@@ -333,11 +336,8 @@ define ['underscore'], ( _ )->
 			utility.isQuestionCompleted 	= true
 				
 				
+	
 
-			
-
-			
-			
 			
 
 

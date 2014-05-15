@@ -57,8 +57,16 @@
           defer = $q.defer();
           newlySavedFilter = null;
           defer.promise.then(function() {
+            _.each(clone_newFilter.lists, function(list) {
+              list.option = escape(list.option);
+              return console.log(list.option);
+            });
             return newlySavedFilter = Filters.save(clone_newFilter);
           }).then(function() {
+            _.each(clone_newFilter.lists, function(list) {
+              list.option = unescape(list.option);
+              return console.log(list.option);
+            });
             return $scope.targets.unshift(newlySavedFilter);
           });
           defer.resolve();

@@ -177,7 +177,7 @@
           }
         }
       });
-    }).factory('User', function(ipCookie, $http) {
+    }).factory('User', function(ipCookie, $http, $q) {
       var loggedInUser, randLetter, uniqid, user;
       randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
       uniqid = randLetter + Date.now();
@@ -190,9 +190,18 @@
             userId: loggedInUser._id
           }
         }).success(function(data) {
-          data.isLoggedIn = true;
-          loggedInUser = data;
-          return user.user = data;
+          var defer;
+          defer = $q.defer();
+          defer.promise.then(function() {
+            return _.each(data.targetQuestionsAnswered, function(list) {
+              return list.answer = unescape(list.answer);
+            });
+          }).then(function() {
+            data.isLoggedIn = true;
+            loggedInUser = data;
+            return user.user = data;
+          });
+          return defer.resolve();
         });
       }
       return user = {

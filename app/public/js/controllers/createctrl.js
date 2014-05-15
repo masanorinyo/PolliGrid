@@ -181,10 +181,13 @@
         newQuestion.creatorName = User.user.username;
         newQuestion.creator = User.user._id;
         Question.save(newQuestion, function(data) {
+          var link;
           console.log("Question was saved");
           console.log(NewQuestion.question = data);
           $rootScope.$broadcast('newQuestionAdded', newQuestion);
-          return User.user.questionMade.push(data._id);
+          User.user.questionMade.push(data._id);
+          link = window.location.origin;
+          return $scope.sharableLink = link.concat("/#/question/", data._id);
         });
         utility.isQuestionCreated = false;
         return utility.isQuestionCompleted = true;

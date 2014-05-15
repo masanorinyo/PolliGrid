@@ -149,8 +149,9 @@ exports.findQuestionsAndFiltersByIds = (req,res)->
 		if err 
 			res.send err 
 		else 
-			console.log questions
 			res.send questions
+
+			
 
 		
 	if _.isArray ids
@@ -361,13 +362,20 @@ exports.getFilterTitle = (req,res)->
 # make filters
 exports.makeFilter = (req,res)->
 	
+	
 	newFilter = new Filter(req.body)
+
+	_.each newFilter.lists, (list)->
+		list.option = list.option
+		console.log list.option 
+
 
 	newFilter.save (error,filter)->
 		if error 
 			console.log error 
 			res.send error
 		else
+			console.log filter
 			res.send filter
 	
 
@@ -380,7 +388,7 @@ exports.updateUser = (req,res)->
 	qId 	= escapeChar(unescape(req.params.qId))
 	qAnswer = escapeChar(unescape(req.params.qAnswer))
 	fId 	= escapeChar(unescape(req.params.fId))
-	fAnswer = escapeChar(unescape(req.params.fAnswer))
+	fAnswer = req.params.fAnswer
 	task 	= escapeChar(unescape(req.params.task))
 
 	callback = (err,user)->

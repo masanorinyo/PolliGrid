@@ -242,10 +242,12 @@
       });
       $scope.$on('logOff', function(value) {
         console.log("Log off from list");
-        $scope.submitted = false;
         return $timeout(function() {
           $scope.user = User.visitor;
-          return console.log($scope.user);
+          $scope.warning = false;
+          $scope.submitted = false;
+          $scope.favorite = false;
+          return $scope.submitted = false;
         });
       });
       $scope.closeModal = function() {

@@ -173,6 +173,7 @@
         ipCookie.remove("loggedInUser");
         $scope.$broadcast('logOff', User.visitor);
         User.user = null;
+        $scope.user = null;
         $location.path('/');
         return $timeout(function() {
           return $state.transitionTo($state.current, $stateParams, {

@@ -66,14 +66,19 @@
             if (!userAlreadyAnswered) {
               _.each($scope.user.filterQuestionsAnswered, function(answer, index) {
                 return _.each($scope.card.targets[i].lists, function(list, index) {
-                  var filter, filterOption;
+                  var filter, filterOption, userId;
                   if (list.option === answer.answer) {
                     filter = $scope.card.targets[i];
                     filterOption = $scope.card.targets[i].lists[index];
                     list.answeredBy.push($scope.user._id);
+                    if (User.user) {
+                      userId = User.user._id;
+                    } else {
+                      userId = $scope.user._id;
+                    }
                     return UpdateQuestion.updateFilters({
                       questionId: $scope.card._id,
-                      userId: $scope.user._id,
+                      userId: userId,
                       title: "0",
                       filterId: filter._id,
                       index: index
@@ -167,9 +172,11 @@
       };
       $scope.$on("logOff", function(result) {
         console.log('log off from target');
-        $scope.areAllQuestionAnswered = false;
-        $scope.showResult = false;
-        return $scope.card.alreadyAnswered = false;
+        return $timeout(function() {
+          $scope.areAllQuestionAnswered = false;
+          $scope.showResult = false;
+          return $scope.card.alreadyAnswered = false;
+        });
       });
       $scope.$on("showGraph", function(result) {
         return $scope.showResult = true;

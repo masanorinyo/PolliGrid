@@ -427,11 +427,13 @@ define ['underscore'], (_)->
 
 		$scope.$on 'logOff',(value)->
 			console.log "Log off from list"
-			
-			$scope.submitted = false
 			$timeout ->
 				$scope.user = User.visitor
-				console.log $scope.user
+				$scope.warning = false
+				$scope.submitted = false
+				$scope.favorite = false
+				$scope.submitted = false
+
 
 		# ------------- Scope Function ------------- #
 

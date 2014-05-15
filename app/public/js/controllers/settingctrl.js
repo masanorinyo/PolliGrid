@@ -8,8 +8,14 @@
       $scope.showLoader = false;
       $scope.anyContentsLeft = false;
       $scope.userLoaded = false;
+      $scope.anotherUser = {
+        username: null,
+        photo: null
+      };
+      $scope.questionsCreatedByAnother = [];
       $scope.filtersOnSettingPage = false;
       $scope.isAccessedFromSetting = true;
+      $scope.filters = [];
       Setting.isSetting = true;
       findQuestion = function() {
         return $http({
@@ -21,10 +27,32 @@
             type: $scope.type
           }
         }).success(function(data) {
+          var defer;
           if ($scope.type !== "filters") {
             $scope.questions = data;
           } else {
-            $scope.filters = data;
+            defer = $q.defer();
+            defer.promise.then(function() {
+              return _.each(data, function(targets) {
+                return _.each(targets.lists, function(list) {
+                  console.log(list);
+                  console.log('test');
+                  return list.option = unescape(list.option);
+                });
+              });
+            }).then(function() {
+              return console.log($scope.filters = data);
+            }).then(function() {
+              $scope.answer = [];
+              return _.each($scope.user.filterQuestionsAnswered, function(filter, index) {
+                return _.each($scope.filters, function(s_filter, s_index) {
+                  if (s_filter._id === filter._id) {
+                    return $scope.answer[s_index] = unescape(filter.answer);
+                  }
+                });
+              });
+            });
+            defer.resolve();
           }
           if (data.length < 6) {
             return $scope.anyContentsLeft = true;
@@ -70,9 +98,19 @@
               } else {
                 return data.forEach(function(val, key) {
                   if ($scope.type !== "filters") {
+                    console.log('test');
                     return $scope.questions.push(val);
                   } else {
-                    return $scope.filters.push(val);
+                    defer = $q.defer();
+                    defer.promise.then(function() {
+                      return _.each(val.lists, function(list) {
+                        return list.option = unescape(list.option);
+                      });
+                    }).then(function() {
+                      console.log(val);
+                      return $scope.filters.push(val);
+                    });
+                    return defer.resolve();
                   }
                 });
               }
@@ -87,61 +125,44 @@
         }
       };
       showFavorites = $scope.showFavorites = function() {
-        var url;
         $scope.filtersOnSettingPage = false;
         $scope.anyContentsLeft = false;
         Page.questionPage = 0;
         $scope.type = "favorites";
         console.log($scope.user.favorites);
-        url = 'setting/favorites/' + $scope.id;
         $scope.questions = [];
         $scope.requiredIds = $scope.user.favorites;
         return findQuestion();
       };
       showQuestions = $scope.showQuestions = function() {
-        var url;
         $scope.filtersOnSettingPage = false;
         $scope.anyContentsLeft = false;
         Page.questionPage = 0;
         $scope.type = "questions";
         console.log($scope.user.questionMade);
-        url = 'setting/questions/' + $scope.id;
         $scope.questions = [];
-        $scope.requiredIds = $scope.user.questionMade;
+        if (!$scope.onMyPage) {
+          $scope.requiredIds = $scope.questionsCreatedByAnother;
+        } else {
+          $scope.requiredIds = $scope.user.questionMade;
+        }
         return findQuestion();
       };
       showAnswers = $scope.showAnswers = function() {
-        var url;
         $scope.filtersOnSettingPage = false;
         $scope.anyContentsLeft = false;
         Page.questionPage = 0;
         $scope.type = "answers";
-        url = 'setting/answers/' + $scope.id;
         $scope.requiredIds = _.pluck($scope.user.questionsAnswered, "_id");
         return findQuestion();
       };
       showFilters = $scope.showFilters = function() {
-        var defer, url;
         $scope.filtersOnSettingPage = true;
         $scope.anyContentsLeft = false;
         Page.filterPage = 0;
         $scope.type = "filters";
-        url = 'setting/filters/' + $scope.id;
         $scope.requiredIds = _.pluck($scope.user.filterQuestionsAnswered, "_id");
-        defer = $q.defer();
-        defer.promise.then(function() {
-          return findQuestion();
-        }).then(function() {
-          $scope.answer = [];
-          return _.each($scope.user.filterQuestionsAnswered, function(filter, index) {
-            return _.each($scope.filters, function(s_filter, s_index) {
-              if (s_filter._id === filter._id) {
-                return $scope.answer[s_index] = filter.answer;
-              }
-            });
-          });
-        });
-        return defer.resolve();
+        return findQuestion();
       };
       showDeepResult = $scope.showDeepResult = function(id) {
         var modalInstance;
@@ -170,13 +191,16 @@
             userId: $scope.id
           }
         }).success(function(user) {
-          $scope.user = user;
           if (user._id === void 0) {
             return $location.path('/');
           } else {
             if (User.user._id === $scope.id) {
               $scope.user = User.user;
               $scope.onMyPage = true;
+            } else {
+              $scope.questionsCreatedByAnother = user.questionMade;
+              $scope.anotherUser.username = user.username;
+              $scope.anotherUser.photo = user.profilePic;
             }
             $scope.userLoaded = true;
             if ($scope.type === "favorites" || $scope.type === "profile") {
