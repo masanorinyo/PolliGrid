@@ -67,7 +67,7 @@
               _.each($scope.user.filterQuestionsAnswered, function(answer, index) {
                 return _.each($scope.card.targets[i].lists, function(list, index) {
                   var filter, filterOption, userId;
-                  if (list.option === answer.answer) {
+                  if (unescape(list.option) === unescape(answer.answer)) {
                     filter = $scope.card.targets[i];
                     filterOption = $scope.card.targets[i].lists[index];
                     list.answeredBy.push($scope.user._id);
@@ -166,6 +166,7 @@
       $scope.resetAnswer = function(question) {
         $scope.areAllQuestionAnswered = false;
         makeTargetChecker('');
+        console.log("time to reset everything!");
         $scope.showResult = false;
         $scope.card.alreadyAnswered = false;
         return $scope.$emit('resetAnswer', question);

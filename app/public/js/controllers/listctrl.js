@@ -213,6 +213,7 @@
         _.each($scope.card.targets, function(target, index) {
           return _.find(target.lists, function(list, index) {
             if (_.contains(list.answeredBy, $scope.user._id)) {
+              list.answeredBy = _.without(list.answeredBy, [User.user._id, User.visitor._id]);
               console.log($scope.card._id);
               console.log(list._id);
               console.log(index);

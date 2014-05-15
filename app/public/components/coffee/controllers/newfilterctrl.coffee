@@ -88,16 +88,22 @@ define ['underscore'], ( _ )->
 					
 					# Save the newly created filter into database
 					.then -> 
+					
 						_.each clone_newFilter.lists, (list)->
 							list.option = escape(list.option)
 							console.log list.option 
+					
+					.then ->
+
 						newlySavedFilter = Filters.save(clone_newFilter)
 										
-					# and retrieve it from it.
+					# unescape and retrieve it from it.
 					.then -> 
 						_.each clone_newFilter.lists, (list)->
 							list.option = unescape(list.option)
 							console.log list.option 
+					.then ->
+
 						$scope.targets.unshift(newlySavedFilter)
 						
 

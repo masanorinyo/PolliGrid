@@ -322,6 +322,7 @@ define ['underscore'], (_)->
 
 			#shows the main question section
 			$scope.submitted = false
+
 			
 			# decrement the total resonse for the reset
 			$scope.card.totalResponses--
@@ -387,11 +388,13 @@ define ['underscore'], (_)->
 			else 
 				userId = User.user._id
 
-			 
+			# takes out all the user id 
+
 			_.each $scope.card.targets,(target,index)->
 				_.find target.lists,(list,index)->
+					
 					if _.contains(list.answeredBy,$scope.user._id)
-						
+						list.answeredBy = _.without(list.answeredBy,[User.user._id,User.visitor._id])
 						console.log $scope.card._id
 						console.log list._id
 						console.log index

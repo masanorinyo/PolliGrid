@@ -364,12 +364,7 @@ exports.makeFilter = (req,res)->
 	
 	
 	newFilter = new Filter(req.body)
-
-	_.each newFilter.lists, (list)->
-		list.option = list.option
-		console.log list.option 
-
-
+		
 	newFilter.save (error,filter)->
 		if error 
 			console.log error 

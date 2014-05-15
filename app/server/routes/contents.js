@@ -337,10 +337,6 @@
   exports.makeFilter = function(req, res) {
     var newFilter;
     newFilter = new Filter(req.body);
-    _.each(newFilter.lists, function(list) {
-      list.option = list.option;
-      return console.log(list.option);
-    });
     return newFilter.save(function(error, filter) {
       if (error) {
         console.log(error);

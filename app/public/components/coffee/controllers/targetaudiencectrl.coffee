@@ -125,7 +125,7 @@ define ['underscore'], (_)->
 								
 
 								
-								if list.option == answer.answer
+								if unescape(list.option) == unescape(answer.answer)
 									
 									# while skipping the filter questions
 									# if the filter question does not have the user id
@@ -344,6 +344,9 @@ define ['underscore'], (_)->
 			$scope.areAllQuestionAnswered = false
 			
 			makeTargetChecker('')
+
+			console.log "time to reset everything!"
+
 			
 			#cancels out everything
 			$scope.showResult = false
