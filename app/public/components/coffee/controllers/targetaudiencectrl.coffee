@@ -114,13 +114,13 @@ define ['underscore'], (_)->
 							console.log list.answeredBy
 							userAlreadyAnswered = true
 						
-						else
+						# else
 
-							_.each $scope.user.visitorId,(vid)->
-								if _.contains(list.answeredBy,vid)
-									console.log 'contains user id'
-									console.log list.answeredBy
-									userAlreadyAnswered = true
+						# 	_.each $scope.user.visitorId,(vid)->
+						# 		if _.contains(list.answeredBy,vid)
+						# 			console.log 'contains user id'
+						# 			console.log list.answeredBy
+						# 			userAlreadyAnswered = true
 
 
 					console.log "userAlreadyAnswered"

@@ -467,22 +467,22 @@ define ['underscore'], (_)->
 
 			# takes out all the user id 
 
-			# _.each $scope.card.targets,(target,index)->
-			# 	_.find target.lists,(list,index)->
+			_.each $scope.card.targets,(target,index)->
+				_.find target.lists,(list,index)->
 					
-			# 		if _.contains(list.answeredBy,$scope.user._id) || _.contains(list.answeredBy,User.visitor._id)
-			# 			if User.user then list.answeredBy = _.without(list.answeredBy,User.user._id)
-			# 			list.answeredBy = _.without(list.answeredBy,User.visitor._id)
+					if _.contains(list.answeredBy,userId) || _.contains(list.answeredBy,visitorId)
+				
+						if userId then list.answeredBy = _.without(list.answeredBy,userId)
+						if visitorId then list.answeredBy = _.without(list.answeredBy,visitorId)
 						
-
-			# 			UpdateQuestion.removeFiltersAnswer(
-			# 				questionId 			: $scope.card._id
-			# 				userId 				: $scope.user._id
-			# 				visitorId 			: User.visitor._id
-			# 				title 				: "0"
-			# 				filterId 			: target._id
-			# 				index 				: index
-			# 			)
+						UpdateQuestion.removeFiltersAnswer(
+							questionId 			: $scope.card._id
+							userId 				: userId
+							visitorId 			: visitorId
+							title 				: "0"
+							filterId 			: target._id
+							index 				: index
+						)
 
 			
 		

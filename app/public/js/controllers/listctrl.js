@@ -268,6 +268,26 @@
             return $scope.user.questionsAnswered.splice(index, 1);
           }
         });
+        _.each($scope.card.targets, function(target, index) {
+          return _.find(target.lists, function(list, index) {
+            if (_.contains(list.answeredBy, userId) || _.contains(list.answeredBy, visitorId)) {
+              if (userId) {
+                list.answeredBy = _.without(list.answeredBy, userId);
+              }
+              if (visitorId) {
+                list.answeredBy = _.without(list.answeredBy, visitorId);
+              }
+              return UpdateQuestion.removeFiltersAnswer({
+                questionId: $scope.card._id,
+                userId: userId,
+                visitorId: visitorId,
+                title: "0",
+                filterId: target._id,
+                index: index
+              });
+            }
+          });
+        });
         UpdateQuestion.removeAnswer({
           questionId: questionId,
           userId: userId,

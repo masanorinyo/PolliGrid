@@ -217,15 +217,15 @@ exports.updateQuestion = (req,res)->
 				"respondents":
 					$in:[userId,visitorId]
 				
-	# else if task == "removeFilter"
+	else if task == "removeFilter"
 		
-	# 	conditions = 
+		conditions = 
 
-	# 			"_id":questionId
-	# 			"targets._id":filterId
+				"_id":questionId
+				"targets._id":filterId
 				
-	# 	updates = {$pull:{}}
-	# 	updates.$pull["targets.$.lists."+index+".answeredBy"] = {$in:[userId,visitorId]}
+		updates = {$pull:{}}
+		updates.$pull["targets.$.lists."+index+".answeredBy"] = {$in:[userId,visitorId]}
 
 
 	else

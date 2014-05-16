@@ -64,14 +64,6 @@
                 console.log('contains user id');
                 console.log(list.answeredBy);
                 return userAlreadyAnswered = true;
-              } else {
-                return _.each($scope.user.visitorId, function(vid) {
-                  if (_.contains(list.answeredBy, vid)) {
-                    console.log('contains user id');
-                    console.log(list.answeredBy);
-                    return userAlreadyAnswered = true;
-                  }
-                });
               }
             });
             console.log("userAlreadyAnswered");
