@@ -139,6 +139,7 @@
         url: 'deepResult/:id',
         onEnter: function($state, $modal, $timeout, $stateParams, $location, User, Error) {
           var found, onlineUser;
+          console.log(User.user);
           if (User.user) {
             onlineUser = User.user;
           } else {

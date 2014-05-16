@@ -137,6 +137,7 @@ define ['underscore'], (_)->
 
 					if $location.$$path.split('/')[1] == "question" 
 						
+
 											
 						$scope.isAccessedViaLink = true
 						
@@ -149,6 +150,7 @@ define ['underscore'], (_)->
 												}
 											)
 						
+						
 						$scope.question.$promise.then (data)->
 							#  close the modal box and redirect to the main page
 							#  question is not found
@@ -158,10 +160,16 @@ define ['underscore'], (_)->
 								$timeout -> 
 									$location.path('/')
 								,100,true
-								
+	
 
-						$scope.answered = _.find $scope.question.respondents,(id)->
-							id == $scope.user._id
+							_.each data.respondents,(id)->
+								console.log "respondents found"
+								if id == $scope.user._id
+									$scope.question = data
+									$scope.submitted = true
+									$scope.question.alreadyAnswered = true 
+
+
 
 
 
@@ -170,15 +178,18 @@ define ['underscore'], (_)->
 						$scope.cards = FindQuestions.default()
 
 				.then ->
-
+					console.log $scope.question
 					if $scope.question
+						
 						$scope.card = $scope.question
+						
 
 					
 					alreadyAnswered = _.find _.pluck($scope.user.questionsAnswered,'_id'),(id)->
 						
 						if $scope.card != undefined
 							$scope.card._id == id
+
 
 
 					if alreadyAnswered

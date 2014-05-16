@@ -514,6 +514,8 @@ exports.visitorToGuest = (req,res)->
 			res.json data
 	options = {upsert:true}
 	
+	console.log "visitorId"
+	console.log visitorId = req.body.visitorId
 	userId = req.body.userId
 	questions = req.body.questions
 	filters = req.body.filters
@@ -532,7 +534,7 @@ exports.visitorToGuest = (req,res)->
 				"_id":userId
 				"questionsAnswered._id":q._id
 
-						
+			# update user		
 			User.find(conditions).exec (err,found)-> 
 				console.log found.length
 				if found.length
@@ -559,6 +561,49 @@ exports.visitorToGuest = (req,res)->
 					
 				User.update(conditions, updates, options, callback)
 
+
+			# this will replace the visitor id with logged 
+			# in id in the rquestion respondents array
+			q_conditions = {"_id":q._id}
+			
+			q_update = {$pull:{"respondents":visitorId}}
+				
+			Question.update(q_conditions,q_update,options,(err,result)->
+				if err 
+					res.send err
+
+				else
+
+					console.log 'pulled respondents'
+					q_update = {$push:{"respondents":userId}}
+					Question.update(q_conditions,q_update,options,callback)					
+
+
+			)
+			
+			# # update question filters
+			# f_conditions = {"_id":q._id}
+
+			# f_update_pull = {$pull:{}}
+			# f_update_push = {$push:{}}
+
+			
+			# _.each q.targets, (target,index)->
+			# 	p_index = index
+			# 	_.each target, (list,index)->
+			# 		c_index = index
+			# 		console.log list					
+			# 		f_update_pull.$pull["targets."+p_index+".lists."+c_index+".answeredBy"] = visitorId
+					
+			# 		Question.update(f_conditions,f_update_pull,options,(err,result)->
+
+			# 			if err 
+			# 				res.send err 
+			# 			else 
+			# 				f_update_push.$push["targets."+p_index+".lists."+c_index+".answeredBy"] = userId		
+			# 				Question.update(f_conditions,f_update_push,options,callback)
+
+			# 		)
 	
 	# if there are filter questions already answered
 	# when the user was in the visitor's state		
@@ -596,6 +641,4 @@ exports.visitorToGuest = (req,res)->
 
 				User.update(conditions, updates, options, callback)
 			
-
-	
 

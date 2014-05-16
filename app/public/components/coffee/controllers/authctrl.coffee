@@ -21,7 +21,6 @@ define [], ()->
 			when 'signup' 
 			then $scope.title = "Signup"
 
-		
 		$scope.alertMessage = Error.auth
 		$scope.newUser = 
 			remember_me : true
@@ -68,19 +67,19 @@ define [], ()->
 		transformToRealUser = (data)->
 			if User.visitor.questionsAnswered.length || User.visitor.filterQuestionsAnswered.length
 					
-				console.log "User.visitor.questionsAnswered.length"
-				console.log User.visitor.questionsAnswered.length
-
+				
 				userId = data._id
+
 
 				# check to see if there is any duplicate answer in the server
 				$http
 					url 	: "/api/visitorToGuest"
 					method 	: "PUT"
 					data 	: {
-						userId 	: userId
-						questions : $scope.user.questionsAnswered
-						filters : $scope.user.filterQuestionsAnswered
+						userId 		: userId
+						questions 	: $scope.user.questionsAnswered
+						filters 	: $scope.user.filterQuestionsAnswered
+						visitorId 	: User.visitor._id
 					} 
 
 				.success (data)->
@@ -95,6 +94,33 @@ define [], ()->
 						loggedInUser.isLoggedIn = true
 						User.user = loggedInUser
 						$rootScope.$broadcast 'userLoggedIn',User
+
+						# close the modal and refresh the page
+						# redirect to the deep result page
+						if $stateParams.id
+						
+							newUrl = '/deepResult/'+$stateParams.id
+							$location.path(newUrl)
+							$timeout ->
+								
+								$state.transitionTo($state.current, $stateParams, {
+									reload: true
+									inherit: false
+									notify: true
+								})
+								Error.auth = ''
+
+							,100,true
+							Error.auth = ''
+						
+						else 
+
+							$scope.closeModal()
+							
+						
+						 
+
+							
 						
 
 			else
@@ -106,6 +132,7 @@ define [], ()->
 				# replace the answeredby user id of the questino with the loggedin user's
 				console.log $scope.user.questionsAnswered
 				$rootScope.$broadcast 'userLoggedIn',User
+				$scope.closeModal()
 
 
 		# --------------------- scope functions --------------------- #
@@ -121,7 +148,7 @@ define [], ()->
 				if condition_length && noSameEmail
 				
 					$scope.somethingWrongWith.signup = false
-	
+					data.visitorId = User.visitor._id
 					$http
 						method  : 'POST',
 						url     : '/api/auth/signup',
@@ -143,8 +170,8 @@ define [], ()->
 						# pass the data to the user
 						transformToRealUser(data)
 
-						# close the modal and refresh the page
-						closeDownModal()
+						
+
 
 					.error (data)-> 
 						$scope.somethingWrongWith.signup = true
@@ -209,8 +236,9 @@ define [], ()->
 				# pass the data to the user
 				transformToRealUser(data)
 
-				# close the modal and refresh the page
-				closeDownModal()
+				
+				
+
 
 			.error (data)-> 
 				console.log "err"
@@ -235,8 +263,15 @@ define [], ()->
 
 		$scope.closeModal = ()->
 			$scope.$dismiss()
+			$location.path('/')
 			$timeout ->
-				$location.path('/')
+				
+
+				$state.transitionTo($state.current, $stateParams, {
+					reload: true
+					inherit: false
+					notify: true
+				})
 				Error.auth = ''
 
 			,100,true

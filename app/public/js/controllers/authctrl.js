@@ -47,8 +47,6 @@
       transformToRealUser = function(data) {
         var userId;
         if (User.visitor.questionsAnswered.length || User.visitor.filterQuestionsAnswered.length) {
-          console.log("User.visitor.questionsAnswered.length");
-          console.log(User.visitor.questionsAnswered.length);
           userId = data._id;
           return $http({
             url: "/api/visitorToGuest",
@@ -56,7 +54,8 @@
             data: {
               userId: userId,
               questions: $scope.user.questionsAnswered,
-              filters: $scope.user.filterQuestionsAnswered
+              filters: $scope.user.filterQuestionsAnswered,
+              visitorId: User.visitor._id
             }
           }).success(function(data) {
             return $http({
@@ -66,15 +65,32 @@
                 userId: userId
               }
             }).success(function(loggedInUser) {
+              var newUrl;
               loggedInUser.isLoggedIn = true;
               User.user = loggedInUser;
-              return $rootScope.$broadcast('userLoggedIn', User);
+              $rootScope.$broadcast('userLoggedIn', User);
+              if ($stateParams.id) {
+                newUrl = '/deepResult/' + $stateParams.id;
+                $location.path(newUrl);
+                $timeout(function() {
+                  $state.transitionTo($state.current, $stateParams, {
+                    reload: true,
+                    inherit: false,
+                    notify: true
+                  });
+                  return Error.auth = '';
+                }, 100, true);
+                return Error.auth = '';
+              } else {
+                return $scope.closeModal();
+              }
             });
           });
         } else {
           User.user = data;
           console.log($scope.user.questionsAnswered);
-          return $rootScope.$broadcast('userLoggedIn', User);
+          $rootScope.$broadcast('userLoggedIn', User);
+          return $scope.closeModal();
         }
       };
       $scope.signup = function(data) {
@@ -85,6 +101,7 @@
         check_allConditions = function(condition_length, noSameEmail) {
           if (condition_length && noSameEmail) {
             $scope.somethingWrongWith.signup = false;
+            data.visitorId = User.visitor._id;
             return $http({
               method: 'POST',
               url: '/api/auth/signup',
@@ -99,8 +116,7 @@
               $scope.somethingWrongWith.signup = false;
               data.isLoggedIn = true;
               makeCookie(data);
-              transformToRealUser(data);
-              return closeDownModal();
+              return transformToRealUser(data);
             }).error(function(data) {
               $scope.somethingWrongWith.signup = true;
               $scope.warning = console.log("err");
@@ -150,8 +166,7 @@
           $scope.somethingWrongWith.login = false;
           data.isLoggedIn = true;
           makeCookie(data);
-          transformToRealUser(data);
-          return closeDownModal();
+          return transformToRealUser(data);
         }).error(function(data) {
           console.log("err");
           console.log(data);
@@ -170,8 +185,13 @@
       };
       $scope.closeModal = function() {
         $scope.$dismiss();
+        $location.path('/');
         return $timeout(function() {
-          $location.path('/');
+          $state.transitionTo($state.current, $stateParams, {
+            reload: true,
+            inherit: false,
+            notify: true
+          });
           return Error.auth = '';
         }, 100, true);
       };

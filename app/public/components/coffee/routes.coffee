@@ -201,7 +201,7 @@ define(
 				.state 'home.deepResult',
 					url:'deepResult/:id'
 					onEnter:($state,$modal,$timeout,$stateParams,$location,User,Error)->
-						
+						console.log User.user
 						if User.user
 							onlineUser = User.user
 						else

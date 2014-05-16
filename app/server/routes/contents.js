@@ -475,7 +475,7 @@
   };
 
   exports.visitorToGuest = function(req, res) {
-    var callback, filters, options, questions, userId;
+    var callback, filters, options, questions, userId, visitorId;
     callback = function(err, data) {
       if (err) {
         return res.send(err);
@@ -487,17 +487,19 @@
     options = {
       upsert: true
     };
+    console.log("visitorId");
+    console.log(visitorId = req.body.visitorId);
     userId = req.body.userId;
     questions = req.body.questions;
     filters = req.body.filters;
     if (questions.length) {
       questions.forEach(function(q, key) {
-        var conditions;
+        var conditions, q_conditions, q_update;
         conditions = {
           "_id": userId,
           "questionsAnswered._id": q._id
         };
-        return User.find(conditions).exec(function(err, found) {
+        User.find(conditions).exec(function(err, found) {
           var updates;
           console.log(found.length);
           if (found.length) {
@@ -522,6 +524,27 @@
             console.log('ready to push');
           }
           return User.update(conditions, updates, options, callback);
+        });
+        q_conditions = {
+          "_id": q._id
+        };
+        q_update = {
+          $pull: {
+            "respondents": visitorId
+          }
+        };
+        return Question.update(q_conditions, q_update, options, function(err, result) {
+          if (err) {
+            return res.send(err);
+          } else {
+            console.log('pulled respondents');
+            q_update = {
+              $push: {
+                "respondents": userId
+              }
+            };
+            return Question.update(q_conditions, q_update, options, callback);
+          }
         });
       });
     }

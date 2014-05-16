@@ -69,22 +69,28 @@
             $scope.question = Question.get({
               questionId: escape(questionId)
             });
-            $scope.question.$promise.then(function(data) {
+            return $scope.question.$promise.then(function(data) {
               if (!data._id) {
                 $scope.$dismiss();
-                return $timeout(function() {
+                $timeout(function() {
                   return $location.path('/');
                 }, 100, true);
               }
-            });
-            return $scope.answered = _.find($scope.question.respondents, function(id) {
-              return id === $scope.user._id;
+              return _.each(data.respondents, function(id) {
+                console.log("respondents found");
+                if (id === $scope.user._id) {
+                  $scope.question = data;
+                  $scope.submitted = true;
+                  return $scope.question.alreadyAnswered = true;
+                }
+              });
             });
           } else {
             return $scope.cards = FindQuestions["default"]();
           }
         }).then(function() {
           var alreadyAnswered;
+          console.log($scope.question);
           if ($scope.question) {
             $scope.card = $scope.question;
           }

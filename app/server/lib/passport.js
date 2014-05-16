@@ -87,6 +87,7 @@
                 newUser = new User();
                 newUser.username = name;
                 newUser.email = email;
+                newUser.visitorId = req.body.visitorId;
                 newUser.profilePic = "/img/users/default_img.png";
                 newUser.local.email = email;
                 newUser.local.password = newUser.generateHash(password);

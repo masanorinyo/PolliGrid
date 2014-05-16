@@ -20,23 +20,23 @@ User = require("../models/user")
 #make user's name unique by concatenating a number to the name
 #once the name becomes unique, callback function
 uniqify_name = (name, num, callback) ->
-	User.findOne
+   User.findOne
     
-    	"name": name
-	
-	, (err, user) ->
-		if err
-			throw err
-		
-		else if user
-		
-			stringNum = num.toString()
-			name = name.concat(stringNum)
-			num++
-			uniqify_name(name,num,callback)
-		else
-			callback(name)
-			
+      "name": name
+   
+   , (err, user) ->
+      if err
+         throw err
+      
+      else if user
+      
+         stringNum = num.toString()
+         name = name.concat(stringNum)
+         num++
+         uniqify_name(name,num,callback)
+      else
+         callback(name)
+         
 
 # --------------------------------------------#
 # ------------  exports modeul   ------------ #
@@ -44,129 +44,130 @@ uniqify_name = (name, num, callback) ->
 
 module.exports = (passport) ->
   
-	#--serialize users for persistent login sessions--//
-	passport.serializeUser (user, done) ->
-		done(null, user.id)
+   #--serialize users for persistent login sessions--//
+   passport.serializeUser (user, done) ->
+      done(null, user.id)
     
-	#--deserialize users out of session--//
-	passport.deserializeUser (id, done) ->
-		User.findById(id, (err, user) ->
-			done(err, user)
-		)
+   #--deserialize users out of session--//
+   passport.deserializeUser (id, done) ->
+      User.findById(id, (err, user) ->
+         done(err, user)
+      )
   
 
-  	# ========== Local Login ========== #
-	passport.use "local-login", new LocalStrategy(
-			
-		usernameField: "email"
-		passwordField: "password"
-		passReqToCallback: true
-		
-		, (req, email, password, done) ->
-			
-			req.session.message = ""
-			
-			process.nextTick ->
-				User.findOne
-					"local.email": email
-				, (err, user) ->
-					if err
-						done err
-					else unless user
-						req.session.message = "No user found"
-						done null, false, req.session.message
-					else unless user.validPassword(password)
-						req.session.message = "Wrong password"
-						done null, false, req.session.message
-					else
-						done null, user
-	)
-	# ========== Local Signup ========== #
-	
-	passport.use "local-signup", new LocalStrategy(
+   # ========== Local Login ========== #
+   passport.use "local-login", new LocalStrategy(
+         
+      usernameField: "email"
+      passwordField: "password"
+      passReqToCallback: true
+      
+      , (req, email, password, done) ->
+         
+         req.session.message = ""
+         
+         process.nextTick ->
+            User.findOne
+               "local.email": email
+            , (err, user) ->
+               if err
+                  done err
+               else unless user
+                  req.session.message = "No user found"
+                  done null, false, req.session.message
+               else unless user.validPassword(password)
+                  req.session.message = "Wrong password"
+                  done null, false, req.session.message
+               else
+                  done null, user
+   )
+   # ========== Local Signup ========== #
+   
+   passport.use "local-signup", new LocalStrategy(
     
-		#Overwrites the default usernameField with email
-		usernameField: "email"
-		passwordField: "password"
-		    
-		#This will allow in checking if a user is logged in
-		#(passes user data in the req from the router)
-		passReqToCallback: true
-		
-		, (req, email, password, done) ->
-	    	
-			#clears out the session message
-			req.session.message = ""
-			
-			process.nextTick ->
-				User.findOne
-					
-					"local.email": email
-				
-				, (err, user) ->
-					if err
-					
-						done(err)
-					
-					else if user
-						
-						req.session.message = "That Email is already taken"
-						done(null, false, req.session.message)
-					
-					else
+      #Overwrites the default usernameField with email
+      usernameField: "email"
+      passwordField: "password"
+          
+      #This will allow in checking if a user is logged in
+      #(passes user data in the req from the router)
+      passReqToCallback: true
+      
+      , (req, email, password, done) ->
+         
+         #clears out the session message
+         req.session.message = ""
+         
+         process.nextTick ->
+            User.findOne
+               
+               "local.email": email
+            
+            , (err, user) ->
+               if err
+               
+                  done(err)
+               
+               else if user
+                  
+                  req.session.message = "That Email is already taken"
+                  done(null, false, req.session.message)
+               
+               else
 
-						# create a new user if there are no error and 
-						# a user already using the Email in the process
+                  # create a new user if there are no error and 
+                  # a user already using the Email in the process
 
-						#get a name from Email
-						nameMatch = email.match(/^([^@]*)@/)
-						name = (if nameMatch then nameMatch[1] else null)
+                  #get a name from Email
+                  nameMatch = email.match(/^([^@]*)@/)
+                  name = (if nameMatch then nameMatch[1] else null)
 
-						#if name is successfully extracted from email
-						if name
+                  #if name is successfully extracted from email
+                  if name
 
 
-							callback = (name) ->
-								
-								newUser = new User()
+                     callback = (name) ->
+                     
+                        newUser = new User()
 
-								newUser.username = name
-								newUser.email = email
-								newUser.profilePic = "/img/users/default_img.png"
+                        newUser.username = name
+                        newUser.email = email
+                        newUser.visitorId = req.body.visitorId
+                        newUser.profilePic = "/img/users/default_img.png"
 
-								# Stores email and hashed password into a new user variable.
-								newUser.local.email = email
-								newUser.local.password = newUser.generateHash(password)
+                        # Stores email and hashed password into a new user variable.
+                        newUser.local.email = email
+                        newUser.local.password = newUser.generateHash(password)
 
-								#once users verify the account by clicking the link provided 
-								#in the verification Email, this will become true
-								newUser.confirmed = false
+                        #once users verify the account by clicking the link provided 
+                        #in the verification Email, this will become true
+                        newUser.confirmed = false
 
-								#when users sign up with their twitter account
-								#they need to submit their email separately
-								newUser.hasEmail = true
-								
-								newUser.save (err, user) ->
-									if err
-										
-										done(err)
+                        #when users sign up with their twitter account
+                        #they need to submit their email separately
+                        newUser.hasEmail = true
+                        
+                        newUser.save (err, user) ->
+                           if err
+                              
+                              done(err)
 
-									else
+                           else
 
-										# verification.sendVerification(req, newUser, email)
-										done(null, newUser)
+                              # verification.sendVerification(req, newUser, email)
+                              done(null, newUser)
 
-							#check if there is any user already using the name
-							#if any user with the same name, concatenate with a number
-							#untill the name becomes unique
-							#once the name becomes unique, then the user information will be saved with the callback function.
-							uniqify_name(name, 1, callback)
+                     #check if there is any user already using the name
+                     #if any user with the same name, concatenate with a number
+                     #untill the name becomes unique
+                     #once the name becomes unique, then the user information will be saved with the callback function.
+                     uniqify_name(name, 1, callback)
 
-						else
-										
-							done(null)
+                  else
+                              
+                     done(null)
 
-	)
+   )
   
   # #========================== Facebook ==========================//
   # #*********** Signup & Login ***********//

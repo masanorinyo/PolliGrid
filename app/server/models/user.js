@@ -11,6 +11,7 @@
     email: String,
     hasEmail: Boolean,
     profilePic: String,
+    visitorId: String,
     favorites: [],
     questionMade: [],
     questionsAnswered: [],

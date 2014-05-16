@@ -57,12 +57,21 @@
           if ($scope.targetChecker[i].isAnswered) {
             matchedOption = null;
             userAlreadyAnswered = false;
+            console.log("$scope.user.visitorId");
+            console.log($scope.user.visitorId);
             _.each($scope.card.targets[i].lists, function(list, index) {
               if (_.contains(list.answeredBy, $scope.user._id)) {
                 console.log('contains user id');
+                console.log(list.answeredBy);
+                return userAlreadyAnswered = true;
+              } else if (_.contains(list.answeredBy, $scope.user.visitorId)) {
+                console.log('contains user id');
+                console.log(list.answeredBy);
                 return userAlreadyAnswered = true;
               }
             });
+            console.log("userAlreadyAnswered");
+            console.log(userAlreadyAnswered);
             if (!userAlreadyAnswered) {
               _.each($scope.user.filterQuestionsAnswered, function(answer, index) {
                 return _.each($scope.card.targets[i].lists, function(list, index) {
@@ -98,6 +107,8 @@
       checkIfEverythingAnswered = function() {
         var i, length, numOfAnswers;
         length = $scope.targetChecker.length;
+        console.log("length");
+        console.log(length);
         i = 0;
         numOfAnswers = 0;
         while (i < length) {
@@ -109,6 +120,8 @@
         if (numOfAnswers === length) {
           $scope.areAllQuestionAnswered = true;
           return $scope.filterNumber = -1;
+        } else {
+          return $scope.areAllQuestionAnswered = false;
         }
       };
       $scope.showResult = false;
@@ -117,6 +130,7 @@
       $scope.targetChecker = [];
       (function() {
         if (!$scope.filtersOnSettingPage) {
+          console.log('from target');
           return checkFilterQuestionStatus('');
         }
       })();

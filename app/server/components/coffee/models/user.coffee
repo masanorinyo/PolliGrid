@@ -1,16 +1,18 @@
 mongoose = require("mongoose")
 bcrypt = require("bcrypt-nodejs")
 userSchema = mongoose.Schema(
-  
+  	
 	username 				: String
 	confirmed 				: Boolean
 	email 					: String
 	hasEmail				: Boolean
 	profilePic 				: String
+	visitorId 				: String
 	favorites 				: []
 	questionMade 			: []
 	questionsAnswered 		: []
 	filterQuestionsAnswered : []
+
 
 	local:
 		email: String
