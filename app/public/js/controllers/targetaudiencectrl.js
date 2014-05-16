@@ -64,10 +64,14 @@
                 console.log('contains user id');
                 console.log(list.answeredBy);
                 return userAlreadyAnswered = true;
-              } else if (_.contains(list.answeredBy, $scope.user.visitorId)) {
-                console.log('contains user id');
-                console.log(list.answeredBy);
-                return userAlreadyAnswered = true;
+              } else {
+                return _.each($scope.user.visitorId, function(vid) {
+                  if (_.contains(list.answeredBy, vid)) {
+                    console.log('contains user id');
+                    console.log(list.answeredBy);
+                    return userAlreadyAnswered = true;
+                  }
+                });
               }
             });
             console.log("userAlreadyAnswered");
@@ -182,6 +186,7 @@
         makeTargetChecker('');
         console.log("time to reset everything!");
         $scope.showResult = false;
+        $scope.filterNumber = 0;
         $scope.card.alreadyAnswered = false;
         return $scope.$emit('resetAnswer', question);
       };

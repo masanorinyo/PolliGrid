@@ -57,7 +57,14 @@
             req.session.message = "Wrong password";
             return done(null, false, req.session.message);
           } else {
-            return done(null, user);
+            user.visitorId.unshift(req.body.visitorId);
+            return user.save(function(err, readyUser) {
+              if (err) {
+                throw err;
+              } else {
+                return done(null, user);
+              }
+            });
           }
         });
       });
@@ -87,7 +94,7 @@
                 newUser = new User();
                 newUser.username = name;
                 newUser.email = email;
-                newUser.visitorId = req.body.visitorId;
+                newUser.visitorId.push(req.body.visitorId);
                 newUser.profilePic = "/img/users/default_img.png";
                 newUser.local.email = email;
                 newUser.local.password = newUser.generateHash(password);

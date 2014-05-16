@@ -164,10 +164,16 @@ define ['underscore'], (_)->
 
 							_.each data.respondents,(id)->
 								console.log "respondents found"
-								if id == $scope.user._id
+								if id == $scope.user._id 
 									$scope.question = data
 									$scope.submitted = true
 									$scope.question.alreadyAnswered = true 
+
+								_.each $scope.user.visitorId,(vid)->
+									if vid == id 
+										$scope.question = data
+										$scope.submitted = true
+										$scope.question.alreadyAnswered = true 
 
 
 
@@ -326,19 +332,70 @@ define ['underscore'], (_)->
 		
 			
 		# ------------------ IO listeners ------------------ #
-			
+		$scope.test = ->
+			console.log User.user
 		# reset everything	
 		$scope.$on 'resetAnswer',(question)->
 			
 
-			#shows the main question section
-			$scope.submitted = false
+
+			if _.isArray($scope.user.visitorId)
+
+				# find the visitor id that is in the question's respondnets
+				visitorId = _.intersection $scope.card.respondents, $scope.user.visitorId
+
+			else
+
+				# find the visitor id that is in the question's respondnets
+				visitorId = _.intersection $scope.card.respondents,[$scope.user.visitorId]
+			
+			# get the first element of the visitor id in the array			
+			visitorId = visitorId[0]
+
+
+			# if user is logged in
+			if User.user
+
+				# find if the question respondnets hold the user's id
+				userId = _.intersection $scope.card.respondents,[User.user._id]
+				userId = userId[0]
+				
+				# if the question holds the user's id, then ignore visitorId
+				if userId 
+					visitorId = 0
+				
+				else 
+					userId = 0
+			else
+				visitorId = User.visitor._id
+			
+			if not visitorId or visitorId is undefined then visitorId = 0
+			
+			if not userId or userId is undefined then userId = 0
+			
+
+			console.log "userId"
+			console.log userId
+			console.log "visitorId"
+			console.log visitorId
 
 			
+			
+
+
+			#shows the main question section
+			$scope.submitted = false
+			
+			
+
+
 			# decrement the total resonse for the reset
 			$scope.card.totalResponses--
 			# remove the user's id from the question's respondendents array
-			indexOfRespondents = $scope.card.respondents.indexOf($scope.user._id)
+			if userId 
+				indexOfRespondents = $scope.card.respondents.indexOf(userId)
+			else
+				indexOfRespondents = $scope.card.respondents.indexOf(visitorId)
 			
 			$scope.card.respondents.splice(indexOfRespondents,1)
 
@@ -346,28 +403,40 @@ define ['underscore'], (_)->
 			# 1: get the question id
 			questionId = $scope.card._id
 			
-			# 2: extract the IDs from the question already answered array from User
-			answers = _.pluck($scope.user.questionsAnswered,'_id')
-			
+			console.log "$scope.user.questionsAnswered"
+			console.log $scope.user.questionsAnswered
+			if User.user
+				found = _.find User.user.questionsAnswered,(answer)->
+					answer._id == questionId
+			else 
+				found = _.find $scope.user.questionsAnswered,(answer)->
+					answer._id == questionId
 
-			# 3: compare the extracted IDs with the question ID# 3
-			foundAnswerId = _.find answers,(id)->		
-					id == questionId
-			# 4: find which option the user chose for the question
-			foundAnswered = _.find $scope.user.questionsAnswered, (answer)->
-				answer._id == foundAnswerId
+			console.log "found"
+			console.log found
+			console.log found.answer
+
+			# # 4: find which option the user chose for the question
+			# foundAnswered = _.find $scope.user.questionsAnswered, (answer)->
+			# 	answer._id == foundAnswerId
 
 			# find the question option, which the user chose for the question
 			foundOption = _.find $scope.card.option,(option)->
-				option.title == foundAnswered.answer
+				console.log "option.title"
+				console.log option.title
+				option.title == found.answer
+
+			console.log "foundOption"
+			console.log foundOption 
 
 			# remove the user's id from the options's answeredBy array
-			optionIndex = foundOption.answeredBy.indexOf($scope.user._id)
+			if userId 
+				optionIndex = foundOption.answeredBy.indexOf(userId)
+			else
+				optionIndex = foundOption.answeredBy.indexOf(visitorId)
+
 			foundOption.answeredBy.splice(optionIndex,1)
 			
-		
-
-
 
 			# reset the server side data
 			# also remove all the data made when the user was in the visitor state
@@ -377,11 +446,11 @@ define ['underscore'], (_)->
 					userId 		: User.user._id
 				)
 
-			
-
 
 			# using the found option, decrement the count for the reset
 			foundOption.count--
+
+			answers = _.pluck($scope.user.questionsAnswered,'_id')
 
 			# find the index of the question id in the user's array
 			index = answers.indexOf(questionId)
@@ -394,44 +463,39 @@ define ['underscore'], (_)->
 					$scope.user.questionsAnswered.splice(index,1)
 				
 
-			if !User.user 
-				userId = 0
-			else 
-				userId = User.user._id
+
 
 			# takes out all the user id 
 
-			_.each $scope.card.targets,(target,index)->
-				_.find target.lists,(list,index)->
+			# _.each $scope.card.targets,(target,index)->
+			# 	_.find target.lists,(list,index)->
 					
-					if _.contains(list.answeredBy,$scope.user._id)
-						if User.user then list.answeredBy = _.without(list.answeredBy,User.user._id)
-						list.answeredBy = _.without(list.answeredBy,User.visitor._id)
+			# 		if _.contains(list.answeredBy,$scope.user._id) || _.contains(list.answeredBy,User.visitor._id)
+			# 			if User.user then list.answeredBy = _.without(list.answeredBy,User.user._id)
+			# 			list.answeredBy = _.without(list.answeredBy,User.visitor._id)
 						
-						
-						console.log $scope.card
 
-						UpdateQuestion.removeFiltersAnswer(
-							questionId 	: $scope.card._id
-							userId 		: $scope.user._id
-							visitorId 	: User.visitor._id
-							title 		: "0"
-							filterId 	: target._id
-							index 		: index
-						)
+			# 			UpdateQuestion.removeFiltersAnswer(
+			# 				questionId 			: $scope.card._id
+			# 				userId 				: $scope.user._id
+			# 				visitorId 			: User.visitor._id
+			# 				title 				: "0"
+			# 				filterId 			: target._id
+			# 				index 				: index
+			# 			)
 
-				
-
-
+			
+		
 			UpdateQuestion.removeAnswer(
-				questionId 	: questionId
-				userId 		: userId
-				title 		: escape(foundOption.title)
-				filterId 	: 0
-				index 		: 0
-				visitorId   : User.visitor._id
+				questionId 			: questionId
+				userId 				: userId
+				title 				: escape(foundOption.title)
+				filterId 			: 0
+				index 				: 0
+				visitorId   		: visitorId
 			)
-			$scope.user = User.visitor
+		
+				
 			# reset the chosen answers
 			$scope.answer = ''
 			
@@ -448,7 +512,7 @@ define ['underscore'], (_)->
 				$scope.submitted = false
 				$scope.favorite = false
 				$scope.submitted = false
-			,100,true
+			,500,true
 
 
 		# ------------- Scope Function ------------- #

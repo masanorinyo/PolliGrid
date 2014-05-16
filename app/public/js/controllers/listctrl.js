@@ -81,8 +81,15 @@
                 if (id === $scope.user._id) {
                   $scope.question = data;
                   $scope.submitted = true;
-                  return $scope.question.alreadyAnswered = true;
+                  $scope.question.alreadyAnswered = true;
                 }
+                return _.each($scope.user.visitorId, function(vid) {
+                  if (vid === id) {
+                    $scope.question = data;
+                    $scope.submitted = true;
+                    return $scope.question.alreadyAnswered = true;
+                  }
+                });
               });
             });
           } else {
@@ -179,24 +186,73 @@
           return $location.path('/signup');
         }
       };
+      $scope.test = function() {
+        return console.log(User.user);
+      };
       $scope.$on('resetAnswer', function(question) {
-        var answers, foundAnswerId, foundAnswered, foundOption, index, indexOfRespondents, optionIndex, questionId, userId;
+        var answers, found, foundOption, index, indexOfRespondents, optionIndex, questionId, userId, visitorId;
+        if (_.isArray($scope.user.visitorId)) {
+          visitorId = _.intersection($scope.card.respondents, $scope.user.visitorId);
+        } else {
+          visitorId = _.intersection($scope.card.respondents, [$scope.user.visitorId]);
+        }
+        visitorId = visitorId[0];
+        if (User.user) {
+          userId = _.intersection($scope.card.respondents, [User.user._id]);
+          userId = userId[0];
+          if (userId) {
+            visitorId = 0;
+          } else {
+            userId = 0;
+          }
+        } else {
+          visitorId = User.visitor._id;
+        }
+        if (!visitorId || visitorId === void 0) {
+          visitorId = 0;
+        }
+        if (!userId || userId === void 0) {
+          userId = 0;
+        }
+        console.log("userId");
+        console.log(userId);
+        console.log("visitorId");
+        console.log(visitorId);
         $scope.submitted = false;
         $scope.card.totalResponses--;
-        indexOfRespondents = $scope.card.respondents.indexOf($scope.user._id);
+        if (userId) {
+          indexOfRespondents = $scope.card.respondents.indexOf(userId);
+        } else {
+          indexOfRespondents = $scope.card.respondents.indexOf(visitorId);
+        }
         $scope.card.respondents.splice(indexOfRespondents, 1);
         questionId = $scope.card._id;
-        answers = _.pluck($scope.user.questionsAnswered, '_id');
-        foundAnswerId = _.find(answers, function(id) {
-          return id === questionId;
-        });
-        foundAnswered = _.find($scope.user.questionsAnswered, function(answer) {
-          return answer._id === foundAnswerId;
-        });
+        console.log("$scope.user.questionsAnswered");
+        console.log($scope.user.questionsAnswered);
+        if (User.user) {
+          found = _.find(User.user.questionsAnswered, function(answer) {
+            return answer._id === questionId;
+          });
+        } else {
+          found = _.find($scope.user.questionsAnswered, function(answer) {
+            return answer._id === questionId;
+          });
+        }
+        console.log("found");
+        console.log(found);
+        console.log(found.answer);
         foundOption = _.find($scope.card.option, function(option) {
-          return option.title === foundAnswered.answer;
+          console.log("option.title");
+          console.log(option.title);
+          return option.title === found.answer;
         });
-        optionIndex = foundOption.answeredBy.indexOf($scope.user._id);
+        console.log("foundOption");
+        console.log(foundOption);
+        if (userId) {
+          optionIndex = foundOption.answeredBy.indexOf(userId);
+        } else {
+          optionIndex = foundOption.answeredBy.indexOf(visitorId);
+        }
         foundOption.answeredBy.splice(optionIndex, 1);
         if (User.user) {
           UpdateUserInfo.reset({
@@ -205,35 +261,12 @@
           });
         }
         foundOption.count--;
+        answers = _.pluck($scope.user.questionsAnswered, '_id');
         index = answers.indexOf(questionId);
         _.find($scope.user.questionsAnswered, function(answer) {
           if (answer._id === questionId) {
             return $scope.user.questionsAnswered.splice(index, 1);
           }
-        });
-        if (!User.user) {
-          userId = 0;
-        } else {
-          userId = User.user._id;
-        }
-        _.each($scope.card.targets, function(target, index) {
-          return _.find(target.lists, function(list, index) {
-            if (_.contains(list.answeredBy, $scope.user._id)) {
-              if (User.user) {
-                list.answeredBy = _.without(list.answeredBy, User.user._id);
-              }
-              list.answeredBy = _.without(list.answeredBy, User.visitor._id);
-              console.log($scope.card);
-              return UpdateQuestion.removeFiltersAnswer({
-                questionId: $scope.card._id,
-                userId: $scope.user._id,
-                visitorId: User.visitor._id,
-                title: "0",
-                filterId: target._id,
-                index: index
-              });
-            }
-          });
         });
         UpdateQuestion.removeAnswer({
           questionId: questionId,
@@ -241,9 +274,8 @@
           title: escape(foundOption.title),
           filterId: 0,
           index: 0,
-          visitorId: User.visitor._id
+          visitorId: visitorId
         });
-        $scope.user = User.visitor;
         return $scope.answer = '';
       });
       $scope.$on('userLoggedIn', function(value) {
@@ -257,7 +289,7 @@
           $scope.submitted = false;
           $scope.favorite = false;
           return $scope.submitted = false;
-        }, 100, true);
+        }, 500, true);
       });
       $scope.closeModal = function() {
         $scope.$dismiss();

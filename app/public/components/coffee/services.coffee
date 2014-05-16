@@ -84,14 +84,15 @@ define ['angular'], (angular) ->
 							visitorId 	: 0
 							task  		: "update"
 					
-					"removeFiltersAnswer":
-						method 		: "PUT"
-						params 		:
-							task  	: "removeFilter"
+					# "removeFiltersAnswer":
+					# 	method 		: "PUT"
+					# 	params 		:
+					# 		task  	: "removeFilter"
 					"removeAnswer"  : 
 						method 		: "PUT"
 						params 		:
 							task  	: "remove"
+							
 				}
 			)
 
@@ -246,6 +247,7 @@ define ['angular'], (angular) ->
 						filterQuestionsAnswered : []
 				
 				user : loggedInUser
+				answer:null
 				
 				 
 				 

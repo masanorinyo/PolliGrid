@@ -111,12 +111,16 @@
                 'X-Requested-With': 'XMLHttpRequest'
               }
             }).success(function(data) {
+              var randLetter, uniqid;
               console.log('succesfully registered');
               console.log(data);
               $scope.somethingWrongWith.signup = false;
               data.isLoggedIn = true;
               makeCookie(data);
-              return transformToRealUser(data);
+              transformToRealUser(data);
+              randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+              uniqid = randLetter + Date.now();
+              return User.visitor._id = uniqid;
             }).error(function(data) {
               $scope.somethingWrongWith.signup = true;
               $scope.warning = console.log("err");
@@ -152,6 +156,7 @@
         });
       };
       $scope.login = function(data) {
+        data.visitorId = User.visitor._id;
         return $http({
           method: 'POST',
           url: '/api/auth/login',
@@ -161,12 +166,16 @@
             'X-Requested-With': 'XMLHttpRequest'
           }
         }).success(function(data) {
+          var randLetter, uniqid;
           console.log('succesfully logged in');
           console.log(data);
           $scope.somethingWrongWith.login = false;
           data.isLoggedIn = true;
           makeCookie(data);
-          return transformToRealUser(data);
+          transformToRealUser(data);
+          randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+          uniqid = randLetter + Date.now();
+          return User.visitor._id = uniqid;
         }).error(function(data) {
           console.log("err");
           console.log(data);

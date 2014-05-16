@@ -170,6 +170,9 @@ define [], ()->
 						# pass the data to the user
 						transformToRealUser(data)
 
+						randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26))
+						uniqid = randLetter + Date.now()
+						User.visitor._id = uniqid
 						
 
 
@@ -215,6 +218,7 @@ define [], ()->
 
 		$scope.login = (data)->
 
+			data.visitorId = User.visitor._id
 			$http
 				method  : 'POST',
 				url     : '/api/auth/login',
@@ -235,6 +239,10 @@ define [], ()->
 				# if user answer to questions when in the visitor's state
 				# pass the data to the user
 				transformToRealUser(data)
+
+				randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26))
+				uniqid = randLetter + Date.now()
+				User.visitor._id = uniqid
 
 				
 				

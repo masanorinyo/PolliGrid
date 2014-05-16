@@ -132,6 +132,7 @@
         users = $scope.question.respondents;
         filters = $scope.filterGroup.filters;
         answer.isAdded = !answer.isAdded;
+        console.log(filters);
         if (answer.isAdded) {
           $scope.foundRespondents = true;
           foundCategory = _.findWhere($scope.filterCategories, {
@@ -278,6 +279,7 @@
             targetTitle = $scope.question.targets[i].title;
             _.each($scope.question.targets[i].lists, function(num) {
               var optionData;
+              num.answeredBy = _.intersection(num.answeredBy, $scope.question.respondents);
               optionData = {
                 option: num.option,
                 answeredBy: num.answeredBy,

@@ -190,7 +190,7 @@ exports.updateQuestion = (req,res)->
 	filterId 	= escapeChar(unescape(req.params.filterId))
 	task 		= escapeChar(unescape(req.params.task))
 	index 		= req.params.index	
-
+	console.log visitorId
 	options = {upsert:true}
 
 	if task == "remove"
@@ -217,15 +217,15 @@ exports.updateQuestion = (req,res)->
 				"respondents":
 					$in:[userId,visitorId]
 				
-	else if task == "removeFilter"
+	# else if task == "removeFilter"
 		
-		conditions = 
+	# 	conditions = 
 
-				"_id":questionId
-				"targets._id":filterId
+	# 			"_id":questionId
+	# 			"targets._id":filterId
 				
-		updates = {$pull:{}}
-		updates.$pull["targets.$.lists."+index+".answeredBy"] = {$in:[userId,visitorId]}
+	# 	updates = {$pull:{}}
+	# 	updates.$pull["targets.$.lists."+index+".answeredBy"] = {$in:[userId,visitorId]}
 
 
 	else
@@ -539,10 +539,6 @@ exports.visitorToGuest = (req,res)->
 				console.log found.length
 				if found.length
 
-					updates = 
-						$set:
-							"questionsAnswered.$.answer":q.answer
-
 
 					console.log "question found"
 					
@@ -562,48 +558,6 @@ exports.visitorToGuest = (req,res)->
 				User.update(conditions, updates, options, callback)
 
 
-			# this will replace the visitor id with logged 
-			# in id in the rquestion respondents array
-			q_conditions = {"_id":q._id}
-			
-			q_update = {$pull:{"respondents":visitorId}}
-				
-			Question.update(q_conditions,q_update,options,(err,result)->
-				if err 
-					res.send err
-
-				else
-
-					console.log 'pulled respondents'
-					q_update = {$push:{"respondents":userId}}
-					Question.update(q_conditions,q_update,options,callback)					
-
-
-			)
-			
-			# # update question filters
-			# f_conditions = {"_id":q._id}
-
-			# f_update_pull = {$pull:{}}
-			# f_update_push = {$push:{}}
-
-			
-			# _.each q.targets, (target,index)->
-			# 	p_index = index
-			# 	_.each target, (list,index)->
-			# 		c_index = index
-			# 		console.log list					
-			# 		f_update_pull.$pull["targets."+p_index+".lists."+c_index+".answeredBy"] = visitorId
-					
-			# 		Question.update(f_conditions,f_update_pull,options,(err,result)->
-
-			# 			if err 
-			# 				res.send err 
-			# 			else 
-			# 				f_update_push.$push["targets."+p_index+".lists."+c_index+".answeredBy"] = userId		
-			# 				Question.update(f_conditions,f_update_push,options,callback)
-
-			# 		)
 	
 	# if there are filter questions already answered
 	# when the user was in the visitor's state		

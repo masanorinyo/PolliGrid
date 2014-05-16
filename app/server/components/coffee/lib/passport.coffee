@@ -79,7 +79,13 @@ module.exports = (passport) ->
                   req.session.message = "Wrong password"
                   done null, false, req.session.message
                else
-                  done null, user
+                  
+                  user.visitorId.unshift(req.body.visitorId)
+                  user.save (err,readyUser)->
+                    if err 
+                      throw err 
+                    else 
+                      done null, user
    )
    # ========== Local Signup ========== #
    
@@ -132,7 +138,7 @@ module.exports = (passport) ->
 
                         newUser.username = name
                         newUser.email = email
-                        newUser.visitorId = req.body.visitorId
+                        newUser.visitorId.push(req.body.visitorId)
                         newUser.profilePic = "/img/users/default_img.png"
 
                         # Stores email and hashed password into a new user variable.

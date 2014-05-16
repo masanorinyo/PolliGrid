@@ -199,6 +199,8 @@ define ['underscore'], (_)->
 			filters = $scope.filterGroup.filters
 			answer.isAdded = !answer.isAdded
 			
+			console.log filters
+
 			if answer.isAdded
 				$scope.foundRespondents = true
 				
@@ -367,10 +369,6 @@ define ['underscore'], (_)->
 			defer.resolve()
 
 
-
-
-
-		
 		# create filters array
 		do ()->
 
@@ -424,6 +422,10 @@ define ['underscore'], (_)->
 						targetTitle = $scope.question.targets[i].title
 
 						_.each $scope.question.targets[i].lists,(num)->
+							
+							
+							num.answeredBy = _.intersection(num.answeredBy,$scope.question.respondents)
+							
 							optionData = 
 								option 			: num.option
 								answeredBy  	: num.answeredBy
@@ -479,6 +481,13 @@ define ['underscore'], (_)->
 						$scope.donutDataFiltered.push(filteredDataForDonut) 
 
 			defer.resolve()
+
+		# $scope.getTargetList = (respondents,users)->
+		# 	filteredList = _.filter users,
+		# 	console.log respondents
+		# 	console.log "users"
+		# 	console.log users
+			
 
 		# ------------- Scope Function ------------- #
 

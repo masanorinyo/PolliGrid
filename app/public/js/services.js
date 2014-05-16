@@ -71,12 +71,6 @@
             task: "update"
           }
         },
-        "removeFiltersAnswer": {
-          method: "PUT",
-          params: {
-            task: "removeFilter"
-          }
-        },
         "removeAnswer": {
           method: "PUT",
           params: {
@@ -213,7 +207,8 @@
           questionsAnswered: [],
           filterQuestionsAnswered: []
         },
-        user: loggedInUser
+        user: loggedInUser,
+        answer: null
       };
     }).factory('Verification', function($resource) {
       return $resource("/api/user/:id/:email/:task/:pass", {

@@ -196,6 +196,7 @@
     filterId = escapeChar(unescape(req.params.filterId));
     task = escapeChar(unescape(req.params.task));
     index = req.params.index;
+    console.log(visitorId);
     options = {
       upsert: true
     };
@@ -218,17 +219,6 @@
             $in: [userId, visitorId]
           }
         }
-      };
-    } else if (task === "removeFilter") {
-      conditions = {
-        "_id": questionId,
-        "targets._id": filterId
-      };
-      updates = {
-        $pull: {}
-      };
-      updates.$pull["targets.$.lists." + index + ".answeredBy"] = {
-        $in: [userId, visitorId]
       };
     } else {
       if (filterId !== "0") {
@@ -494,20 +484,15 @@
     filters = req.body.filters;
     if (questions.length) {
       questions.forEach(function(q, key) {
-        var conditions, q_conditions, q_update;
+        var conditions;
         conditions = {
           "_id": userId,
           "questionsAnswered._id": q._id
         };
-        User.find(conditions).exec(function(err, found) {
+        return User.find(conditions).exec(function(err, found) {
           var updates;
           console.log(found.length);
           if (found.length) {
-            updates = {
-              $set: {
-                "questionsAnswered.$.answer": q.answer
-              }
-            };
             console.log("question found");
           } else {
             conditions = {
@@ -524,27 +509,6 @@
             console.log('ready to push');
           }
           return User.update(conditions, updates, options, callback);
-        });
-        q_conditions = {
-          "_id": q._id
-        };
-        q_update = {
-          $pull: {
-            "respondents": visitorId
-          }
-        };
-        return Question.update(q_conditions, q_update, options, function(err, result) {
-          if (err) {
-            return res.send(err);
-          } else {
-            console.log('pulled respondents');
-            q_update = {
-              $push: {
-                "respondents": userId
-              }
-            };
-            return Question.update(q_conditions, q_update, options, callback);
-          }
         });
       });
     }

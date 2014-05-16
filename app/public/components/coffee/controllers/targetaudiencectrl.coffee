@@ -113,10 +113,14 @@ define ['underscore'], (_)->
 							console.log 'contains user id'
 							console.log list.answeredBy
 							userAlreadyAnswered = true
-						else if _.contains(list.answeredBy,$scope.user.visitorId)
-							console.log 'contains user id'
-							console.log list.answeredBy
-							userAlreadyAnswered = true
+						
+						else
+
+							_.each $scope.user.visitorId,(vid)->
+								if _.contains(list.answeredBy,vid)
+									console.log 'contains user id'
+									console.log list.answeredBy
+									userAlreadyAnswered = true
 
 
 					console.log "userAlreadyAnswered"
@@ -353,7 +357,7 @@ define ['underscore'], (_)->
 			
 			# cancels out all the answers
 			$scope.areAllQuestionAnswered = false
-			
+					
 			makeTargetChecker('')
 
 			console.log "time to reset everything!"
@@ -361,7 +365,7 @@ define ['underscore'], (_)->
 			
 			#cancels out everything
 			$scope.showResult = false
-
+			$scope.filterNumber = 0
 			$scope.card.alreadyAnswered = false
 			
 
