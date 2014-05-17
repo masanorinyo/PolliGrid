@@ -9,7 +9,7 @@ define ['underscore'], (_)->
 		Question
 		User
 		Verification
-		Passwowrd
+		Password
 		$http
 	)->
 		
@@ -80,7 +80,7 @@ define ['underscore'], (_)->
 					$scope.warning.length = "Please type more than 6 characteres"
 				
 				if $scope.conditions.length and $scope.conditions.same and $scope.rightOldPass
-					Passwowrd.reset(
+					Password.reset(
 						email:escape(User.user.local.email)
 						pass:escape(confirm)
 					).$promise.then (data)->

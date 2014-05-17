@@ -21,8 +21,10 @@
       };
       $scope.somethingWrongWith = {
         login: false,
-        signup: false
+        signup: false,
+        reset: false
       };
+      $scope.success = false;
       $scope.forgotPass = false;
       makeCookie = function(data) {
         if ($scope.newUser.remember_me) {
@@ -181,6 +183,38 @@
           console.log("err");
           console.log(data);
           return $scope.somethingWrongWith.login = true;
+        });
+      };
+      $scope.toggleForm = function() {
+        return $scope.forgotPass = !$scope.forgotPass;
+      };
+      $scope.resetPass = function(registeredUser) {
+        console.log(registeredUser);
+        return $http({
+          method: "POST",
+          url: "/api/reset",
+          data: $.param(registeredUser),
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        }).success(function(data) {
+          if (data === "fail") {
+            $scope.somethingWrongWith.reset = true;
+            return $timeout(function() {
+              return $scope.somethingWrongWith.reset = false;
+            }, 3000, true);
+          } else {
+            $scope.success = true;
+            return $timeout(function() {
+              return $scope.success = false;
+            }, 3000, true);
+          }
+        }).error(function(data) {
+          $scope.somethingWrongWith.reset = true;
+          return $timeout(function() {
+            return $scope.somethingWrongWith.reset = false;
+          }, 3000, true);
         });
       };
       $scope["switch"] = function(type) {

@@ -222,7 +222,8 @@
           $rootScope.account = {
             message: '',
             success: false,
-            fail: false
+            fail: false,
+            resetPass: false
           };
           $rootScope.account.message = message;
           if (result === 'success') {
@@ -269,7 +270,7 @@
           isArray: false
         }
       });
-    }).factory("Passwowrd", function($resource) {
+    }).factory("Password", function($resource) {
       return $resource("/api/resetPass/:email/:pass", {
         email: "@email",
         pass: "@pass"

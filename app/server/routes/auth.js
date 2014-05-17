@@ -143,18 +143,74 @@
         "local.email": req.body.email
       }, function(err, user) {});
     });
-    return app.get("/verify/:token", function(req, res, next) {
+    app.get("/verify/:token", function(req, res, next) {
       var token;
       token = req.params.token;
       verification.verifyUser(token, "verify", function(err, user) {
         if (err) {
-          res.redirect("/#/verification/fail");
+          res.redirect("/#/verification/email/fail");
         } else if (!user) {
-          res.redirect("/#/verification/fail");
+          res.redirect("/#/verification/email/fail");
         } else {
-          res.redirect("/#/verification/success");
+          res.redirect("/#/verification/email/success");
         }
       });
+    });
+    app.post("/api/reset", function(req, res, next) {
+      console.log("req.body.email");
+      console.log(req.body.email);
+      return User.findOne({
+        "local.email": req.body.email
+      }, function(err, user) {
+        if (err) {
+          return res.send("fail");
+        } else if (!user) {
+          return res.send("fail");
+        } else {
+          verification.sendResetVerification(req, user, user.local.email);
+          return res.send("success");
+        }
+      });
+    });
+    app.get("/reset/:token", function(req, res, next) {
+      var token;
+      token = req.params.token;
+      return verification.verifyUser(token, "reset", function(err, user) {
+        if (err) {
+          return res.redirect("/verification/email/resetFail");
+        } else if (!user) {
+          return res.redirect("/verification/email/resetFail");
+        } else {
+          return res.render("newPass.jade", {
+            acctEmail: user.local.email
+          });
+        }
+      });
+    });
+    return app.post("/reset/verified", (function(req, res, next) {
+      var type;
+      type = req.params.type;
+      return User.findOne({
+        "local.email": req.body.email
+      }, function(err, user) {
+        var newPassword, newUser;
+        if (err) {
+          return res.redirect("/#/verification/pass/fail");
+        } else {
+          newUser = new User();
+          newPassword = newUser.generateHash(req.body.password);
+          user.local.password = newPassword;
+          return user.save(function(err, user) {
+            if (err) {
+              return res.redirect("/#/verification/pass/fail");
+            } else {
+              return next();
+            }
+          });
+        }
+      });
+    }), function(req, res, next) {
+      return res.redirect("/#/verification/pass/success");
     });
   };
 

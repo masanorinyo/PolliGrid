@@ -45,7 +45,6 @@
       passwordField: "password",
       passReqToCallback: true
     }, function(req, email, password, done) {
-      req.session.message = "";
       return process.nextTick(function() {
         return User.findOne({
           "local.email": email

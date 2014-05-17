@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $modal, $stateParams, $location, $q, $timeout, Question, User, Verification, Passwowrd, $http) {
+    return function($scope, $modal, $stateParams, $location, $q, $timeout, Question, User, Verification, Password, $http) {
       var ChangePassCtrl;
       ChangePassCtrl = function($scope) {
         $scope.rightOldPass = false;
@@ -55,7 +55,7 @@
             $scope.warning.length = "Please type more than 6 characteres";
           }
           if ($scope.conditions.length && $scope.conditions.same && $scope.rightOldPass) {
-            return Passwowrd.reset({
+            return Password.reset({
               email: escape(User.user.local.email),
               pass: escape(confirm)
             }).$promise.then(function(data) {

@@ -1,0 +1,44 @@
+doctype html
+html(lang="en").no-js
+	head
+		
+		title Which one?
+		meta( name="viewport" content="width=device-width, user-scalable=no")
+		link(rel='stylesheet', href='/css/main.css')
+	
+		//- for development --//
+		link(rel='stylesheet',href='/dev/bootstrap/css/bootstrap.min.css')
+		link(rel='stylesheet',href='/dev/font-awesome-4.0.3/css/font-awesome.min.css')
+		link(rel='stylesheet',href='/dev/animate.css')
+		
+	body
+		
+		div.container.position-center
+			div.col-sm-6.col-sm-offset-3
+				h1 
+					i.fa.fa-gavel
+					|  New password
+
+				
+				form(action='/reset/verified' method='post')
+					div.form-group
+						br
+						label.gray
+							|  Please type your new password
+						input(type='password' name='password').form-control
+						input(type='hidden' name='email' value='#{acctEmail}')
+					button(type='submit').btn.btn-primary
+						|  Submit
+
+				br
+
+				hr
+
+				p
+					| Or go
+					a(href='/')
+						|  Home
+
+		
+
+

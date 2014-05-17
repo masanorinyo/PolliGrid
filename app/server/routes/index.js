@@ -1,6 +1,6 @@
 (function() {
   exports.index = function(req, res) {
-    return res.render('index');
+    return res.render('main');
   };
 
   exports.uploadPhoto = function(req, res) {

@@ -64,8 +64,6 @@ module.exports = (passport) ->
       
       , (req, email, password, done) ->
          
-         req.session.message = ""
-         
          process.nextTick ->
             User.findOne
                "local.email": email

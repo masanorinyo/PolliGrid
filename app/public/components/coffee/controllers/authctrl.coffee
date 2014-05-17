@@ -33,7 +33,9 @@ define [], ()->
 		$scope.somethingWrongWith = 
 			login 		: false
 			signup 		: false
+			reset 		: false
 
+		$scope.success = false
 		$scope.forgotPass = false
 
 		# --------------------- util functions --------------------- #
@@ -253,6 +255,47 @@ define [], ()->
 				console.log "err"
 				console.log data
 				$scope.somethingWrongWith.login = true
+
+		# show and hide the reset password form
+		$scope.toggleForm = ->
+			$scope.forgotPass = !$scope.forgotPass
+
+		$scope.resetPass = (registeredUser) ->
+			console.log registeredUser
+			
+			$http 
+				method:"POST"
+				url:"/api/reset"
+				data    : $.param(registeredUser)
+				headers : 
+					'Content-Type': 'application/x-www-form-urlencoded'
+					'X-Requested-With' : 'XMLHttpRequest'
+
+			.success (data)->
+				
+				if data == "fail"
+					$scope.somethingWrongWith.reset = true
+
+					$timeout ->
+						$scope.somethingWrongWith.reset = false
+					,3000,true
+				else 
+
+					$scope.success = true
+
+					$timeout ->
+						$scope.success = false
+					,3000,true
+
+
+			
+			.error (data)->
+				$scope.somethingWrongWith.reset = true
+
+				$timeout ->
+					$scope.somethingWrongWith.reset = false
+				,3000,true
+
 
 
 

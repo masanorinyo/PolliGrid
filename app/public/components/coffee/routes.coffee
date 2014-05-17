@@ -131,17 +131,32 @@ define(
 
 				.state "verify",
 					
-					url:'/verification/:result'
+					url:'/verification/:type/:result'
 
 					onEnter:($stateParams,$location,Account)->
 						result = $stateParams.result
+						type = $stateParams.type
 						console.log 'test'
-						if result == "success"
-							Account.verifiedMessage("Your account is successfully verified",'success')
-							$location.path('/')
-						else 
-							Account.verifiedMessage("Account verification failed",'fail')
-							$location.path('/')
+
+						if type == "email"
+							if result == "success"
+								Account.verifiedMessage("Your account is successfully verified",'success')
+								$location.path('/')
+							else if result == "fail"
+								Account.verifiedMessage("Account verification failed",'fail')
+								$location.path('/')
+							else if result == "resetFail"
+								Account.verifiedMessage("The reset password token is not valid",'fail')
+								$location.path('/')
+						
+						else if type =="pass"
+						
+							if result == "success"
+								Account.verifiedMessage("Your password is reset",'success')
+								$location.path('/')
+							else if result == "fail"
+								Account.verifiedMessage("Your password reset failed",'fail')
+						
 
 				.state 'home.create',
 					url:'create'

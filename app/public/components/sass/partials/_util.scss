@@ -73,3 +73,8 @@
 	width:30%;
 	float:left
 }
+
+.position-center{
+	@include absolute-center;
+	height: 500px;
+}

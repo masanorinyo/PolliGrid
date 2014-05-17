@@ -91,6 +91,7 @@ exports.verifyUser = (token, type, done) ->
                 done null, user
 
           else
+            console.log user
             done null, user
         return
 

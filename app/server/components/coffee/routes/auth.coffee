@@ -234,6 +234,7 @@ module.exports = (app,passport) ->
 			)
 
 
+	# resetting password
 	app.post '/api/resetPass/:email/:pass',(req,res)->
 		console.log email = unescape(req.params.email)
 		console.log pass = unescape(req.params.pass)
@@ -338,127 +339,102 @@ module.exports = (app,passport) ->
 		verification.verifyUser token, "verify", (err, user) ->
 			
 			if err
-				res.redirect "/#/verification/fail"
+				res.redirect "/#/verification/email/fail"
 			else unless user
-				res.redirect "/#/verification/fail"
+				res.redirect "/#/verification/email/fail"
 			else
-				res.redirect "/#/verification/success"
+				res.redirect "/#/verification/email/success"
 			return
 
 		return
 
   
-#   #======== Reset Password ========//
-#   app.get "/reset", (req, res, next) ->
-    
-#     #Define the error message in session if it is undefined.
-#     req.session.errorMessage = ""  unless req.session.errorMessage
-    
-#     #the error message in session gets emptified after rendering
-#     res.render "auth/resetPass.jade",
-#       errorMessage: req.session.errorMessage
-#     , auth_utility.cleanup(req, res)
-#     return
+  #======== Reset Password ========//
+  
+  
+  # when users submit their emails to get a password reset email.
+	app.post "/api/reset", (req, res, next) ->
+		console.log "req.body.email"
+		console.log req.body.email
+		User.findOne
+			"local.email": req.body.email
+		, (err, user) ->
+			if err
+				res.send "fail"
+
+			#if user is not found with that Email, add an error message into the session
+			else unless user
+
+				res.send "fail"
+
+			#if user is found with that Email, send a Email.
+			else
+
+				verification.sendResetVerification req, user, user.local.email
+				res.send "success"
+
 
   
-#   # when users submit their emails to get a password reset email.
-#   app.post "/reset/verifyEmail", (req, res, next) ->
-#     User.findOne
-#       "local.email": req.body.email
-#     , (err, user) ->
-#       if err
-#         done err
+  # users get E-mail with the link, which contains the token
+	app.get "/reset/:token", (req, res, next) ->
+		token = req.params.token
+		
+		#check if the token provided in the E-mail matches the user's affiliated token in the database
+		verification.verifyUser token, "reset", (err, user) ->
+			if err
       
-#       #if user is not found with that Email, add an error message into the session
-#       else unless user
-#         req.session.errorMessage = "There is no user registered with that Email"
-#         res.redirect "/reset"
+				res.redirect "/verification/email/resetFail"
       
-#       #if user is found with that Email, send a Email.
-#       else
-        
-#         #log the time of reset email sent out
-#         auth_utility.writeLog user.profile.username, user.id, "asked for password reset"
-#         verification.sendResetVerification req, user, user.local.email
-#         res.redirect "/login"
-#       return
+			else unless user
 
-#     return
+				res.redirect "/verification/email/resetFail"
+
+			else
+
+				#if the tokens match, then renders 'newPass jade' with
+				#the user's email loaded
+				res.render "newPass.jade",
+					acctEmail: user.local.email
+
 
   
-#   # users get E-mail with the link, which contains the token
-#   app.get "/reset/:token", (req, res, next) ->
-#     token = req.params.token
+	#when users submit their new password on the "newPass.jade"
+	app.post "/reset/verified", ((req, res, next) ->
+		type = req.params.type
     
-#     #check if the token provided in the E-mail matches the user's affiliated token in the database
-#     verification.verifyUser token, "reset", (err, user) ->
-#       if err
-#         res.redirect "/"
-#       else unless user
-#         res.redirect "/"
-#       else
+		#first find the user in the database with the submitted E-mail
+		User.findOne
+			"local.email": req.body.email
+		, (err, user) ->
+			if err
         
-#         #if the tokens match, then renders 'newPass jade' with
-#         #the user's email loaded
-#         res.render "auth/newPass.jade",
-#           acctEmail: user.local.email
+				res.redirect "/#/verification/pass/fail"
 
-#       return
-
-#     return
-
-  
-#   #when users submit their new password on the "newPass.jade"
-#   app.post "/reset/verified/:type", ((req, res, next) ->
-#     type = req.params.type
-    
-#     #first find the user in the database with the submitted E-mail
-#     User.findOne
-#       "local.email": req.body.email
-#     , (err, user) ->
-#       if err
-#         console.log err
-#         res.redirect "/"
-#       else
+			else
         
-#         #IF THE USER IS FOUND, THEN SET A NEW PASSWORD FOR HIS OR HER ACCOUNT
-#         NEWUSER = NEW USER()
-#         newPassword = newUser.generateHash(req.body.password)
-#         user.local.password = newPassword
-#         user.save (err, user) ->
-#           if err
-#             throw err
-#           else
-#             if type is "resetPass"
-              
-#               #log user's reset password activity
-#               auth_utility.writeLog user.profile.username, user.id, "Reset password"
-#               next()
-#             else if type is "changePass"
-              
-#               #log user's reset password activity
-#               auth_utility.writeLog user.profile.username, user.id, "Changed password"
-#               res.redirect "/setting"
-#             else
-#               res.redirect "/setting"
-#           return
-
-#       return
-
-#     return
+				#IF THE USER IS FOUND, THEN SET A NEW PASSWORD FOR HIS OR HER ACCOUNT
+				newUser = new User()
+				newPassword = newUser.generateHash(req.body.password)
+				user.local.password = newPassword
+				
+				user.save (err, user) ->
+					if err
+						res.redirect "/#/verification/pass/fail"
+					else
+						next()
+				
   
-#   #once the user successfully set a new password,
-#   # authenticate with passportJS
-#   ), passport.authenticate("local-login",
-#     failureRedirect: "/login"
-  
-#   #if the user is authenticated, stores the user's id in cookies
-#   #so that the user won't need to retype the password in the future.
-#   ), (req, res, next) ->
-#     auth_utility.rememberMe req, res
-#     res.redirect "/room/" + req.user.profile.username + "/me"
-#     return
+	 #  #once the user successfully set a new password,
+	 #  # authenticate with passportJS
+	 #  ), passport.authenticate("local-login",
+		# failureRedirect: "/#/verification/pass/fail"
+	  
+	  #if the user is authenticated, stores the user's id in cookies
+	  #so that the user won't need to retype the password in the future.
+	  ), (req, res, next) ->
+		res.redirect "/#/verification/pass/success"
+	    
 
-  
+	  
 
-  
+	  

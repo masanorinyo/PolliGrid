@@ -255,6 +255,7 @@ define ['angular'], (angular) ->
 					message : '' 
 					success : false
 					fail 	: false
+					resetPass:false
 				$rootScope.account.message = message
 
 				
@@ -265,7 +266,6 @@ define ['angular'], (angular) ->
 					
 				else if result == 'fail'
 					$rootScope.account.fail = true
-
 
 
 				$timeout ->
@@ -311,7 +311,7 @@ define ['angular'], (angular) ->
 				}
 			)
 
-		.factory "Passwowrd",($resource)->
+		.factory "Password",($resource)->
 			$resource(
 				"/api/resetPass/:email/:pass"
 				{

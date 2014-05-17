@@ -101,6 +101,7 @@
                 }
               });
             } else {
+              console.log(user);
               done(null, user);
             }
           }
