@@ -135,6 +135,16 @@ define ['angular','controllers','underscore','jquery'], (angular,controllers,_,$
 					scope.getSize.width  = elem[0].offsetWidth
 				,300,true
 
+		.directive "disableEnter", ->
+			(scope, element, attrs) ->
+				element.bind "keydown keypress", (event) ->
+					if event.which is 13
+						event.preventDefault()
+		
+
+		
+
+
 		# same as ng-repeat except for these don't create new scopes
 		.directive 'noScopeRepeatForGrid', ($compile,$templateCache)->
 			link: (scope, elem, attrs)->

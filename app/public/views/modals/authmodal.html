@@ -84,7 +84,7 @@
 			</form>
 
 			<!-- Reset form -->
-			<form ng-show="forgotPass" method="post" ng-submit="resetPass(registeredUser)" id="resetForm" name="resetForm"  charset="utf-8">
+			<form ng-show="forgotPass" method="post" ng-submit="resetPass(registeredUser)" id="resetForm" name="resetForm"  charset="utf-8" disable-enter>
 				<p ng-show="somethingWrongWith.reset" class="alert alert-danger">
 					This E-mail is not registered
 				</p>

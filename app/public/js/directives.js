@@ -122,6 +122,14 @@
           }, 300, true);
         }
       };
+    }).directive("disableEnter", function() {
+      return function(scope, element, attrs) {
+        return element.bind("keydown keypress", function(event) {
+          if (event.which === 13) {
+            return event.preventDefault();
+          }
+        });
+      };
     }).directive('noScopeRepeatForGrid', function($compile, $templateCache) {
       return {
         link: function(scope, elem, attrs) {
