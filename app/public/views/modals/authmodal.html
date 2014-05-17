@@ -60,7 +60,7 @@
 			</form>
 
 			<!-- login form -->
-			<form ng-if="title=='Login'" method="post" ng-submit="login(newUser)" id="loginForm" name="loginForm"  charset="utf-8">
+			<form ng-if="title=='Login' && !forgotPass" method="post" ng-submit="login(newUser)" id="loginForm" name="loginForm"  charset="utf-8">
 				<p ng-show="somethingWrongWith.login" class="alert alert-danger">
 					Wrong username or password
 				</p>
@@ -75,7 +75,7 @@
 				
 					remember me
 				</label>
-				<a class="pull-right font-size-sl" href="/#">
+				<a class="pull-right font-size-sl" ng-click="forgotPass = !forgotPass" href="/#">
 						
 					Forgot password?
 				</a>

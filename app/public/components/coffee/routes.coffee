@@ -35,7 +35,6 @@ define(
 						# 	controller:'TargetAudienceCtrl'
 					
 
-
 				.state 'home.login',
 					url:'login'
 					onEnter:($state,$modal,$stateParams,$location,Error,User)->
@@ -129,6 +128,20 @@ define(
 							, ()->
 								$location.path('/')
 								Error.auth = ''
+
+				.state "verify",
+					
+					url:'/verification/:result'
+
+					onEnter:($stateParams,$location,Account)->
+						result = $stateParams.result
+						console.log 'test'
+						if result == "success"
+							Account.verifiedMessage("Your account is successfully verified",'success')
+							$location.path('/')
+						else 
+							Account.verifiedMessage("Account verification failed",'fail')
+							$location.path('/')
 
 				.state 'home.create',
 					url:'create'
@@ -321,6 +334,9 @@ define(
 					
 
 					
+
+				
+
 
 
 

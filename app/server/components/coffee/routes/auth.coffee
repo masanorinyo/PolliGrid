@@ -12,7 +12,7 @@ escapeChar = (regex)->
 
 
 # fs = require("fs")
-# verification = require("../lib/verification")
+verification = require("../lib/verification")
 
 
 # --------------------------------------------#
@@ -151,14 +151,6 @@ module.exports = (app,passport) ->
 #     res.redirect "/room/" + req.user.profile.username + "/me"
 #     return
 
-
-	# # ====== Logout ====== #
-	
-	# app.get "/api/auth/logout", (req, res) ->
- #    	console.log "successfully logged out"
-	# 	req.logout()
-	# 	req.session.cookie.expires = false
-	# 	# res.redirect "/"
 
 
   
@@ -339,24 +331,22 @@ module.exports = (app,passport) ->
 #   #======== Verification Email ========//
   
 #   #when users click the link provided in the account verification email
-#   app.get "/verify/:token", (req, res, next) ->
-#     token = req.params.token
-    
-#     #if the token provided in the link matches 
-#     #the user's affiliated token in the database
-#     verification.verifyUser token, "verify", (err, user) ->
-#       if err
-#         res.redirect "/"
-#       else unless user
-#         res.redirect "/"
-#       else
-        
-#         #log user's verifying account activity
-#         auth_utility.writeLog user.profile.username, user.id, "Verified account"
-#         res.redirect "/room/" + req.user.profile.username + "/me"
-#       return
+	app.get "/verify/:token", (req, res, next) ->
+		token = req.params.token
 
-#     return
+		#if the token provided in the link matches 
+		#the user's affiliated token in the database
+		verification.verifyUser token, "verify", (err, user) ->
+			
+			if err
+				res.redirect "/#/verification/fail"
+			else unless user
+				res.redirect "/#/verification/fail"
+			else
+				res.redirect "/#/verification/success"
+			return
+
+		return
 
   
 #   #======== Reset Password ========//

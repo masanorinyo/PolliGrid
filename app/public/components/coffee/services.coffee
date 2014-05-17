@@ -206,7 +206,7 @@ define ['angular'], (angular) ->
 			)
 
 	
-		.factory 'User', (ipCookie,$http,$q)->
+		.factory 'User', (ipCookie,$http,$q,$rootScope,$timeout)->
 			
 			# get the unique id
 			randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26))
@@ -248,10 +248,32 @@ define ['angular'], (angular) ->
 				
 				user : loggedInUser
 				answer:null
-				
-				 
-				 
 
+		.factory "Account",($rootScope,$timeout)->
+			verifiedMessage: (message,result)->
+				$rootScope.account =
+					message : '' 
+					success : false
+					fail 	: false
+				$rootScope.account.message = message
+
+				console.log "result"
+				console.log result
+				if result == 'success'
+					
+					$rootScope.account.success = true
+					
+					
+				else if result == 'fail'
+					$rootScope.account.fail = true
+
+
+
+				$timeout ->
+					$rootScope.account.message = ""
+					$rootScope.account.success = false
+					$rootScope.account.fail = false
+				,5000,true
 		.factory 'Verification',($resource)->
 			$resource(
 				"/api/user/:id/:email/:task/:pass"

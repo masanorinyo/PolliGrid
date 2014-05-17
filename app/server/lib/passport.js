@@ -1,5 +1,5 @@
 (function() {
-  var FacebookStrategy, GoogleStrategy, LocalStrategy, TwitterStrategy, User, uniqify_name;
+  var FacebookStrategy, GoogleStrategy, LocalStrategy, TwitterStrategy, User, uniqify_name, verification;
 
   LocalStrategy = require("passport-local").Strategy;
 
@@ -10,6 +10,8 @@
   GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
   User = require("../models/user");
+
+  verification = require("./verification");
 
   uniqify_name = function(name, num, callback) {
     return User.findOne({
@@ -104,6 +106,7 @@
                   if (err) {
                     return done(err);
                   } else {
+                    verification.sendVerification(req, newUser, email);
                     return done(null, newUser);
                   }
                 });

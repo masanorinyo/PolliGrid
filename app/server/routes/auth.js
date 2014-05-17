@@ -1,5 +1,5 @@
 (function() {
-  var User, auth_utility, escapeChar;
+  var User, auth_utility, escapeChar, verification;
 
   User = require("../models/user");
 
@@ -8,6 +8,8 @@
   escapeChar = function(regex) {
     return regex.replace(/([()[{*+.$^\\|?])/g, '\\$1');
   };
+
+  verification = require("../lib/verification");
 
   module.exports = function(app, passport) {
     app.post("/api/auth/login", passport.authenticate("local-login"), function(req, res, next) {
@@ -126,12 +128,25 @@
         });
       });
     });
-    return app.get("/api/checkPass", function(req, res, next) {
+    app.get("/api/checkPass", function(req, res, next) {
       var isCorrect;
       isCorrect = false;
       return User.findOne({
         "local.email": req.body.email
       }, function(err, user) {});
+    });
+    return app.get("/verify/:token", function(req, res, next) {
+      var token;
+      token = req.params.token;
+      verification.verifyUser(token, "verify", function(err, user) {
+        if (err) {
+          res.redirect("/#/verification/fail");
+        } else if (!user) {
+          res.redirect("/#/verification/fail");
+        } else {
+          res.redirect("/#/verification/success");
+        }
+      });
     });
   };
 

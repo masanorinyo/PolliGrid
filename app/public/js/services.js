@@ -177,7 +177,7 @@
           }
         }
       });
-    }).factory('User', function(ipCookie, $http, $q) {
+    }).factory('User', function(ipCookie, $http, $q, $rootScope, $timeout) {
       var loggedInUser, randLetter, uniqid, user;
       randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
       uniqid = randLetter + Date.now();
@@ -215,6 +215,29 @@
         },
         user: loggedInUser,
         answer: null
+      };
+    }).factory("Account", function($rootScope, $timeout) {
+      return {
+        verifiedMessage: function(message, result) {
+          $rootScope.account = {
+            message: '',
+            success: false,
+            fail: false
+          };
+          $rootScope.account.message = message;
+          console.log("result");
+          console.log(result);
+          if (result === 'success') {
+            $rootScope.account.success = true;
+          } else if (result === 'fail') {
+            $rootScope.account.fail = true;
+          }
+          return $timeout(function() {
+            $rootScope.account.message = "";
+            $rootScope.account.success = false;
+            return $rootScope.account.fail = false;
+          }, 5000, true);
+        }
       };
     }).factory('Verification', function($resource) {
       return $resource("/api/user/:id/:email/:task/:pass", {

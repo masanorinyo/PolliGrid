@@ -322,7 +322,7 @@ define ['underscore'], (_)->
 					else if $scope.type == "filters"
 						
 						showFilters()
-
+		
 		# ------------------ invoke the scope ------------------ #
 		$scope.$apply()
 

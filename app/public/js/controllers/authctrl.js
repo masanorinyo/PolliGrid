@@ -23,6 +23,7 @@
         login: false,
         signup: false
       };
+      $scope.forgotPass = false;
       makeCookie = function(data) {
         if ($scope.newUser.remember_me) {
           return ipCookie("loggedInUser", data, {

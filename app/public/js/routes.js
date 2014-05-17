@@ -87,6 +87,20 @@
             });
           }
         }
+      }).state("verify", {
+        url: '/verification/:result',
+        onEnter: function($stateParams, $location, Account) {
+          var result;
+          result = $stateParams.result;
+          console.log('test');
+          if (result === "success") {
+            Account.verifiedMessage("Your account is successfully verified", 'success');
+            return $location.path('/');
+          } else {
+            Account.verifiedMessage("Account verification failed", 'fail');
+            return $location.path('/');
+          }
+        }
       }).state('home.create', {
         url: 'create',
         views: {

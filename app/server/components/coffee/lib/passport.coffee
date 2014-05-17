@@ -11,7 +11,7 @@ User = require("../models/user")
 # configAuth = require("../routes/auth")
 
 # email verification
-# verification = require("../app/lib/verification")
+verification = require("./verification")
 
 # --------------------------------------------#
 # ------------ load dependencies ------------ #
@@ -160,7 +160,7 @@ module.exports = (passport) ->
 
                            else
 
-                              # verification.sendVerification(req, newUser, email)
+                              verification.sendVerification(req, newUser, email)
                               done(null, newUser)
 
                      #check if there is any user already using the name

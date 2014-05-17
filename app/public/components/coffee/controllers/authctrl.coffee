@@ -34,6 +34,7 @@ define [], ()->
 			login 		: false
 			signup 		: false
 
+		$scope.forgotPass = false
 
 		# --------------------- util functions --------------------- #
 
