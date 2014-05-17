@@ -17,8 +17,14 @@
 						<span>{{user.email}}</span>
 					</li>
 					<li class="content-list"  ng-controller="ChangePassCtrl">
-						<label class="gray">Password:</label>
-						<span ng-click="openPassModal()"  class="form-link blue">Change password</span>
+						<div ng-if="user.confirmed">
+							<label  class="gray">Password:</label>
+							<span  ng-click="openPassModal()"  class="form-link blue">Change password</span>
+						</div>
+						<div ng-if="!user.confirmed">
+							<label class="gray">Please verify your account:</label>
+							<span ng-click="sendVerification()" class="btn btn-warning" >{{verificationBtn}}</span>
+						</div>
 					</li>
 					<!-- <li  class="content-list" ng-controller="ChangePhotoCtrl">
 						<label class="gray">Profile Picture: </label>

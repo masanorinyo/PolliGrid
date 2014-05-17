@@ -183,6 +183,20 @@
           windowClass: "shareModal"
         });
       };
+      $scope.verificationBtn = "Send a verification E-mail";
+      $scope.sendVerification = function() {
+        $scope.verificationBtn = "E-mail sent";
+        $timeout(function() {
+          return $scope.verificationBtn = "Send a verification E-mail again";
+        }, 1500, true);
+        return $http({
+          method: "POST",
+          url: '/api/resend',
+          data: {
+            user: $scope.user
+          }
+        }).success(function(data) {});
+      };
       (function() {
         return $http({
           method: "GET",

@@ -225,8 +225,6 @@
             fail: false
           };
           $rootScope.account.message = message;
-          console.log("result");
-          console.log(result);
           if (result === 'success') {
             $rootScope.account.success = true;
           } else if (result === 'fail') {
@@ -236,7 +234,7 @@
             $rootScope.account.message = "";
             $rootScope.account.success = false;
             return $rootScope.account.fail = false;
-          }, 5000, true);
+          }, 3000, true);
         }
       };
     }).factory('Verification', function($resource) {

@@ -257,8 +257,7 @@ define ['angular'], (angular) ->
 					fail 	: false
 				$rootScope.account.message = message
 
-				console.log "result"
-				console.log result
+				
 				if result == 'success'
 					
 					$rootScope.account.success = true
@@ -273,7 +272,8 @@ define ['angular'], (angular) ->
 					$rootScope.account.message = ""
 					$rootScope.account.success = false
 					$rootScope.account.fail = false
-				,5000,true
+				,3000,true
+
 		.factory 'Verification',($resource)->
 			$resource(
 				"/api/user/:id/:email/:task/:pass"

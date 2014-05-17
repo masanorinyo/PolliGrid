@@ -128,6 +128,14 @@
         });
       });
     });
+    app.post("/api/resend", function(req, res) {
+      var user;
+      console.log('resend');
+      console.log(user = req.body.user);
+      if (user) {
+        return verification.sendVerification(req, user, user.email);
+      }
+    });
     app.get("/api/checkPass", function(req, res, next) {
       var isCorrect;
       isCorrect = false;

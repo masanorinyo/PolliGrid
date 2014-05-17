@@ -272,6 +272,23 @@ define ['underscore'], (_)->
 				windowClass : "shareModal"
 			)			
 
+		$scope.verificationBtn = "Send a verification E-mail"
+		$scope.sendVerification = ->
+			$scope.verificationBtn = "E-mail sent"
+			$timeout ->
+				$scope.verificationBtn = "Send a verification E-mail again"
+			,1500,true
+			
+			$http 
+				method:"POST"
+				url:'/api/resend'
+				data:
+					user:$scope.user
+					
+			.success (data)->
+				
+				
+				
 
 		
 		# -------------------------- for initial load --------------------------#

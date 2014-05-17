@@ -92,11 +92,13 @@ define ['underscore'], (_)->
 
 
 		$scope.openPassModal = ->
-
+			
 			modalInstance = $modal.open(			
 				templateUrl: "views/modals/changePassModal.html"
 				controller: ChangePassCtrl
 			)
+			
+
 
 		# -------------- Invoke Scope --------------#
 		$scope.$apply()

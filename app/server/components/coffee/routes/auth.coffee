@@ -306,16 +306,15 @@ module.exports = (app,passport) ->
     return
 
   
-#   #resend a verification code
-#   app.get "/resend", (req, res) ->
-#     req.session.errorMessage = ""  unless req.session.errorMessage
-#     if req.user
-#       verification.sendVerification req, req.user, req.user.profile.email
-#       res.redirect "/setting"
-#     else
-#       req.session.errorMessage = "Please log into your account"
-#       res.redirect "/"
-#     return
+	#resend a verification code
+	app.post "/api/resend", (req, res) ->
+		console.log 'resend'
+		console.log user = req.body.user
+		
+
+		if user
+			verification.sendVerification req, user, user.email
+		
 
 
 	# check if the input password is correct
