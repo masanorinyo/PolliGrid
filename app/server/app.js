@@ -61,6 +61,11 @@
 
   app.use(session({
     secret: "$noOnecanGetThisSecretBesidesZhengdianZhan",
+    key: 'express.sid',
+    cookie: {
+      path: '/',
+      httpOnly: true
+    },
     store: new MongoStore({
       mongoose_connection: db
     })

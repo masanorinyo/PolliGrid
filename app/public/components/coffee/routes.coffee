@@ -173,7 +173,7 @@ define(
 					
 					url:'/oauth/:result'
 
-					onEnter:($route,$http,$state, $stateParams,$location, ipCookie,User)->
+					onEnter:($timeout,$http,$stateParams,$location, ipCookie,User)->
 					
 						result = $stateParams.result
 
@@ -187,8 +187,10 @@ define(
 									console.log data.isLoggedIn = true
 									console.log data
 									ipCookie("loggedInUser",data,{expires:365})
-									User.checkState()
 									$location.path('/verification/auth/success')
+									$timeout ->
+										User.checkState()
+									,200,true
 									
 								else 
 									$location.path('/verification/auth/fail')

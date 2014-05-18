@@ -126,7 +126,7 @@
         }
       }).state("oauthenticate", {
         url: '/oauth/:result',
-        onEnter: function($route, $http, $state, $stateParams, $location, ipCookie, User) {
+        onEnter: function($timeout, $http, $stateParams, $location, ipCookie, User) {
           var result;
           result = $stateParams.result;
           if (result === "success") {
@@ -141,8 +141,10 @@
                 ipCookie("loggedInUser", data, {
                   expires: 365
                 });
-                User.checkState();
-                return $location.path('/verification/auth/success');
+                $location.path('/verification/auth/success');
+                return $timeout(function() {
+                  return User.checkState();
+                }, 200, true);
               } else {
                 return $location.path('/verification/auth/fail');
               }

@@ -56,10 +56,14 @@ app.use(bodyParser.urlencoded())
 # cookie & session management #
 app.use(cookieParser())
 app.use(session( 
-            secret : "$noOnecanGetThisSecretBesidesZhengdianZhan",
-            store : new MongoStore({ mongoose_connection: db })
-      )
-)
+      
+      secret : "$noOnecanGetThisSecretBesidesZhengdianZhan"
+      key   : 'express.sid'
+      cookie      : 
+            path        : '/'
+            httpOnly    : true 
+      store       : new MongoStore({ mongoose_connection: db })
+))
 
 # passport initial configuration
 app.use(passport.initialize())

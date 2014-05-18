@@ -159,6 +159,41 @@
         });
       });
     }));
+    passport.use("twitter", new TwitterStrategy({
+      consumerKey: configAuth.twitterAuth.consumerKey,
+      consumerSecret: configAuth.twitterAuth.consumerSecret,
+      callbackURL: configAuth.twitterAuth.callbackURL,
+      passReqToCallback: true
+    }, function(req, token, tokenSecret, profile, done) {
+      process.nextTick(function() {});
+      return User.findOne({
+        "twitter.id": profile.id
+      }, function(err, user) {
+        var newUser;
+        if (err) {
+          return done(err);
+        } else if (user) {
+          return done(null, user);
+        } else {
+          console.log("twitter user : Nothing was found");
+          newUser = new User();
+          newUser.twitter.id = profile.id;
+          newUser.twitter.token = token;
+          newUser.twitter.tokenSecret = tokenSecret;
+          newUser.username = profile.displayName.replace(/\s/g, "-");
+          newUser.profilePic = profile.photos[0].value;
+          newUser.confirmed = false;
+          newUser.hasEmail = false;
+          return newUser.save(function(err) {
+            if (err) {
+              return done(err);
+            } else {
+              return done(null, newUser);
+            }
+          });
+        }
+      });
+    }));
     return passport.use("google", new GoogleStrategy({
       clientID: configAuth.googleAuth.clientID,
       clientSecret: configAuth.googleAuth.clientSecret,

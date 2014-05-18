@@ -199,7 +199,6 @@ module.exports = (passport) ->
 			picUrl = "https://graph.facebook.com/" + userId + "/picture"
 			
 			# when the user is not logged in
-			# unless req.user
 			User.findOne
 				"facebook.id": profile.id
 			, (err, user) ->
@@ -238,110 +237,63 @@ module.exports = (passport) ->
 
 
 
-			# else
-			# 	done null,req.user
-
 	)
 	
 	
 	# #========================== Twitter Login ==========================//
-	# #*********** Signup & Login ***********//
-	# passport.use "twitter", new TwitterStrategy(
-	#   consumerKey: configAuth.twitterAuth.consumerKey
-	#   consumerSecret: configAuth.twitterAuth.consumerSecret
-	#   callbackURL: configAuth.twitterAuth.callbackURL
-		
-	#   #This will allow in checking if a user is logged in
-	#   #(passes user data in the req from the router)
-	#   passReqToCallback: true
-	# , (req, token, tokenSecret, profile, done) ->
-	#   process.nextTick ->
+	#*********** Signup & Login ***********//
+	passport.use "twitter", new TwitterStrategy(
+		consumerKey: configAuth.twitterAuth.consumerKey
+		consumerSecret: configAuth.twitterAuth.consumerSecret
+		callbackURL: configAuth.twitterAuth.callbackURL
+
+		#This will allow in checking if a user is logged in
+		#(passes user data in the req from the router)
+		passReqToCallback: true
+	, (req, token, tokenSecret, profile, done) ->
+		process.nextTick ->
+
+		# check if the user is already logged in
+		User.findOne
+			"twitter.id": profile.id
+		, (err, user) ->
+			if err
 			
-	#     # check if the user is already logged in
-	#     unless req.user
-	#       User.findOne
-	#         "twitter.id": profile.id
-	#       , (err, user) ->
-	#         if err
-	#           done err
-	#         else if user
-	#           console.log "twitter user : found"
-						
-	#           # if there is a user id already but no token 
-	#           # (user was linked at one point and then removed)
-	#           unless user.twitter.token
-	#             console.log "twitter user : No token"
-	#             user.twitter.token = token
-	#             user.twitter.tokenSecret = tokenSecret
-	#             user.profile.photos.twitter = profile.photos[0].value
-	#             user.save (err) ->
-	#               if err
-	#                 done err
-	#               else
-									
-	#                 #log user's reconnection activity
-	#                 writeLog user.profile.username, user.id, "Twitter reconnect"
-	#                 done null, user
-
-	#           else
-	#             console.log "twitter user : id and token found"
-							
-	#             #log user's logging activity
-	#             writeLog user.profile.username, user.id, "Twitter Login"
-	#             done null, user # user found, return that user
-	#         else
-	#           console.log "twitter user : Nothing was found"
-						
-	#           # if there is no user, create them
-	#           newUser = new User()
-						
-	#           #sends confirmation email
-	#           newUser.twitter.id = profile.id
-	#           newUser.twitter.token = token
-	#           newUser.twitter.tokenSecret = tokenSecret
-	#           newUser.profile.username = profile.displayName.replace(/\s/g, "-")
-	#           newUser.profile.primaryPhoto = profile.photos[0].value
-	#           newUser.profile.photos.twitter = profile.photos[0].value
-						
-	#           #When users submit the reset password form,
-	#           #this will become true.
-	#           newUser.profile.confirmed = false
-						
-	#           #when users sign up with their twitter account
-	#           #they need to submit their email separately
-	#           newUser.profile.hasEmail = false
-	#           newUser.save (err) ->
-	#             if err
-	#               done err
-	#             else
-	#               done null, newUser
-
-	#         return
-
-	#     else
-	#       console.log "twitter user : already loggedin"
+				done err
+			
+			else if user
 				
-	#       # There is already a user logged in
-	#       # This allows for linking twitter account
-	#       # gets the user out of the session
-	#       user = req.user
-	#       user.twitter.id = profile.id
-	#       user.twitter.token = token
-	#       user.twitter.tokenSecret = tokenSecret
-	#       user.profile.photos.twitter = profile.photos[0].value
-	#       user.save (err) ->
-	#         if err
-	#           done err
-	#         else
-						
-	#           #log user's authorizatoin activity
-	#           writeLog user.profile.username, user.id, "Twitter Authorizatoin"
-	#           done null, user
+				done null, user
+			
+			else
+				console.log "twitter user : Nothing was found"
 
-	#     return
+				# if there is no user, create them
+				newUser = new User()
 
-	#   return
-	# )
+				#sends confirmation email
+				newUser.twitter.id = profile.id
+				newUser.twitter.token = token
+				newUser.twitter.tokenSecret = tokenSecret
+				newUser.username = profile.displayName.replace(/\s/g, "-")
+				newUser.profilePic = profile.photos[0].value
+
+				#When users submit the reset password form,
+				#this will become true.
+				newUser.confirmed = false
+
+				#when users sign up with their twitter account
+				#they need to submit their email separately
+				newUser.hasEmail = false
+				newUser.save (err) ->
+					if err
+						done err
+					else
+						done null, newUser
+
+		
+		
+	)
 	
 	
 	
@@ -402,7 +354,5 @@ module.exports = (passport) ->
 						verification.sendVerification req, newUser, newUser.email
 						done null, newUser
 
-		# else
-				
-		# 	done null, req.user
+
 	)

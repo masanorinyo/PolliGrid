@@ -37,6 +37,71 @@
     }), function(req, res) {
       return res.redirect("/#/oauth/success");
     });
+    app.get("/auth/twitter", passport.authenticate("twitter", {
+      scope: ["email", "photo"]
+    }));
+    app.get("/auth/twitter/callback", passport.authenticate("twitter", {
+      failureRedirect: "/#/oauth/fail"
+    }), function(req, res) {
+      if (!req.user.hasEmail) {
+        return res.redirect("/getEmail");
+      } else {
+        return res.redirect("/#/oauth/success");
+      }
+    });
+    app.get("/getEmail", function(req, res) {
+      if (!req.session.message) {
+        req.session.message = '';
+      }
+      return res.render('getEmail.jade', {
+        errorMessage: req.session.message
+      }, auth_utility.cleanup(req, res));
+    });
+    app.post("/getEmail/complete", function(req, res) {
+      var email;
+      email = req.body.email;
+      if (email.length < 2) {
+        req.session.message = "Please type your legitimate E-mail";
+        return res.redirect('/getEmail');
+      } else if (!auth_utility.validateEmail(email)) {
+        req.session.message = "Please type your legitimate E-mail";
+        return res.redirect('/getEmail');
+      } else {
+        return User.findById(req.user.id, function(err, user) {
+          if (err) {
+            console.log(err);
+            return req.session.destroy(function() {
+              req.logout();
+              return res.redirect("/#/oauth/fail");
+            });
+          } else {
+            return User.findOne({
+              "email": req.body.email
+            }, function(err, existingUser) {
+              if (err) {
+                throw err;
+                return res.redirect("/#/oauth/fail");
+              } else if (existingUser) {
+                req.session.message = "That Email is already used";
+                return res.redirect("/getEmail");
+              } else {
+                user.email = req.body.email;
+                user.hasEmail = true;
+                return user.save(function(err, user) {
+                  if (err) {
+                    throw err;
+                    return res.redirect("/#/oauth/fail");
+                  } else {
+                    verification.sendVerification(req, user, user.email);
+                    return res.redirect("/#/oauth/success");
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
     app.get("/auth/google", passport.authenticate("google", {
       scope: ["profile", "email"]
     }));

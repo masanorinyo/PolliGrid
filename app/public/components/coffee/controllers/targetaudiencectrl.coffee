@@ -378,7 +378,7 @@ define ['underscore'], (_)->
 			$timeout ->
 				$scope.areAllQuestionAnswered = false
 				$scope.showResult = false
-				$scope.card.alreadyAnswered = false
+				# $scope.card.alreadyAnswered = false
 
 		$scope.$on "showGraph", (result)->
 			

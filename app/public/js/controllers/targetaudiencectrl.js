@@ -186,8 +186,7 @@
         console.log('log off from target');
         return $timeout(function() {
           $scope.areAllQuestionAnswered = false;
-          $scope.showResult = false;
-          return $scope.card.alreadyAnswered = false;
+          return $scope.showResult = false;
         });
       });
       $scope.$on("showGraph", function(result) {

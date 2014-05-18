@@ -72,72 +72,85 @@ module.exports = (app,passport) ->
 
 
   
-#   #Twitter
-#   app.get "/auth/twitter", passport.authenticate("twitter",
-#     scope: [
-#       "email"
-#       "photo"
-#     ]
-#   )
+  	#Twitter
+	app.get "/auth/twitter", passport.authenticate("twitter",
+		scope: [
+			"email"
+			"photo"
+		]
+	)
   
-#   # handle the callback after twitter has authenticated the user
-#   app.get "/auth/twitter/callback", passport.authenticate("twitter",
-#     failureRedirect: "/"
-#   ), (req, res) ->
-#     auth_utility.rememberOauth req, res
-    
-#     #check if users have an email address
-#     unless req.user.profile.hasEmail
-#       res.redirect "/getEmail"
-#     else
-#       res.redirect "/room/" + req.user.profile.username + "/me"
-#     return
+  	# handle the callback after twitter has authenticated the user
+	app.get "/auth/twitter/callback", passport.authenticate("twitter",
+		
+		failureRedirect: "/#/oauth/fail"
+	
+	), (req, res) ->
+	
 
-#   app.get "/getEmail", (req, res) ->
-#     req.session.errorMessage = ""  unless req.session.errorMessage
-#     res.render "auth/getEmail.jade",
-#       errorMessage: req.session.errorMessage
-#     , auth_utility.cleanup(req, res)
-#     return
+		#check if users have an email address
+		unless req.user.hasEmail
+			res.redirect "/getEmail"
+		else
+			res.redirect "/#/oauth/success"
+		
 
-#   app.post "/getEmail/complete", (req, res) ->
-#     User.findById req.user.id, (err, user) ->
-#       if err
-#         console.log err
-#         req.session.destroy ->
-#           req.logout()
-#           res.redirect "/"
-#           return
+	app.get "/getEmail", (req, res) ->
+		if !req.session.message
+			req.session.message = ''
+		
 
-#       else
-#         User.findOne
-#           "profile.email": req.body.email
-#         , (err, existingUser) ->
-#           if err
-#             throw errres.redirect "/"
-#           else if existingUser
-#             req.session.errorMessage = "That Email is already used"
-#             res.redirect "/getEmail"
-#           else
-#             user.profile.email = req.body.email
-#             user.profile.hasEmail = true
-#             user.save (err, user) ->
-#               if err
-#                 throw errres.redirect "/"
-#               else
-                
-#                 #log user's signup activity
-#                 auth_utility.writeLog user.profile.username, user.id, "Twitter signup"
-#                 verification.sendVerification req, user, user.profile.email
-#                 res.redirect "/room/" + req.user.profile.username + "/me"
-#               return
+		res.render('getEmail.jade',
+			errorMessage:req.session.message
+		, auth_utility.cleanup(req,res));
+		
+	
 
-#           return
+	app.post "/getEmail/complete", (req, res) ->
+		email = req.body.email 
+		if email.length < 2
+			req.session.message = "Please type your legitimate E-mail"
+			res.redirect('/getEmail')
+		else if !auth_utility.validateEmail(email)
+			req.session.message = "Please type your legitimate E-mail"
+			res.redirect('/getEmail')
+		else
 
-#       return
+			User.findById req.user.id, (err, user) ->
+				
+				if err
+					console.log err
+					req.session.destroy ->
+						req.logout()
+						res.redirect "/#/oauth/fail"
+		
 
-#     return
+				else
+					User.findOne
+					
+						"email": req.body.email
+					
+					, (err, existingUser) ->
+						if err
+							throw err
+							res.redirect "/#/oauth/fail"
+						else if existingUser
+							req.session.message = "That Email is already used"
+							res.redirect "/getEmail"
+						
+						else
+							user.email = req.body.email
+							user.hasEmail = true
+							user.save (err, user) ->
+								if err
+									throw err
+									res.redirect "/#/oauth/fail"
+								else
 
+									#log user's signup activity
+									verification.sendVerification req, user, user.email
+									res.redirect "/#/oauth/success"
+	
   
 	#Google
 	app.get "/auth/google", passport.authenticate("google",
