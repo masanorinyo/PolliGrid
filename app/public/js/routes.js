@@ -14,7 +14,8 @@
         }
       }).state('home.login', {
         url: 'login',
-        onEnter: function($state, $modal, $stateParams, $location, Error, User) {
+        onEnter: function(ipCookie, $state, $modal, $stateParams, $location, Error, User) {
+          console.log(ipCookie('user'));
           if (User.user) {
             return $location.path('/');
           } else {
@@ -110,8 +111,43 @@
               Account.verifiedMessage("Your password is reset", 'success');
               return $location.path('/');
             } else if (result === "fail") {
-              return Account.verifiedMessage("Your password reset failed", 'fail');
+              Account.verifiedMessage("Your password reset failed", 'fail');
+              return $location.path('/');
             }
+          } else if (type === "auth") {
+            if (result === "success") {
+              Account.verifiedMessage("Authentication went successful", 'success');
+              return $location.path('/');
+            } else if (result === "fail") {
+              Account.verifiedMessage("Authentication failed", 'fail');
+              return $location.path('/');
+            }
+          }
+        }
+      }).state("oauthenticate", {
+        url: '/oauth/:result',
+        onEnter: function($route, $http, $state, $stateParams, $location, ipCookie, User) {
+          var result;
+          result = $stateParams.result;
+          if (result === "success") {
+            return $http({
+              method: "GET",
+              url: "/api/getLoggedInUser"
+            }).success(function(data) {
+              if (data) {
+                console.log(data.isLoggedIn = true);
+                console.log(data);
+                ipCookie("loggedInUser", data, {
+                  expires: 365
+                });
+                User.checkState();
+                return $location.path('/verification/auth/success');
+              } else {
+                return $location.path('/verification/auth/fail');
+              }
+            });
+          } else {
+            return $location.path('/verification/auth/fail');
           }
         }
       }).state('home.create', {

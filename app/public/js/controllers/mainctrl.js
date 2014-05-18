@@ -1,6 +1,6 @@
 (function() {
   define(["underscore"], function(_) {
-    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search, QuestionTypeHead, NewQuestion, Verification, ipCookie, Setting) {
+    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search, QuestionTypeHead, NewQuestion, Verification, ipCookie, Setting, $http) {
       var capitaliseFirstLetter, searchSpecificQuestions;
       capitaliseFirstLetter = function(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -146,6 +146,8 @@
         return $scope.changeCategory(capitaliseFirstLetter(Search.category));
       });
       $scope.$on('newQuestionAdded', function(value) {
+        console.log("value");
+        console.log(value);
         return $scope.questions.unshift(NewQuestion.question);
       });
       $scope.$on('downloadMoreQuestions', function(value) {
@@ -163,6 +165,7 @@
       });
       $scope.$on('userLoggedIn', function(value) {
         console.log("main");
+        console.log(User.user = ipCookie('loggedInUser'));
         $scope.user = User.user;
         return console.log($scope.user);
       });
@@ -175,6 +178,12 @@
         User.visitor.filterQuestionsAnswered = [];
         $scope.user = User.visitor;
         ipCookie.remove("loggedInUser");
+        $http({
+          method: "DELETE",
+          url: "/api/auth/logout"
+        }).success(function(data) {
+          return console.log(data);
+        });
         $scope.$broadcast('logOff', User.visitor);
         User.user = null;
         $scope.user = null;

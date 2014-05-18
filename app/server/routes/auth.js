@@ -26,6 +26,24 @@
         return res.send(req.session.message);
       }
     });
+    app.get("/auth/facebook", passport.authenticate("facebook", {
+      scope: ["email", "read_stream", "publish_actions"]
+    }));
+    app.get("/api/getLoggedInUser", function(req, res) {
+      return res.send(req.user);
+    });
+    app.get("/auth/facebook/callback", passport.authenticate("facebook", {
+      failureRedirect: "/#/oauth/fail"
+    }), function(req, res) {
+      return res.redirect("/#/oauth/success");
+    });
+    app["delete"]("/api/auth/logout", function(req, res) {
+      if (req.user) {
+        console.log(req.user);
+        req.logout();
+        return console.log(req.user);
+      }
+    });
     app.get("/api/user/:id/:email/:task/:pass", function(req, res) {
       var email, id, isCorrect, pass, task;
       console.log(id = escapeChar(unescape(req.params.id)));

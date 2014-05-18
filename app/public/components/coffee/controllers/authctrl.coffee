@@ -220,7 +220,7 @@ define [], ()->
 
 
 		$scope.login = (data)->
-
+			
 			data.visitorId = User.visitor._id
 			$http
 				method  : 'POST',
@@ -255,6 +255,16 @@ define [], ()->
 				console.log "err"
 				console.log data
 				$scope.somethingWrongWith.login = true
+
+
+		# $scope.facebookLogin = ->
+		# 	$http 
+		# 		method:"GET"
+		# 		url:"/auth/facebook"
+		# 	.success (data)->
+		# 		console.log data
+
+
 
 		# show and hide the reset password form
 		$scope.toggleForm = ->

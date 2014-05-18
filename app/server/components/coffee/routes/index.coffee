@@ -1,7 +1,10 @@
 # initial load 
 
 exports.index  = (req, res)->
-	res.render('main')
+	
+	res.render 'main'
+	
+
 
 
 exports.uploadPhoto = (req,res)->

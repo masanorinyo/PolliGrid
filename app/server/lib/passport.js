@@ -1,5 +1,5 @@
 (function() {
-  var FacebookStrategy, GoogleStrategy, LocalStrategy, TwitterStrategy, User, uniqify_name, verification;
+  var FacebookStrategy, GoogleStrategy, LocalStrategy, TwitterStrategy, User, configAuth, uniqify_name, verification;
 
   LocalStrategy = require("passport-local").Strategy;
 
@@ -10,6 +10,8 @@
   GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
   User = require("../models/user");
+
+  configAuth = require("../config/oauth");
 
   verification = require("./verification");
 
@@ -70,7 +72,7 @@
         });
       });
     }));
-    return passport.use("local-signup", new LocalStrategy({
+    passport.use("local-signup", new LocalStrategy({
       usernameField: "email",
       passwordField: "password",
       passReqToCallback: true
@@ -116,6 +118,50 @@
             }
           }
         });
+      });
+    }));
+    return passport.use("facebook", new FacebookStrategy({
+      clientID: configAuth.facebookAuth.clientID,
+      clientSecret: configAuth.facebookAuth.clientSecret,
+      callbackURL: configAuth.facebookAuth.callbackURL,
+      passReqToCallback: true
+    }, function(req, token, refreshToken, profile, done) {
+      return process.nextTick(function() {
+        var picUrl, userId;
+        userId = profile.id;
+        picUrl = "https://graph.facebook.com/" + userId + "/picture";
+        if (!req.user) {
+          return User.findOne({
+            "facebook.id": profile.id
+          }, function(err, user) {
+            var newUser;
+            if (err) {
+              return done(err);
+            } else if (user) {
+              console.log('login');
+              return done(null, user);
+            } else {
+              newUser = new User();
+              newUser.facebook.id = profile.id;
+              newUser.facebook.token = token;
+              newUser.username = profile.name.givenName + " " + profile.name.familyName;
+              newUser.email = profile.emails[0].value;
+              newUser.profilePic = picUrl;
+              newUser.confirmed = false;
+              newUser.hasEmail = true;
+              return newUser.save(function(err, user) {
+                if (err) {
+                  return done(err);
+                } else {
+                  verification.sendVerification(req, newUser, newUser.email);
+                  return done(null, newUser);
+                }
+              });
+            }
+          });
+        } else {
+          return done(null, req.user);
+        }
       });
     }));
   };

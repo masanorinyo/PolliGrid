@@ -181,7 +181,7 @@
       var loggedInUser, randLetter, uniqid, user;
       randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
       uniqid = randLetter + Date.now();
-      loggedInUser = ipCookie("loggedInUser");
+      console.log(loggedInUser = ipCookie("loggedInUser"));
       if (loggedInUser) {
         $http({
           url: "/api/getUser",
@@ -214,7 +214,11 @@
           filterQuestionsAnswered: []
         },
         user: loggedInUser,
-        answer: null
+        answer: null,
+        checkState: function() {
+          console.log('test');
+          return $rootScope.$broadcast('userLoggedIn', "main");
+        }
       };
     }).factory("Account", function($rootScope, $timeout) {
       return {

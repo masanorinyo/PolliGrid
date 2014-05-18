@@ -1,6 +1,6 @@
 (function() {
   define(['angular', 'services'], function(angular) {
-    return angular.module('myapp.controllers', ['myapp.services']).controller('MainCtrl', function($scope, $injector, $location, $state, $stateParams, $timeout, $q, ipCookie) {
+    return angular.module('myapp.controllers', ['myapp.services']).controller('MainCtrl', function($scope, $injector, $location, $state, $stateParams, $timeout, $q, ipCookie, $http) {
       return require(['controllers/mainctrl'], function(mainctrl) {
         return $injector.invoke(mainctrl, this, {
           "$scope": $scope,
@@ -9,7 +9,8 @@
           "$stateParams": $stateParams,
           "$timeout": $timeout,
           "$q": $q,
-          "ipCookie": ipCookie
+          "ipCookie": ipCookie,
+          "$http": $http
         });
       });
     }).controller('ShareCtrl', function($scope, $injector, $modalInstance, $location, $timeout) {

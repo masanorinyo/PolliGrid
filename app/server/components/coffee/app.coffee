@@ -57,6 +57,7 @@ app.use(bodyParser.urlencoded())
 app.use(cookieParser())
 app.use(session( 
             secret : "$noOnecanGetThisSecretBesidesZhengdianZhan",
+            store : new MongoStore({ mongoose_connection: db })
       )
 )
 

@@ -34,11 +34,14 @@ define(
 						# 	templateUrl :'views/partials/targetQuestions.html'
 						# 	controller:'TargetAudienceCtrl'
 					
-
+					
+					
 				.state 'home.login',
 					url:'login'
-					onEnter:($state,$modal,$stateParams,$location,Error,User)->
+					onEnter:(ipCookie,$state,$modal,$stateParams,$location,Error,User)->
 						
+						console.log ipCookie('user')
+
 						if User.user
 
 							$location.path('/')
@@ -156,6 +159,49 @@ define(
 								$location.path('/')
 							else if result == "fail"
 								Account.verifiedMessage("Your password reset failed",'fail')
+								$location.path('/')						
+
+						else if type =="auth"
+						
+							if result == "success"
+								Account.verifiedMessage("Authentication went successful",'success')
+								$location.path('/')
+							else if result == "fail"
+								Account.verifiedMessage("Authentication failed",'fail')
+								$location.path('/')
+				.state "oauthenticate",
+					
+					url:'/oauth/:result'
+
+					onEnter:($route,$http,$state, $stateParams,$location, ipCookie,User)->
+					
+						result = $stateParams.result
+
+						if result == "success"
+							$http
+								method:"GET"
+								url:"/api/getLoggedInUser"
+							.success (data)-> 
+								if data 
+									
+									console.log data.isLoggedIn = true
+									console.log data
+									ipCookie("loggedInUser",data,{expires:365})
+									User.checkState()
+									$location.path('/verification/auth/success')
+									
+								else 
+									$location.path('/verification/auth/fail')
+						else 
+							$location.path('/verification/auth/fail')
+						# else if type =="auth"
+						
+						# 	if result == "success"
+						# 		Account.verifiedMessage("Authentication went successful",'success')
+						# 		$location.path('/')
+						# 	else if result == "fail"
+						# 		Account.verifiedMessage("Authentication failed",'fail')
+						# 		$location.path('/')
 						
 
 				.state 'home.create',

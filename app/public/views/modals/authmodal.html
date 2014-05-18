@@ -15,21 +15,22 @@
 			
 			<ul class="social-accounts">
 				<li>
-					<a href="/auth/facebook" class="btn btn-primary">	<i class="fa fa-facebook"></i> 
+					<a href="/auth/facebook" class="btn btn-primary" ng-click="facebookLogin()" >	
+						<i class="fa fa-facebook"></i> 
 						Facebook
 					</a>
 				</li>
 				<li>
-					<a href="/auth/twitter" class="btn btn-info">
+					<button class="btn btn-info" ng-click="twitterLogin()">
 						<i class="fa fa-twitter"></i> 
 						Twitter 
-					</a>
+					</button>
 				</li>
 				<li>
-					<a href="/auth/google" class="btn btn-danger">
+					<button class="btn btn-danger" ng-click="goolgeLogin()">
 						<i class="fa fa-google-plus"></i> 
 						Google+
-					</a>
+					</button>
 				</li>
 			</ul>
 		</div>

@@ -12,6 +12,7 @@
   "dependencies": {
     "bcrypt-nodejs": "~0.0.3",
     "body-parser": "~1.0.0",
+    "client-sessions": "^0.6.0",
     "coffee-script": "~1.7.1",
     "connect": "~2.14.4",
     "connect-mongo": "^0.4.1",

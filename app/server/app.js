@@ -60,7 +60,10 @@
   app.use(cookieParser());
 
   app.use(session({
-    secret: "$noOnecanGetThisSecretBesidesZhengdianZhan"
+    secret: "$noOnecanGetThisSecretBesidesZhengdianZhan",
+    store: new MongoStore({
+      mongoose_connection: db
+    })
   }));
 
   app.use(passport.initialize());

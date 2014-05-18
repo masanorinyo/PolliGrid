@@ -49,22 +49,27 @@ module.exports = (app,passport) ->
 			res.send(req.session.message)
 
    
-#   #Facebook
-#   app.get "/auth/facebook", passport.authenticate("facebook",
-#     scope: [
-#       "email"
-#       "read_stream"
-#       "publish_actions"
-#     ]
-#   )
-  
-#   # handle the callback after facebook has authenticated the user
-#   app.get "/auth/facebook/callback", passport.authenticate("facebook",
-#     failureRedirect: "/"
-#   ), (req, res) ->
-#     auth_utility.rememberOauth req, res
-#     res.redirect "/room/" + req.user.profile.username + "/me"
-#     return
+  #Facebook
+	app.get "/auth/facebook", passport.authenticate("facebook",
+		scope: [
+			"email"
+			"read_stream"
+			"publish_actions"
+		]
+	)
+
+	app.get "/api/getLoggedInUser",(req,res)->
+		res.send req.user
+
+  # handle the callback after facebook has authenticated the user
+	app.get "/auth/facebook/callback", passport.authenticate("facebook",
+
+		failureRedirect: "/#/oauth/fail"
+
+	), (req, res) ->
+
+		res.redirect "/#/oauth/success"
+
 
   
 #   #Twitter
@@ -156,27 +161,18 @@ module.exports = (app,passport) ->
   
 	# ====== Delete Account ======#
 	
-	# app.delete "/api/auth/delete", (req, res) ->
-	# 	if req.user
+	app.delete "/api/auth/logout", (req, res) ->
+		if req.user
+			console.log req.user
+			req.logout()
+			console.log req.user
 			
-	# 		User.remove (err, user) ->
-	# 			req.session.destroy ->
-		
-	# 				req.logout()
-		
-	# 			if err
 				
-	# 				throw err
 			
-	# 			else
+			
+			
 
-	# 				User.findById req.user.id, (err, user) ->
-				
-	# 					res.redirect "/"
-	
-	# 	else
-		
-	# 		res.redirect "/"
+			
 
 
 	# verification
@@ -256,32 +252,7 @@ module.exports = (app,passport) ->
 					
 		)
 		
-	#   #Setting
-#   app.get "/setting", auth_utility.isLoggedIn, (req, res) ->
-    
-#     #check if the user has an email address
-#     unless req.user.profile.hasEmail
-#       req.logout()
-#       req.session.cookie.expires = false
-#     if req.user
-      
-#       #this will get the account's name if it is the only connected account.
-#       #if there are multiple accounts connected, the variable will be 'undefined'
-#       #if this variable is defined as one account, the described account will not show the unlink button.
-#       onlyOneConnectedAccount = auth_utility.checkAccountStatus(req.user)
-#       res.render "auth/setting.jade",
-#         user: req.user
-#         account: onlyOneConnectedAccount
-#         userPhoto: req.user.profile.primaryPhoto
-#         username: req.user.profile.username
-#         isLoggedIn: req.user
-#         myname: req.user.profile.username
-#         isVerified: req.user.profile.confirmed
-#         onSettingPage: true
-
-#     else
-#       res.redirect "/"
-#     return
+	
 
 
   app.post "/upload", (req, res) ->

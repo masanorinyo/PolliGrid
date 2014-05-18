@@ -151,7 +151,6 @@ define ['angular'], (angular) ->
 				}
 			)
 			
-		
 
 		.factory 'UpdateUserInfo',($resource)->
 			$resource(
@@ -212,7 +211,7 @@ define ['angular'], (angular) ->
 			randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26))
 			uniqid = randLetter + Date.now()
 			
-			loggedInUser = ipCookie("loggedInUser")
+			console.log loggedInUser = ipCookie("loggedInUser")
 
 			# get updated loggedInUser
 			if loggedInUser
@@ -235,7 +234,6 @@ define ['angular'], (angular) ->
 							loggedInUser = data
 							user.user = data
 					defer.resolve()
-
 			
 			user = 	
 				visitor: 
@@ -248,6 +246,10 @@ define ['angular'], (angular) ->
 				
 				user : loggedInUser
 				answer:null
+				checkState :  ->
+					console.log 'test'
+					$rootScope.$broadcast 'userLoggedIn',"main"
+
 
 		.factory "Account",($rootScope,$timeout)->
 			verifiedMessage: (message,result)->

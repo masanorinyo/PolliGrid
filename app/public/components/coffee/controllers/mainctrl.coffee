@@ -16,8 +16,9 @@ define ["underscore"], (_)->
 		Verification
 		ipCookie
 		Setting
+		$http
+		
 	)->
-
 
 		# --------------- Util functions --------------- #					
 		capitaliseFirstLetter = (string)->
@@ -288,7 +289,8 @@ define ["underscore"], (_)->
 		
 
 		$scope.$on 'newQuestionAdded',(value)->
-			
+			console.log "value"
+			console.log value
 			$scope.questions.unshift(NewQuestion.question)
 
 
@@ -311,6 +313,7 @@ define ["underscore"], (_)->
 		$scope.$on 'userLoggedIn', (value)->
 			console.log "main"
 
+			console.log User.user = ipCookie('loggedInUser')
 			
 			$scope.user = User.user
 			console.log $scope.user
@@ -328,6 +331,12 @@ define ["underscore"], (_)->
 			
 			ipCookie.remove("loggedInUser")
 			
+			$http
+				method:"DELETE"
+				url:"/api/auth/logout"
+			.success (data)->
+				console.log data
+
 			# $scope.questions = FindQuestions.default()
 			
 			$scope.$broadcast 'logOff', User.visitor
