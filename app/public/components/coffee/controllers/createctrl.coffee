@@ -319,6 +319,7 @@ define ['underscore'], ( _ )->
 
 				
 			Question.save(newQuestion,(data)->
+				
 				console.log "Question was saved"
 				console.log NewQuestion.question = data
 				$rootScope.$broadcast 'newQuestionAdded',newQuestion
@@ -326,14 +327,10 @@ define ['underscore'], ( _ )->
 				
 				link = window.location.origin
 				$scope.sharableLink = link.concat("/#/question/",data._id)
+				utility.isQuestionCreated 		= false
+				utility.isQuestionCompleted 	= true
 							
 			)
-
-
-
-			
-			utility.isQuestionCreated 		= false
-			utility.isQuestionCompleted 	= true
 				
 				
 	

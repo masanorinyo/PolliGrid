@@ -180,17 +180,17 @@
         newQuestion.photo = User.user.profilePic;
         newQuestion.creatorName = User.user.username;
         newQuestion.creator = User.user._id;
-        Question.save(newQuestion, function(data) {
+        return Question.save(newQuestion, function(data) {
           var link;
           console.log("Question was saved");
           console.log(NewQuestion.question = data);
           $rootScope.$broadcast('newQuestionAdded', newQuestion);
           User.user.questionMade.push(data._id);
           link = window.location.origin;
-          return $scope.sharableLink = link.concat("/#/question/", data._id);
+          $scope.sharableLink = link.concat("/#/question/", data._id);
+          utility.isQuestionCreated = false;
+          return utility.isQuestionCompleted = true;
         });
-        utility.isQuestionCreated = false;
-        return utility.isQuestionCompleted = true;
       };
       $scope.backToCreateQuestion = function() {
         utility.isCreatingQuestion = true;
