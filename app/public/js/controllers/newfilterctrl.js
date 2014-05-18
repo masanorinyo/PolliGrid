@@ -23,7 +23,9 @@
       };
       $scope.addNewList = function(list) {
         var data, sameOptionFound;
-        sameOptionFound = _.find(newFilter.lists, findSameOption);
+        sameOptionFound = _.find(newFilter.lists, function(data) {
+          return data.option === list;
+        });
         if (list === "" || !list) {
           return false;
         } else if (sameOptionFound) {

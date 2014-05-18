@@ -27,7 +27,10 @@ define ['underscore'], ( _ )->
 		
 		$scope.addNewList = (list)->
 			
-			sameOptionFound = _.find(newFilter.lists,findSameOption)
+			
+			
+			sameOptionFound = _.find newFilter.lists,(data)->
+				data.option == list
 
 
 			if list is "" or !list
