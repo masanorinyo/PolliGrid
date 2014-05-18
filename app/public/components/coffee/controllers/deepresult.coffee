@@ -289,7 +289,7 @@ define ['underscore'], (_)->
 
 			while i < length
 
-				users = _.intersection(users,$scope.filterGroup.filters[i].respondents)
+				users = _.uniq(_.intersection(users,$scope.filterGroup.filters[i].respondents))
 				i++
 
 			
@@ -316,7 +316,7 @@ define ['underscore'], (_)->
 
 						_.each $scope.filterGroup.filters,(filter)->
 
-							data[index] = _.intersection data[index],filter.respondents
+							data[index] = _.uniq(_.intersection data[index],filter.respondents)
 
 					_.each data,(filteredRespondents,index)->
 						$scope.filterGroup.answers[index].count = filteredRespondents.length

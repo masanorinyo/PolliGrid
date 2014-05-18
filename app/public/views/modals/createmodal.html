@@ -40,7 +40,7 @@
 	</button>
 	
 	<button ng-show="utility.isQuestionCreated && !utility.isQuestionCompleted" class="btn btn-primary" ng-click="completeQuestion()">
-		Next
+		{{completeButton}}
 	</button>
 	
 	<button ng-show="utility.isQuestionCompleted" class="btn btn-primary" ng-click="closeModal()">

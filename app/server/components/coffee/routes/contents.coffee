@@ -18,17 +18,8 @@ escapeChar = (regex)->
 # make a question
 exports.makeQuestion = (req,res)->
 	
-	newQuestion = new Question(req.body)
-	id = req.body.creator
+	console.log newQuestion = new Question(req.body)
 	
-	conditions = 		
-		"_id":id
-	
-	updates = 	
-		$push:
-			"questionMade":newQuestion._id
-	
-	options = {upsert:true}
 	
 	callback = (err,user)->
 		if err 
@@ -41,11 +32,24 @@ exports.makeQuestion = (req,res)->
 			console.log error 
 			res.send error
 		else
+			res.send newQuestion
+
+			id = newQuestion.creator
+	
+			conditions = 		
+				"_id":id
+			
+			updates = 	
+				$push:
+					"questionMade":newQuestion._id
+			
+			options = {upsert:true}
+			
 			# update user information
 			# add the question id to user's creation list
 			User.update(conditions,updates,options,callback)
 			
-			res.send newQuestion
+			
 
 
 # find a question by id

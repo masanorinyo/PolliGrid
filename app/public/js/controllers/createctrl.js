@@ -11,6 +11,7 @@
       };
       $scope.searchText = "";
       $scope.searchTerm = "all";
+      $scope.completeButton = "Next";
       $scope.targets = Filters.get({
         searchTerm: $scope.searchTerm,
         offset: Page.filterPage
@@ -175,21 +176,23 @@
         }
       };
       $scope.completeQuestion = function() {
+        $scope.completeButton = "..creating the question";
         newQuestion.numOfFilters = _.size(newQuestion.targets);
         newQuestion.created_at = new Date().getTime();
         newQuestion.photo = User.user.profilePic;
         newQuestion.creatorName = User.user.username;
         newQuestion.creator = User.user._id;
+        console.log(newQuestion);
         return Question.save(newQuestion, function(data) {
           var link;
-          console.log("Question was saved");
-          console.log(NewQuestion.question = data);
+          utility.isQuestionCreated = false;
+          utility.isQuestionCompleted = true;
+          $scope.completeButton = "Next";
+          NewQuestion.question = data;
           $rootScope.$broadcast('newQuestionAdded', newQuestion);
           User.user.questionMade.push(data._id);
           link = window.location.origin;
-          $scope.sharableLink = link.concat("/#/question/", data._id);
-          utility.isQuestionCreated = false;
-          return utility.isQuestionCompleted = true;
+          return $scope.sharableLink = link.concat("/#/question/", data._id);
         });
       };
       $scope.backToCreateQuestion = function() {

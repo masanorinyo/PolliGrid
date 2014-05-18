@@ -186,7 +186,7 @@
         length = $scope.filterGroup.filters.length;
         i = 0;
         while (i < length) {
-          users = _.intersection(users, $scope.filterGroup.filters[i].respondents);
+          users = _.uniq(_.intersection(users, $scope.filterGroup.filters[i].respondents));
           i++;
         }
         if ($scope.filterGroup.filters.length === 0) {
@@ -203,7 +203,7 @@
           _.each($scope.question.option, function(option, index) {
             data[index] = option.answeredBy;
             return _.each($scope.filterGroup.filters, function(filter) {
-              return data[index] = _.intersection(data[index], filter.respondents);
+              return data[index] = _.uniq(_.intersection(data[index], filter.respondents));
             });
           });
           return _.each(data, function(filteredRespondents, index) {

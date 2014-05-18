@@ -14,20 +14,8 @@
   };
 
   exports.makeQuestion = function(req, res) {
-    var callback, conditions, id, newQuestion, options, updates;
-    newQuestion = new Question(req.body);
-    id = req.body.creator;
-    conditions = {
-      "_id": id
-    };
-    updates = {
-      $push: {
-        "questionMade": newQuestion._id
-      }
-    };
-    options = {
-      upsert: true
-    };
+    var callback, newQuestion;
+    console.log(newQuestion = new Question(req.body));
     callback = function(err, user) {
       if (err) {
         return res.send(err);
@@ -36,12 +24,25 @@
       }
     };
     return newQuestion.save(function(error, newQuestion) {
+      var conditions, id, options, updates;
       if (error) {
         console.log(error);
         return res.send(error);
       } else {
-        User.update(conditions, updates, options, callback);
-        return res.send(newQuestion);
+        res.send(newQuestion);
+        id = newQuestion.creator;
+        conditions = {
+          "_id": id
+        };
+        updates = {
+          $push: {
+            "questionMade": newQuestion._id
+          }
+        };
+        options = {
+          upsert: true
+        };
+        return User.update(conditions, updates, options, callback);
       }
     });
   };

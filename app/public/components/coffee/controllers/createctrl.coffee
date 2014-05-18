@@ -31,7 +31,7 @@ define ['underscore'], ( _ )->
 
 		$scope.searchText = ""
 		$scope.searchTerm = "all"
-		
+		$scope.completeButton = "Next"
 
 		$scope.targets = Filters.get(
 			{
@@ -306,7 +306,7 @@ define ['underscore'], ( _ )->
 		# This will convert the temporary question into an actual question
 		$scope.completeQuestion = ()->
 			
-			
+			$scope.completeButton = "..creating the question"
 			# get the number of added target audience questions
 			newQuestion.numOfFilters = _.size(newQuestion.targets)
 
@@ -317,18 +317,18 @@ define ['underscore'], ( _ )->
 			newQuestion.creatorName = User.user.username
 			newQuestion.creator = User.user._id
 
-				
+			console.log newQuestion
+
 			Question.save(newQuestion,(data)->
-				
-				console.log "Question was saved"
-				console.log NewQuestion.question = data
-				$rootScope.$broadcast 'newQuestionAdded',newQuestion
-				User.user.questionMade.push(data._id)
-				
-				link = window.location.origin
-				$scope.sharableLink = link.concat("/#/question/",data._id)
 				utility.isQuestionCreated 		= false
 				utility.isQuestionCompleted 	= true
+				$scope.completeButton = "Next"
+				NewQuestion.question = data
+				$rootScope.$broadcast 'newQuestionAdded',newQuestion
+				User.user.questionMade.push(data._id)
+				link = window.location.origin
+				$scope.sharableLink = link.concat("/#/question/",data._id)
+				
 							
 			)
 				
