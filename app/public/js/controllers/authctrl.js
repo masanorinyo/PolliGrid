@@ -51,6 +51,7 @@
         var userId;
         if (User.visitor.questionsAnswered.length || User.visitor.filterQuestionsAnswered.length) {
           userId = data._id;
+          console.log('Transformation began');
           return $http({
             url: "/api/visitorToGuest",
             method: "PUT",
@@ -61,6 +62,8 @@
               visitorId: User.visitor._id
             }
           }).success(function(data) {
+            console.log('Transformation done');
+            console.log(data);
             return $http({
               url: "/api/getUser",
               method: "GET",
@@ -69,8 +72,10 @@
               }
             }).success(function(loggedInUser) {
               var newUrl;
+              console.log("successful");
               loggedInUser.isLoggedIn = true;
               User.user = loggedInUser;
+              $scope.user = User.user;
               $rootScope.$broadcast('userLoggedIn', User);
               if ($stateParams.id) {
                 newUrl = '/deepResult/' + $stateParams.id;
@@ -90,6 +95,8 @@
             });
           });
         } else {
+          console.log('Transformation err');
+          console.log(data);
           User.user = data;
           console.log($scope.user.questionsAnswered);
           $rootScope.$broadcast('userLoggedIn', User);
@@ -115,8 +122,6 @@
               }
             }).success(function(data) {
               var randLetter, uniqid;
-              console.log('succesfully registered');
-              console.log(data);
               $scope.somethingWrongWith.signup = false;
               data.isLoggedIn = true;
               makeCookie(data);
@@ -159,6 +164,7 @@
         });
       };
       $scope.login = function(data) {
+        console.log('succesfully logged in');
         data.visitorId = User.visitor._id;
         return $http({
           method: 'POST',
@@ -170,8 +176,6 @@
           }
         }).success(function(data) {
           var randLetter, uniqid;
-          console.log('succesfully logged in');
-          console.log(data);
           $scope.somethingWrongWith.login = false;
           data.isLoggedIn = true;
           makeCookie(data);

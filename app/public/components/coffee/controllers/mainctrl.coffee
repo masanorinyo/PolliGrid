@@ -25,7 +25,10 @@ define ["underscore"], (_)->
 			string.charAt(0).toUpperCase() + string.slice(1);
 		
 		# --------------- Models --------------- #					
-
+		$scope.$on 'userLoggedIn', (value)->
+			
+			$scope.user = User.user
+			
 		# if user is a returnee, then assign User.user
 		
 		if User.user
@@ -310,13 +313,14 @@ define ["underscore"], (_)->
 
 			defer.resolve(callback)
 
-		$scope.$on 'userLoggedIn', (value)->
-			console.log "main"
-
-			console.log User.user = ipCookie('loggedInUser')
+		
 			
-			$scope.user = User.user
-			console.log $scope.user
+
+			# $state.transitionTo($state.current, $stateParams, {
+			# 	reload: true
+			# 	inherit: false
+			# 	notify: true
+			# })
 		
 		$scope.logout = ()->
 		
@@ -328,32 +332,36 @@ define ["underscore"], (_)->
 			User.visitor.filterQuestionsAnswered = []
 
 			$scope.user = User.visitor
-			
+			User.user = null
+			$scope.user = null
 			ipCookie.remove("loggedInUser")
+			
+			# $scope.questions = FindQuestions.default()
+			
+			$scope.$broadcast 'logOff', User.visitor
+			
+			$location.path('/')
 			
 			$http
 				method:"DELETE"
 				url:"/api/auth/logout"
 			.success (data)->
-				console.log data
-
-			# $scope.questions = FindQuestions.default()
-			
-			$scope.$broadcast 'logOff', User.visitor
-			User.user = null
-			$scope.user = null
-			$location.path('/')
-			
-			$timeout ->
+				$timeout ->
 				
-				# reload the page
-				$state.transitionTo($state.current, $stateParams, {
-					reload: true
-					inherit: false
-					notify: true
-				})
+					# reload the page
+					$state.transitionTo($state.current, $stateParams, {
+						reload: true
+						inherit: false
+						notify: true
+					})
 
-			,200,true
+				,200,true
+
+
+			
+			
+
+				
 		
 		
 

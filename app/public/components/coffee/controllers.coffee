@@ -30,7 +30,7 @@ define ['angular','services'], (angular) ->
 				)
 			)
 		
-		.controller 'AuthCtrl', ($rootScope,$scope,$state, $injector,$modalInstance,$location,$timeout,$http,ipCookie)->
+		.controller 'AuthCtrl', ($rootScope,$scope,$state, $injector,$modalInstance,$location,$timeout,$http,ipCookie,$q)->
 			require(['controllers/authctrl'], (authctrl)->
 				$injector.invoke(
 					authctrl, this,{
@@ -42,6 +42,7 @@ define ['angular','services'], (angular) ->
 						"$timeout" 				: $timeout
 						"$http" 				: $http
 						"ipCookie" 				: ipCookie
+						"$q" 					: $q
 					}
 				)
 			)

@@ -125,8 +125,13 @@ define ['underscore'], (_)->
 		$scope.favorite = false
 		# ***************  Functions *************** #
 		# loads the chart data when the page initially is loaded
-		
+		$scope.$on 'userLoggedIn',(data)->
+			console.log "$scope.user = User.user"
+			$scope.user = User.user
+
+
 		do ()->
+			
 			
 			# if the question is accessed via external link
 			# get the url id and find the question with the id
@@ -137,7 +142,7 @@ define ['underscore'], (_)->
 					if $location.$$path.split('/')[1] == "question" 
 						
 
-						console.count 'test'
+						
 						$scope.isAccessedViaLink = true
 						
 						questionId = $stateParams.id
@@ -162,7 +167,7 @@ define ['underscore'], (_)->
 	
 
 							_.each data.respondents,(id)->
-								console.log "respondents found"
+								
 								if id == $scope.user._id 
 									$scope.question = data
 									$scope.submitted = true
@@ -183,7 +188,7 @@ define ['underscore'], (_)->
 						$scope.cards = FindQuestions.default()
 
 				.then ->
-					console.log $scope.question
+					
 					if $scope.question
 						
 						$scope.card = $scope.question
@@ -255,7 +260,7 @@ define ['underscore'], (_)->
 				$scope.user.questionsAnswered.push(answer)
 
 
-				console.log "update user info"
+				
 
 
 				if User.user
@@ -285,7 +290,7 @@ define ['underscore'], (_)->
 					$scope.user.favorites.push(question._id)
 					question.numOfFavorites++
 
-					console.log $scope.user._id
+					
 
 					# increment the number of filters of the question
 					Question.favorite(
@@ -314,7 +319,7 @@ define ['underscore'], (_)->
 						action 		: escape("decrement")
 					)					
 
-					console.log $scope.user._id
+
 
 					# save question id in user's favorite questions
 					UpdateUserInfo.favorite(
@@ -332,8 +337,8 @@ define ['underscore'], (_)->
 		
 			
 		# ------------------ IO listeners ------------------ #
-		$scope.test = ->
-			console.log User.user
+		
+			
 		# reset everything	
 		$scope.$on 'resetAnswer',(question)->
 			
@@ -374,11 +379,6 @@ define ['underscore'], (_)->
 			if not userId or userId is undefined then userId = 0
 			
 
-			console.log "userId"
-			console.log userId
-			console.log "visitorId"
-			console.log visitorId
-
 			
 			
 
@@ -403,8 +403,7 @@ define ['underscore'], (_)->
 			# 1: get the question id
 			questionId = $scope.card._id
 			
-			console.log "$scope.user.questionsAnswered"
-			console.log $scope.user.questionsAnswered
+			
 			if User.user
 				found = _.find User.user.questionsAnswered,(answer)->
 					answer._id == questionId
@@ -412,22 +411,17 @@ define ['underscore'], (_)->
 				found = _.find $scope.user.questionsAnswered,(answer)->
 					answer._id == questionId
 
-			console.log "found"
-			console.log found
-			console.log found.answer
-
+			
 			# # 4: find which option the user chose for the question
 			# foundAnswered = _.find $scope.user.questionsAnswered, (answer)->
 			# 	answer._id == foundAnswerId
 
 			# find the question option, which the user chose for the question
 			foundOption = _.find $scope.card.option,(option)->
-				console.log "option.title"
-				console.log option.title
+			
 				option.title == found.answer
 
-			console.log "foundOption"
-			console.log foundOption 
+			
 
 			# remove the user's id from the options's answeredBy array
 			if userId 
@@ -497,12 +491,8 @@ define ['underscore'], (_)->
 		
 				
 			# reset the chosen answers
-			$scope.answer = ''
+			$scope.answer = ''	
 			
-
-		$scope.$on 'userLoggedIn', (value)->
-			
-			$scope.user = User.user
 
 		$scope.$on 'logOff',(value)->
 			console.log "Log off from list"
@@ -512,6 +502,7 @@ define ['underscore'], (_)->
 				$scope.warning = false
 				$scope.favorite = false
 				$scope.submitted = false
+				$scope.user.questionsAnswered = []
 			,500,true
 
 

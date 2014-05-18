@@ -502,6 +502,8 @@ exports.getUserInfo = (req,res)->
 		if err 
 			res.send err 
 		else 
+			console.log "user is"
+			console.log data
 			res.json data
 	
 	id = req.query.userId

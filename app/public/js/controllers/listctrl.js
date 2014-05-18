@@ -50,13 +50,16 @@
       };
       $scope.warning = false;
       $scope.favorite = false;
+      $scope.$on('userLoggedIn', function(data) {
+        console.log("$scope.user = User.user");
+        return $scope.user = User.user;
+      });
       (function() {
         var defer;
         defer = $q.defer();
         defer.promise.then(function() {
           var questionId;
           if ($location.$$path.split('/')[1] === "question") {
-            console.count('test');
             $scope.isAccessedViaLink = true;
             questionId = $stateParams.id;
             $scope.question = Question.get({
@@ -70,7 +73,6 @@
                 }, 100, true);
               }
               return _.each(data.respondents, function(id) {
-                console.log("respondents found");
                 if (id === $scope.user._id) {
                   $scope.question = data;
                   $scope.submitted = true;
@@ -90,7 +92,6 @@
           }
         }).then(function() {
           var alreadyAnswered;
-          console.log($scope.question);
           if ($scope.question) {
             $scope.card = $scope.question;
           }
@@ -129,7 +130,6 @@
             answer: choice.title
           };
           $scope.user.questionsAnswered.push(answer);
-          console.log("update user info");
           if (User.user) {
             UpdateUserInfo.answerQuestion({
               userId: escape($scope.user._id),
@@ -149,7 +149,6 @@
           if ($scope.favorite) {
             $scope.user.favorites.push(question._id);
             question.numOfFavorites++;
-            console.log($scope.user._id);
             Question.favorite({
               questionId: escape(question._id),
               action: escape("increment")
@@ -167,7 +166,6 @@
               questionId: escape(question._id),
               action: escape("decrement")
             });
-            console.log($scope.user._id);
             return UpdateUserInfo.favorite({
               userId: escape($scope.user._id),
               questionId: escape(question._id),
@@ -178,9 +176,6 @@
           Error.auth = "Please sign up to proceed";
           return $location.path('/signup');
         }
-      };
-      $scope.test = function() {
-        return console.log(User.user);
       };
       $scope.$on('resetAnswer', function(question) {
         var answers, found, foundOption, index, indexOfRespondents, optionIndex, questionId, userId, visitorId;
@@ -207,10 +202,6 @@
         if (!userId || userId === void 0) {
           userId = 0;
         }
-        console.log("userId");
-        console.log(userId);
-        console.log("visitorId");
-        console.log(visitorId);
         $scope.submitted = false;
         $scope.card.totalResponses--;
         if (userId) {
@@ -220,8 +211,6 @@
         }
         $scope.card.respondents.splice(indexOfRespondents, 1);
         questionId = $scope.card._id;
-        console.log("$scope.user.questionsAnswered");
-        console.log($scope.user.questionsAnswered);
         if (User.user) {
           found = _.find(User.user.questionsAnswered, function(answer) {
             return answer._id === questionId;
@@ -231,16 +220,9 @@
             return answer._id === questionId;
           });
         }
-        console.log("found");
-        console.log(found);
-        console.log(found.answer);
         foundOption = _.find($scope.card.option, function(option) {
-          console.log("option.title");
-          console.log(option.title);
           return option.title === found.answer;
         });
-        console.log("foundOption");
-        console.log(foundOption);
         if (userId) {
           optionIndex = foundOption.answeredBy.indexOf(userId);
         } else {
@@ -291,9 +273,6 @@
         });
         return $scope.answer = '';
       });
-      $scope.$on('userLoggedIn', function(value) {
-        return $scope.user = User.user;
-      });
       $scope.$on('logOff', function(value) {
         console.log("Log off from list");
         $scope.submitted = false;
@@ -301,7 +280,8 @@
           $scope.user = User.visitor;
           $scope.warning = false;
           $scope.favorite = false;
-          return $scope.submitted = false;
+          $scope.submitted = false;
+          return $scope.user.questionsAnswered = [];
         }, 500, true);
       });
       $scope.closeModal = function() {

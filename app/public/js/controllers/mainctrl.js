@@ -5,6 +5,9 @@
       capitaliseFirstLetter = function(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
       };
+      $scope.$on('userLoggedIn', function(value) {
+        return $scope.user = User.user;
+      });
       if (User.user) {
         $scope.user = User.user;
       } else {
@@ -163,12 +166,6 @@
         });
         return defer.resolve(callback);
       });
-      $scope.$on('userLoggedIn', function(value) {
-        console.log("main");
-        console.log(User.user = ipCookie('loggedInUser'));
-        $scope.user = User.user;
-        return console.log($scope.user);
-      });
       $scope.logout = function() {
         var randLetter, uniqid;
         randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
@@ -177,24 +174,23 @@
         User.visitor.questionsAnswered = [];
         User.visitor.filterQuestionsAnswered = [];
         $scope.user = User.visitor;
+        User.user = null;
+        $scope.user = null;
         ipCookie.remove("loggedInUser");
-        $http({
+        $scope.$broadcast('logOff', User.visitor);
+        $location.path('/');
+        return $http({
           method: "DELETE",
           url: "/api/auth/logout"
         }).success(function(data) {
-          return console.log(data);
+          return $timeout(function() {
+            return $state.transitionTo($state.current, $stateParams, {
+              reload: true,
+              inherit: false,
+              notify: true
+            });
+          }, 200, true);
         });
-        $scope.$broadcast('logOff', User.visitor);
-        User.user = null;
-        $scope.user = null;
-        $location.path('/');
-        return $timeout(function() {
-          return $state.transitionTo($state.current, $stateParams, {
-            reload: true,
-            inherit: false,
-            notify: true
-          });
-        }, 200, true);
       };
       return $scope.$apply();
     };

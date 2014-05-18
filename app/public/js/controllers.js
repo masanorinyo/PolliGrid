@@ -22,7 +22,7 @@
           "$timeout": $timeout
         });
       });
-    }).controller('AuthCtrl', function($rootScope, $scope, $state, $injector, $modalInstance, $location, $timeout, $http, ipCookie) {
+    }).controller('AuthCtrl', function($rootScope, $scope, $state, $injector, $modalInstance, $location, $timeout, $http, ipCookie, $q) {
       return require(['controllers/authctrl'], function(authctrl) {
         return $injector.invoke(authctrl, this, {
           "$rootScope": $rootScope,
@@ -32,7 +32,8 @@
           "$location": $location,
           "$timeout": $timeout,
           "$http": $http,
-          "ipCookie": ipCookie
+          "ipCookie": ipCookie,
+          "$q": $q
         });
       });
     }).controller('CreateCtrl', function($scope, $injector, $modalInstance, $location, $timeout, $state, $stateParams, $q) {

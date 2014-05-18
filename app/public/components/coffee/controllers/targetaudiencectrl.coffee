@@ -106,12 +106,10 @@ define ['underscore'], (_)->
 					matchedOption = null
 
 					userAlreadyAnswered = false
-					console.log "$scope.user.visitorId"
-					console.log $scope.user.visitorId
+					
 					_.each $scope.card.targets[i].lists,(list,index)->
 						if _.contains(list.answeredBy,$scope.user._id)
-							console.log 'contains user id'
-							console.log list.answeredBy
+							
 							userAlreadyAnswered = true
 						
 						# else
@@ -123,8 +121,7 @@ define ['underscore'], (_)->
 						# 			userAlreadyAnswered = true
 
 
-					console.log "userAlreadyAnswered"
-					console.log userAlreadyAnswered
+					
 					if not userAlreadyAnswered
 
 						# loop through the already answered target questions
@@ -189,8 +186,7 @@ define ['underscore'], (_)->
 		checkIfEverythingAnswered = ->
 			
 			length = $scope.targetChecker.length
-			console.log "length"
-			console.log length
+			
 			i=0
 			numOfAnswers = 0
 
@@ -260,7 +256,7 @@ define ['underscore'], (_)->
 
 			# if it is accessed from 
 			if !$scope.filtersOnSettingPage
-				console.log 'from target'
+				
 				checkFilterQuestionStatus('')
 			
 			
@@ -360,8 +356,6 @@ define ['underscore'], (_)->
 					
 			makeTargetChecker('')
 
-			console.log "time to reset everything!"
-
 			
 			#cancels out everything
 			$scope.showResult = false
@@ -374,7 +368,7 @@ define ['underscore'], (_)->
 			
 		# when user logs off
 		$scope.$on "logOff",(result)->
-			console.log 'log off from target'
+			
 			$timeout ->
 				$scope.areAllQuestionAnswered = false
 				$scope.showResult = false

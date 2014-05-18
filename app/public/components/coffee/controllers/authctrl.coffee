@@ -69,10 +69,10 @@ define [], ()->
 
 		transformToRealUser = (data)->
 			if User.visitor.questionsAnswered.length || User.visitor.filterQuestionsAnswered.length
-					
+				
 				
 				userId = data._id
-
+				console.log 'Transformation began'
 
 				# check to see if there is any duplicate answer in the server
 				$http
@@ -86,7 +86,8 @@ define [], ()->
 					} 
 
 				.success (data)->
-					
+					console.log 'Transformation done'
+					console.log data
 					# get the updated user information
 					$http 
 						url 	: "/api/getUser"
@@ -94,9 +95,14 @@ define [], ()->
 						params 	: {userId: userId}
 
 					.success (loggedInUser)-> 
+						
+						console.log "successful"
 						loggedInUser.isLoggedIn = true
 						User.user = loggedInUser
+						$scope.user = User.user
+
 						$rootScope.$broadcast 'userLoggedIn',User
+
 
 						# close the modal and refresh the page
 						# redirect to the deep result page
@@ -119,6 +125,7 @@ define [], ()->
 						else 
 
 							$scope.closeModal()
+
 							
 						
 						 
@@ -127,6 +134,8 @@ define [], ()->
 						
 
 			else
+				console.log 'Transformation err'
+				console.log data
 
 				User.user = data
 
@@ -161,8 +170,7 @@ define [], ()->
 							'X-Requested-With' : 'XMLHttpRequest'
 						
 					.success (data)-> 
-						console.log 'succesfully registered'
-						console.log data
+						
 						$scope.somethingWrongWith.signup = false
 						data.isLoggedIn = true
 
@@ -220,7 +228,7 @@ define [], ()->
 
 
 		$scope.login = (data)->
-			
+			console.log 'succesfully logged in'
 			data.visitorId = User.visitor._id
 			$http
 				method  : 'POST',
@@ -231,8 +239,7 @@ define [], ()->
 					'X-Requested-With' : 'XMLHttpRequest'
 				
 			.success (data)-> 
-				console.log 'succesfully logged in'
-				console.log data
+				
 				$scope.somethingWrongWith.login = false
 				data.isLoggedIn = true
 

@@ -469,6 +469,8 @@
       if (err) {
         return res.send(err);
       } else {
+        console.log("user is");
+        console.log(data);
         return res.json(data);
       }
     };
