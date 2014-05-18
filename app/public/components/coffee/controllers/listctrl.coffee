@@ -67,27 +67,27 @@ define ['underscore'], (_)->
 
 	    #chartJS / angles - chart configuration
 		
-		if $scope.isAccessedFromSetting != undefined || $scope.isAccessedFromSetting
+		
 			
-			$scope.myChartOptions =  
+		$scope.myChartOptions =  
 	       
-		        # Boolean - Whether we should animate the chart
-		        animation : false
+	        # Boolean - Whether we should animate the chart
+	       animation : false
 
 	        
 
-		else 
 
-			$scope.myChartOptions =  
+
+		# 	$scope.myChartOptions =  
 	       
-		        # Boolean - Whether we should animate the chart
-		        animation : false
+		#         # Boolean - Whether we should animate the chart
+		#         animation : false
 
-		        # Number - Number of animation steps
-		        animationStep : 30
+		#         # Number - Number of animation steps
+		#         animationStep : 30
 
-		        # String - Animation easing effect
-		        animationEasing : "easeOutQuart"
+		#         # String - Animation easing effect
+		#         animationEasing : "easeOutQuart"
 
 
 
@@ -137,7 +137,7 @@ define ['underscore'], (_)->
 					if $location.$$path.split('/')[1] == "question" 
 						
 
-											
+						console.count 'test'
 						$scope.isAccessedViaLink = true
 						
 						questionId = $stateParams.id
@@ -506,17 +506,17 @@ define ['underscore'], (_)->
 
 		$scope.$on 'logOff',(value)->
 			console.log "Log off from list"
+			$scope.submitted = false
 			$timeout ->
 				$scope.user = User.visitor
 				$scope.warning = false
-				$scope.submitted = false
 				$scope.favorite = false
 				$scope.submitted = false
 			,500,true
 
 
 		# ------------- Scope Function ------------- #
-
+		
 
 		$scope.closeModal = ()->
 			
@@ -536,11 +536,7 @@ define ['underscore'], (_)->
 
 			
 
-		$scope.closeQuestionModal = ()->
-			
 
-			$scope.$dismiss()
-			
 				
 
 		# ------------------ invoke the scope ------------------ #

@@ -1,7 +1,7 @@
 (function() {
   define([], function() {
     return function($scope, $modalInstance, $stateParams, $location, $timeout, Setting, Question) {
-      var link, lists, question, sharableLink, text;
+      var link, lists, question, sharableLink;
       if (Setting.questionId) {
         $scope.questionId = Setting.questionId;
       } else {
@@ -36,9 +36,10 @@
         });
       }).then(function(data) {
         var text;
-        text = question + " - " + lists + "-" + sharableLink;
+        text = question + " - " + sharableLink;
         text = escape(text);
-        $scope.shareText = 'https://twitter.com/intent/tweet?text=' + text;
+        $scope.twitterShareText = 'https://twitter.com/intent/tweet?text=' + text;
+        $scope.googleShareText = "https://plus.google.com/share?url=" + sharableLink;
         return $scope.showShareForm = true;
       });
       $scope.shareFacebook = function() {
@@ -52,9 +53,6 @@
           message: ''
         });
       };
-      text = question + " - " + lists + "-" + sharableLink;
-      text = escape(text);
-      $scope.shareText = 'https://twitter.com/intent/tweet?text=' + text;
       return $scope.$apply();
     };
   });

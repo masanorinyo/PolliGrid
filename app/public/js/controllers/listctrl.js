@@ -33,17 +33,9 @@
         return $scope.$emit("category-changed", category);
       };
       $scope.myChartData = [];
-      if ($scope.isAccessedFromSetting !== void 0 || $scope.isAccessedFromSetting) {
-        $scope.myChartOptions = {
-          animation: false
-        };
-      } else {
-        $scope.myChartOptions = {
-          animation: false,
-          animationStep: 30,
-          animationEasing: "easeOutQuart"
-        };
-      }
+      $scope.myChartOptions = {
+        animation: false
+      };
       if (User.user && !$scope.isAccessedFromSetting) {
         $scope.user = User.user;
       } else if (!$scope.isAccessedFromSetting) {
@@ -64,6 +56,7 @@
         defer.promise.then(function() {
           var questionId;
           if ($location.$$path.split('/')[1] === "question") {
+            console.count('test');
             $scope.isAccessedViaLink = true;
             questionId = $stateParams.id;
             $scope.question = Question.get({
@@ -303,10 +296,10 @@
       });
       $scope.$on('logOff', function(value) {
         console.log("Log off from list");
+        $scope.submitted = false;
         return $timeout(function() {
           $scope.user = User.visitor;
           $scope.warning = false;
-          $scope.submitted = false;
           $scope.favorite = false;
           return $scope.submitted = false;
         }, 500, true);
@@ -321,9 +314,6 @@
             notify: true
           });
         });
-      };
-      $scope.closeQuestionModal = function() {
-        return $scope.$dismiss();
       };
       return $scope.$apply();
     };

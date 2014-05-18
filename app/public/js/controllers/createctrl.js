@@ -1,7 +1,7 @@
 (function() {
   define(['underscore'], function(_) {
     return function($rootScope, $scope, $modalInstance, $location, $timeout, Filters, Question, User, Page, $state, $stateParams, $q, Debounce, FilterTypeHead, NewQuestion, UpdateUserInfo) {
-      var changeInSearchText, findSameOption, message, newQuestion, utility;
+      var changeInSearchText, findSameOption, message, newQuestion, questionLists, utility;
       findSameOption = function(item) {
         if (item.title === newQuestion.newOption) {
           return true;
@@ -32,6 +32,8 @@
         creator: null,
         photo: ""
       };
+      $scope.sharableLink = '';
+      $scope.showShareForm = false;
       $scope.showDetails = false;
       $scope.outOfFilters = false;
       $scope.loadData = "Load more data";
@@ -51,6 +53,7 @@
         isQuestionCreated: false,
         isQuestionCompleted: false
       };
+      questionLists = '';
       changeInSearchText = function() {
         return $scope.searchText;
       };
@@ -183,8 +186,13 @@
         newQuestion.creatorName = User.user.username;
         newQuestion.creator = User.user._id;
         console.log(newQuestion);
+        _.each(newQuestion.option, function(option, index) {
+          var bullet;
+          bullet = "[" + index + "] - ";
+          return questionLists = questionLists.concat(bullet, option.title, "\n");
+        });
         return Question.save(newQuestion, function(data) {
-          var link;
+          var link, text;
           utility.isQuestionCreated = false;
           utility.isQuestionCompleted = true;
           $scope.completeButton = "Next";
@@ -192,7 +200,23 @@
           $rootScope.$broadcast('newQuestionAdded', newQuestion);
           User.user.questionMade.push(data._id);
           link = window.location.origin;
-          return $scope.sharableLink = link.concat("/#/question/", data._id);
+          $scope.sharableLink = link.concat("/#/question/", data._id);
+          text = data.question + " - " + $scope.sharableLink;
+          text = escape(text);
+          $scope.twitterShareText = 'https://twitter.com/intent/tweet?text=' + text;
+          $scope.googleShareText = "https://plus.google.com/share?url=" + $scope.sharableLink;
+          return $scope.showShareForm = true;
+        });
+      };
+      $scope.shareFacebook = function() {
+        return FB.ui({
+          method: 'feed',
+          name: newQuestion.question,
+          link: $scope.sharableLink,
+          picture: "http://www.hyperarts.com/external-xfbml/share-image.gif",
+          caption: questionLists,
+          description: "PolliGrid lets you analyze people's optinions from different angles",
+          message: ''
         });
       };
       $scope.backToCreateQuestion = function() {

@@ -60,9 +60,14 @@ define ['underscore'], ( _ )->
 		
 
 		# *************** variables  *************** #
+		$scope.sharableLink = ''
 		
+		$scope.showShareForm = false
+
 		# If true, this will show the details of a filter
 		$scope.showDetails 		= false
+
+
 
 		# if true, infinite scroll will be disabled
 		$scope.outOfFilters = false
@@ -96,7 +101,7 @@ define ['underscore'], ( _ )->
 			isQuestionCreated	: false
 			isQuestionCompleted	: false
 
-		
+		questionLists = ''
 
 		# *************** functions *************** #
 		changeInSearchText = ()->
@@ -319,6 +324,10 @@ define ['underscore'], ( _ )->
 
 			console.log newQuestion
 
+			_.each newQuestion.option, (option,index)->
+				bullet = "["+index+"] - "
+				questionLists = questionLists.concat(bullet,option.title,"\n")
+
 			Question.save(newQuestion,(data)->
 				utility.isQuestionCreated 		= false
 				utility.isQuestionCompleted 	= true
@@ -328,11 +337,28 @@ define ['underscore'], ( _ )->
 				User.user.questionMade.push(data._id)
 				link = window.location.origin
 				$scope.sharableLink = link.concat("/#/question/",data._id)
-				
-							
+				text = data.question + " - "+$scope.sharableLink
+				text = escape(text)
+				$scope.twitterShareText = 'https://twitter.com/intent/tweet?text='+text
+				$scope.googleShareText = "https://plus.google.com/share?url="+$scope.sharableLink
+				$scope.showShareForm = true
 			)
 				
-				
+		
+		
+		$scope.shareFacebook = ->
+			
+			FB.ui(
+		    	
+		        method: 'feed',
+		        name: newQuestion.question
+		        link: $scope.sharableLink
+		        picture: "http://www.hyperarts.com/external-xfbml/share-image.gif"
+		        caption: questionLists
+		        description: "PolliGrid lets you analyze people's optinions from different angles"
+		        message: ''
+		    )
+
 	
 
 			

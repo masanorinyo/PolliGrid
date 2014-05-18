@@ -336,34 +336,22 @@ define(
 					url:'question/:id'
 					views:
 
-						"questionResult@":
+						"content@":
+							templateUrl : 'views/partials/sharedQuestion.html'
 							
-							templateUrl :'views/partials/targetQuestions.html'
-							controller:'TargetAudienceCtrl'
 
 
-					onEnter:($state,$timeout,$modal,$stateParams,$location)->
+					onEnter:($state,$stateParams,$location)->
 						
 						if $stateParams.id is "" 
 
 							$location.path('/')
 
-						else
+						
+							
+							
+							
 
-							$modal.open(
-							
-								templateUrl : 'views/modals/questionModal.html'
-								controller 	: "ListCtrl"
-								backdrop 	: "static"
-								windowClass : "questionModal"
-
-								
-							
-							).result.then ()->
-	  							console.log('modal is open')
-							
-							, ()->
-								$location.path('/')
 								
 								
 				

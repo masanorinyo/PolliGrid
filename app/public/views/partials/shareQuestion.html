@@ -1,24 +1,25 @@
 <section ng-show="utility.isQuestionCompleted" ng-class="{fadeInRight:utility.isQuestionCompleted,fadeOutRight :!utility.isQuestionCompleted}" class="animated share-box">
 		
-	<div class="share-box">
+	<div class="share-box" ng-show="showShareForm">
+			
 		<div class="title-wrapper">
 			<span class="title center"> Share your question via: </span>
 		</div>
 		<ul class="social-accounts">
 			<li>
-				<a  class='btn btn-primary' href="">
+				<button  class='btn btn-primary' ng-click="shareFacebook()">
 					<i class="glyphicon glyphicon-facebook"></i>
 					Facebook 
-				</a>
+				</button>
 			</li>
 			<li>
-				<a href="" class="btn btn-info">
+				<a ng-href="{{twitterShareText}}" class="btn btn-info">
 					<i class="glyphicon glyphicon-twitter"></i>
 					Twitter 
 				</a>
 			</li>
 			<li>
-				<a href="" class="btn btn-danger">
+				<a ng-href="{{googleShareText}}" class="btn btn-danger" target="_blank">
 					<i class="glyphicon glyphicon-google"></i>
 					Google + 
 				</a>

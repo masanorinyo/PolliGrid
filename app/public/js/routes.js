@@ -240,25 +240,13 @@
       }).state('home.question', {
         url: 'question/:id',
         views: {
-          "questionResult@": {
-            templateUrl: 'views/partials/targetQuestions.html',
-            controller: 'TargetAudienceCtrl'
+          "content@": {
+            templateUrl: 'views/partials/sharedQuestion.html'
           }
         },
-        onEnter: function($state, $timeout, $modal, $stateParams, $location) {
+        onEnter: function($state, $stateParams, $location) {
           if ($stateParams.id === "") {
             return $location.path('/');
-          } else {
-            return $modal.open({
-              templateUrl: 'views/modals/questionModal.html',
-              controller: "ListCtrl",
-              backdrop: "static",
-              windowClass: "questionModal"
-            }).result.then(function() {
-              return console.log('modal is open');
-            }, function() {
-              return $location.path('/');
-            });
           }
         }
       }).state('home.setting', {

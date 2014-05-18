@@ -51,9 +51,10 @@ define [], ()->
 		
 		.then (data)->
 			#  twitter link
-			text = question + " - "+lists+"-"+sharableLink
+			text = question + " - "+sharableLink
 			text = escape(text)
-			$scope.shareText = 'https://twitter.com/intent/tweet?text='+text
+			$scope.twitterShareText = 'https://twitter.com/intent/tweet?text='+text
+			$scope.googleShareText = "https://plus.google.com/share?url="+sharableLink
 			$scope.showShareForm = true
 		
 		$scope.shareFacebook = ->
@@ -69,9 +70,7 @@ define [], ()->
 		        message: ''
 		    )
 
-		text = question + " - "+lists+"-"+sharableLink
-		text = escape(text);
-		$scope.shareText = 'https://twitter.com/intent/tweet?text='+text
+		
 
 		$scope.$apply()
 

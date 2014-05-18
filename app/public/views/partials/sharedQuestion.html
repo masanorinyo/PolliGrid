@@ -1,0 +1,95 @@
+<div class="sharedQuestion">
+	<ul class='content-cards'>
+		<li ng-controller="ListCtrl">
+			<div answered='answered' submitted="submitted"  class="card card-large">
+				
+				<div ng-hide="submitted" class="content">
+					
+					<p class='question'>
+						{{question.question}}
+					</p>
+	
+					<!-- Warning message -->
+					<p ng-show="warning" class="animated fadeIn alert alert-danger">
+						Please select something
+					</p>
+	
+					<form ng-submit="submitAnswer(answer,question)" id="surveyForm">
+						
+						<ul class="answers">
+							<li ng-hide="targetQ.isQuestionAnswered" class='answer' ng-repeat='option in question.option'>
+								<label class='pointer'>
+									<input ng-model="$parent.answer" type="radio" name="answer" ng-value="option">
+									{{option.title}}
+								</label>
+							</li>
+						</ul>
+						<input type="submit" class="submit-button btn btn-primary btn-sm" value="See result">
+					</form>
+				</div>
+				
+				<div ng-controller="TargetAudienceCtrl" ng-show="submitted" class="question-content">
+					<div class="content animated fadeInLeft" no-scope-repeat-for-targets items="card.targets"></div>
+					<div class="page-chart content animated fadeInLeft" ng-class="{'toggleShow':areAllQuestionAnswered}">	
+						<h4 class="gray result-label">
+							Result:
+						</h4>
+						
+						<p class="question gray">
+							{{card.question}}
+						</p>
+
+						<hr>
+
+						<ul class="answers">
+							<li class="blue">	
+								Total count: 
+								<span class="badge">
+									{{card.totalResponses}}
+								</span>
+							
+							</li>
+							<div no-scope-repeat-for-counts items="card.option">
+								
+							</div>
+						</ul>
+					 	
+						<div class="canvas-wrapper">
+							<canvas ng-show="areAllQuestionAnswered"  piechart options="myChartOptions" class="chart-main" data="myChartData" width="320" height="320"></canvas>
+						</div>
+
+					    
+						<button ng-hide="isAccessedViaLink" ng-click="resetAnswer(card)" class="reset-button bigger btn btn-default">
+							Reset
+						</button>
+
+						
+						<button ui-sref="home.deepResult({id:card._id})" class="submit-button bigger btn btn-success">
+							See deep result
+						</button>
+					</div>
+					
+				</div>
+				
+	
+				<div class="card-bottom">
+					<ul>
+						<li class='userPhoto'>
+							<a href="#">
+								<img ng-src="{{question.photo}}" alt="{{question.creatorName}}">
+							</a>
+						</li>
+						<li class='category silver'>
+							category: 
+							<span ng-click="searchByCategory(question.category)" class='name gray'>
+								{{question.category}}
+							</span>
+						</li>
+					</ul>
+				</div>
+	
+			</div>
+		</li>
+	
+	</ul>
+</div>
