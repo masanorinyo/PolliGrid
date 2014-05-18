@@ -7,20 +7,25 @@
 </div>
 <div class="modal-body">
 	<section class="animated share-box">
+		<div ng-hide="showShareForm" class="loader">
+			<div class="loaderWrapper">
+				<img src="/img/utility/loader.gif" alt="loading">
+			</div>
+		</div>
+		<div class="share-box" ng-show="showShareForm">
 			
-		<div class="share-box">
 			<div class="title-wrapper">
 				<span class="title center"> Share your question via: </span>
 			</div>
 			<ul class="social-accounts">
 				<li>
-					<a  class='btn btn-primary' href="">
+					<button  class='btn btn-primary' ng-click="shareFacebook()">
 						<i class="glyphicon glyphicon-facebook"></i>
 						Facebook 
-					</a>
+					</button>
 				</li>
 				<li>
-					<a href="" class="btn btn-info">
+					<a ng-href="{{shareText}}" class="btn btn-info">
 						<i class="glyphicon glyphicon-twitter"></i>
 						Twitter 
 					</a>

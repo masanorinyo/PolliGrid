@@ -16,7 +16,6 @@ define ['underscore'], (_)->
 		Question
 		Page
 		UpdateUserInfo
-	
 	)->
 
 
@@ -206,6 +205,7 @@ define ['underscore'], (_)->
 			defer.resolve()
 
 
+		
 
 		# this handles user's question answer submission 
 		$scope.submitAnswer = (choice,question)->

@@ -251,6 +251,8 @@ define ['angular'], (angular) ->
 					$rootScope.$broadcast 'userLoggedIn',"main"
 
 
+
+
 		.factory "Account",($rootScope,$timeout)->
 			verifiedMessage: (message,result)->
 				$rootScope.account =
@@ -275,6 +277,9 @@ define ['angular'], (angular) ->
 					$rootScope.account.success = false
 					$rootScope.account.fail = false
 				,3000,true
+
+
+
 
 		.factory 'Verification',($resource)->
 			$resource(

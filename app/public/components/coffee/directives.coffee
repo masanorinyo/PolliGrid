@@ -15,6 +15,8 @@ define ['angular','controllers','underscore','jquery'], (angular,controllers,_,$
 					e.stopPropagation()
 
 
+
+
 		# this will check if target question is already added to the question
 		.directive 'buttonOk', ($timeout)->
 	        

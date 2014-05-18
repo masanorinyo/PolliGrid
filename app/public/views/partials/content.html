@@ -59,7 +59,7 @@
 					<i ng-show="favorite" class="glyphicon glyphicon-star"></i>
 				</div>
 
-				<div ui-sref=".share({id:card._id})" class="share-button">
+				<div ui-sref=".share({id:card._id})" ng-click="shareableQuestion(card)" class="share-button">
 					<i class="glyphicon glyphicon-share"></i>
 				</div>
 

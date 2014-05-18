@@ -1,14 +1,15 @@
 (function() {
   define([], function() {
-    return function($scope, $modalInstance, $stateParams, $location, $timeout, Setting) {
-      var link;
+    return function($scope, $modalInstance, $stateParams, $location, $timeout, Setting, Question) {
+      var link, lists, question, sharableLink, text;
       if (Setting.questionId) {
         $scope.questionId = Setting.questionId;
       } else {
         $scope.questionId = $stateParams.id;
       }
       link = window.location.origin;
-      $scope.sharableLink = link.concat("/#/question/", $scope.questionId);
+      sharableLink = $scope.sharableLink = link.concat("/#/question/", $scope.questionId);
+      $scope.showShareForm = false;
       $scope.closeModal = function() {
         $scope.$dismiss();
         if (Setting.isSetting) {
@@ -22,6 +23,38 @@
           }, 100, true);
         }
       };
+      lists = '';
+      question = '';
+      Question.get({
+        questionId: $scope.questionId
+      }).$promise.then(function(data) {
+        question = data.question.concat("\n");
+        return _.each(data.option, function(option, index) {
+          var bullet;
+          bullet = "[" + index + "] - ";
+          return lists = lists.concat(bullet, option.title, "\n");
+        });
+      }).then(function(data) {
+        var text;
+        text = question + " - " + lists + "-" + sharableLink;
+        text = escape(text);
+        $scope.shareText = 'https://twitter.com/intent/tweet?text=' + text;
+        return $scope.showShareForm = true;
+      });
+      $scope.shareFacebook = function() {
+        return FB.ui({
+          method: 'feed',
+          name: question,
+          link: sharableLink,
+          picture: "http://www.hyperarts.com/external-xfbml/share-image.gif",
+          caption: lists,
+          description: "PolliGrid lets you analyze people's optinions from different angles",
+          message: ''
+        });
+      };
+      text = question + " - " + lists + "-" + sharableLink;
+      text = escape(text);
+      $scope.shareText = 'https://twitter.com/intent/tweet?text=' + text;
       return $scope.$apply();
     };
   });
