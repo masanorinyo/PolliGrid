@@ -37,6 +37,15 @@
     }), function(req, res) {
       return res.redirect("/#/oauth/success");
     });
+    app.get("/auth/google", passport.authenticate("google", {
+      scope: ["profile", "email"]
+    }));
+    app.get("/auth/google/callback", passport.authenticate("google", {
+      failureRedirect: "/#/oauth/fail"
+    }), function(req, res) {
+      console.log('test');
+      return res.redirect("/#/oauth/success");
+    });
     app["delete"]("/api/auth/logout", function(req, res) {
       if (req.user) {
         console.log(req.user);

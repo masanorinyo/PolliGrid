@@ -139,22 +139,23 @@ module.exports = (app,passport) ->
 #     return
 
   
-#   #Google
-#   app.get "/auth/google", passport.authenticate("google",
-#     scope: [
-#       "profile"
-#       "email"
-#     ]
-#   )
-  
-#   # the callback after google has authenticated the user
-#   app.get "/auth/google/callback", passport.authenticate("google",
-#     failureRedirect: "/"
-#   ), (req, res) ->
-#     console.log req
-#     auth_utility.rememberOauth req, res
-#     res.redirect "/room/" + req.user.profile.username + "/me"
-#     return
+	#Google
+	app.get "/auth/google", passport.authenticate("google",
+		scope: [
+			"profile"
+			"email"
+		]
+	)
+
+	# the callback after google has authenticated the user
+	app.get "/auth/google/callback", passport.authenticate("google",
+		
+		failureRedirect: "/#/oauth/fail"
+
+	), (req, res) ->
+		console.log 'test'
+		res.redirect "/#/oauth/success"
+
 
 
 

@@ -15,11 +15,11 @@ module.exports =
 		connectCallbackURL: "http://masa-chat.nodejitsu.com/connect/twitter/callback"
 
 	googleAuth:
-		clientID: "896183225652-amhe3lcc0mcuf85ckhj9m3o344tjebcr.apps.googleusercontent.com"
-		clientSecret: "KulJIX-iGnMkfLHx_kjuiaxZ"
-		callbackURL: "http://masa-chat.nodejitsu.com/auth/google/callback"
+		clientID: "846555084700-i8io0sdgtt54ioornq5vudld87t5dtge.apps.googleusercontent.com"
+		clientSecret: "GrMFHIHH_sXjh7R0Lj2thuxG"
+		callbackURL: "http://localhost:3000/auth/google/callback"
 
-	googleConnectAuth:
-		clientID: "896183225652-j5ev94u31s5fnq12flocqlpdm66f8tbt.apps.googleusercontent.com"
-		clientSecret: "vIZEeG1GIXgwkeJ-FxlfWbx8"
-		connectCallbackURL: "http://masa-chat.nodejitsu.com/connect/google/callback"
+	# googleConnectAuth:
+	# 	clientID: "896183225652-j5ev94u31s5fnq12flocqlpdm66f8tbt.apps.googleusercontent.com"
+	# 	clientSecret: "vIZEeG1GIXgwkeJ-FxlfWbx8"
+	# 	connectCallbackURL: "http://masa-chat.nodejitsu.com/connect/google/callback"

@@ -135,6 +135,7 @@
               url: "/api/getLoggedInUser"
             }).success(function(data) {
               if (data) {
+                ipCookie.remove("loggedInUser");
                 console.log(data.isLoggedIn = true);
                 console.log(data);
                 ipCookie("loggedInUser", data, {

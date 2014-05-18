@@ -120,7 +120,7 @@
         });
       });
     }));
-    return passport.use("facebook", new FacebookStrategy({
+    passport.use("facebook", new FacebookStrategy({
       clientID: configAuth.facebookAuth.clientID,
       clientSecret: configAuth.facebookAuth.clientSecret,
       callbackURL: configAuth.facebookAuth.callbackURL,
@@ -130,37 +130,67 @@
         var picUrl, userId;
         userId = profile.id;
         picUrl = "https://graph.facebook.com/" + userId + "/picture";
-        if (!req.user) {
-          return User.findOne({
-            "facebook.id": profile.id
-          }, function(err, user) {
-            var newUser;
+        return User.findOne({
+          "facebook.id": profile.id
+        }, function(err, user) {
+          var newUser;
+          if (err) {
+            return done(err);
+          } else if (user) {
+            return done(null, user);
+          } else {
+            newUser = new User();
+            newUser.facebook.id = profile.id;
+            newUser.facebook.token = token;
+            newUser.username = profile.name.givenName + " " + profile.name.familyName;
+            newUser.email = profile.emails[0].value;
+            newUser.profilePic = picUrl;
+            newUser.confirmed = false;
+            newUser.hasEmail = true;
+            return newUser.save(function(err, user) {
+              if (err) {
+                return done(err);
+              } else {
+                verification.sendVerification(req, newUser, newUser.email);
+                return done(null, newUser);
+              }
+            });
+          }
+        });
+      });
+    }));
+    return passport.use("google", new GoogleStrategy({
+      clientID: configAuth.googleAuth.clientID,
+      clientSecret: configAuth.googleAuth.clientSecret,
+      callbackURL: configAuth.googleAuth.callbackURL,
+      passReqToCallback: true
+    }, function(req, token, refreshToken, profile, done) {
+      process.nextTick(function() {});
+      return User.findOne({
+        "google.id": profile.id
+      }, function(err, user) {
+        var newUser;
+        if (err) {
+          return done(err);
+        } else if (user) {
+          return done(null, user);
+        } else {
+          newUser = new User();
+          newUser.google.id = profile.id;
+          newUser.google.token = token;
+          newUser.username = profile.displayName.replace(/\s/g, "-");
+          newUser.email = profile.emails[0].value;
+          newUser.profilePic = profile._json.picture;
+          newUser.confirmed = false;
+          newUser.hasEmail = true;
+          return newUser.save(function(err, user) {
             if (err) {
               return done(err);
-            } else if (user) {
-              console.log('login');
-              return done(null, user);
             } else {
-              newUser = new User();
-              newUser.facebook.id = profile.id;
-              newUser.facebook.token = token;
-              newUser.username = profile.name.givenName + " " + profile.name.familyName;
-              newUser.email = profile.emails[0].value;
-              newUser.profilePic = picUrl;
-              newUser.confirmed = false;
-              newUser.hasEmail = true;
-              return newUser.save(function(err, user) {
-                if (err) {
-                  return done(err);
-                } else {
-                  verification.sendVerification(req, newUser, newUser.email);
-                  return done(null, newUser);
-                }
-              });
+              verification.sendVerification(req, newUser, newUser.email);
+              return done(null, newUser);
             }
           });
-        } else {
-          return done(null, req.user);
         }
       });
     }));

@@ -183,7 +183,7 @@ define(
 								url:"/api/getLoggedInUser"
 							.success (data)-> 
 								if data 
-									
+									ipCookie.remove("loggedInUser")
 									console.log data.isLoggedIn = true
 									console.log data
 									ipCookie("loggedInUser",data,{expires:365})
