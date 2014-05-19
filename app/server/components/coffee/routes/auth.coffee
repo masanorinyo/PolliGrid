@@ -67,7 +67,7 @@ module.exports = (app,passport) ->
 		failureRedirect: "/#/oauth/fail"
 
 	), (req, res) ->
-
+		
 		res.redirect "/#/oauth/success"
 
 

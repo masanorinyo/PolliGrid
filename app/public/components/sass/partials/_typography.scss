@@ -1,16 +1,21 @@
 // font variables //
+@import url(http://fonts.googleapis.com/css?family=Lobster);
+
+
 
 $normal: "Helvetca";
-$them: 'Audiowide', cursive;
+ 
 
 // font classes //
 
 .header-title{
 	@include absolute-center($left:1em);
-	font-size:0.7em;
+	font-size:0.8em;
 	left:10px;
 	height:48%;
 	color:lighten($blue,10);
+	font-family:'Lobster', cursive;
+
 
 	&:hover{
 		text-decoration:none;

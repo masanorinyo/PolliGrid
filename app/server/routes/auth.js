@@ -35,6 +35,7 @@
     app.get("/auth/facebook/callback", passport.authenticate("facebook", {
       failureRedirect: "/#/oauth/fail"
     }), function(req, res) {
+      console.log('testing');
       return res.redirect("/#/oauth/success");
     });
     app.get("/auth/twitter", passport.authenticate("twitter", {

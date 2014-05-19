@@ -4,6 +4,7 @@
       clientID: "1441817136066112",
       clientSecret: "cc1e351fd63f5ab68dd020ceb400c1eb",
       callbackURL: "http://polligrid.jit.su/auth/facebook/callback"
+      // callbackURL: "http://localhost:3000/auth/facebook/callback"
     },
     twitterAuth: {
       consumerKey: "6HG3EB0HJZFKE5SiVZtelGnBG",

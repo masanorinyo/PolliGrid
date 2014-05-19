@@ -125,7 +125,7 @@
           }
         }
       }).state("oauthenticate", {
-        url: 'oauth/:result',
+        url: '/oauth/:result',
         onEnter: function($timeout, $http, $stateParams, $location, ipCookie, User) {
           var result;
           result = $stateParams.result;
@@ -135,6 +135,7 @@
               url: "/api/getLoggedInUser"
             }).success(function(data) {
               if (data) {
+                console.log('successfully logged in');
                 ipCookie.remove("loggedInUser");
                 data.isLoggedIn = true;
                 User.user = data;
@@ -214,7 +215,9 @@
           }
         },
         onEnter: function($state, $stateParams, $location) {
-          return console.log("yoyoyoyo");
+          if ($stateParams.id === "") {
+            return $location.path('/');
+          }
         }
       }).state('home.setting', {
         url: 'setting/:type/:id',

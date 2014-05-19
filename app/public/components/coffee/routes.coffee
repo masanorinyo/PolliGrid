@@ -136,7 +136,7 @@ define(
 
 				.state "verify",
 					
-					url:'/verification/:type/:result'
+					url:'verification/:type/:result'
 
 					onEnter:($stateParams,$location,Account)->
 						result = $stateParams.result
@@ -185,6 +185,7 @@ define(
 								url:"/api/getLoggedInUser"
 							.success (data)-> 
 								if data 
+									console.log 'successfully logged in'
 									ipCookie.remove("loggedInUser")
 									data.isLoggedIn = true
 									User.user = data
@@ -197,15 +198,10 @@ define(
 								else 
 									$location.path('/verification/auth/fail')
 						else 
-							$location.path('/verification/auth/fail')
-						# else if type =="auth"
 						
-						# 	if result == "success"
-						# 		Account.verifiedMessage("Authentication went successful",'success')
-						# 		$location.path('/')
-						# 	else if result == "fail"
-						# 		Account.verifiedMessage("Authentication failed",'fail')
-						# 		$location.path('/')
+							$location.path('/verification/auth/fail')
+						
+
 						
 
 							
@@ -301,10 +297,10 @@ define(
 
 
 					onEnter:($state,$stateParams,$location)->
-						console.log "yoyoyoyo"
-						# if $stateParams.id is "" 
+						
+						if $stateParams.id is "" 
 
-						# 	$location.path('/')
+							$location.path('/')
 
 						
 				
