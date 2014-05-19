@@ -1,6 +1,6 @@
 (function() {
   define(['angular', 'app', 'underscore'], function(angular, app, _) {
-    return app.config(function($stateProvider, $urlRouterProvider) {
+    return app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
       $stateProvider.state('home', {
         url: "/",
         views: {
@@ -89,7 +89,7 @@
           }
         }
       }).state("verify", {
-        url: '/verification/:type/:result',
+        url: 'verification/:type/:result',
         onEnter: function($stateParams, $location, Account) {
           var result, type;
           result = $stateParams.result;
@@ -125,7 +125,7 @@
           }
         }
       }).state("oauthenticate", {
-        url: '/oauth/:result',
+        url: 'oauth/:result',
         onEnter: function($timeout, $http, $stateParams, $location, ipCookie, User) {
           var result;
           result = $stateParams.result;
@@ -214,9 +214,7 @@
           }
         },
         onEnter: function($state, $stateParams, $location) {
-          if ($stateParams.id === "") {
-            return $location.path('/');
-          }
+          return console.log("yoyoyoyo");
         }
       }).state('home.setting', {
         url: 'setting/:type/:id',
@@ -249,7 +247,7 @@
             controller: 'SettingCtrl'
           },
           "result@home.setting": {
-            templateUrl: 'views/partials/targetQuestions.html',
+            templateUrl: '/views/partials/targetQuestions.html',
             controller: 'TargetAudienceCtrl'
           }
         }

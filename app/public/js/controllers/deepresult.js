@@ -70,6 +70,7 @@
           }
         ]
       };
+      $scope.loadingContents = false;
       $scope.donutDataOverall = [];
       $scope.donutDataFiltered = [];
       $scope.filters = [];
@@ -322,6 +323,7 @@
                 color: "rgb(235,235,235)"
               }
             ];
+            $scope.loadingContents = true;
             $scope.donutDataOverall.push(overallDataForDonut);
             return $scope.donutDataFiltered.push(filteredDataForDonut);
           });

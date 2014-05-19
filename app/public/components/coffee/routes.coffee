@@ -9,8 +9,10 @@ define(
 
 	(angular,app,_)->
 		
-		app.config ($stateProvider,$urlRouterProvider)->
-
+		
+		app.config ($stateProvider,$urlRouterProvider,$locationProvider)->
+			
+			# url = $locationProvider.hashPrefix("!") + url	
 			$stateProvider
 				
 				.state 'home',
@@ -206,49 +208,7 @@ define(
 						# 		$location.path('/')
 						
 
-				# .state 'home.create',
-				# 	views:
-
-				# 		'create@':
-
-				# 			templateUrl:'views/partials/createQuestion.html'
 							
-						
-				# 		'target@':
-
-				# 			templateUrl:'views/partials/targetAudience.html'
-
-				# 		'share@':
-
-				# 			templateUrl:'views/partials/shareQuestion.html'
-
-				# 	onEnter:($state,$modal,$location,$stateParams,$timeout,User,Error)->
-				# 		if !User.user
-							
-				# 			Error.auth = 'Please sign up to proceed'
-
-				# 			$timeout ()->
-				# 				$location.path('signup')
-							
-
-				# 		else
-
-				# 			console.log 'modal got successfully opened'
-				# 			$modal.open(
-							
-				# 				templateUrl : 'views/modals/createModal.html'
-				# 				controller 	: "CreateCtrl"
-				# 				windowClass : "createModal"
-								
-							
-				# 			).result.then ()->
-	  	# 						console.log('modal is open')
-							
-				# 			, ()->
-								
-				# 				$location.path('/')
-
-								
 
 				.state 'home.share',
 					url:'share/:id'
@@ -341,18 +301,12 @@ define(
 
 
 					onEnter:($state,$stateParams,$location)->
+						console.log "yoyoyoyo"
+						# if $stateParams.id is "" 
+
+						# 	$location.path('/')
+
 						
-						if $stateParams.id is "" 
-
-							$location.path('/')
-
-						
-							
-							
-							
-
-								
-								
 				
 				.state 'home.setting',
 					url:'setting/:type/:id'
@@ -378,16 +332,8 @@ define(
 
 						"result@home.setting":
 							
-							templateUrl :'views/partials/targetQuestions.html'
+							templateUrl :'/views/partials/targetQuestions.html'
 							controller:'TargetAudienceCtrl'
-
-					
-
-					
-
-				
-
-
 
 
 					

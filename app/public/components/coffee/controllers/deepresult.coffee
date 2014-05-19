@@ -102,7 +102,7 @@ define ['underscore'], (_)->
 			]
 
 
-
+		$scope.loadingContents = false
 		$scope.donutDataOverall = []
 
 		$scope.donutDataFiltered = []
@@ -477,7 +477,7 @@ define ['underscore'], (_)->
 								color: "rgb(235,235,235)"
 						]
 
-
+						$scope.loadingContents = true
 						$scope.donutDataOverall.push(overallDataForDonut) 
 						$scope.donutDataFiltered.push(filteredDataForDonut) 
 
