@@ -153,37 +153,6 @@
             return $location.path('/verification/auth/fail');
           }
         }
-      }).state('home.create', {
-        url: 'create',
-        views: {
-          'create@': {
-            templateUrl: 'views/partials/createQuestion.html'
-          },
-          'target@': {
-            templateUrl: 'views/partials/targetAudience.html'
-          },
-          'share@': {
-            templateUrl: 'views/partials/shareQuestion.html'
-          }
-        },
-        onEnter: function($state, $modal, $location, $stateParams, $timeout, User, Error) {
-          if (!User.user) {
-            Error.auth = 'Please sign up to proceed';
-            return $timeout(function() {
-              return $location.path('signup');
-            });
-          } else {
-            return $modal.open({
-              templateUrl: 'views/modals/createModal.html',
-              controller: "CreateCtrl",
-              windowClass: "createModal"
-            }).result.then(function() {
-              return console.log('modal is open');
-            }, function() {
-              return $location.path('/');
-            });
-          }
-        }
       }).state('home.share', {
         url: 'share/:id',
         onEnter: function($state, $modal, $stateParams, $location) {

@@ -17,6 +17,7 @@ define ["underscore"], (_)->
 		ipCookie
 		Setting
 		$http
+		$modal
 		
 	)->
 
@@ -361,7 +362,13 @@ define ["underscore"], (_)->
 
 			
 			
-
+		$scope.openCreateModal = ->
+			
+			modalInstance = $modal.open(			
+				templateUrl : 'views/modals/createmodal.html'
+				controller 	: "CreateCtrl"
+				windowClass : "createModal"
+			)
 				
 		
 		

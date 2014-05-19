@@ -38,6 +38,7 @@
           }
           length = $scope.card.targets.length;
           i = 0;
+          console.log($scope.user);
           answeredIds = _.pluck($scope.user.filterQuestionsAnswered, '_id');
         }
         if (length) {
@@ -141,7 +142,9 @@
       $scope.targetChecker = [];
       (function() {
         if (!$scope.filtersOnSettingPage) {
-          return checkFilterQuestionStatus('');
+          return $timeout(function() {
+            return checkFilterQuestionStatus('');
+          });
         }
       })();
       $scope.submitTarget = function(question, targetAnswer, index) {

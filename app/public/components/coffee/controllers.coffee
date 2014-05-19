@@ -1,7 +1,7 @@
 define ['angular','services'], (angular) ->
 	angular.module('myapp.controllers', ['myapp.services'])
 
-		.controller 'MainCtrl', ($scope,$injector,$location,$state,$stateParams,$timeout,$q,ipCookie,$http)->
+		.controller 'MainCtrl', ($scope,$injector,$location,$state,$stateParams,$timeout,$q,ipCookie,$http,$modal)->
 			require(['controllers/mainctrl'], (mainctrl)->
 				$injector.invoke(
 					mainctrl, this,{
@@ -13,6 +13,7 @@ define ['angular','services'], (angular) ->
 						"$q" 					: $q
 						"ipCookie" 				: ipCookie
 						"$http" 				: $http
+						"$modal" 				: $modal
 					}
 				)
 			)

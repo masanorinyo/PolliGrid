@@ -206,48 +206,47 @@ define(
 						# 		$location.path('/')
 						
 
-				.state 'home.create',
-					url:'create'
-					views:
+				# .state 'home.create',
+				# 	views:
 
-						'create@':
+				# 		'create@':
 
-							templateUrl:'views/partials/createQuestion.html'
+				# 			templateUrl:'views/partials/createQuestion.html'
 							
 						
-						'target@':
+				# 		'target@':
 
-							templateUrl:'views/partials/targetAudience.html'
+				# 			templateUrl:'views/partials/targetAudience.html'
 
-						'share@':
+				# 		'share@':
 
-							templateUrl:'views/partials/shareQuestion.html'
+				# 			templateUrl:'views/partials/shareQuestion.html'
 
-					onEnter:($state,$modal,$location,$stateParams,$timeout,User,Error)->
-						if !User.user 
+				# 	onEnter:($state,$modal,$location,$stateParams,$timeout,User,Error)->
+				# 		if !User.user
 							
-							Error.auth = 'Please sign up to proceed'
+				# 			Error.auth = 'Please sign up to proceed'
 
-							$timeout ()->
-								$location.path('signup')
+				# 			$timeout ()->
+				# 				$location.path('signup')
 							
 
-						else
+				# 		else
 
-
-							$modal.open(
+				# 			console.log 'modal got successfully opened'
+				# 			$modal.open(
 							
-								templateUrl : 'views/modals/createModal.html'
-								controller 	: "CreateCtrl"
-								windowClass : "createModal"
+				# 				templateUrl : 'views/modals/createModal.html'
+				# 				controller 	: "CreateCtrl"
+				# 				windowClass : "createModal"
 								
 							
-							).result.then ()->
-	  							console.log('modal is open')
+				# 			).result.then ()->
+	  	# 						console.log('modal is open')
 							
-							, ()->
+				# 			, ()->
 								
-								$location.path('/')
+				# 				$location.path('/')
 
 								
 

@@ -110,15 +110,7 @@
       };
       $scope.searchFilter = Debounce($scope.searching, 333, false);
       $scope.closeModal = function() {
-        $scope.$dismiss();
-        $location.path('/');
-        return $timeout(function() {
-          return $state.transitionTo($state.current, $stateParams, {
-            reload: true,
-            inherit: false,
-            notify: true
-          });
-        });
+        return $scope.$dismiss();
       };
       $scope.createOption = function(option) {
         var newlyCreatedOption, sameOptionFound;

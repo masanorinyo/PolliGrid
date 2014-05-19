@@ -69,6 +69,7 @@ define ['underscore'], (_)->
 				length = $scope.card.targets.length
 				i=0
 
+				console.log $scope.user
 
 				# get which question the user already answered to
 				answeredIds = _.pluck $scope.user.filterQuestionsAnswered, '_id'
@@ -288,7 +289,8 @@ define ['underscore'], (_)->
 			# if it is accessed from 
 			if !$scope.filtersOnSettingPage
 				
-				checkFilterQuestionStatus('')
+				$timeout ->
+					checkFilterQuestionStatus('')
 			
 			
 

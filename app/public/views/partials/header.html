@@ -50,9 +50,10 @@
 				<a class='header-title' href="#">
 					PolliGrid</a>
 			</h1>
-			<a href="#" ui-sref=".create" class='create'>
+			<!-- ui-sref=".create" -->
+			<div ng-click="openCreateModal()" class='pointer create'>
 				+
-			</a>
+			</div>
 			<div ng-if="user.isLoggedIn" class="profile pull-right dropdown">
 			    <a href="#" class="dropdown-toggle">
 			      <img ng-src="{{user.profilePic}}" alt="{{user.name}}" class="img-circle">

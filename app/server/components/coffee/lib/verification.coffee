@@ -40,7 +40,7 @@ exports.sendVerification = (req, user, email) ->
   instance = new createVerification(req, user, email)
   info =
     receiver: email
-    subject: "Confirmation Email - whichone"
+    subject: "Confirmation Email - PolliGrid"
     textContent: "Please click the following link to verify your account"
     htmlContent: "<p style='font-size:15px;'>Please click the following link to verify your account</p></br>"
 
@@ -51,7 +51,7 @@ exports.sendResetVerification = (req, user, email) ->
   instance = new createVerification(req, user, email)
   info =
     receiver: email
-    subject: "Forgot password - whichone"
+    subject: "Forgot password - PolliGrid"
     textContent: "Please click the following link to reset your password"
     htmlContent: "<p style='font-size:15px;'>Please click the following link to reset your password</p></br>"
 

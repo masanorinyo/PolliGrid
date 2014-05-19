@@ -189,22 +189,8 @@ define ['underscore'], ( _ )->
 		
 		$scope.closeModal = ()->
 
-			
 			$scope.$dismiss()
-			$location.path('/')
-
 			
-			
-			$timeout ->
-				# reload the page
-				$state.transitionTo($state.current, $stateParams, {
-					reload: true
-					inherit: false
-					notify: true
-				})
-
-			
-
 		
 		# -- for create question section --#
 		

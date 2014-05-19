@@ -1,6 +1,6 @@
 (function() {
   define(["underscore"], function(_) {
-    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search, QuestionTypeHead, NewQuestion, Verification, ipCookie, Setting, $http) {
+    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search, QuestionTypeHead, NewQuestion, Verification, ipCookie, Setting, $http, $modal) {
       var capitaliseFirstLetter, searchSpecificQuestions;
       capitaliseFirstLetter = function(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -192,6 +192,14 @@
               notify: true
             });
           }, 200, true);
+        });
+      };
+      $scope.openCreateModal = function() {
+        var modalInstance;
+        return modalInstance = $modal.open({
+          templateUrl: 'views/modals/createmodal.html',
+          controller: "CreateCtrl",
+          windowClass: "createModal"
         });
       };
       return $scope.$apply();
