@@ -12,10 +12,6 @@
       $scope.searchText = "";
       $scope.searchTerm = "all";
       $scope.completeButton = "Next";
-      $scope.targets = Filters.get({
-        searchTerm: $scope.searchTerm,
-        offset: Page.filterPage
-      });
       newQuestion = $scope.question = {
         newOption: "",
         question: "",
@@ -224,6 +220,14 @@
         utility.isQuestionCompleted = false;
         return utility.isQuestionCreated = true;
       };
+      (function() {
+        return $timeout(function() {
+          return $scope.targets = Filters.get({
+            searchTerm: $scope.searchTerm,
+            offset: Page.filterPage
+          });
+        });
+      })();
       return $scope.$apply();
     };
   });

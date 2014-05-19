@@ -17,6 +17,8 @@ define [], ()->
 		else 
 			$scope.questionId = $stateParams.id
 		
+
+
 		link = window.location.origin
 		
 		sharableLink = $scope.sharableLink = link.concat("/#/question/",$scope.questionId)
@@ -26,19 +28,9 @@ define [], ()->
 
 
 		$scope.closeModal = ()->
+			
 			$scope.$dismiss()
 
-			if Setting.isSetting
-
-				# cleans out the quesiton id
-				Setting.questionId = ""	
-				$timeout ->
-					$location.path(Setting.section)
-				,100,true
-			else 
-				$timeout ->
-					$location.path('/')
-				,100,true
 
 		lists = ''
 		question = ''

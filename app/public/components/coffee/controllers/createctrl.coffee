@@ -33,13 +33,6 @@ define ['underscore'], ( _ )->
 		$scope.searchTerm = "all"
 		$scope.completeButton = "Next"
 
-		$scope.targets = Filters.get(
-			{
-				searchTerm:$scope.searchTerm
-				offset:Page.filterPage
-			}
-		)
-
 		newQuestion = $scope.question = 
 			newOption 			: ""
 			question 			: ""
@@ -372,6 +365,14 @@ define ['underscore'], ( _ )->
 
 		
 
+		do ()->
+			$timeout ->
+				$scope.targets = Filters.get(
+					{
+						searchTerm:$scope.searchTerm
+						offset:Page.filterPage
+					}
+				)
 			
 
 		# --- invoke the scope --- #

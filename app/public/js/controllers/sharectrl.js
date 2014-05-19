@@ -11,17 +11,7 @@
       sharableLink = $scope.sharableLink = link.concat("/#/question/", $scope.questionId);
       $scope.showShareForm = false;
       $scope.closeModal = function() {
-        $scope.$dismiss();
-        if (Setting.isSetting) {
-          Setting.questionId = "";
-          return $timeout(function() {
-            return $location.path(Setting.section);
-          }, 100, true);
-        } else {
-          return $timeout(function() {
-            return $location.path('/');
-          }, 100, true);
-        }
+        return $scope.$dismiss();
       };
       lists = '';
       question = '';
