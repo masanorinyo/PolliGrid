@@ -324,7 +324,7 @@ define ['underscore'], (_)->
 					$scope.userLoaded = true
 				
 
-					if $scope.type == "favorites" || $scope.type == "profile"
+					if $scope.type == "favorites"
 					
 						showFavorites()
 

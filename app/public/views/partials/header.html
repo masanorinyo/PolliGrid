@@ -15,11 +15,12 @@
 		<div ng-class="{'toggleShow':$parent.toggleSearchBox}" class="search">
 			<input id="searchbox"  type="text" ng-model="$parent.searchQuestion" placeholder="Search..." ng-change="updateSearch()" class="form-control" typeahead="term for term in getPartOfQuestion($viewValue)" typeahead-on-select='selectedTypehead($item)'>
 			<div class="header-utility">
-				<div class="btn btn-default order" ng-class="{'active':orderBox}" id="order-toggler" toggle order="orderBox" category="categoryBox" ng-click="orderBox = !orderBox">
-					<!-- <i id="order-icon" class="fa fa-filter"></i> -->
-					Order
+				<div class="btn btn-default order" ng-class="{'active':orderBox}" toggle order="orderBox" category="categoryBox" ng-click="orderBox = !orderBox" id="order-toggler" >
+					<div tooltip-placement="bottom"  tooltip="Sort questions" >
+						<i id="order-icon" class="fa fa-filter"></i>
+					</div>
 				</div>
-				<div ng-show="orderBox" class="pop-box order">
+				<div ng-show="orderBox" class="pop-box order" >
 					<i class="fa fa-caret-up"></i>
 					<div class='sub-title'>Currently selected order:</div>
 					<div class='selected'><span>{{order}}</span></div>
@@ -27,10 +28,11 @@
 						<li ng-click="changeOrder(order)" ng-repeat="order in options.orders">{{order}}</li>
 					</ul>
 				</div>
-		
-				<div class="btn btn-default category" ng-class="{'active':categoryBox}" id="category-toggler" toggle order="orderBox" category="categoryBox" ng-click="categoryBox = !categoryBox">
-					<!-- <i id="category-icon" class="fa fa-archive"></i> -->
-					Category
+				
+				<div class="btn btn-default category" ng-class="{'active':categoryBox}"  id="category-toggler" toggle order="orderBox" category="categoryBox" ng-click="categoryBox = !categoryBox">
+					<div tooltip-placement="bottom" tooltip="Show questions by categories" >
+						<i id="category-icon" class="fa fa-archive"></i>
+					</div>
 				</div>
 				<div ng-show="categoryBox" class="pop-box category">
 					<i class="fa fa-caret-up"></i>
@@ -40,6 +42,7 @@
 						<li ng-click="changeCategory(category)" ng-repeat="category in options.categories">{{category}}</li>
 					</ul>
 				</div>
+				
 			</div>
 		    </div>
 		<div class="header-wrapper">
@@ -61,10 +64,11 @@
 			      <img ng-src="{{user.profilePic}}" alt="{{user.name}}" class="img-circle">
 			    </a>
 				<ul class="dropdown-menu">
-					<li><a ng-href="/setting/profile/{{user._id}}">Profile</a></li>
+					<li><a href="/">Home</a></li>
 					<li><a ng-href="/setting/favorites/{{user._id}}">favorites</a></li>
 					<li><a ng-href="/setting/questions/{{user._id}}">My questions</a></li>
 					<li><a ng-href="/setting/answers/{{user._id}}">My answers</a></li>
+					<li><a ng-href="/setting/filters/{{user._id}}">My filters</a></li>
 					<li ng-click="logout()"class="border-top"><a ng-href="/logout">Logout</a></li>
 				</ul>
 			</div>

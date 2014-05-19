@@ -18,6 +18,7 @@ define ["underscore"], (_)->
 		Setting
 		$http
 		$modal
+		Error
 		
 	)->
 
@@ -125,6 +126,9 @@ define ["underscore"], (_)->
 
 		# --------------- Variables --------------- #			
 		
+		
+
+
 		$scope.showLoader = false
 
 		$scope.anyContentsLeft = false
@@ -363,12 +367,17 @@ define ["underscore"], (_)->
 			
 			
 		$scope.openCreateModal = ->
-			
-			modalInstance = $modal.open(			
-				templateUrl : 'views/modals/createmodal.html'
-				controller 	: "CreateCtrl"
-				windowClass : "createModal"
-			)
+			console.log "yoyoooooooo"
+			if User.user 
+
+				modalInstance = $modal.open(			
+					templateUrl : 'views/modals/createmodal.html'
+					controller 	: "CreateCtrl"
+					windowClass : "createModal"
+				)
+			else 
+				Error.auth = "You need to register to proceed"
+				$location.path('/signup')
 				
 		
 		

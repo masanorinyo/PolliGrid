@@ -217,7 +217,7 @@
               $scope.anotherUser.photo = user.profilePic;
             }
             $scope.userLoaded = true;
-            if ($scope.type === "favorites" || $scope.type === "profile") {
+            if ($scope.type === "favorites") {
               return showFavorites();
             } else if ($scope.type === "answers") {
               return showAnswers();

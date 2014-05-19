@@ -1,6 +1,6 @@
 (function() {
   define(["underscore"], function(_) {
-    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search, QuestionTypeHead, NewQuestion, Verification, ipCookie, Setting, $http, $modal) {
+    return function($scope, $location, $q, $stateParams, $timeout, $state, User, Page, FindQuestions, Debounce, Search, QuestionTypeHead, NewQuestion, Verification, ipCookie, Setting, $http, $modal, Error) {
       var capitaliseFirstLetter, searchSpecificQuestions;
       capitaliseFirstLetter = function(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -196,11 +196,17 @@
       };
       $scope.openCreateModal = function() {
         var modalInstance;
-        return modalInstance = $modal.open({
-          templateUrl: 'views/modals/createmodal.html',
-          controller: "CreateCtrl",
-          windowClass: "createModal"
-        });
+        console.log("yoyoooooooo");
+        if (User.user) {
+          return modalInstance = $modal.open({
+            templateUrl: 'views/modals/createmodal.html',
+            controller: "CreateCtrl",
+            windowClass: "createModal"
+          });
+        } else {
+          Error.auth = "You need to register to proceed";
+          return $location.path('/signup');
+        }
       };
       return $scope.$apply();
     };
