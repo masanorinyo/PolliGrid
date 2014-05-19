@@ -411,6 +411,7 @@
             @extend .graphs;
             .chart-pie {
                 width: 90% !important;
+                max-width: 300px;
                 @include at-breakpoint($medium) {
                     width: 65% !important;
                 }
@@ -446,6 +447,7 @@
                 height: 345px;
                 margin: 20px auto 75px;
                 > canvas {
+                    max-width: 300px;
                     width: 90% !important;
                     @include at-breakpoint($medium) {
                         width: 60% !important;

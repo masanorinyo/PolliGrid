@@ -2,6 +2,21 @@
   define(['underscore'], function(_) {
     return function($scope, $timeout, $q, Question, User, UpdateQuestion, UpdateUserInfo) {
       var checkFilterQuestionStatus, checkIfEverythingAnswered, makeTargetChecker, skipThroughFilterQuestions;
+      $scope.$on("logOff", function(result) {
+        return $timeout(function() {
+          $scope.areAllQuestionAnswered = false;
+          return $scope.showResult = false;
+        });
+      });
+      $scope.$on("showGraph", function(result) {
+        return $scope.showResult = true;
+      });
+      $scope.$on('answerSubmitted', function(message) {
+        checkFilterQuestionStatus('');
+        return $timeout(function() {
+          return skipThroughFilterQuestions();
+        }, 300, true);
+      });
       checkFilterQuestionStatus = function(answer) {
         var defer;
         defer = $q.defer();
@@ -58,8 +73,16 @@
             matchedOption = null;
             userAlreadyAnswered = false;
             _.each($scope.card.targets[i].lists, function(list, index) {
-              if (_.contains(list.answeredBy, $scope.user._id)) {
+              if (_.contains(list.answeredBy, $scope.user._id) && _.contains($scope.card.respondents, $scope.user._id)) {
                 return userAlreadyAnswered = true;
+              } else {
+                return _.each($scope.user.visitorId, function(vid) {
+                  if (_.contains(list.answeredBy, vid) && _.contains($scope.card.respondents, vid)) {
+                    console.log('contains user id');
+                    console.log(list.answeredBy);
+                    return userAlreadyAnswered = true;
+                  }
+                });
               }
             });
             if (!userAlreadyAnswered) {
@@ -172,21 +195,6 @@
         $scope.card.alreadyAnswered = false;
         return $scope.$emit('resetAnswer', question);
       };
-      $scope.$on("logOff", function(result) {
-        return $timeout(function() {
-          $scope.areAllQuestionAnswered = false;
-          return $scope.showResult = false;
-        });
-      });
-      $scope.$on("showGraph", function(result) {
-        return $scope.showResult = true;
-      });
-      $scope.$on('answerSubmitted', function(message) {
-        checkFilterQuestionStatus('');
-        return $timeout(function() {
-          return skipThroughFilterQuestions();
-        }, 300, true);
-      });
       return $scope.$apply();
     };
   });

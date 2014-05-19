@@ -184,13 +184,13 @@ define(
 							.success (data)-> 
 								if data 
 									ipCookie.remove("loggedInUser")
-									console.log data.isLoggedIn = true
-									console.log data
+									data.isLoggedIn = true
+									User.user = data
 									ipCookie("loggedInUser",data,{expires:365})
 									$location.path('/verification/auth/success')
 									$timeout ->
 										User.checkState()
-									,200,true
+									,500,true
 									
 								else 
 									$location.path('/verification/auth/fail')

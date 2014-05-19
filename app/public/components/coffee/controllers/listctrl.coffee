@@ -19,6 +19,179 @@ define ['underscore'], (_)->
 	)->
 
 
+		# ------------------ IO listeners ------------------ #
+		$scope.$on 'userLoggedIn',(data)->
+			console.log "$scope.user = User.user"
+			$scope.user = User.user
+
+			
+		# reset everything	
+		$scope.$on 'resetAnswer',(question)->
+			
+
+
+			if _.isArray($scope.user.visitorId)
+
+				# find the visitor id that is in the question's respondnets
+				visitorId = _.intersection $scope.card.respondents, $scope.user.visitorId
+
+			else
+
+				# find the visitor id that is in the question's respondnets
+				visitorId = _.intersection $scope.card.respondents,[$scope.user.visitorId]
+			
+			# get the first element of the visitor id in the array			
+			visitorId = visitorId[0]
+
+
+			# if user is logged in
+			if User.user
+
+				# find if the question respondnets hold the user's id
+				userId = _.intersection $scope.card.respondents,[User.user._id]
+				userId = userId[0]
+				
+				# if the question holds the user's id, then ignore visitorId
+				if userId 
+					visitorId = 0
+				
+				else 
+					userId = 0
+			else
+				visitorId = User.visitor._id
+			
+			if not visitorId or visitorId is undefined then visitorId = 0
+			
+			if not userId or userId is undefined then userId = 0
+			
+
+			
+			
+
+
+			#shows the main question section
+			$scope.submitted = false
+			
+			
+
+
+			# decrement the total resonse for the reset
+			$scope.card.totalResponses--
+			# remove the user's id from the question's respondendents array
+			if userId 
+				indexOfRespondents = $scope.card.respondents.indexOf(userId)
+			else
+				indexOfRespondents = $scope.card.respondents.indexOf(visitorId)
+			
+			$scope.card.respondents.splice(indexOfRespondents,1)
+
+			# -- remove the question id from the user's questionAnswered Array -- #			
+			# 1: get the question id
+			questionId = $scope.card._id
+			
+			
+			if User.user
+				found = _.find User.user.questionsAnswered,(answer)->
+					answer._id == questionId
+			else 
+				found = _.find $scope.user.questionsAnswered,(answer)->
+					answer._id == questionId
+
+			
+			# # 4: find which option the user chose for the question
+			# foundAnswered = _.find $scope.user.questionsAnswered, (answer)->
+			# 	answer._id == foundAnswerId
+
+			# find the question option, which the user chose for the question
+			foundOption = _.find $scope.card.option,(option)->
+			
+				option.title == found.answer
+
+			
+
+			# remove the user's id from the options's answeredBy array
+			if userId 
+				optionIndex = foundOption.answeredBy.indexOf(userId)
+			else
+				optionIndex = foundOption.answeredBy.indexOf(visitorId)
+
+			foundOption.answeredBy.splice(optionIndex,1)
+			
+
+			# reset the server side data
+			# also remove all the data made when the user was in the visitor state
+			if User.user
+				UpdateUserInfo.reset(
+					questionId 	: questionId
+					userId 		: User.user._id
+				)
+
+
+			# using the found option, decrement the count for the reset
+			foundOption.count--
+
+			answers = _.pluck($scope.user.questionsAnswered,'_id')
+
+			# find the index of the question id in the user's array
+			index = answers.indexOf(questionId)
+			
+			# remove the question id from the user's array
+			_.find $scope.user.questionsAnswered,(answer)->
+				
+				if answer._id == questionId
+					
+					$scope.user.questionsAnswered.splice(index,1)
+				
+
+
+
+			# takes out all the user id 
+
+			_.each $scope.card.targets,(target,index)->
+				_.find target.lists,(list,index)->
+					
+					if _.contains(list.answeredBy,userId) || _.contains(list.answeredBy,visitorId)
+				
+						if userId then list.answeredBy = _.without(list.answeredBy,userId)
+						if visitorId then list.answeredBy = _.without(list.answeredBy,visitorId)
+						
+						UpdateQuestion.removeFiltersAnswer(
+							questionId 			: $scope.card._id
+							userId 				: userId
+							visitorId 			: visitorId
+							title 				: "0"
+							filterId 			: target._id
+							index 				: index
+						)
+
+			
+		
+			UpdateQuestion.removeAnswer(
+				questionId 			: questionId
+				userId 				: userId
+				title 				: escape(foundOption.title)
+				filterId 			: 0
+				index 				: 0
+				visitorId   		: visitorId
+			)
+		
+				
+			# reset the chosen answers
+			$scope.answer = ''	
+			
+
+		$scope.$on 'logOff',(value)->
+			console.log "Log off from list"
+			$scope.submitted = false
+			$timeout ->
+				$scope.user = User.visitor
+				$scope.warning = false
+				$scope.favorite = false
+				$scope.submitted = false
+				$scope.user.questionsAnswered = []
+			,500,true
+
+
 		# ----------------- Utility functions ----------------- #
 		getColor = ()->
 			'#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6)
@@ -125,10 +298,7 @@ define ['underscore'], (_)->
 		$scope.favorite = false
 		# ***************  Functions *************** #
 		# loads the chart data when the page initially is loaded
-		$scope.$on 'userLoggedIn',(data)->
-			console.log "$scope.user = User.user"
-			$scope.user = User.user
-
+		
 
 		do ()->
 			
@@ -336,175 +506,7 @@ define ['underscore'], (_)->
 				
 		
 			
-		# ------------------ IO listeners ------------------ #
 		
-			
-		# reset everything	
-		$scope.$on 'resetAnswer',(question)->
-			
-
-
-			if _.isArray($scope.user.visitorId)
-
-				# find the visitor id that is in the question's respondnets
-				visitorId = _.intersection $scope.card.respondents, $scope.user.visitorId
-
-			else
-
-				# find the visitor id that is in the question's respondnets
-				visitorId = _.intersection $scope.card.respondents,[$scope.user.visitorId]
-			
-			# get the first element of the visitor id in the array			
-			visitorId = visitorId[0]
-
-
-			# if user is logged in
-			if User.user
-
-				# find if the question respondnets hold the user's id
-				userId = _.intersection $scope.card.respondents,[User.user._id]
-				userId = userId[0]
-				
-				# if the question holds the user's id, then ignore visitorId
-				if userId 
-					visitorId = 0
-				
-				else 
-					userId = 0
-			else
-				visitorId = User.visitor._id
-			
-			if not visitorId or visitorId is undefined then visitorId = 0
-			
-			if not userId or userId is undefined then userId = 0
-			
-
-			
-			
-
-
-			#shows the main question section
-			$scope.submitted = false
-			
-			
-
-
-			# decrement the total resonse for the reset
-			$scope.card.totalResponses--
-			# remove the user's id from the question's respondendents array
-			if userId 
-				indexOfRespondents = $scope.card.respondents.indexOf(userId)
-			else
-				indexOfRespondents = $scope.card.respondents.indexOf(visitorId)
-			
-			$scope.card.respondents.splice(indexOfRespondents,1)
-
-			# -- remove the question id from the user's questionAnswered Array -- #			
-			# 1: get the question id
-			questionId = $scope.card._id
-			
-			
-			if User.user
-				found = _.find User.user.questionsAnswered,(answer)->
-					answer._id == questionId
-			else 
-				found = _.find $scope.user.questionsAnswered,(answer)->
-					answer._id == questionId
-
-			
-			# # 4: find which option the user chose for the question
-			# foundAnswered = _.find $scope.user.questionsAnswered, (answer)->
-			# 	answer._id == foundAnswerId
-
-			# find the question option, which the user chose for the question
-			foundOption = _.find $scope.card.option,(option)->
-			
-				option.title == found.answer
-
-			
-
-			# remove the user's id from the options's answeredBy array
-			if userId 
-				optionIndex = foundOption.answeredBy.indexOf(userId)
-			else
-				optionIndex = foundOption.answeredBy.indexOf(visitorId)
-
-			foundOption.answeredBy.splice(optionIndex,1)
-			
-
-			# reset the server side data
-			# also remove all the data made when the user was in the visitor state
-			if User.user
-				UpdateUserInfo.reset(
-					questionId 	: questionId
-					userId 		: User.user._id
-				)
-
-
-			# using the found option, decrement the count for the reset
-			foundOption.count--
-
-			answers = _.pluck($scope.user.questionsAnswered,'_id')
-
-			# find the index of the question id in the user's array
-			index = answers.indexOf(questionId)
-			
-			# remove the question id from the user's array
-			_.find $scope.user.questionsAnswered,(answer)->
-				
-				if answer._id == questionId
-					
-					$scope.user.questionsAnswered.splice(index,1)
-				
-
-
-
-			# takes out all the user id 
-
-			_.each $scope.card.targets,(target,index)->
-				_.find target.lists,(list,index)->
-					
-					if _.contains(list.answeredBy,userId) || _.contains(list.answeredBy,visitorId)
-				
-						if userId then list.answeredBy = _.without(list.answeredBy,userId)
-						if visitorId then list.answeredBy = _.without(list.answeredBy,visitorId)
-						
-						UpdateQuestion.removeFiltersAnswer(
-							questionId 			: $scope.card._id
-							userId 				: userId
-							visitorId 			: visitorId
-							title 				: "0"
-							filterId 			: target._id
-							index 				: index
-						)
-
-			
-		
-			UpdateQuestion.removeAnswer(
-				questionId 			: questionId
-				userId 				: userId
-				title 				: escape(foundOption.title)
-				filterId 			: 0
-				index 				: 0
-				visitorId   		: visitorId
-			)
-		
-				
-			# reset the chosen answers
-			$scope.answer = ''	
-			
-
-		$scope.$on 'logOff',(value)->
-			console.log "Log off from list"
-			$scope.submitted = false
-			$timeout ->
-				$scope.user = User.visitor
-				$scope.warning = false
-				$scope.favorite = false
-				$scope.submitted = false
-				$scope.user.questionsAnswered = []
-			,500,true
-
 
 		# ------------- Scope Function ------------- #
 		

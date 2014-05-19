@@ -306,17 +306,18 @@ define ['underscore'], (_)->
 			
 
 			defer = $q.defer()
-			test = []
+			
 			defer.promise
 				.then ()->
 					data = []
 					_.each $scope.question.option,(option,index)->
 						
 						data[index] = option.answeredBy
-
+						
 						_.each $scope.filterGroup.filters,(filter)->
-
+							
 							data[index] = _.uniq(_.intersection data[index],filter.respondents)
+
 
 					_.each data,(filteredRespondents,index)->
 						$scope.filterGroup.answers[index].count = filteredRespondents.length

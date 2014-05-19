@@ -216,7 +216,6 @@
         user: loggedInUser,
         answer: null,
         checkState: function() {
-          console.log('test');
           return $rootScope.$broadcast('userLoggedIn', "main");
         }
       };

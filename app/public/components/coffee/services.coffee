@@ -247,7 +247,6 @@ define ['angular'], (angular) ->
 				user : loggedInUser
 				answer:null
 				checkState :  ->
-					console.log 'test'
 					$rootScope.$broadcast 'userLoggedIn',"main"
 
 

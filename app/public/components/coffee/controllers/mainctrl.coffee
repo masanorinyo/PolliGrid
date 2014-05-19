@@ -24,11 +24,50 @@ define ["underscore"], (_)->
 		capitaliseFirstLetter = (string)->
 			string.charAt(0).toUpperCase() + string.slice(1);
 		
-		# --------------- Models --------------- #					
+		# --------------- Event handler --------------- #					
 		$scope.$on 'userLoggedIn', (value)->
 			
-			$scope.user = User.user
+			$timeout ->
 			
+				$scope.user = User.user
+			
+			,200,true
+
+
+
+		
+		$scope.$on 'category-changed',(category)->
+			
+			$scope.changeCategory(capitaliseFirstLetter(Search.category))
+
+
+		
+
+		$scope.$on 'newQuestionAdded',(value)->
+			console.log "value"
+			console.log value
+			$scope.questions.unshift(NewQuestion.question)
+
+
+		$scope.$on 'downloadMoreQuestions',(value)->
+			Page.questionPage += 6
+			$scope.showLoader = true
+			
+			callback = -> 
+				$scope.showLoader = false
+
+
+
+			defer = $q.defer()
+			defer.promise
+				
+				.then -> searchSpecificQuestions()
+
+			defer.resolve(callback)
+
+		
+			
+
 		# if user is a returnee, then assign User.user
 		
 		if User.user
@@ -283,44 +322,6 @@ define ["underscore"], (_)->
 		# delays typing event
 		$scope.updateSearch = Debounce($scope.searchingQuestions, 500, false);
 		
-		
-		$scope.$on 'category-changed',(category)->
-			
-			$scope.changeCategory(capitaliseFirstLetter(Search.category))
-
-
-		
-
-		$scope.$on 'newQuestionAdded',(value)->
-			console.log "value"
-			console.log value
-			$scope.questions.unshift(NewQuestion.question)
-
-
-		$scope.$on 'downloadMoreQuestions',(value)->
-			Page.questionPage += 6
-			$scope.showLoader = true
-			
-			callback = -> 
-				$scope.showLoader = false
-
-
-
-			defer = $q.defer()
-			defer.promise
-				
-				.then -> searchSpecificQuestions()
-
-			defer.resolve(callback)
-
-		
-			
-
-			# $state.transitionTo($state.current, $stateParams, {
-			# 	reload: true
-			# 	inherit: false
-			# 	notify: true
-			# })
 		
 		$scope.logout = ()->
 		

@@ -6,7 +6,30 @@
         return string.charAt(0).toUpperCase() + string.slice(1);
       };
       $scope.$on('userLoggedIn', function(value) {
-        return $scope.user = User.user;
+        return $timeout(function() {
+          return $scope.user = User.user;
+        }, 200, true);
+      });
+      $scope.$on('category-changed', function(category) {
+        return $scope.changeCategory(capitaliseFirstLetter(Search.category));
+      });
+      $scope.$on('newQuestionAdded', function(value) {
+        console.log("value");
+        console.log(value);
+        return $scope.questions.unshift(NewQuestion.question);
+      });
+      $scope.$on('downloadMoreQuestions', function(value) {
+        var callback, defer;
+        Page.questionPage += 6;
+        $scope.showLoader = true;
+        callback = function() {
+          return $scope.showLoader = false;
+        };
+        defer = $q.defer();
+        defer.promise.then(function() {
+          return searchSpecificQuestions();
+        });
+        return defer.resolve(callback);
       });
       if (User.user) {
         $scope.user = User.user;
@@ -145,27 +168,6 @@
         return searchSpecificQuestions();
       };
       $scope.updateSearch = Debounce($scope.searchingQuestions, 500, false);
-      $scope.$on('category-changed', function(category) {
-        return $scope.changeCategory(capitaliseFirstLetter(Search.category));
-      });
-      $scope.$on('newQuestionAdded', function(value) {
-        console.log("value");
-        console.log(value);
-        return $scope.questions.unshift(NewQuestion.question);
-      });
-      $scope.$on('downloadMoreQuestions', function(value) {
-        var callback, defer;
-        Page.questionPage += 6;
-        $scope.showLoader = true;
-        callback = function() {
-          return $scope.showLoader = false;
-        };
-        defer = $q.defer();
-        defer.promise.then(function() {
-          return searchSpecificQuestions();
-        });
-        return defer.resolve(callback);
-      });
       $scope.logout = function() {
         var randLetter, uniqid;
         randLetter = String.fromCharCode(65 + Math.floor(Math.random() * 26));

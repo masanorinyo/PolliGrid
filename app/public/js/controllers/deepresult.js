@@ -128,7 +128,7 @@
         }
       };
       $scope.addFilter = function(answer, target) {
-        var category, defer, filter, filters, foundCategory, i, index, length, sameIdFound, test, users;
+        var category, defer, filter, filters, foundCategory, i, index, length, sameIdFound, users;
         users = $scope.question.respondents;
         filters = $scope.filterGroup.filters;
         answer.isAdded = !answer.isAdded;
@@ -196,7 +196,6 @@
           $scope.filterGroup.total = users.length;
         }
         defer = $q.defer();
-        test = [];
         defer.promise.then(function() {
           var data;
           data = [];

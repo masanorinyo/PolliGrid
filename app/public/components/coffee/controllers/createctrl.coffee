@@ -56,6 +56,7 @@ define ['underscore'], ( _ )->
 			creator 			: null
 			photo				: ""
 
+		$scope.numOfClicksForSubmit = 0
 	
 		
 
@@ -311,38 +312,45 @@ define ['underscore'], ( _ )->
 		# This will convert the temporary question into an actual question
 		$scope.completeQuestion = ()->
 			
-			$scope.completeButton = "..creating the question"
-			# get the number of added target audience questions
-			newQuestion.numOfFilters = _.size(newQuestion.targets)
 
-			# get the current time
-			newQuestion.created_at = new Date().getTime()			
+			# this will prevent multiple clicks on the submit 
+			$scope.numOfClicksForSubmit++
 
-			newQuestion.photo = User.user.profilePic
-			newQuestion.creatorName = User.user.username
-			newQuestion.creator = User.user._id
+			if $scope.numOfClicksForSubmit == 1
 
-			console.log newQuestion
+				$scope.completeButton = "..creating the question"
+				# get the number of added target audience questions
+				newQuestion.numOfFilters = _.size(newQuestion.targets)
 
-			_.each newQuestion.option, (option,index)->
-				bullet = "["+index+"] - "
-				questionLists = questionLists.concat(bullet,option.title,"\n")
+				# get the current time
+				newQuestion.created_at = new Date().getTime()			
 
-			Question.save(newQuestion,(data)->
-				utility.isQuestionCreated 		= false
-				utility.isQuestionCompleted 	= true
-				$scope.completeButton = "Next"
-				NewQuestion.question = data
-				$rootScope.$broadcast 'newQuestionAdded',newQuestion
-				User.user.questionMade.push(data._id)
-				link = window.location.origin
-				$scope.sharableLink = link.concat("/#/question/",data._id)
-				text = data.question + " - "+$scope.sharableLink
-				text = escape(text)
-				$scope.twitterShareText = 'https://twitter.com/intent/tweet?text='+text
-				$scope.googleShareText = "https://plus.google.com/share?url="+$scope.sharableLink
-				$scope.showShareForm = true
-			)
+				newQuestion.photo = User.user.profilePic
+				newQuestion.creatorName = User.user.username
+				newQuestion.creator = User.user._id
+
+				console.log newQuestion
+
+				_.each newQuestion.option, (option,index)->
+					bullet = "["+index+"] - "
+					questionLists = questionLists.concat(bullet,option.title,"\n")
+
+				Question.save(newQuestion,(data)->
+					utility.isQuestionCreated 		= false
+					utility.isQuestionCompleted 	= true
+					$scope.completeButton = "Next"
+					NewQuestion.question = data
+					$rootScope.$broadcast 'newQuestionAdded',newQuestion
+					User.user.questionMade.push(data._id)
+					link = window.location.origin
+					$scope.sharableLink = link.concat("/#/question/",data._id)
+					text = data.question + " - "+$scope.sharableLink
+					text = escape(text)
+					$scope.twitterShareText = 'https://twitter.com/intent/tweet?text='+text
+					$scope.googleShareText = "https://plus.google.com/share?url="+$scope.sharableLink
+					$scope.showShareForm = true
+					$scope.numOfClicksForSubmit = 0
+				)
 				
 		
 		

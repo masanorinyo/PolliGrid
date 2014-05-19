@@ -32,6 +32,7 @@
         creator: null,
         photo: ""
       };
+      $scope.numOfClicksForSubmit = 0;
       $scope.sharableLink = '';
       $scope.showShareForm = false;
       $scope.showDetails = false;
@@ -179,34 +180,38 @@
         }
       };
       $scope.completeQuestion = function() {
-        $scope.completeButton = "..creating the question";
-        newQuestion.numOfFilters = _.size(newQuestion.targets);
-        newQuestion.created_at = new Date().getTime();
-        newQuestion.photo = User.user.profilePic;
-        newQuestion.creatorName = User.user.username;
-        newQuestion.creator = User.user._id;
-        console.log(newQuestion);
-        _.each(newQuestion.option, function(option, index) {
-          var bullet;
-          bullet = "[" + index + "] - ";
-          return questionLists = questionLists.concat(bullet, option.title, "\n");
-        });
-        return Question.save(newQuestion, function(data) {
-          var link, text;
-          utility.isQuestionCreated = false;
-          utility.isQuestionCompleted = true;
-          $scope.completeButton = "Next";
-          NewQuestion.question = data;
-          $rootScope.$broadcast('newQuestionAdded', newQuestion);
-          User.user.questionMade.push(data._id);
-          link = window.location.origin;
-          $scope.sharableLink = link.concat("/#/question/", data._id);
-          text = data.question + " - " + $scope.sharableLink;
-          text = escape(text);
-          $scope.twitterShareText = 'https://twitter.com/intent/tweet?text=' + text;
-          $scope.googleShareText = "https://plus.google.com/share?url=" + $scope.sharableLink;
-          return $scope.showShareForm = true;
-        });
+        $scope.numOfClicksForSubmit++;
+        if ($scope.numOfClicksForSubmit === 1) {
+          $scope.completeButton = "..creating the question";
+          newQuestion.numOfFilters = _.size(newQuestion.targets);
+          newQuestion.created_at = new Date().getTime();
+          newQuestion.photo = User.user.profilePic;
+          newQuestion.creatorName = User.user.username;
+          newQuestion.creator = User.user._id;
+          console.log(newQuestion);
+          _.each(newQuestion.option, function(option, index) {
+            var bullet;
+            bullet = "[" + index + "] - ";
+            return questionLists = questionLists.concat(bullet, option.title, "\n");
+          });
+          return Question.save(newQuestion, function(data) {
+            var link, text;
+            utility.isQuestionCreated = false;
+            utility.isQuestionCompleted = true;
+            $scope.completeButton = "Next";
+            NewQuestion.question = data;
+            $rootScope.$broadcast('newQuestionAdded', newQuestion);
+            User.user.questionMade.push(data._id);
+            link = window.location.origin;
+            $scope.sharableLink = link.concat("/#/question/", data._id);
+            text = data.question + " - " + $scope.sharableLink;
+            text = escape(text);
+            $scope.twitterShareText = 'https://twitter.com/intent/tweet?text=' + text;
+            $scope.googleShareText = "https://plus.google.com/share?url=" + $scope.sharableLink;
+            $scope.showShareForm = true;
+            return $scope.numOfClicksForSubmit = 0;
+          });
+        }
       };
       $scope.shareFacebook = function() {
         return FB.ui({

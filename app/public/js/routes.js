@@ -136,15 +136,15 @@
             }).success(function(data) {
               if (data) {
                 ipCookie.remove("loggedInUser");
-                console.log(data.isLoggedIn = true);
-                console.log(data);
+                data.isLoggedIn = true;
+                User.user = data;
                 ipCookie("loggedInUser", data, {
                   expires: 365
                 });
                 $location.path('/verification/auth/success');
                 return $timeout(function() {
                   return User.checkState();
-                }, 200, true);
+                }, 500, true);
               } else {
                 return $location.path('/verification/auth/fail');
               }

@@ -2,6 +2,117 @@
   define(['underscore'], function(_) {
     return function($scope, $location, $state, $stateParams, $timeout, $q, $http, FindQuestions, User, Filters, Error, Search, UpdateQuestion, Question, Page, UpdateUserInfo) {
       var getColor, getData, targetQ;
+      $scope.$on('userLoggedIn', function(data) {
+        console.log("$scope.user = User.user");
+        return $scope.user = User.user;
+      });
+      $scope.$on('resetAnswer', function(question) {
+        var answers, found, foundOption, index, indexOfRespondents, optionIndex, questionId, userId, visitorId;
+        if (_.isArray($scope.user.visitorId)) {
+          visitorId = _.intersection($scope.card.respondents, $scope.user.visitorId);
+        } else {
+          visitorId = _.intersection($scope.card.respondents, [$scope.user.visitorId]);
+        }
+        visitorId = visitorId[0];
+        if (User.user) {
+          userId = _.intersection($scope.card.respondents, [User.user._id]);
+          userId = userId[0];
+          if (userId) {
+            visitorId = 0;
+          } else {
+            userId = 0;
+          }
+        } else {
+          visitorId = User.visitor._id;
+        }
+        if (!visitorId || visitorId === void 0) {
+          visitorId = 0;
+        }
+        if (!userId || userId === void 0) {
+          userId = 0;
+        }
+        $scope.submitted = false;
+        $scope.card.totalResponses--;
+        if (userId) {
+          indexOfRespondents = $scope.card.respondents.indexOf(userId);
+        } else {
+          indexOfRespondents = $scope.card.respondents.indexOf(visitorId);
+        }
+        $scope.card.respondents.splice(indexOfRespondents, 1);
+        questionId = $scope.card._id;
+        if (User.user) {
+          found = _.find(User.user.questionsAnswered, function(answer) {
+            return answer._id === questionId;
+          });
+        } else {
+          found = _.find($scope.user.questionsAnswered, function(answer) {
+            return answer._id === questionId;
+          });
+        }
+        foundOption = _.find($scope.card.option, function(option) {
+          return option.title === found.answer;
+        });
+        if (userId) {
+          optionIndex = foundOption.answeredBy.indexOf(userId);
+        } else {
+          optionIndex = foundOption.answeredBy.indexOf(visitorId);
+        }
+        foundOption.answeredBy.splice(optionIndex, 1);
+        if (User.user) {
+          UpdateUserInfo.reset({
+            questionId: questionId,
+            userId: User.user._id
+          });
+        }
+        foundOption.count--;
+        answers = _.pluck($scope.user.questionsAnswered, '_id');
+        index = answers.indexOf(questionId);
+        _.find($scope.user.questionsAnswered, function(answer) {
+          if (answer._id === questionId) {
+            return $scope.user.questionsAnswered.splice(index, 1);
+          }
+        });
+        _.each($scope.card.targets, function(target, index) {
+          return _.find(target.lists, function(list, index) {
+            if (_.contains(list.answeredBy, userId) || _.contains(list.answeredBy, visitorId)) {
+              if (userId) {
+                list.answeredBy = _.without(list.answeredBy, userId);
+              }
+              if (visitorId) {
+                list.answeredBy = _.without(list.answeredBy, visitorId);
+              }
+              return UpdateQuestion.removeFiltersAnswer({
+                questionId: $scope.card._id,
+                userId: userId,
+                visitorId: visitorId,
+                title: "0",
+                filterId: target._id,
+                index: index
+              });
+            }
+          });
+        });
+        UpdateQuestion.removeAnswer({
+          questionId: questionId,
+          userId: userId,
+          title: escape(foundOption.title),
+          filterId: 0,
+          index: 0,
+          visitorId: visitorId
+        });
+        return $scope.answer = '';
+      });
+      $scope.$on('logOff', function(value) {
+        console.log("Log off from list");
+        $scope.submitted = false;
+        return $timeout(function() {
+          $scope.user = User.visitor;
+          $scope.warning = false;
+          $scope.favorite = false;
+          $scope.submitted = false;
+          return $scope.user.questionsAnswered = [];
+        }, 500, true);
+      });
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
       };
@@ -50,10 +161,6 @@
       };
       $scope.warning = false;
       $scope.favorite = false;
-      $scope.$on('userLoggedIn', function(data) {
-        console.log("$scope.user = User.user");
-        return $scope.user = User.user;
-      });
       (function() {
         var defer;
         defer = $q.defer();
@@ -177,113 +284,6 @@
           return $location.path('/signup');
         }
       };
-      $scope.$on('resetAnswer', function(question) {
-        var answers, found, foundOption, index, indexOfRespondents, optionIndex, questionId, userId, visitorId;
-        if (_.isArray($scope.user.visitorId)) {
-          visitorId = _.intersection($scope.card.respondents, $scope.user.visitorId);
-        } else {
-          visitorId = _.intersection($scope.card.respondents, [$scope.user.visitorId]);
-        }
-        visitorId = visitorId[0];
-        if (User.user) {
-          userId = _.intersection($scope.card.respondents, [User.user._id]);
-          userId = userId[0];
-          if (userId) {
-            visitorId = 0;
-          } else {
-            userId = 0;
-          }
-        } else {
-          visitorId = User.visitor._id;
-        }
-        if (!visitorId || visitorId === void 0) {
-          visitorId = 0;
-        }
-        if (!userId || userId === void 0) {
-          userId = 0;
-        }
-        $scope.submitted = false;
-        $scope.card.totalResponses--;
-        if (userId) {
-          indexOfRespondents = $scope.card.respondents.indexOf(userId);
-        } else {
-          indexOfRespondents = $scope.card.respondents.indexOf(visitorId);
-        }
-        $scope.card.respondents.splice(indexOfRespondents, 1);
-        questionId = $scope.card._id;
-        if (User.user) {
-          found = _.find(User.user.questionsAnswered, function(answer) {
-            return answer._id === questionId;
-          });
-        } else {
-          found = _.find($scope.user.questionsAnswered, function(answer) {
-            return answer._id === questionId;
-          });
-        }
-        foundOption = _.find($scope.card.option, function(option) {
-          return option.title === found.answer;
-        });
-        if (userId) {
-          optionIndex = foundOption.answeredBy.indexOf(userId);
-        } else {
-          optionIndex = foundOption.answeredBy.indexOf(visitorId);
-        }
-        foundOption.answeredBy.splice(optionIndex, 1);
-        if (User.user) {
-          UpdateUserInfo.reset({
-            questionId: questionId,
-            userId: User.user._id
-          });
-        }
-        foundOption.count--;
-        answers = _.pluck($scope.user.questionsAnswered, '_id');
-        index = answers.indexOf(questionId);
-        _.find($scope.user.questionsAnswered, function(answer) {
-          if (answer._id === questionId) {
-            return $scope.user.questionsAnswered.splice(index, 1);
-          }
-        });
-        _.each($scope.card.targets, function(target, index) {
-          return _.find(target.lists, function(list, index) {
-            if (_.contains(list.answeredBy, userId) || _.contains(list.answeredBy, visitorId)) {
-              if (userId) {
-                list.answeredBy = _.without(list.answeredBy, userId);
-              }
-              if (visitorId) {
-                list.answeredBy = _.without(list.answeredBy, visitorId);
-              }
-              return UpdateQuestion.removeFiltersAnswer({
-                questionId: $scope.card._id,
-                userId: userId,
-                visitorId: visitorId,
-                title: "0",
-                filterId: target._id,
-                index: index
-              });
-            }
-          });
-        });
-        UpdateQuestion.removeAnswer({
-          questionId: questionId,
-          userId: userId,
-          title: escape(foundOption.title),
-          filterId: 0,
-          index: 0,
-          visitorId: visitorId
-        });
-        return $scope.answer = '';
-      });
-      $scope.$on('logOff', function(value) {
-        console.log("Log off from list");
-        $scope.submitted = false;
-        return $timeout(function() {
-          $scope.user = User.visitor;
-          $scope.warning = false;
-          $scope.favorite = false;
-          $scope.submitted = false;
-          return $scope.user.questionsAnswered = [];
-        }, 500, true);
-      });
       $scope.closeModal = function() {
         $scope.$dismiss();
         return $timeout(function() {

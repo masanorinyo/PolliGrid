@@ -9,6 +9,37 @@ define ['underscore'], (_)->
 		UpdateUserInfo
 	)->
 
+		# ------------------------ Event handler ------------------------#
+		# when user logs off
+		$scope.$on "logOff",(result)->
+			
+			$timeout ->
+				$scope.areAllQuestionAnswered = false
+				$scope.showResult = false
+				# $scope.card.alreadyAnswered = false
+
+		$scope.$on "showGraph", (result)->
+			
+			$scope.showResult = true
+			
+		# when users answer to a main question,
+		# check if the user already answered to all its filter questions
+		$scope.$on 'answerSubmitted',(message)->
+
+
+
+			checkFilterQuestionStatus('')
+			
+			$timeout ()->
+			
+				skipThroughFilterQuestions()
+				
+
+			,300,true
+		
+		
+
+
 		# ------------------ Utility functions ------------------ #		
 		
 		# check to see if all the filter question is answered
@@ -108,17 +139,17 @@ define ['underscore'], (_)->
 					userAlreadyAnswered = false
 					
 					_.each $scope.card.targets[i].lists,(list,index)->
-						if _.contains(list.answeredBy,$scope.user._id)
+						if _.contains(list.answeredBy,$scope.user._id) && _.contains($scope.card.respondents,$scope.user._id)
 							
 							userAlreadyAnswered = true
 						
-						# else
+						else
 
-						# 	_.each $scope.user.visitorId,(vid)->
-						# 		if _.contains(list.answeredBy,vid)
-						# 			console.log 'contains user id'
-						# 			console.log list.answeredBy
-						# 			userAlreadyAnswered = true
+							_.each $scope.user.visitorId,(vid)->
+								if _.contains(list.answeredBy,vid) && _.contains($scope.card.respondents,vid)
+									console.log 'contains user id'
+									console.log list.answeredBy
+									userAlreadyAnswered = true
 
 
 					
@@ -366,33 +397,6 @@ define ['underscore'], (_)->
 			# send the information to the upper scopes
 			$scope.$emit('resetAnswer',question)
 			
-		# when user logs off
-		$scope.$on "logOff",(result)->
-			
-			$timeout ->
-				$scope.areAllQuestionAnswered = false
-				$scope.showResult = false
-				# $scope.card.alreadyAnswered = false
-
-		$scope.$on "showGraph", (result)->
-			
-			$scope.showResult = true
-			
-		# when users answer to a main question,
-		# check if the user already answered to all its filter questions
-		$scope.$on 'answerSubmitted',(message)->
-
-
-
-			checkFilterQuestionStatus('')
-			
-			$timeout ()->
-			
-				skipThroughFilterQuestions()
-				
-
-			,300,true
-		
 		
 		
 		# ------------------ Invoke the scope ------------------ #		
