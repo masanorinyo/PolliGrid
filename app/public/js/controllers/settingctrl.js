@@ -3,7 +3,8 @@
     return function($scope, $location, $modal, $stateParams, $timeout, $http, $q, Question, User, Page, Filters, Error, Setting, FindQuestions, Verification, location) {
       var findQuestion, showAnswers, showDeepResult, showFavorites, showFilters, showQuestions;
       $scope.type = $stateParams.type;
-      $scope.id = $stateParams.id;
+      console.log($scope.id = "$stateParams.id");
+      console.log($scope.id = $stateParams.id);
       $scope.onMyPage = false;
       $scope.showLoader = false;
       $scope.anyContentsLeft = false;
@@ -208,9 +209,11 @@
           if (user._id === void 0) {
             return $location.path('/');
           } else {
-            if (User.user._id === $scope.id) {
-              $scope.user = User.user;
-              $scope.onMyPage = true;
+            if (User.user) {
+              if (User.user._id === $scope.id) {
+                $scope.user = User.user;
+                $scope.onMyPage = true;
+              }
             } else {
               $scope.questionsCreatedByAnother = user.questionMade;
               $scope.anotherUser.username = user.username;

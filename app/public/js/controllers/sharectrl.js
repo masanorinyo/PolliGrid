@@ -2,19 +2,23 @@
   define([], function() {
     return function($scope, $modalInstance, $stateParams, $location, $timeout, Setting, Question) {
       var link, lists, question, sharableLink;
-      if (Setting.questionId) {
-        $scope.questionId = Setting.questionId;
-      } else {
-        $scope.questionId = $stateParams.id;
-      }
-      link = window.location.origin;
-      sharableLink = $scope.sharableLink = link.concat("/#/question/", $scope.questionId);
-      $scope.showShareForm = false;
+      link = '';
+      sharableLink = '';
+      lists = '';
+      question = '';
+      (function() {
+        if (Setting.questionId) {
+          $scope.questionId = Setting.questionId;
+        } else {
+          $scope.questionId = $stateParams.id;
+        }
+        link = window.location.origin;
+        sharableLink = $scope.sharableLink = link.concat("/#/question/", $scope.questionId);
+        return $scope.showShareForm = false;
+      })();
       $scope.closeModal = function() {
         return $scope.$dismiss();
       };
-      lists = '';
-      question = '';
       Question.get({
         questionId: $scope.questionId
       }).$promise.then(function(data) {
@@ -38,8 +42,8 @@
           name: question,
           link: sharableLink,
           picture: "http://www.hyperarts.com/external-xfbml/share-image.gif",
-          caption: lists,
-          description: "PolliGrid lets you analyze people's optinions from different angles",
+          caption: "PolliGrid lets you analyze people's optinions from different angles",
+          description: lists,
           message: ''
         });
       };

@@ -9,21 +9,25 @@ define [], ()->
 		Question
 	)->
 		
+		link = ''
+		sharableLink = ''
+		lists = ''
+		question = ''
+
+		do ()->
+			# (issue)  check if this is necessary
+			if Setting.questionId
+				$scope.questionId = Setting.questionId
+			else 
+				$scope.questionId = $stateParams.id
+			
 
 
-		# (issue)  check if this is necessary
-		if Setting.questionId
-			$scope.questionId = Setting.questionId
-		else 
-			$scope.questionId = $stateParams.id
-		
+			link = window.location.origin
+			
+			sharableLink = $scope.sharableLink = link.concat("/#/question/",$scope.questionId)
 
-
-		link = window.location.origin
-		
-		sharableLink = $scope.sharableLink = link.concat("/#/question/",$scope.questionId)
-
-		$scope.showShareForm = false
+			$scope.showShareForm = false
 
 
 
@@ -32,8 +36,7 @@ define [], ()->
 			$scope.$dismiss()
 
 
-		lists = ''
-		question = ''
+		
 		Question.get({questionId:$scope.questionId}).$promise.then (data)->
 		
 			question = data.question.concat("\n")
@@ -57,8 +60,8 @@ define [], ()->
 		        name: question
 		        link: sharableLink
 		        picture: "http://www.hyperarts.com/external-xfbml/share-image.gif"
-		        caption: lists
-		        description: "PolliGrid lets you analyze people's optinions from different angles"
+		        caption: "PolliGrid lets you analyze people's optinions from different angles"
+		        description:lists 
 		        message: ''
 		    )
 

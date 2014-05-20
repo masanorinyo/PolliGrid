@@ -189,7 +189,7 @@ define ['underscore'], (_)->
 				$scope.favorite = false
 				$scope.submitted = false
 				$scope.user.questionsAnswered = []
-			,500,true
+			,600,true
 
 
 		# ----------------- Utility functions ----------------- #

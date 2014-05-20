@@ -111,7 +111,7 @@
           $scope.favorite = false;
           $scope.submitted = false;
           return $scope.user.questionsAnswered = [];
-        }, 500, true);
+        }, 600, true);
       });
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);

@@ -19,7 +19,10 @@ define ['underscore'], (_)->
 	)->
 
 		$scope.type = $stateParams.type
-		$scope.id = $stateParams.id
+		console.log $scope.id = "$stateParams.id"
+		console.log $scope.id = $stateParams.id
+
+
 		$scope.onMyPage = false
 		$scope.showLoader = false
 		$scope.anyContentsLeft = false
@@ -293,7 +296,7 @@ define ['underscore'], (_)->
 		
 		# -------------------------- for initial load --------------------------#
 		do ()->
-
+			
 			$http 
 				method:"GET"
 				url:"/api/getUser"
@@ -312,9 +315,10 @@ define ['underscore'], (_)->
 
 				else 
 
-					if User.user._id == $scope.id 
-						$scope.user = User.user
-						$scope.onMyPage = true
+					if User.user
+						if User.user._id  == $scope.id 
+							$scope.user = User.user
+							$scope.onMyPage = true
 
 					else 
 						$scope.questionsCreatedByAnother = user.questionMade
