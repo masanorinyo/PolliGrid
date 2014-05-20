@@ -208,12 +208,19 @@ define ['underscore'], (_)->
 				title = obj.title
 				color = getColor()
 				
+				# if the length of option is longer than 3 words or 10 characters
+				if title.split(/\s+/).length > 3 or title.length > 10
+					maxLength 		= 20
+					trimmedTitle 	= title.substr(0, maxLength)
+					title 			= trimmedTitle.substr(0, Math.min(trimmedTitle.length, trimmedTitle.lastIndexOf(" ")))
+					title  			= title.concat("..")
+
 				data =
 					value 			: count
 					color 			: color
 					label 			: title
 					labelColor 		: "#FEFEFE"
-					labelFontSize 	: "18"
+					labelFontSize 	: "15"
 					labelAlign 		: 'center'
 
 				$scope.myChartData.push data

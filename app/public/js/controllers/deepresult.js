@@ -10,7 +10,7 @@
         return percentage = Math.floor((num / overall) * 100);
       };
       getData = function(message) {
-        var color, count, data, i, len, obj, ref, title;
+        var color, count, data, i, len, maxLength, obj, ref, title, trimmedTitle;
         $scope.myChartDataDeep = [];
         $scope.myChartInfo.datasets[1].data = [];
         if (message === 'createOverallPieData') {
@@ -25,12 +25,18 @@
           count = obj.count;
           title = obj.title;
           color = getColor();
+          if (title.split(/\s+/).length > 3 || title.length > 10) {
+            maxLength = 20;
+            trimmedTitle = title.substr(0, maxLength);
+            title = trimmedTitle.substr(0, Math.min(trimmedTitle.length, trimmedTitle.lastIndexOf(" ")));
+            title = title.concat("..");
+          }
           data = {
             value: count,
             color: color,
             label: title,
             labelColor: "#FEFEFE",
-            labelFontSize: "18",
+            labelFontSize: "15",
             labelAlign: 'center'
           };
           if (message === 'createOverallPieData') {
@@ -256,7 +262,15 @@
           var data, i, length, targetId, targetTitle, targets;
           getData('createOverallPieData');
           _.each($scope.question.option, function(option) {
-            $scope.myChartInfo.labels.push(option.title);
+            var maxLength, title, trimmedTitle;
+            title = option.title;
+            if (title.split(/\s+/).length > 2 || title.length > 8) {
+              maxLength = 10;
+              trimmedTitle = title.substr(0, maxLength);
+              title = trimmedTitle.substr(0, Math.min(trimmedTitle.length, trimmedTitle.lastIndexOf(" ")));
+              title = title.concat("..");
+            }
+            $scope.myChartInfo.labels.push(title);
             return $scope.myChartInfo.datasets[0].data.push(option.count);
           });
           if ($scope.myChartInfo.labels.length <= 2) {
@@ -299,26 +313,27 @@
             i++;
           }
           return _.each($scope.question.option, function(obj) {
-            var filteredDataForDonut, overallDataForDonut, percentage;
+            var filteredDataForDonut, overallDataForDonut, percentage, title;
             percentage = parseInt(getPercentage(obj.count, $scope.question.totalResponses));
+            title = obj.title;
             overallDataForDonut = [
               {
-                label: obj.title,
+                label: title,
                 value: percentage,
                 color: "rgb(100,250,245)"
               }, {
-                label: obj.title,
+                label: title,
                 value: 100 - percentage,
                 color: "rgb(235,235,235)"
               }
             ];
             filteredDataForDonut = [
               {
-                label: obj.title,
+                label: title,
                 value: 0,
                 color: "rgb(100,150,245)"
               }, {
-                label: obj.title,
+                label: title,
                 value: 100,
                 color: "rgb(235,235,235)"
               }

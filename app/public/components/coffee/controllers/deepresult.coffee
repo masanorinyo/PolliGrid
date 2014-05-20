@@ -38,12 +38,19 @@ define ['underscore'], (_)->
 				title = obj.title
 				color = getColor()
 				
+				# if the length of option is longer than 3 words or 10 characters
+				if title.split(/\s+/).length > 3 or title.length > 10
+					maxLength 		= 20
+					trimmedTitle 	= title.substr(0, maxLength)
+					title 			= trimmedTitle.substr(0, Math.min(trimmedTitle.length, trimmedTitle.lastIndexOf(" ")))
+					title  			= title.concat("..")
+
 				data =
 					value 			: count
 					color 			: color
 					label 			: title
 					labelColor 		: "#FEFEFE"
-					labelFontSize 	: "18"
+					labelFontSize 	: "15"
 					labelAlign 		: 'center'
 
 				if message == 'createOverallPieData'
@@ -391,7 +398,16 @@ define ['underscore'], (_)->
 
 					#load information of overall for other charts
 					_.each $scope.question.option,(option)->
-						$scope.myChartInfo.labels.push(option.title)
+						title = option.title 
+						# if the length of option is longer than 3 words or 10 characters
+						if title.split(/\s+/).length > 2 or title.length > 8
+							maxLength 		= 10
+							trimmedTitle 	= title.substr(0, maxLength)
+							title 			= trimmedTitle.substr(0, Math.min(trimmedTitle.length, trimmedTitle.lastIndexOf(" ")))
+							title  			= title.concat("..")
+
+
+						$scope.myChartInfo.labels.push(title)
 						$scope.myChartInfo.datasets[0].data.push(option.count)
 						
 					# if the number of question options is less than 2
@@ -455,24 +471,25 @@ define ['underscore'], (_)->
 
 						percentage = parseInt(getPercentage(obj.count,$scope.question.totalResponses))
 						
+						title = obj.title
 						
 						overallDataForDonut = [ 
-								label : obj.title
+								label : title
 								value : percentage
 								color : "rgb(100,250,245)"
 							,
-								label : obj.title
+								label : title
 								value : 100-percentage
 								color : "rgb(235,235,235)"
 						]
 
 						filteredDataForDonut =[
 
-								label : obj.title
+								label : title
 								value: 0
 								color: "rgb(100,150,245)"
 							,
-								label : obj.title
+								label : title
 								value : 100
 								color: "rgb(235,235,235)"
 						]

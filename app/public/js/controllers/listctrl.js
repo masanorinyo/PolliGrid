@@ -115,7 +115,7 @@
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
       };
       getData = function() {
-        var color, count, data, i, len, obj, ref, title;
+        var color, count, data, i, len, maxLength, obj, ref, title, trimmedTitle;
         $scope.myChartData = [];
         ref = $scope.card.option;
         i = 0;
@@ -125,12 +125,18 @@
           count = obj.count;
           title = obj.title;
           color = getColor();
+          if (title.split(/\s+/).length > 3 || title.length > 10) {
+            maxLength = 20;
+            trimmedTitle = title.substr(0, maxLength);
+            title = trimmedTitle.substr(0, Math.min(trimmedTitle.length, trimmedTitle.lastIndexOf(" ")));
+            title = title.concat("..");
+          }
           data = {
             value: count,
             color: color,
             label: title,
             labelColor: "#FEFEFE",
-            labelFontSize: "18",
+            labelFontSize: "15",
             labelAlign: 'center'
           };
           $scope.myChartData.push(data);
