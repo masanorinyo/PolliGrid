@@ -179,6 +179,7 @@
         User.user = null;
         $scope.user = null;
         ipCookie.remove("loggedInUser");
+        Setting.isSetting = false;
         $scope.$broadcast('logOff', User.visitor);
         $location.path('/');
         return $http({

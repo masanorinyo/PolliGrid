@@ -58,13 +58,12 @@
 							<canvas ng-show="areAllQuestionAnswered"  piechart options="myChartOptions" class="chart-main" data="myChartData" width="320" height="320"></canvas>
 						</div>
 
-					    
-						<button ng-hide="isAccessedViaLink" ng-click="resetAnswer(card)" class="reset-button bigger btn btn-default">
-							Reset
+						<!-- If the question is accessed via an external link, show this button. This won't refresh the page -->
+						<button ng-if="!user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.signupRedirect({id:question._id})" class="submit-button bigger btn btn-success">
+						See deep result
 						</button>
-
 						
-						<button ui-sref="home.deepResult({id:card._id})" class="submit-button bigger btn btn-success">
+						<button ng-if="user.isLoggedIn" ui-sref="home.deepResult({id:card._id})" class="submit-button bigger btn btn-success">
 							See deep result
 						</button>
 					</div>

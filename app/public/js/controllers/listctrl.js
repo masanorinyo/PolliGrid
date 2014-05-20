@@ -1,6 +1,6 @@
 (function() {
   define(['underscore'], function(_) {
-    return function($scope, $location, $state, $stateParams, $timeout, $q, $http, FindQuestions, User, Filters, Error, Search, UpdateQuestion, Question, Page, UpdateUserInfo) {
+    return function($scope, $location, $state, $stateParams, $timeout, $q, $http, FindQuestions, User, Filters, Error, Search, UpdateQuestion, Question, Page, UpdateUserInfo, Setting) {
       var getColor, getData, targetQ;
       $scope.$on('userLoggedIn', function(data) {
         console.log("$scope.user = User.user");
@@ -167,7 +167,6 @@
       $scope.favorite = false;
       (function() {
         var answeredQuestions, defer;
-        $scope.card.alreadyAnswered = false;
         answeredQuestions = null;
         defer = $q.defer();
         defer.promise.then(function() {
@@ -202,6 +201,11 @@
             });
           } else {
             return $scope.cards = FindQuestions["default"]();
+          }
+        }).then(function() {
+          if (!Setting.isSetting && !$scope.isAccessedViaLink) {
+            console.log('Reset the question status');
+            return $scope.card.alreadyAnswered = false;
           }
         }).then(function() {
           if ($scope.question) {

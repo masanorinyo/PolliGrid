@@ -89,12 +89,11 @@
           }
         }
       }).state("verify", {
-        url: 'verification/:type/:result',
+        url: '/verification/:type/:result',
         onEnter: function($stateParams, $location, Account) {
           var result, type;
           result = $stateParams.result;
           type = $stateParams.type;
-          console.log('test');
           if (type === "email") {
             if (result === "success") {
               Account.verifiedMessage("Your account is successfully verified", 'success');

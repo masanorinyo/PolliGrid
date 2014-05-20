@@ -136,12 +136,13 @@ define(
 
 				.state "verify",
 					
-					url:'verification/:type/:result'
+					url:'/verification/:type/:result'
 
 					onEnter:($stateParams,$location,Account)->
 						result = $stateParams.result
 						type = $stateParams.type
-						console.log 'test'
+						
+						
 
 						if type == "email"
 							if result == "success"
@@ -164,7 +165,7 @@ define(
 								$location.path('/')						
 
 						else if type =="auth"
-						
+							
 							if result == "success"
 								Account.verifiedMessage("Authentication went successful",'success')
 								$location.path('/')

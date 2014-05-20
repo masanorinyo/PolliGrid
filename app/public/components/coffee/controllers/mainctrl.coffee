@@ -341,6 +341,8 @@ define ["underscore"], (_)->
 			User.user = null
 			$scope.user = null
 			ipCookie.remove("loggedInUser")
+
+			Setting.isSetting = false
 			
 			# $scope.questions = FindQuestions.default()
 			

@@ -16,6 +16,7 @@ define ['underscore'], (_)->
 		Question
 		Page
 		UpdateUserInfo
+		Setting
 	)->
 
 
@@ -308,9 +309,6 @@ define ['underscore'], (_)->
 
 		do ()->
 			
-
-			# cancel the card status for the initial load
-			$scope.card.alreadyAnswered = false
 			
 			
 			answeredQuestions = null
@@ -367,6 +365,12 @@ define ['underscore'], (_)->
 					else
 
 						$scope.cards = FindQuestions.default()
+				
+				.then -> 
+					# cancel the card status for the initial load
+					if not Setting.isSetting and not $scope.isAccessedViaLink
+						console.log 'Reset the question status'
+						$scope.card.alreadyAnswered = false
 
 				.then ->
 					
