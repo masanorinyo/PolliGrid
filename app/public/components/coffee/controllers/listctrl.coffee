@@ -310,7 +310,7 @@ define ['underscore'], (_)->
 			
 
 			# cancel the card status for the initial load
-			if $scope.card then -> $scope.card.alreadyAnswered = false
+			$scope.card.alreadyAnswered = false
 			
 			
 			answeredQuestions = null

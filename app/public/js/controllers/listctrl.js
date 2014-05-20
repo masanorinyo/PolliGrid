@@ -167,11 +167,7 @@
       $scope.favorite = false;
       (function() {
         var answeredQuestions, defer;
-        if ($scope.card) {
-          (function() {
-            return $scope.card.alreadyAnswered = false;
-          });
-        }
+        $scope.card.alreadyAnswered = false;
         answeredQuestions = null;
         defer = $q.defer();
         defer.promise.then(function() {
