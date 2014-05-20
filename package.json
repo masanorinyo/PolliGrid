@@ -1,7 +1,7 @@
 {
   "name": "PolliGrid",
   "subdomain": "PolliGrid",
-  "version": "0.0.1-30",
+  "version": "0.0.1-31",
   "private": true,
   "scripts": {
     "start": "node app/server/app.js"
