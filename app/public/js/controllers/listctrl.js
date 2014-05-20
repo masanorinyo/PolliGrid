@@ -105,13 +105,11 @@
       $scope.$on('logOff', function(value) {
         console.log("Log off from list");
         $scope.submitted = false;
-        return $timeout(function() {
-          $scope.user = User.visitor;
-          $scope.warning = false;
-          $scope.favorite = false;
-          $scope.submitted = false;
-          return $scope.user.questionsAnswered = [];
-        }, 600, true);
+        $scope.user = User.visitor;
+        $scope.warning = false;
+        $scope.favorite = false;
+        $scope.submitted = false;
+        return $scope.user.questionsAnswered = [];
       });
       getColor = function() {
         return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
@@ -162,7 +160,13 @@
       $scope.warning = false;
       $scope.favorite = false;
       (function() {
-        var defer;
+        var answeredQuestions, defer;
+        if ($scope.card) {
+          (function() {
+            return $scope.card.alreadyAnswered = false;
+          });
+        }
+        answeredQuestions = null;
         defer = $q.defer();
         defer.promise.then(function() {
           var questionId;
@@ -198,16 +202,17 @@
             return $scope.cards = FindQuestions["default"]();
           }
         }).then(function() {
-          var alreadyAnswered;
           if ($scope.question) {
-            $scope.card = $scope.question;
+            return $scope.card = $scope.question;
           }
-          alreadyAnswered = _.find(_.pluck($scope.user.questionsAnswered, '_id'), function(id) {
+        }).then(function() {
+          return answeredQuestions = _.find(_.pluck($scope.user.questionsAnswered, '_id'), function(id) {
             if ($scope.card !== void 0) {
               return $scope.card._id === id;
             }
           });
-          if (alreadyAnswered) {
+        }).then(function() {
+          if (answeredQuestions) {
             $scope.card.alreadyAnswered = true;
             return getData();
           }

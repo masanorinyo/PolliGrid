@@ -41,7 +41,7 @@
           method: 'feed',
           name: question,
           link: sharableLink,
-          picture: "http://www.hyperarts.com/external-xfbml/share-image.gif",
+          picture: "http://polligrid.com/img/icon.png",
           caption: "PolliGrid lets you analyze people's optinions from different angles",
           description: lists,
           message: ''

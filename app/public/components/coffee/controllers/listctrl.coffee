@@ -183,13 +183,12 @@ define ['underscore'], (_)->
 		$scope.$on 'logOff',(value)->
 			console.log "Log off from list"
 			$scope.submitted = false
-			$timeout ->
-				$scope.user = User.visitor
-				$scope.warning = false
-				$scope.favorite = false
-				$scope.submitted = false
-				$scope.user.questionsAnswered = []
-			,600,true
+			$scope.user = User.visitor
+			$scope.warning = false
+			$scope.favorite = false
+			$scope.submitted = false
+			$scope.user.questionsAnswered = []
+			
 
 
 		# ----------------- Utility functions ----------------- #
@@ -302,6 +301,12 @@ define ['underscore'], (_)->
 
 		do ()->
 			
+
+			# cancel the card status for the initial load
+			if $scope.card then -> $scope.card.alreadyAnswered = false
+			
+			
+			answeredQuestions = null
 			
 			# if the question is accessed via external link
 			# get the url id and find the question with the id
@@ -312,7 +317,6 @@ define ['underscore'], (_)->
 					if $location.$$path.split('/')[1] == "question" 
 						
 
-						
 						$scope.isAccessedViaLink = true
 						
 						questionId = $stateParams.id
@@ -363,16 +367,16 @@ define ['underscore'], (_)->
 						
 						$scope.card = $scope.question
 						
-
+				.then ->
 					
-					alreadyAnswered = _.find _.pluck($scope.user.questionsAnswered,'_id'),(id)->
+					answeredQuestions = _.find _.pluck($scope.user.questionsAnswered,'_id'),(id)->
 						
 						if $scope.card != undefined
 							$scope.card._id == id
 
+				.then ->
 
-
-					if alreadyAnswered
+					if answeredQuestions
 						
 						$scope.card.alreadyAnswered = true
 						getData()
