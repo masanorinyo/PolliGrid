@@ -1,11 +1,15 @@
 {
   "name": "PolliGrid",
   "subdomain": "PolliGrid",
-  "version": "0.0.1-28",
+  "version": "0.0.1-30",
   "private": true,
   "scripts": {
     "start": "node app/server/app.js"
   },
+  "domains": [
+    "polligrid.com",
+    "www.polligrid.com"
+  ],
   "engines": {
     "node": "*"
   },
