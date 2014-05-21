@@ -44,7 +44,7 @@ app.use(express.static(path.join(__dirname, '../public')))
 
 # hale to favicon #
       
-app.use(favicon(__dirname + '/../public/img/favicon.ico'))
+app.use(favicon(__dirname + '/../public/favicon.ico'))
 
 
 # pull info from html #

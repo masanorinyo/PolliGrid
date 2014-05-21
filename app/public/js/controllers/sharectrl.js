@@ -7,7 +7,7 @@
       lists = '';
       question = '';
       (function() {
-        if (Setting.questionId) {
+        if (Setting.isSetting) {
           $scope.questionId = Setting.questionId;
         } else {
           $scope.questionId = $stateParams.id;

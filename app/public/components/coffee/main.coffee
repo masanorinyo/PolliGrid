@@ -19,7 +19,8 @@ require.config
 		"domReady" 	 				: "../vendors/requirejs-domready/domready"
 		"underscore" 	 			: "../vendors/underscore/underscore"
 		"ngInfiniteScroll" 			: "../vendors/ngInfiniteScroll/build/ng-infinite-scroll"
-		# "offline" 				: "../vendors/offline/offline.min"
+		"offline" 					: "../vendors/offline/offline.min"
+		"offline" 					: "../vendors/shepherd.js/shepherd"
 
 		
 		# -------------- these are manually installed - no bower components -------------- #
@@ -82,6 +83,8 @@ require.config
 		"ngInfiniteScroll" 		:
 			deps 				: ['jquery','angular']
 
+
+
 			
 
 require(
@@ -92,6 +95,7 @@ require(
 		'app'
 		'routes'
 		'domReady'
+		"offline"
 	]
 
 	(jquery,angular,app,routes,domReady)->

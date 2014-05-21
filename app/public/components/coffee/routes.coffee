@@ -31,10 +31,8 @@ define(
 							templateUrl:'views/partials/content.html'
 							controller:'ContentCtrl'						
 
-						# "result@home":
-							
-						# 	templateUrl :'views/partials/targetQuestions.html'
-						# 	controller:'TargetAudienceCtrl'
+					onEnter:(Setting)->
+						Setting.isSetting = false
 					
 					
 					

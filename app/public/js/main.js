@@ -16,6 +16,8 @@
       "domReady": "../vendors/requirejs-domready/domready",
       "underscore": "../vendors/underscore/underscore",
       "ngInfiniteScroll": "../vendors/ngInfiniteScroll/build/ng-infinite-scroll",
+      "offline": "../vendors/offline/offline.min",
+      "offline": "../vendors/shepherd.js/shepherd",
       "chart": "../vendors/Chart.js-master/Chart",
       "angles": "../vendors/angles-master/angles",
       "angular-deckgrid": "../vendors/angular-deckgrid/angular-deckgrid"
@@ -70,7 +72,7 @@
     }
   });
 
-  require(['jquery', 'angular', 'app', 'routes', 'domReady'], function(jquery, angular, app, routes, domReady) {
+  require(['jquery', 'angular', 'app', 'routes', 'domReady', "offline"], function(jquery, angular, app, routes, domReady) {
     return domReady(function() {
       return angular.bootstrap(document, ['myapp']);
     });

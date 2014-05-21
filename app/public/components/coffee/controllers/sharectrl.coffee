@@ -15,8 +15,8 @@ define [], ()->
 		question = ''
 
 		do ()->
-			# (issue)  check if this is necessary
-			if Setting.questionId
+			# when accessed from setting page
+			if Setting.isSetting
 				$scope.questionId = Setting.questionId
 			else 
 				$scope.questionId = $stateParams.id

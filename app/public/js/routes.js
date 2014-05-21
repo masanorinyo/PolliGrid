@@ -11,6 +11,9 @@
             templateUrl: 'views/partials/content.html',
             controller: 'ContentCtrl'
           }
+        },
+        onEnter: function(Setting) {
+          return Setting.isSetting = false;
         }
       }).state('home.login', {
         url: 'login',
