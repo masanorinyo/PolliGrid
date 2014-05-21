@@ -16,8 +16,8 @@ html(lang="en").no-js
 		link(rel="apple-touch-icon" href="/icon.png")
 		link(rel="icon" href="/favicon.ico" type="image/x-icon")
 		link(rel='stylesheet', href='/css/main.css')
-		link(rel='stylesheet', href='/vendors/offline/themes/offline-theme-chrome.css')
-		link(rel='stylesheet', href='/vendors/shepherd.js/css/shepherd-theme-arrows.css')
+		link(rel='stylesheet', href='/vendors/offline/themes/offline-theme-default.css')
+		
 
 		
 		//- for development --//
@@ -29,6 +29,7 @@ html(lang="en").no-js
 		link(rel='stylesheet',href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css')
 		link(rel='stylesheet',href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
 		link(rel='stylesheet',href='//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css')
+		script(src="/vendors/offline/offline.min.js")
 		script(src='/js/misc/modernizr-dev.js')
 		script(src='/js/misc/modernizr-test.js')
 		script.
@@ -69,10 +70,10 @@ html(lang="en").no-js
 		
 
 		//- For production -- //
-		//- script(data-main="/js/main-built.js" src="/vendors/requirejs/require.js")
+		script(data-main="/js/main-built.js" src="/vendors/requirejs/require.js")
 
 		//- //- For development --//
-		script(data-main="/js/main.js" src="/vendors/requirejs/require.js")
+		//- script(data-main="/js/main.js" src="/vendors/requirejs/require.js")
 		
 		script.
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

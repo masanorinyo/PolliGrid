@@ -3,13 +3,13 @@
 2 info using npm@1.4.7
 3 info using node@v0.10.24
 4 verbose run-script [ 'prestart', 'start', 'poststart' ]
-5 info prestart PolliGrid@0.0.1-15
-6 info start PolliGrid@0.0.1-15
+5 info prestart PolliGrid@0.0.1-41
+6 info start PolliGrid@0.0.1-41
 7 verbose unsafe-perm in lifecycle true
-8 info PolliGrid@0.0.1-15 Failed to exec start script
-9 error PolliGrid@0.0.1-15 start: `node app/server/app.js`
+8 info PolliGrid@0.0.1-41 Failed to exec start script
+9 error PolliGrid@0.0.1-41 start: `node app/server/app.js`
 9 error Exit status 8
-10 error Failed at the PolliGrid@0.0.1-15 start script.
+10 error Failed at the PolliGrid@0.0.1-41 start script.
 10 error This is most likely a problem with the PolliGrid package,
 10 error not with npm itself.
 10 error Tell the author that this fails on your system:
