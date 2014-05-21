@@ -409,8 +409,10 @@
 /* line 82, ../sass/offline-theme-default.sass */
 .offline-ui.offline-ui-down.offline-ui-waiting {
   padding-right: 11em;
+  height:60px;
 }
 /* line 85, ../sass/offline-theme-default.sass */
 .offline-ui.offline-ui-down.offline-ui-waiting.offline-ui-reconnect-failed-2s {
   padding-right: 0;
+  height:60px;
 }
