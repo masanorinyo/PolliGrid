@@ -1,7 +1,7 @@
 <h2 hidden>Deep Result</h1>
 <div class="modal-header">	
 	<h3>
-		Deep Result
+		Analysis
 	</h3>
 	<button type="button" ng-click="closeModal()" class="close"> ×</button>
 
@@ -18,26 +18,27 @@
 			<!-- Filter button -->
 		
 			<div ng-if="question.targets.length" class="list-filters">
-				<div class='sub-title white bg-teal'>
-					<span ng-hide="foundRespondents">Add filters:</span>
-					<span class="white" ng-show="foundRespondents">
-						Filtered by : 
+				<div class='sub-title white bg-teal default' tooltip-placement="bottom" tooltip="test">
+					<span class="white">
+						Demographic Targets 
 					</span>
+					&nbsp;
+					<i class="fa fa-info-circle"></i>
 				</div>
 				<br>
 				<accordion close-others="oneAtATime">
-					<accordion-group heading="{{target.title}}" ng-repeat="target in filters">
+					<accordion-group heading="{{target.title}}" ng-repeat="target in filters" is-open='$index == 0'>
 						<accordion-heading>
-							<div class="accordion-header">
+							<div class="accordion-header" ng-class="{'border-blue':target.numOfAdded!=0}">
 								<span class="filter-name">{{target.title}}</span> 
-								<span tooltip-placement="top" tooltip="# of filtered respondents" ng-class="{'bg-blue':target.numOfAdded!=0}" class="badge pull-right">{{target.numOfAdded}}</span>
+								<span tooltip-placement="top" tooltip="# of filtered respondents" ng-class="{'bg-blue':target.numOfAdded!=0}" class="badge pull-right default">{{target.numOfAdded}}</span>
 							</div>
 				
 						</accordion-heading>
 						<ul class='list-group'>
 						 	<li class='list-group-item' ng-repeat="list in target.lists">
 						 		<div tooltip-placement="right" tooltip="# of respondents" class="box-count pull-left">
-					 				<span ng-class="{'blue-badge':list.numOfResponses!=0,gray:list.numOfResponses==0}" class='number' >
+					 				<span ng-class="{'blue-badge':list.numOfResponses!=0,gray:list.numOfResponses==0}" class='number default' >
 					 					{{list.numOfResponses}}
 					 				</span>
 				 				</div>
@@ -45,15 +46,16 @@
 						 			{{list.option}}
 						 		</div>
 				
-						 		<button ng-class="{'btn-primary':!list.isAdded,'btn-danger':list.isAdded}"  ng-click="addFilter(list,target)" class="btn-list btn btn-sm">
+						 		<button ng-class="{'btn-primary':!list.isAdded,'btn-danger':list.isAdded}"  ng-click="addFilter(list,target)" class="btn-list btn btn-sm" ng-hide="list.numOfResponses==0">
 						 			{{list.filterBtn}} 
 						 		</button>
 						 	</li>
 					 	</ul> 
 					</accordion-group>
+
 				</accordion>
 				<!-- added target question Section -->
-				<div class="well" ng-show="foundRespondents">
+				<!-- <div class="well" ng-show="foundRespondents">
 					<ul class="respondents" ng-repeat="category in filterCategories">
 						<li class="label label-info">
 							{{category.categoryTitle}}
@@ -62,7 +64,7 @@
 							{{option}}
 						</li>
 					</ul>
-				</div>
+				</div> -->
 				<hr>
 			</div>
 		
@@ -72,7 +74,11 @@
 			<!-- Statistics box -->
 			<div class="statistics">
 				<!-- Statistics Section -->
-				<div class='sub-title white bg-orange'>Statistics</div>
+				<div class='sub-title white bg-orange default' tooltip-placement="bottom" tooltip="test">
+					Statistics
+					&nbsp;
+					<i class="fa fa-info-circle"></i>
+				</div>
 				<br>
 				<div class="filter-wrapper">
 					<blockquote class='question'>
@@ -86,30 +92,34 @@
 						<label class='slightlyBlack'>Overall</label>
 						<li class="blue">	
 							Total : 
-							<span class="badge">
+							<span class="bg-blue badge default" tooltip-placement="bottom" tooltip="{{question.totalResponses}} people answered to this question">
 							{{question.totalResponses}}
 							</span>
 						
 						</li>
-						<li class='answer gray' ng-repeat='option in question.option'>
+						<li class='answer gray' ng-repeat='option in question.option' >
 							{{option.title}}: 
-							<span>
+							<span class="badge default" tooltip-placement="bottom"  tooltip="{{option.count}} people chose this option">
 								{{option.count}}
 							</span>
 						</li>
 					</ul>
-					<ul ng-if="question.targets.length" class="well">
-						<label class='slightlyBlack'>Filter</label>
+					<!-- if users haven't added any filters, then hide it -->
+					<div ng-show="filterGroup.total !=0" class="comparison">
+						<span class='gray'>VS.</span>
+					</div>
+					<ul ng-if="question.targets.length && filterGroup.total !=0" class="well border-blue">
+						<label class='slightlyBlack'>Demographic Targets</label>
 						<li class="blue">	
 							Total : 
-							<span class="badge">
+							<span class="bg-blue badge default" tooltip-placement="bottom" tooltip="{{filterGroup.total}} demographic targets answered to this question">
 								{{filterGroup.total}}
 							</span>
 						
 						</li>
 						<li class='answer gray' ng-repeat='answer in filterGroup.answers'>
 							{{answer.title}}: 
-							<span>
+							<span class='badge default' tooltip-placement="bottom" tooltip="{{answer.count}} demographic targets chose this option">
 								{{answer.count}}
 							</span>
 						</li>
@@ -121,7 +131,11 @@
 			<!-- Graph Section -->
 		
 			<div class="chart">
-				<div class='bg-olive white sub-title'>Graph</div>
+				<div class='bg-olive white sub-title default' tooltip-placement="bottom" tooltip="test">
+					Graph
+					&nbsp;
+					<i class="fa fa-info-circle"></i>
+				</div>
 				<ul class='legends'>
 					<li ng-hide="foundRespondents && chartType=='pie'" class='overall label label-default'>Overall</li>
 					<li ng-show="foundRespondents && filterGroup.total != 0" ng-class="{'toCenter':chartType=='pie'}"class='filter label label-default'>Filter</li>
@@ -153,7 +167,11 @@
 			
 			<!-- Percentage Section -->
 			<div class="percentage">
-				<div class='bg-lightPurple white sub-title'>Percentage</div>
+				<div class='bg-lightPurple white sub-title default' tooltip-placement="bottom" tooltip="test">
+					Percentage
+					&nbsp;
+					<i class="fa fa-info-circle"></i>
+				</div>
 				<br>
 		
 				<ul class="chart-percentage">

@@ -22,7 +22,7 @@ define ['angular'], (angular) ->
 
 			.run ($templateCache)->
 				$templateCache.put "targetQuestion.html","
-						<p class='question'>
+						<p class='question target'>
 							{{#OBJ#.question}}
 						</p>
 						
@@ -35,8 +35,8 @@ define ['angular'], (angular) ->
 				$templateCache.put "result.html","
 						<li class='answer gray'>		
 							{{#OBJ#.title}}: 
-							<span>
-								{{#OBJ#.count}}
+							<span class='default badge' tooltip-placement=\"bottom\" tooltip-append-to-body=\"true\"  tooltip=\"{{#OBJ#.count}} people chose this answer\">
+								{{#OBJ#.count}} 
 							</span>
 						</li>
 					"

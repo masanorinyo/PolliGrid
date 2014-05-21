@@ -64,12 +64,16 @@
 	<!-- This will show up on the setting page -->
 	<!-- ui-sref="home.anotherDeep({id:question.id})" -->
 	<button ng-if="isAccessedFromSetting"  ng-click="showDeepResult(question._id)" class="submit-button bigger btn btn-success" >
-		See deep result
+		<i class="fa fa-dashboard"></i>  
+		 &nbsp; 
+		 Analyze 
 	</button>
 	
 
 	<!-- This will refresh the page -->
 	<button ng-if="!isAccessedFromSetting" ui-sref="home.deepResult({id:question._id})" class="submit-button bigger btn btn-success">
-		See deep result
+		<i class="fa fa-dashboard"></i>  
+		 &nbsp; 
+		 Analyze 
 	</button>
 </div>

@@ -135,10 +135,11 @@
                 margin: 4em 2em 2em 1.5em;
             
                 &.target{
-                    margin-top:2em;
+                    margin-top:1.5em;
                 }    
         
             }
+
             .canvas-wrapper {
                 position: relative;
                 height: 350px;
@@ -159,6 +160,9 @@
             margin: auto;
             width: 90%;
         }
+
+
+
         .answers {
             margin: 2em;
             label {

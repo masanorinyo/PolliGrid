@@ -314,12 +314,19 @@
         color: rgb(50, 50, 80);
     }
     .sub-title {
-        width: 100px;
+        width: 190px;
         text-align: center;
         right: 0;
         left: 0;
         margin: 0 auto 10px;
         @include border-radius(25px);
+
+
+    }
+
+    .comparison{
+        text-align: center;
+        padding: 10px 0;
     }
     .respondents {
         list-style-type: circle;
@@ -342,20 +349,25 @@
     }
     .list-group-item {
         .option-content {
-            width:50%;
+            width:70%;
             margin-left: 27px;
             word-break:break-all;
             @include at-breakpoint($medium){
-                width:69%;
+                width:83%;
             }
         }
         .btn-list {
             position: absolute;
+            width:35px;
             right: 9px;
             top: 0;
             bottom: 0;
             margin: auto;
-            height: 28px;
+            height: 30px;
+            font-size: 2.2em;
+            line-height: 0;
+            font-weight: bold;
+            padding: 10px 7px 16px;
         }
         .box-count.pull-left {
             width: 35px;
@@ -386,8 +398,8 @@
             font-size: 1em;
         }
         .well {
-            width: 49%;
-            display: inline-block;
+            width: 100%;
+            margin:0;
         }
     }
     .chart {

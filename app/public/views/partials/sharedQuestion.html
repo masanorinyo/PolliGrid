@@ -29,11 +29,18 @@
 				</div>
 				
 				<div ng-controller="TargetAudienceCtrl" ng-show="submitted" class="question-content">
+					<div class='animated fadeInLeft box-description'>
+						<p ng-hide="areAllQuestionAnswered"  class='pointer label label-info description'>
+							Demographic Target Questions 
+							<i class='fa fa-info-circle'></i>
+						</p>
+						
+						<p ng-show="areAllQuestionAnswered"  class='pointer label label-info description'>
+							Statistics
+						</p>
+					</div>
 					<div class="content animated fadeInLeft" no-scope-repeat-for-targets items="card.targets"></div>
 					<div class="page-chart content animated fadeInLeft" ng-class="{'toggleShow':areAllQuestionAnswered}">	
-						<h4 class="gray result-label">
-							Result:
-						</h4>
 						
 						<p class="question gray">
 							{{card.question}}
@@ -46,6 +53,9 @@
 								Total count: 
 								<span class="badge">
 									{{card.totalResponses}}
+									<span class="hidden-message">
+										 people answered to this option
+									</span>
 								</span>
 							
 							</li>
@@ -60,11 +70,15 @@
 
 						<!-- If the question is accessed via an external link, show this button. This won't refresh the page -->
 						<button ng-if="!user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.signupRedirect({id:question._id})" class="submit-button bigger btn btn-success">
-						See deep result
+							<i class="fa fa-dashboard"></i>  
+							 &nbsp; 
+							 Analyze 
 						</button>
 						
 						<button ng-if="user.isLoggedIn" ui-sref="home.deepResult({id:card._id})" class="submit-button bigger btn btn-success">
-							See deep result
+							<i class="fa fa-dashboard"></i>  
+							 &nbsp; 
+							 Analyze 
 						</button>
 					</div>
 					

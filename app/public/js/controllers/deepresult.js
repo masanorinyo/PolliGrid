@@ -154,7 +154,7 @@
             };
             $scope.filterCategories.push(category);
           }
-          answer.filterBtn = "Remove filter";
+          answer.filterBtn = "-";
           target.numOfAdded += answer.numOfResponses;
           filter = {
             _id: target._id,
@@ -177,7 +177,7 @@
           if (foundCategory.option.length === 0) {
             $scope.filterCategories = _.without($scope.filterCategories, foundCategory);
           }
-          answer.filterBtn = "Add to filter";
+          answer.filterBtn = "+";
           target.numOfAdded -= answer.numOfResponses;
           sameIdFound = _.findWhere(filters, {
             _id: target._id
@@ -264,10 +264,10 @@
           _.each($scope.question.option, function(option) {
             var maxLength, title, trimmedTitle;
             title = option.title;
-            if (title.split(/\s+/).length > 2 || title.length > 8) {
+            if (title.length > 10) {
               maxLength = 10;
               trimmedTitle = title.substr(0, maxLength);
-              title = trimmedTitle.substr(0, Math.min(trimmedTitle.length, trimmedTitle.lastIndexOf(" ")));
+              title = title.split(/\s+/)[0];
               title = title.concat("..");
             }
             $scope.myChartInfo.labels.push(title);
@@ -299,7 +299,7 @@
                 answeredBy: num.answeredBy,
                 numOfResponses: num.answeredBy.length,
                 isAdded: false,
-                filterBtn: "Add to filter"
+                filterBtn: "+"
               };
               return targets.push(optionData);
             });

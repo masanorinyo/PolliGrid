@@ -230,7 +230,7 @@ define ['underscore'], (_)->
 
 
 				# number of added users from the specific filter question
-				answer.filterBtn = "Remove filter"
+				answer.filterBtn = "-"
 				target.numOfAdded += answer.numOfResponses
 
 				# number of filtered respondents
@@ -270,7 +270,7 @@ define ['underscore'], (_)->
 					
 				
 				# change the button text and decrement the total number of responses
-				answer.filterBtn = "Add to filter"				
+				answer.filterBtn = "+"				
 				target.numOfAdded -= answer.numOfResponses
 
 				# find the filter group with the same id
@@ -399,11 +399,11 @@ define ['underscore'], (_)->
 					#load information of overall for other charts
 					_.each $scope.question.option,(option)->
 						title = option.title 
-						# if the length of option is longer than 3 words or 10 characters
-						if title.split(/\s+/).length > 2 or title.length > 8
+						# if the length of option is longer than 10 characters
+						if title.length > 10
 							maxLength 		= 10
 							trimmedTitle 	= title.substr(0, maxLength)
-							title 			= trimmedTitle.substr(0, Math.min(trimmedTitle.length, trimmedTitle.lastIndexOf(" ")))
+							title 			= title.split(/\s+/)[0]
 							title  			= title.concat("..")
 
 
@@ -448,7 +448,7 @@ define ['underscore'], (_)->
 								answeredBy  	: num.answeredBy
 								numOfResponses 	: num.answeredBy.length
 								isAdded 		: false
-								filterBtn 		: "Add to filter"
+								filterBtn 		: "+"
 								
 
 

@@ -1,7 +1,7 @@
 /* Backgrounds */
 
 .bg-navy {
-    background-color: $Navy;
+    background-color: $Navy!important;
 }
 
 .bg-blue {
@@ -9,11 +9,11 @@
 }
 
 .bg-lightblue {
-    background-color: rgb(133, 208, 231);
+    background-color: rgb(133, 208, 231)!important;
 }
 
 .bg-aqua {
-    background-color: $Aqua;
+    background-color: $Aqua!important;
 }
 
 .bg-emerald {
@@ -21,117 +21,117 @@
 }
 
 .bg-teal {
-    background-color: $Teal;
+    background-color: $Teal!important;
 }
 
 .bg-olive {
-    background-color: $Olive;
+    background-color: $Olive!important;
 }
 
 .bg-green {
-    background-color: $Green;
+    background-color: $Green!important;
 }
 
 .bg-lime {
-    background-color: $Lime;
+    background-color: $Lime!important;
 }
 
 .bg-yellow {
-    background-color: $Yellow;
+    background-color: $Yellow!important;
 }
 
 .bg-orange {
-    background-color: $Orange;
+    background-color: $Orange!important;
 }
 
 .bg-red {
-    background-color: $Red;
+    background-color: $Red!important;
 }
 
 .bg-fuchsia {
-    background-color: $Fuchsia;
+    background-color: $Fuchsia!important;
 }
 
 .bg-purple {
-    background-color: $Purple;
+    background-color: $Purple!important;
 }
 
 .bg-maroon {
-    background-color: $Maroon;
+    background-color: $Maroon!important;
 }
 
 .bg-white {
-    background-color: $White;
+    background-color: $White!important;
 }
 
 .bg-gray {
-    background-color: $Gray;
+    background-color: $Gray!important;
 }
 
 .bg-silver {
-    background-color: $Silver;
+    background-color: $Silver!important;
 }
 
 .bg-black {
-    background-color: $Black;
+    background-color: $Black!important;
 }
 
 .bg-lightPurple {
-    background-color: rgb(180, 150, 250);
+    background-color: rgb(180, 150, 250)!important;
 }
 
 /* Colors */
 
 .navy {
-    color: $Navy;
+    color: $Navy!important;
 }
 
 .blue {
-    color: $Blue;
+    color: $Blue!important;
 }
 
 .aqua {
-    color: $Aqua;
+    color: $Aqua!important;
 }
 
 .teal {
-    color: $Teal;
+    color: $Teal!important;
 }
 
 .olive {
-    color: $Olive;
+    color: $Olive!important;
 }
 
 .green {
-    color: $Green;
+    color: $Green!important;
 }
 
 .lime {
-    color: $Lime;
+    color: $Lime!important;
 }
 
 .yellow {
-    color: $Yellow;
+    color: $Yellow!important;
 }
 
 .orange {
-    color: $Orange;
+    color: $Orange!important;
 }
 
 .red {
-    color: $Red;
+    color: $Red!important;
 }
 
 .fuchsia {
-    color: $Fuchsia;
+    color: $Fuchsia!important;
 }
 
 .purple {
-    color: $Purple;
+    color: $Purple!important;
 }
 
 .maroon {
-    color: $Maroon;
+    color: $Maroon!important;
 }
 
 .white {
@@ -139,17 +139,22 @@
 }
 
 .silver {
-    color: $Silver;
+    color: $Silver!important;
 }
 
 .gray {
-    color: $Gray;
+    color: $Gray!important;
 }
 
 .black {
-    color: $Black;
+    color: $Black!important;
 }
 
 .slightlyBlack {
-    color: rgb(130, 130, 130);
+    color: rgb(130, 130, 130)!important;
+}
+
+// borders
+.border-blue{
+    border:1px solid $blue!important;   
 }

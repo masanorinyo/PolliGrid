@@ -83,32 +83,32 @@
 
 
 				<div ng-controller="TargetAudienceCtrl" ng-show="submitted" class="question-content">
-					<div ng-hide="areAllQuestionAnswered" class='animated fadeInLeft box-description'>
-						<p class='pointer label label-info description'>
-							Demographic Filter Questions 
+					<div class='animated fadeInLeft box-description'>
+						<p ng-hide="areAllQuestionAnswered"  class='default label label-info description' tooltip-placement="bottom" tooltip-append-to-body="true"  tooltip="Demographic target questions will help you analyze the data in multiple perspectives. Once you answer to this target question,the system will remember your answer so you won't need to answer to it again.">
+							Demographic Target Questions 
 							<i class='fa fa-info-circle'></i>
 						</p>
 						
+						<p ng-show="areAllQuestionAnswered"  class='label label-info description'>
+							Statistics
+							<i class="fa fa-bar-chart-o"></i>
+						</p>
 					</div>
 					<div class="content animated fadeInLeft" no-scope-repeat-for-targets items="card.targets"></div>
 					<div class="page-chart content animated fadeInLeft" ng-class="{'toggleShow':areAllQuestionAnswered}">	
-						<h4 class="gray result-label">
-							Result:
-						</h4>
 						
 						<p class="question target gray">
 							{{card.question}}
 						</p>
 
-						<hr>
+						
 
 						<ul class="answers">
 							<li class="blue">	
 								Total count: 
-								<span class="badge">
+								<span class="default badge bg-blue" tooltip-placement="bottom" tooltip-append-to-body="true"  tooltip="{{card.totalResponses}} people answered to this question">
 									{{card.totalResponses}}
 								</span>
-							
 							</li>
 							<div no-scope-repeat-for-counts items="card.option">
 								
@@ -126,7 +126,9 @@
 
 						
 						<button ui-sref="home.deepResult({id:card._id})" class="submit-button bigger btn btn-success">
-							See deep result
+							<i class="fa fa-dashboard"></i>  
+							 &nbsp; 
+							 Analyze 
 						</button>
 					</div>
 					
