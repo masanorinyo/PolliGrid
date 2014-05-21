@@ -94,6 +94,25 @@
     width: 100%;
     position: relative;
     overflow: auto;
+
+
+    .box-description{
+        width: 70%;
+        height: 54px;
+        position:relative;
+        
+        .description{
+            position: absolute;
+            bottom: 0;
+            left: 0px;
+            font-size: 1em;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+    }
+
+
     .card-large {
         border: 1px solid rgb(220, 220, 220);
         margin: 10px auto;
@@ -113,7 +132,12 @@
                 margin-top: 20px;
             }
             .question {
-                margin: 3em 2em 2em 1.5em;
+                margin: 4em 2em 2em 1.5em;
+            
+                &.target{
+                    margin-top:2em;
+                }    
+        
             }
             .canvas-wrapper {
                 position: relative;
@@ -128,7 +152,7 @@
             }
         }
         .question {
-            margin: 4em 2em 2em 2em;
+            margin: 3em 2em 2em 2em;
             font-size: 1.2em;
         }
         .alert {
@@ -205,12 +229,12 @@
     right:15px;
     
     &.order{
-        right:-88px;
+        right:-37px;
     }
 
     &.category{
         
-        left:-90px;
+        left:-50px;
 
     }
     

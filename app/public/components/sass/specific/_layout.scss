@@ -34,20 +34,25 @@
 			height:auto;
 			width:auto;
 			background-color:initial;
-			left:235px;
-			width:35%;
+			left:220px;
+			width:32%;
 			height:100%;
 		}
 
 		@include at-breakpoint($large){
-			left:255px;
+			left:240px;
 		}
 
 		.form-control{
-			width:94%;
+			width:79%;
 			right:0;
 			left:0;
 			margin:14px auto;
+
+			@include at-breakpoint($large){
+				width:82%;
+
+			}
 		}
 		
 		.dropdown-menu{
@@ -68,16 +73,16 @@
 			bottom: 0;
 			margin: auto;
 			height: 29px;
-			right:-83px;
+			right:-8.5em;
 			z-index:101;
 
 			> .order{
-				margin-right:0.6em;
+				margin-right:0.3em;	
 			}
 
-			> .category{
-				margin-right:-0.5em;	
-			}
+			.btn:hover .gray{
+				color:black;
+			}			
 
 			@include at-breakpoint($medium){
 				display: block;

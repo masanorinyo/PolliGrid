@@ -16,8 +16,8 @@
 			<input id="searchbox"  type="text" ng-model="$parent.searchQuestion" placeholder="Search..." ng-change="updateSearch()" class="form-control" typeahead="term for term in getPartOfQuestion($viewValue)" typeahead-on-select='selectedTypehead($item)'>
 			<div class="header-utility">
 				<div class="btn btn-default order" ng-class="{'active':orderBox}" toggle order="orderBox" category="categoryBox" ng-click="orderBox = !orderBox" id="order-toggler" >
-					<div tooltip-placement="bottom"  tooltip="Sort questions" >
-						<i id="order-icon" class="fa fa-filter"></i>
+					<div id="order-icon" class="gray" >
+						Sort
 					</div>
 				</div>
 				<div ng-show="orderBox" class="pop-box order" >
@@ -30,8 +30,8 @@
 				</div>
 				
 				<div class="btn btn-default category" ng-class="{'active':categoryBox}"  id="category-toggler" toggle order="orderBox" category="categoryBox" ng-click="categoryBox = !categoryBox">
-					<div tooltip-placement="bottom" tooltip="Show questions by categories" >
-						<i id="category-icon" class="fa fa-archive"></i>
+					<div id="category-icon"  class="gray">
+						Category
 					</div>
 				</div>
 				<div ng-show="categoryBox" class="pop-box category">
@@ -82,12 +82,12 @@
 		
 				<a class="btn-login" href="#"  ui-sref=".login">
 					<li class="btn btn-sm btn-default">
-						login
+						Log in
 					</li>
 				</a>
 				<a class="btn-signup" href="#"  ui-sref=".signup">
 					<li class="btn btn-sm btn-success">
-						signup
+						Sign up
 					</li>
 				</a>
 			</ul>

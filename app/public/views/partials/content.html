@@ -64,7 +64,6 @@
 				</div>
 
 				<div ng-hide="submitted" class="content">
-					
 					<p class='question'>
 						{{card.question}}
 					</p>
@@ -84,13 +83,20 @@
 
 
 				<div ng-controller="TargetAudienceCtrl" ng-show="submitted" class="question-content">
+					<div ng-hide="areAllQuestionAnswered" class='animated fadeInLeft box-description'>
+						<p class='pointer label label-info description'>
+							Demographic Filter Questions 
+							<i class='fa fa-info-circle'></i>
+						</p>
+						
+					</div>
 					<div class="content animated fadeInLeft" no-scope-repeat-for-targets items="card.targets"></div>
 					<div class="page-chart content animated fadeInLeft" ng-class="{'toggleShow':areAllQuestionAnswered}">	
 						<h4 class="gray result-label">
 							Result:
 						</h4>
 						
-						<p class="question gray">
+						<p class="question target gray">
 							{{card.question}}
 						</p>
 
