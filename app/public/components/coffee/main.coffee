@@ -19,7 +19,6 @@ require.config
 		"domReady" 	 				: "../vendors/requirejs-domready/domready"
 		"underscore" 	 			: "../vendors/underscore/underscore"
 		"ngInfiniteScroll" 			: "../vendors/ngInfiniteScroll/build/ng-infinite-scroll"
-		# "shepherd" 					: "../vendors/shepherd.js/shepherd"
 
 		
 		# -------------- these are manually installed - no bower components -------------- #
@@ -95,8 +94,8 @@ require(
 		'app'
 		'routes'
 		'domReady'
-	]
 
+	]
 	(jquery,angular,app,routes,domReady)->
 		
 		domReady ->

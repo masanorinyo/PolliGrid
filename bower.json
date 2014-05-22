@@ -31,7 +31,6 @@
     "ngInfiniteScroll": "~1.1.0",
     "angular-cookie": "*",
     "ng-file-upload": "~1.4.0",
-    "shepherd.js": "~0.5.1",
     "offline": "~0.7.3"
   }
 }

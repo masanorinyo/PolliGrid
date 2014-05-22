@@ -4,7 +4,7 @@
 		Create a question
 	</h3>
 	<h3 ng-show="utility.isQuestionCreated" ng-class="{fadeInRight:utility.isQuestionCreated, fadeOutRight:!utility.isQuestionCreated}" class="animated">
-		Target audience
+		Demographic Target Question
 	</h3>
 	<h3 ng-show="utility.isQuestionCompleted" ng-class="{fadeInRight:utility.isQuestionCompleted, fadeOutRight:!utility.isQuestionCompleted}" class="animated">
 		Your question is saved!
@@ -123,7 +123,7 @@
 
 	</section>
 	<section ng-show="utility.isQuestionCreated" ng-class="{fadeInRight:utility.isQuestionCreated,fadeOutRight :!utility.isQuestionCreated}" class="animated target-audience">
-		<label for="">
+		<label class="pointer"  popover-placement="bottom" popover="Demographic target questions allow you to filter out the data in specific conditions. Those who already answered to the existing target questions won't need to answer to it again. Therefore, we highly recommend you to use the existing target questions.">
 			search filters or create your own:
 			<i class="fa fa-info-circle pointer"></i>
 		</label>
