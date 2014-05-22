@@ -97,6 +97,7 @@
 
 
     .box-description{
+        
         width: 70%;
         height: 54px;
         position:relative;
@@ -104,10 +105,31 @@
         .description{
             position: absolute;
             bottom: 0;
-            left: 0px;
-            font-size: 1em;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
+            left: -5px;
+            font-size: 0.8em;
+            
+            // when the window size is medium, show a ribbon
+            @include at-breakpoint($medium){
+            
+                @include single-text-shadow;
+                padding: 6px 25px 6px;
+                margin: 30px 10px 10px -10px;
+                left: 0;
+            
+                &:after{
+                    content: ' ';
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    left: 0px;
+                    top: 95%;
+                    border-width: 5px 5px;
+                    border-style: solid;
+                    border-color: rgb(42,101,150) rgb(42,101,150) transparent transparent;
+                }    
+
+            }
+            
         }
 
     }

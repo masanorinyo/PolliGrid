@@ -1,5 +1,15 @@
+<div class='animated fadeInLeft box-description'>
+	<p ng-hide="areAllQuestionAnswered"  class='pointer label label-info description'>
+		<i class='fa fa-info-circle'></i>
+	</p>
+	
+	<p ng-show="areAllQuestionAnswered"  class='label label-info description'>
+		Statistics
+		<i class="fa fa-bar-chart-o"></i>
+	</p>
+</div>
 <div  ng-repeat="target in question.targets" class="content animated fadeInLeft" ng-show="$index==filterNumber">	
-
+	
 	<p class='question target'>
 		{{target.question}}
 		
@@ -26,27 +36,21 @@
 </div>
 
 <div class="content animated fadeInLeft" ng-show="areAllQuestionAnswered">	
-	<h4 class="gray result-label">
-		Result:
-	</h4>
 
-	<p class='question gray'>
+	<p class='question target gray'>
 		{{question.question}}
 	</p>
-
-	<hr>
-
 	<ul class="answers">
 		<li class="blue">	
 			Total count: 
-			<span class="badge">
+			<span class="default bg-blue badge" tooltip-placement="bottom" tooltip-append-to-body="true"  tooltip="{{question.totalResponses}} people answered to this question">
 				{{question.totalResponses}}
 			</span>
 		
 		</li>
-		<li class='answer gray' ng-repeat='option in question.options'>
+		<li class='answer gray' ng-repeat='option in question.option'>
 			{{option.title}}: 
-			<span>
+			<span class="default badge" tooltip-placement="bottom" tooltip-append-to-body="true"  tooltip="{{option.count}} people chose this answer">
 				{{option.count}}
 			</span>
 		</li>

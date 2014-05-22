@@ -125,6 +125,7 @@
 	<section ng-show="utility.isQuestionCreated" ng-class="{fadeInRight:utility.isQuestionCreated,fadeOutRight :!utility.isQuestionCreated}" class="animated target-audience">
 		<label for="">
 			search filters or create your own:
+			<i class="fa fa-info-circle pointer"></i>
 		</label>
 		<div class="utility-wrapper">
 			<input ng-model="$parent.$parent.searchText" ng-change="searchFilter()" type="text" placeholder="Filter responses by ..." name="search" class="pull-left search form-control" typeahead="filter for filter in getFilterTitles($viewValue)" typeahead-on-select='selectedTypehead($item)'>

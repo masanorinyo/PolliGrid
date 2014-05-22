@@ -1,7 +1,7 @@
 <h2 hidden>Deep Result</h1>
 <div class="modal-header">	
 	<h3>
-		Analysis
+		Data Analysis
 	</h3>
 	<button type="button" ng-click="closeModal()" class="close"> ×</button>
 
@@ -18,7 +18,7 @@
 			<!-- Filter button -->
 		
 			<div ng-if="question.targets.length" class="list-filters">
-				<div class='sub-title white bg-teal default' tooltip-placement="bottom" tooltip="test">
+				<div class='sub-title white bg-teal pointer'>
 					<span class="white">
 						Demographic Targets 
 					</span>
@@ -29,15 +29,15 @@
 				<accordion close-others="oneAtATime">
 					<accordion-group heading="{{target.title}}" ng-repeat="target in filters" is-open='$index == 0'>
 						<accordion-heading>
-							<div class="accordion-header" ng-class="{'border-blue':target.numOfAdded!=0}">
-								<span class="filter-name">{{target.title}}</span> 
-								<span tooltip-placement="top" tooltip="# of filtered respondents" ng-class="{'bg-blue':target.numOfAdded!=0}" class="badge pull-right default">{{target.numOfAdded}}</span>
+							<div class="accordion-header" ng-class="{'bg-lightblue':target.numOfAdded!=0}">
+								<span class="filter-name" ng-class="{'white':target.numOfAdded!=0}">{{target.title}}</span> 
+								<span tooltip-placement="left" tooltip="# of added demographic targets" ng-class="{'bg-white blue':target.numOfAdded!=0}" class="badge pull-right default">{{target.numOfAdded}}</span>
 							</div>
 				
 						</accordion-heading>
 						<ul class='list-group'>
 						 	<li class='list-group-item' ng-repeat="list in target.lists">
-						 		<div tooltip-placement="right" tooltip="# of respondents" class="box-count pull-left">
+						 		<div tooltip-placement="right" tooltip="# of demograhipc targets who chose this option as an answer" class="box-count pull-left">
 					 				<span ng-class="{'blue-badge':list.numOfResponses!=0,gray:list.numOfResponses==0}" class='number default' >
 					 					{{list.numOfResponses}}
 					 				</span>
@@ -74,7 +74,7 @@
 			<!-- Statistics box -->
 			<div class="statistics">
 				<!-- Statistics Section -->
-				<div class='sub-title white bg-orange default' tooltip-placement="bottom" tooltip="test">
+				<div class='sub-title white bg-orange pointer'>
 					Statistics
 					&nbsp;
 					<i class="fa fa-info-circle"></i>
@@ -108,16 +108,16 @@
 					<div ng-show="filterGroup.total !=0" class="comparison">
 						<span class='gray'>VS.</span>
 					</div>
-					<ul ng-if="question.targets.length && filterGroup.total !=0" class="well border-blue">
-						<label class='slightlyBlack'>Demographic Targets</label>
-						<li class="blue">	
+					<ul ng-if="question.targets.length && filterGroup.total !=0" class="well bg-lightblue">
+						<label class='white'>Demographic Targets</label>
+						<li class="white	">	
 							Total : 
-							<span class="bg-blue badge default" tooltip-placement="bottom" tooltip="{{filterGroup.total}} demographic targets answered to this question">
+							<span class="bg-white blue badge default" tooltip-placement="bottom" tooltip="{{filterGroup.total}} demographic targets answered to this question">
 								{{filterGroup.total}}
 							</span>
 						
 						</li>
-						<li class='answer gray' ng-repeat='answer in filterGroup.answers'>
+						<li class='answer white' ng-repeat='answer in filterGroup.answers'>
 							{{answer.title}}: 
 							<span class='badge default' tooltip-placement="bottom" tooltip="{{answer.count}} demographic targets chose this option">
 								{{answer.count}}
@@ -131,7 +131,7 @@
 			<!-- Graph Section -->
 		
 			<div class="chart">
-				<div class='bg-olive white sub-title default' tooltip-placement="bottom" tooltip="test">
+				<div class='bg-olive white sub-title pointer'>
 					Graph
 					&nbsp;
 					<i class="fa fa-info-circle"></i>
@@ -167,7 +167,7 @@
 			
 			<!-- Percentage Section -->
 			<div class="percentage">
-				<div class='bg-lightPurple white sub-title default' tooltip-placement="bottom" tooltip="test">
+				<div class='bg-lightPurple white sub-title pointer'>
 					Percentage
 					&nbsp;
 					<i class="fa fa-info-circle"></i>
