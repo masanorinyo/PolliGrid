@@ -41,7 +41,16 @@ html(lang="en").no-js
 		script(src='/js/misc/modernizr-dev.js')
 		script(src='/js/misc/modernizr-test.js')
 
+		//-- for IE --//
+		script.		
+			<!--[if IE]>
+				alert('PolliGrid is not optimized for Internet Explore yet. Please use other browsers for the best performance.');
+				script(src='http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js')
+			<![endif]-->
 		
+		
+
+
 		// -- for iphone mobile web app -- //
 		//-- this will prevent users from jumping to safari url -- //
 		script.
