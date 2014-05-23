@@ -3,8 +3,7 @@
     return function($scope, $location, $modal, $stateParams, $timeout, $http, $q, Question, User, Page, Filters, Error, Setting, FindQuestions, Verification, location) {
       var findQuestion, showAnswers, showDeepResult, showFavorites, showFilters, showQuestions;
       $scope.type = $stateParams.type;
-      console.log($scope.id = "$stateParams.id");
-      console.log($scope.id = $stateParams.id);
+      $scope.id = $stateParams.id;
       $scope.onMyPage = false;
       $scope.showLoader = false;
       $scope.anyContentsLeft = false;
@@ -214,11 +213,10 @@
                 $scope.user = User.user;
                 $scope.onMyPage = true;
               }
-            } else {
-              $scope.questionsCreatedByAnother = user.questionMade;
-              $scope.anotherUser.username = user.username;
-              $scope.anotherUser.photo = user.profilePic;
             }
+            $scope.questionsCreatedByAnother = user.questionMade;
+            $scope.anotherUser.username = user.username;
+            $scope.anotherUser.photo = user.profilePic;
             $scope.userLoaded = true;
             if ($scope.type === "favorites") {
               return showFavorites();

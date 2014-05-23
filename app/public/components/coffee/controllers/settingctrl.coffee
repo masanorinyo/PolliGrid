@@ -19,10 +19,7 @@ define ['underscore'], (_)->
 	)->
 
 		$scope.type = $stateParams.type
-		console.log $scope.id = "$stateParams.id"
-		console.log $scope.id = $stateParams.id
-
-
+		$scope.id = $stateParams.id
 		$scope.onMyPage = false
 		$scope.showLoader = false
 		$scope.anyContentsLeft = false
@@ -319,11 +316,13 @@ define ['underscore'], (_)->
 						if User.user._id  == $scope.id 
 							$scope.user = User.user
 							$scope.onMyPage = true
+						
 
-					else 
-						$scope.questionsCreatedByAnother = user.questionMade
-						$scope.anotherUser.username = user.username
-						$scope.anotherUser.photo = user.profilePic
+						
+					$scope.questionsCreatedByAnother = user.questionMade
+					$scope.anotherUser.username = user.username
+					$scope.anotherUser.photo = user.profilePic
+						
 					
 					$scope.userLoaded = true
 				
