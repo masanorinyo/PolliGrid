@@ -192,6 +192,11 @@ define(
 									$location.path('/verification/auth/success')
 									$timeout ->
 										User.checkState()
+										$state.transitionTo($state.current, $stateParams, {
+											reload: true
+											inherit: false
+											notify: true
+										})
 									,500,true
 									
 								else 

@@ -146,7 +146,12 @@
                 });
                 $location.path('/verification/auth/success');
                 return $timeout(function() {
-                  return User.checkState();
+                  User.checkState();
+                  return $state.transitionTo($state.current, $stateParams, {
+                    reload: true,
+                    inherit: false,
+                    notify: true
+                  });
                 }, 500, true);
               } else {
                 return $location.path('/verification/auth/fail');

@@ -306,6 +306,9 @@
     };
     term = escapeChar(unescape(req.params.searchTerm));
     offset = req.params.offset;
+    console.log("term");
+    console.log(term);
+    console.log(offset);
     if (term === "all") {
       term = "";
     }

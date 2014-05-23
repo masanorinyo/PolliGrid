@@ -173,6 +173,8 @@ define ['underscore'], ( _ )->
 				}
 			)
 
+			
+
 		$scope.searchFilter = Debounce($scope.searching, 333, false);
 			
 			

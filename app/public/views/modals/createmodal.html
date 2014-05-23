@@ -128,7 +128,7 @@
 			<i class="fa fa-info-circle pointer"></i>
 		</label>
 		<div class="utility-wrapper">
-			<input ng-model="$parent.$parent.searchText" ng-change="searchFilter()" type="text" placeholder="Filter responses by ..." name="search" class="pull-left search form-control" typeahead="filter for filter in getFilterTitles($viewValue)" typeahead-on-select='selectedTypehead($item)'>
+			<input ng-model="$parent.searchText" ng-change="searchFilter()" type="text" placeholder="Filter responses by ..." name="search" class="pull-left search form-control" typeahead="filter for filter in getFilterTitles($viewValue)" typeahead-on-select='selectedTypehead($item)'>
 			<button ng-click="openCreateFilterBox()" class="pull-right btn btn-default">
 				Create
 			</button>

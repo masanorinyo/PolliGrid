@@ -320,6 +320,10 @@ exports.loadFilters = (req,res)->
 	term = escapeChar(unescape(req.params.searchTerm))
 	offset = req.params.offset
 
+	console.log "term"
+	console.log term
+	console.log offset
+
 	if term is "all" then term = ""	
 
 	filters = Filter
@@ -345,15 +349,16 @@ exports.getFilterTitle = (req,res)->
 
 	callback = (err,filters)->
 		filterMap = []
-		
+	
 		filters.forEach (filter)->
 			filterMap.unshift(filter)
 		res.send(filterMap)
 
 
-
+	
 	term = escapeChar(unescape(req.params.term))
-
+	
+	
 	Filter.find(
 		{
 			"title":new RegExp(term, 'i')
