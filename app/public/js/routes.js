@@ -128,7 +128,7 @@
         }
       }).state("oauthenticate", {
         url: '/oauth/:result',
-        onEnter: function($timeout, $http, $stateParams, $location, ipCookie, User) {
+        onEnter: function($timeout, $state, $http, $stateParams, $location, ipCookie, User) {
           var result;
           result = $stateParams.result;
           if (result === "success") {

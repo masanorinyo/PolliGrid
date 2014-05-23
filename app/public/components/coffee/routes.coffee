@@ -174,7 +174,7 @@ define(
 					
 					url:'/oauth/:result'
 
-					onEnter:($timeout,$http,$stateParams,$location, ipCookie,User)->
+					onEnter:($timeout,$state,$http,$stateParams,$location, ipCookie,User)->
 					
 						result = $stateParams.result
 
