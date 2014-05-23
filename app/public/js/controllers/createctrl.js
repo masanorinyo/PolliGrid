@@ -85,15 +85,20 @@
           searchTerm: $scope.searchTerm,
           offset: Page.filterPage
         }).$promise.then(function(data) {
-          var newlyDownloaded;
+          var ids, newlyDownloaded;
           newlyDownloaded = data;
+          ids = _.pluck($scope.targets, "_id");
           if (newlyDownloaded.length === 0 || _.isUndefined(newlyDownloaded)) {
             return $scope.loadData = "No more data";
           } else {
-            newlyDownloaded.forEach(function(val, key) {
-              return $scope.targets.push(val);
+            return newlyDownloaded.forEach(function(val, key) {
+              if (!_.contains(ids, val._id)) {
+                $scope.targets.push(val);
+                return $scope.loadData = "Load more data";
+              } else {
+                return $scope.loadData = "No more data";
+              }
             });
-            return $scope.loadData = "Load more data";
           }
         });
       };
@@ -226,7 +231,7 @@
             searchTerm: $scope.searchTerm,
             offset: Page.filterPage
           });
-        });
+        }, 500, true);
       })();
       return $scope.$apply();
     };

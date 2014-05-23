@@ -405,8 +405,8 @@
     .chart {
         position: relative;
         .legends {
-            @include absolute-center($top: 60px, $bottom: auto, $left: 45px, $right: auto);
-            width: 100px;
+            @include absolute-center($top: 45px, $bottom: auto, $left: 45px, $right: auto);
+            width: 120px;
             .toCenter {
                 @include absolute-center($top: auto, $bottom: auto);
                 margin: auto;

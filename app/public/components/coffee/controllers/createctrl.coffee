@@ -148,6 +148,7 @@ define ['underscore'], ( _ )->
 				.then (data)-> 
 					
 					newlyDownloaded = data
+					ids = _.pluck $scope.targets,"_id"
 					
 					if newlyDownloaded.length == 0 or _.isUndefined(newlyDownloaded)
 						
@@ -156,9 +157,19 @@ define ['underscore'], ( _ )->
 						
 						newlyDownloaded.forEach (val,key)->
 							
-							$scope.targets.push(val)
+							if not _.contains ids,val._id
+							
+								$scope.targets.push(val)
+								$scope.loadData = "Load more data"
+							
+							else 
+							
+								$scope.loadData = "No more data"
+
+							
+							
 						
-						$scope.loadData = "Load more data"
+						
 		
 		
 
@@ -375,6 +386,7 @@ define ['underscore'], ( _ )->
 						offset:Page.filterPage
 					}
 				)
+			,500,true
 			
 
 		# --- invoke the scope --- #
