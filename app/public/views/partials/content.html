@@ -84,7 +84,7 @@
 
 				<div ng-controller="TargetAudienceCtrl" ng-show="submitted" class="question-content">
 					<div class='white animated fadeIn box-description'>
-						<p ng-hide="areAllQuestionAnswered"  class='label label-info pointer description' popover-append-to-body="true" popover-placement="bottom" popover="Demographic questions allow users to analyze data in different angles. For example, you can understand how 15 years old answers to the question.   Furtheremore, once you answer to the demographic target question, the system will remember your answer so you won't need to answer to it again.">
+						<p ng-hide="areAllQuestionAnswered"  class='label label-info pointer description' popover-append-to-body="true" popover-placement="bottom" popover="Demographic questions allow you to filter users based on their demographics and analyze the resulting data. For example, you could see how 15 year olds answer your question. Once a user answers a demographic target question, PolliGrid remembers their answer, so they won’t need to answer it again.">
 							Demographic Target Questions
 							<i class='fa fa-info-circle'></i>
 						</p>
@@ -106,7 +106,7 @@
 						<ul class="answers">
 							<li class="blue">	
 								Total count: 
-								<span class="default badge bg-blue" tooltip-placement="bottom" tooltip-append-to-body="true"  tooltip="{{card.totalResponses}} people answered to this question">
+								<span class="default badge bg-blue" tooltip-placement="bottom" tooltip-append-to-body="true"  tooltip="{{card.totalResponses}} people answered this question">
 									{{card.totalResponses}}
 								</span>
 							</li>

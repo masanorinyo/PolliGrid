@@ -445,6 +445,10 @@
         .button-charts {
             @extend .switch;
             bottom: 33px;
+
+            .btn{
+                width:80px;
+            }
         }
     }
     .chart-percentage {

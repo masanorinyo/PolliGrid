@@ -4,7 +4,7 @@
 		Create a question
 	</h3>
 	<h3 ng-show="utility.isQuestionCreated" ng-class="{fadeInRight:utility.isQuestionCreated, fadeOutRight:!utility.isQuestionCreated}" class="animated">
-		Demographic Target Question
+		Demographic Target Questions
 	</h3>
 	<h3 ng-show="utility.isQuestionCompleted" ng-class="{fadeInRight:utility.isQuestionCompleted, fadeOutRight:!utility.isQuestionCompleted}" class="animated">
 		Your question is saved!
@@ -93,8 +93,8 @@
 
 		<form ng-submit="createOption(question.newOption)" class="create-answers">
 			
-			<label for="newOption" class="explanation">
-				What are the options?
+			<label for="newOption" class="explanation" tooltip-placement="right" tooltip="Add the available answer to your question here">
+				Options: <i class="fa fa-info-circle"></i>
 			</label>
 			
 			<div class="input-group">
@@ -107,7 +107,7 @@
 		</form>
 		
 		<div ng-class="{fadeOutDown:utility.isOptionAdded}" class="icon-wrapper animated">
-			<i class="glyphicon glyphicon-chevron-down"></i>
+			<i ng-show="question.option.length != 0" class="glyphicon glyphicon-chevron-down"></i>
 		</div>
 		<div ng-show="utility.isSameOptionFound" class="animated fadeIn alert alert-warning">
 			The same option already created
@@ -123,8 +123,8 @@
 
 	</section>
 	<section ng-show="utility.isQuestionCreated" ng-class="{fadeInRight:utility.isQuestionCreated,fadeOutRight :!utility.isQuestionCreated}" class="animated target-audience">
-		<label class="pointer"  popover-placement="bottom" popover="Demographic target questions allow you to filter out the data in specific conditions. Those who already answered to the existing target questions won't need to answer to it again. Therefore, we highly recommend you to use the existing target questions.">
-			search filters or create your own:
+		<label class="pointer"  popover-placement="bottom" popover="Demographic questions allow you to filter users based on their demographics and analyze the resulting data. For example, you could see how 15 year olds answer your question. Once a user answers a demographic target question, PolliGrid remembers their answer, so they won’t need to answer it again.">
+			Search filter questions or create your own:
 			<i class="fa fa-info-circle pointer"></i>
 		</label>
 		<div class="utility-wrapper">
