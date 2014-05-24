@@ -230,8 +230,6 @@ define ["underscore"], (_)->
 							$scope.questions.push(val)
 
 
-		
-
 
 		# --------------- scope functions --------------- #
 		$scope.refresh = ()->

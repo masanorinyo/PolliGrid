@@ -216,7 +216,8 @@
         user: loggedInUser,
         answer: null,
         checkState: function() {
-          return $rootScope.$broadcast('userLoggedIn', "main");
+          console.log('user is now logged in');
+          return $rootScope.$broadcast('userLoggedIn', "User");
         }
       };
     }).factory("Account", function($rootScope, $timeout) {

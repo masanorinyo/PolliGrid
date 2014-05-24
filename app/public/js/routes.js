@@ -93,7 +93,7 @@
         }
       }).state("verify", {
         url: '/verification/:type/:result',
-        onEnter: function($stateParams, $location, Account) {
+        onEnter: function($state, $stateParams, $location, Account, $timeout, $window) {
           var result, type;
           result = $stateParams.result;
           type = $stateParams.type;
@@ -119,7 +119,7 @@
           } else if (type === "auth") {
             if (result === "success") {
               Account.verifiedMessage("Authentication went successful", 'success');
-              return $location.path('/');
+              return $window.location = '/';
             } else if (result === "fail") {
               Account.verifiedMessage("Authentication failed", 'fail');
               return $location.path('/');
@@ -137,6 +137,7 @@
               url: "/api/getLoggedInUser"
             }).success(function(data) {
               if (data) {
+                User.checkState();
                 console.log('successfully logged in');
                 ipCookie.remove("loggedInUser");
                 data.isLoggedIn = true;
@@ -144,15 +145,7 @@
                 ipCookie("loggedInUser", data, {
                   expires: 365
                 });
-                $location.path('/verification/auth/success');
-                return $timeout(function() {
-                  User.checkState();
-                  return $state.transitionTo($state.current, $stateParams, {
-                    reload: true,
-                    inherit: false,
-                    notify: true
-                  });
-                }, 500, true);
+                return $location.path('/verification/auth/success');
               } else {
                 return $location.path('/verification/auth/fail');
               }

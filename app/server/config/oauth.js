@@ -13,7 +13,7 @@
     googleAuth: {
       clientID: "846555084700-i8io0sdgtt54ioornq5vudld87t5dtge.apps.googleusercontent.com",
       clientSecret: "GrMFHIHH_sXjh7R0Lj2thuxG",
-      callbackURL: "http://polligrid.com/auth/google/callback"
+      callbackURL: "http://localhost:3000/auth/google/callback"
     }
   };
 

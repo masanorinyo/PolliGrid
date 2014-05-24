@@ -3,7 +3,7 @@
     return function($scope, $location, $state, $stateParams, $timeout, $q, $http, FindQuestions, User, Filters, Error, Search, UpdateQuestion, Question, Page, UpdateUserInfo, Setting) {
       var getColor, getData, targetQ;
       $scope.$on('userLoggedIn', function(data) {
-        console.log("$scope.user = User.user");
+        console.log("I am not a visitor anymore");
         return $scope.user = User.user;
       });
       $scope.$on('resetAnswer', function(question) {
@@ -152,6 +152,8 @@
         animation: false
       };
       if (User.user && !$scope.isAccessedFromSetting) {
+        console.log("User.user");
+        console.log(User.user);
         $scope.user = User.user;
       } else if (!$scope.isAccessedFromSetting) {
         $scope.user = User.visitor;
@@ -167,6 +169,7 @@
       $scope.favorite = false;
       (function() {
         var answeredQuestions, defer;
+        console.log('checking the status');
         answeredQuestions = null;
         defer = $q.defer();
         defer.promise.then(function() {
@@ -212,12 +215,16 @@
             return $scope.card = $scope.question;
           }
         }).then(function() {
+          console.log("$scope.user");
+          console.log($scope.user);
           return answeredQuestions = _.find(_.pluck($scope.user.questionsAnswered, '_id'), function(id) {
             if ($scope.card !== void 0) {
               return $scope.card._id === id;
             }
           });
         }).then(function() {
+          console.log("$scope.user");
+          console.log($scope.user);
           if (answeredQuestions) {
             $scope.card.alreadyAnswered = true;
             return getData();

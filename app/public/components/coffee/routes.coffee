@@ -35,7 +35,6 @@ define(
 						Setting.isSetting = false
 					
 					
-					
 				.state 'home.login',
 					url:'login'
 					onEnter:(ipCookie,$state,$modal,$stateParams,$location,Error,User)->
@@ -136,7 +135,7 @@ define(
 					
 					url:'/verification/:type/:result'
 
-					onEnter:($stateParams,$location,Account)->
+					onEnter:($state,$stateParams,$location,Account,$timeout,$window)->
 						result = $stateParams.result
 						type = $stateParams.type
 						
@@ -166,8 +165,23 @@ define(
 							
 							if result == "success"
 								Account.verifiedMessage("Authentication went successful",'success')
-								$location.path('/')
+								
+								# the below code won't skip answered questions
+								# $state.transitionTo($state.current, angular.copy($stateParams), 
+								# 	reload: true
+								# 	inherit:true 
+								# 	notify:true
+								# ).then ->
+									
+								# 	$timeout ->
+								#     	$state.go 'home'
+								#     ,500
+
+								$window.location = '/'
+								
+									
 							else if result == "fail"
+							
 								Account.verifiedMessage("Authentication failed",'fail')
 								$location.path('/')
 				.state "oauthenticate",
@@ -184,20 +198,16 @@ define(
 								url:"/api/getLoggedInUser"
 							.success (data)-> 
 								if data 
+									User.checkState()
 									console.log 'successfully logged in'
 									ipCookie.remove("loggedInUser")
 									data.isLoggedIn = true
 									User.user = data
 									ipCookie("loggedInUser",data,{expires:365})
 									$location.path('/verification/auth/success')
-									$timeout ->
-										User.checkState()
-										$state.transitionTo($state.current, $stateParams, {
-											reload: true
-											inherit: false
-											notify: true
-										})
-									,500,true
+									
+									
+									
 									
 								else 
 									$location.path('/verification/auth/fail')

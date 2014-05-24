@@ -22,10 +22,13 @@ define ['underscore'], (_)->
 
 		# ------------------ IO listeners ------------------ #
 		$scope.$on 'userLoggedIn',(data)->
-			console.log "$scope.user = User.user"
+			console.log "I am not a visitor anymore"
 			$scope.user = User.user
 
 			
+		
+		
+
 		# reset everything	
 		$scope.$on 'resetAnswer',(question)->
 			
@@ -275,7 +278,8 @@ define ['underscore'], (_)->
 		
 		# ***************  Models *************** #
 		if User.user && !$scope.isAccessedFromSetting
-			
+			console.log "User.user"
+			console.log User.user	
 			$scope.user = User.user
 
 		else if !$scope.isAccessedFromSetting
@@ -309,7 +313,7 @@ define ['underscore'], (_)->
 
 		do ()->
 			
-			
+			console.log 'checking the status'
 			
 			answeredQuestions = null
 			
@@ -379,20 +383,25 @@ define ['underscore'], (_)->
 						$scope.card = $scope.question
 						
 				.then ->
-					
+					console.log "$scope.user"
+					console.log $scope.user
 					answeredQuestions = _.find _.pluck($scope.user.questionsAnswered,'_id'),(id)->
 						
 						if $scope.card != undefined
 							$scope.card._id == id
 
 				.then ->
-
+					console.log "$scope.user"
+					console.log $scope.user
 					if answeredQuestions
 						
 						$scope.card.alreadyAnswered = true
 						getData()
 
+				
+
 			defer.resolve()
+
 
 
 		
