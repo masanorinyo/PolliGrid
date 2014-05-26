@@ -10,6 +10,7 @@ html(lang="en").no-js
 		meta(name="keywords" content="polling survey marketing question opinion")
 		meta(name="author" content="Zhengdian ZHhan, Masanori Sen")
 		meta(charset="UTF-8")
+		meta(property="og:image" content="/icon.png")
 		
 		//- for iphone / mobile setting --//
 		meta(name="viewport" content="width=device-width, user-scalable=no")
@@ -53,32 +54,31 @@ html(lang="en").no-js
 
 		// -- for iphone mobile web app -- //
 		//-- this will prevent users from jumping to safari url -- //
-		
-		script.
-			(function(document,navigator,standalone) {
-				// prevents links from apps from oppening in mobile safari
-				// this javascript must be the first script in your <head>
-				if ((standalone in navigator) && navigator[standalone]) {
-					var curnode, location=document.location, stop=/^(a|html)$/i;
-					document.addEventListener('click', function(e) {
-						curnode=e.target;
-						while (!(stop).test(curnode.nodeName)) {
-							curnode=curnode.parentNode;
-						}
-						// Condidions to do this only on links to your own app
-						// if you want all links, use if('href' in curnode) instead.
-						if(
-							'href' in curnode && // is a link
-							(chref=curnode.href).replace(location.href,'').indexOf('#') && // is not an anchor
-							(	!(/^[a-z\+\.\-]+:/i).test(chref) ||                       // either does not have a proper scheme (relative links)
-								chref.indexOf(location.protocol+'//'+location.host)===0 ) // or is in the same protocol and domain
-						) {
-							e.preventDefault();
-							location.href = curnode.href;
-						}
-					},false);
-				}
-			})(document,window.navigator,'standalone');
+		//- script.
+		//- 	(function(document,navigator,standalone) {
+		//- 		// prevents links from apps from oppening in mobile safari
+		//- 		// this javascript must be the first script in your <head>
+		//- 		if ((standalone in navigator) && navigator[standalone]) {
+		//- 			var curnode, location=document.location, stop=/^(a|html)$/i;
+		//- 			document.addEventListener('click', function(e) {
+		//- 				curnode=e.target;
+		//- 				while (!(stop).test(curnode.nodeName)) {
+		//- 					curnode=curnode.parentNode;
+		//- 				}
+		//- 				// Condidions to do this only on links to your own app
+		//- 				// if you want all links, use if('href' in curnode) instead.
+		//- 				if(
+		//- 					'href' in curnode && // is a link
+		//- 					(chref=curnode.href).replace(location.href,'').indexOf('#') && // is not an anchor
+		//- 					(	!(/^[a-z\+\.\-]+:/i).test(chref) ||                       // either does not have a proper scheme (relative links)
+		//- 						chref.indexOf(location.protocol+'//'+location.host)===0 ) // or is in the same protocol and domain
+		//- 				) {
+		//- 					e.preventDefault();
+		//- 					location.href = curnode.href;
+		//- 				}
+		//- 			},false);
+		//- 		}
+		//- 	})(document,window.navigator,'standalone');
 	
 		
         
@@ -92,10 +92,10 @@ html(lang="en").no-js
 		
 
 		//- For production -- //
-		script(data-main="/js/main-built.js" src="/vendors/requirejs/require.js")
+		//- script(data-main="/js/main-built.js" src="/vendors/requirejs/require.js")
 
 		//-- For development --//
-		//- script(data-main="/js/main.js" src="/vendors/requirejs/require.js")
+		script(data-main="/js/main.js" src="/vendors/requirejs/require.js")
 		
 
 		// -- google analytics --//

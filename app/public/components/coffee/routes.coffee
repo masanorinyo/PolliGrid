@@ -266,13 +266,13 @@ define(
 							
 							$location.path('/')
 
-						else if !User.user
+						# else if !User.user
 							
-							Error.auth = 'Please sign up to proceed'
+						# 	Error.auth = 'Please sign up to proceed'
 
-							$timeout ()->
+						# 	$timeout ()->
 								
-								 $state.transitionTo("home.signup", false)
+						# 		 $state.transitionTo("home.signup", false)
 
 							
 

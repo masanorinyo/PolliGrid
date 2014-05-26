@@ -188,11 +188,6 @@
           console.log(found);
           if ($stateParams.id === "") {
             return $location.path('/');
-          } else if (!User.user) {
-            Error.auth = 'Please sign up to proceed';
-            return $timeout(function() {
-              return $state.transitionTo("home.signup", false);
-            });
           } else if (!found) {
             return $location.path('/');
           } else {

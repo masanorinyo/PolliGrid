@@ -383,19 +383,18 @@ define ['underscore'], (_)->
 						$scope.card = $scope.question
 						
 				.then ->
-					console.log "$scope.user"
-					console.log $scope.user
+					
 					answeredQuestions = _.find _.pluck($scope.user.questionsAnswered,'_id'),(id)->
 						
 						if $scope.card != undefined
 							$scope.card._id == id
 
 				.then ->
-					console.log "$scope.user"
-					console.log $scope.user
+					
 					if answeredQuestions
 						
 						$scope.card.alreadyAnswered = true
+
 						getData()
 
 				

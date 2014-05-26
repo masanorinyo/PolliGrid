@@ -285,14 +285,13 @@ define ['underscore'], (_)->
 		# inital loading - to show results of the questions users already answered
 		
 		do ()->
-
-			# if it is accessed from 
-			if !$scope.filtersOnSettingPage
-				
-				$timeout ->
-					checkFilterQuestionStatus('')
-			
-			
+			$timeout ->
+				console.log ' already answered '
+				console.log $scope.card.alreadyAnswered		
+				if $scope.card.alreadyAnswered
+					$scope.areAllQuestionAnswered = true
+					$scope.filterNumber = -1
+		
 
 		# ------------------ Scope funcitons ------------------ #
 		

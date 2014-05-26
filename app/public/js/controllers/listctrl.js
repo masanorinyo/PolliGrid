@@ -215,16 +215,12 @@
             return $scope.card = $scope.question;
           }
         }).then(function() {
-          console.log("$scope.user");
-          console.log($scope.user);
           return answeredQuestions = _.find(_.pluck($scope.user.questionsAnswered, '_id'), function(id) {
             if ($scope.card !== void 0) {
               return $scope.card._id === id;
             }
           });
         }).then(function() {
-          console.log("$scope.user");
-          console.log($scope.user);
           if (answeredQuestions) {
             $scope.card.alreadyAnswered = true;
             return getData();

@@ -69,13 +69,13 @@
 						</div>
 
 						<!-- If the question is accessed via an external link, show this button. This won't refresh the page -->
-						<button ng-if="!user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.signupRedirect({id:question._id})" class="submit-button bigger btn btn-success">
+						<!-- <button ng-if="!user.isLoggedIn" ng-click="closeQuestionModal()" ui-sref="home.signupRedirect({id:question._id})" class="submit-button bigger btn btn-success">
 							<i class="fa fa-dashboard"></i>  
 							 &nbsp; 
 							 Analyze 
-						</button>
+						</button> -->
 						
-						<button ng-if="user.isLoggedIn" ui-sref="home.deepResult({id:card._id})" class="submit-button bigger btn btn-success">
+						<button ui-sref="home.deepResult({id:card._id})" class="submit-button bigger btn btn-success">
 							<i class="fa fa-dashboard"></i>  
 							 &nbsp; 
 							 Analyze 

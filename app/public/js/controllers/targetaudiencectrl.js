@@ -141,11 +141,14 @@
       $scope.filterNumber = 0;
       $scope.targetChecker = [];
       (function() {
-        if (!$scope.filtersOnSettingPage) {
-          return $timeout(function() {
-            return checkFilterQuestionStatus('');
-          });
-        }
+        return $timeout(function() {
+          console.log(' already answered ');
+          console.log($scope.card.alreadyAnswered);
+          if ($scope.card.alreadyAnswered) {
+            $scope.areAllQuestionAnswered = true;
+            return $scope.filterNumber = -1;
+          }
+        });
       })();
       $scope.submitTarget = function(question, targetAnswer, index) {
         var answer, defer, target, targetAnswerIndex, targetQuestionID;
